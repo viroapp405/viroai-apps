@@ -1,0 +1,997 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>اسلایدساز صبا · v1.3</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+<style>
+@font-face{font-family:PDigits;src:url(https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/fonts/webfonts/Vazirmatn-Regular.woff2) format("woff2");font-weight:100 500;unicode-range:U+0030-0039,U+0660-066C,U+06F0-06F9}
+@font-face{font-family:PDigits;src:url(https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/fonts/webfonts/Vazirmatn-Bold.woff2) format("woff2");font-weight:600 900;unicode-range:U+0030-0039,U+0660-066C,U+06F0-06F9}
+:root{--bg:#07051a;--card:#110c27;--neon:#a874ff;--neon2:#7d6aff;--btxt:#100426;--line:color-mix(in srgb,var(--neon) 26%,transparent);--soft:color-mix(in srgb,var(--neon) 12%,transparent);--txt:color-mix(in srgb,var(--neon) 8%,#f4f2fb);--mut:color-mix(in srgb,var(--neon) 18%,#9a96ad)}
+*{box-sizing:border-box}
+body{margin:0;font-family:Vazirmatn,Tahoma,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;background-image:radial-gradient(900px 600px at 85% -10%,color-mix(in srgb,var(--neon) 22%,transparent),transparent 70%),radial-gradient(700px 500px at 0% 110%,color-mix(in srgb,var(--neon2) 14%,transparent),transparent 70%);background-attachment:fixed}
+button,input,select,textarea{font:inherit;color:inherit}
+h3{margin:0 0 8px}h4{margin:16px 0 8px}
+.card{background:color-mix(in srgb,var(--card) 82%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 0 32px color-mix(in srgb,var(--neon) 10%,transparent);margin-bottom:16px}
+.btn{min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line);background:var(--soft);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;text-decoration:none}
+.btn:hover{border-color:var(--neon)}.btn:disabled{opacity:.5;cursor:wait}
+.pri{background:linear-gradient(135deg,var(--neon),var(--neon2));color:var(--btxt);border:0;font-weight:700;box-shadow:0 0 18px color-mix(in srgb,var(--neon) 40%,transparent)}
+.big{min-height:56px;font-size:1.1rem;width:100%}
+.sm{padding:0 12px;font-size:.82rem;min-height:38px}
+.ic{width:40px;padding:0;min-height:40px}
+.danger{border-color:#ff5a6c;color:#ff8a9a}
+input,select,textarea{width:100%;min-height:44px;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;padding:10px 14px;outline:0}
+select option{background:#15102b}
+textarea{min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--neon)}
+input[type=checkbox],input[type=range]{width:auto;min-height:0;vertical-align:middle;accent-color:var(--neon)}
+label{display:block;margin:12px 0 6px;color:var(--mut);font-size:.9rem}
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:10px 16px;flex-wrap:wrap;background:color-mix(in srgb,var(--bg) 75%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.logo{font-weight:800;font-size:1.15rem;background:linear-gradient(90deg,var(--neon),var(--neon2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.seg{display:inline-flex;gap:4px;padding:4px;border-radius:999px;border:1px solid var(--line);background:rgba(0,0,0,.3);flex-wrap:wrap}
+.seg button{min-height:40px;padding:0 14px;border-radius:999px;border:0;background:none;cursor:pointer}
+.seg .on{background:linear-gradient(135deg,var(--neon),var(--neon2));color:var(--btxt);font-weight:700}
+.sp{flex:1}
+main{max-width:1320px;margin:auto;padding:16px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:800px){.g2,.g3{grid-template-columns:1fr}.top{padding:8px}}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.chip{min-height:38px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(0,0,0,.25);cursor:pointer;font-size:.85rem}
+.chip.on{background:var(--neon);color:var(--btxt);font-weight:700}
+.mut{color:var(--mut);font-size:.85rem}
+.hide{display:none!important}
+.step{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--neon),var(--neon2));color:var(--btxt);font-weight:800;margin-inline-end:6px}
+.modal{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:12px}
+.modal>.card{width:min(980px,100%);max-height:94vh;overflow:auto;margin:0;position:relative}
+.x{position:absolute;top:10px;left:10px;width:44px;padding:0}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:90;background:var(--card);border:1px solid var(--neon);border-radius:16px;padding:12px 18px;max-width:92vw;box-shadow:0 0 24px color-mix(in srgb,var(--neon) 40%,transparent)}
+.okb{background:#1f6f43;color:#eafff2;border-radius:999px;padding:0 14px;font-size:.82rem;font-weight:700;cursor:pointer;border:0;min-height:36px}
+.warn{background:#f6c94e;color:#231a02;border-radius:999px;padding:0 14px;font-size:.82rem;font-weight:700;cursor:pointer;border:0;min-height:36px}
+#brB{max-width:42vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.banner{background:#3a0d18;border:1px solid #ff5a6c;border-radius:18px;padding:12px;margin-bottom:14px}
+.sbox{border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}
+.cre{display:flex;flex-wrap:wrap;gap:6px 10px;justify-content:center;align-items:center;padding:18px 14px 26px;margin-top:10px;border-top:1px solid var(--line);color:var(--mut);font-size:.85rem}.cre b{color:var(--txt)}.cre a{color:var(--neon);text-decoration:none}.cre a:hover{text-decoration:underline}
+pre{white-space:pre-wrap;direction:ltr;text-align:left;font-size:.78rem;background:rgba(0,0,0,.4);padding:12px;border-radius:14px;max-height:300px;overflow:auto}
+summary{cursor:pointer;min-height:44px;display:flex;align-items:center;color:var(--mut)}
+.themes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.th{min-height:64px;border-radius:16px;border:2px solid;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#fff}
+.th i{width:36px;height:12px;border-radius:9px}.th.on{outline:3px solid #fff}
+[contenteditable=true]{outline:0;cursor:text}[contenteditable=true]:hover{box-shadow:0 0 0 2px rgba(168,116,255,.35)}[contenteditable=true]:focus{box-shadow:0 0 0 3px #a874ff;background:rgba(168,116,255,.08)}
+/* voice input */
+.mic{position:relative}
+.mic.rec{background:#ff3b5c;color:#fff;border-color:#ff3b5c;animation:pulse 1.2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 10px rgba(255,59,92,.15)}}
+.voice{display:flex;gap:12px;align-items:center;flex-wrap:wrap;border:1px dashed var(--neon);border-radius:20px;padding:14px;background:var(--soft)}
+.voice .bigmic{width:72px;height:72px;border-radius:50%;font-size:2rem;padding:0}
+.lvl{height:8px;width:160px;border-radius:9px;background:rgba(0,0,0,.4);overflow:hidden}.lvl i{display:block;height:100%;width:0;background:linear-gradient(90deg,#2ee59d,#f6c94e,#ff5a6c)}
+.fld{position:relative}.fld .mic{position:absolute;bottom:8px;left:8px;min-height:36px;width:36px;padding:0}
+/* outline */
+.ol{display:grid;gap:10px}
+.osl{border:1px solid var(--line);border-radius:16px;padding:10px 12px;position:relative;background:rgba(0,0,0,.2)}
+.osl h4{margin:0 0 6px;display:flex;gap:8px;align-items:center}.osl ul{margin:0;padding-inline-start:20px}.osl .lay{font-size:.72rem;background:var(--soft);border-radius:999px;padding:2px 10px;font-weight:400}
+.osl .nt{font-size:.8rem;color:var(--mut);margin-top:6px}
+.osl .x2{position:absolute;top:6px;left:6px;width:32px;height:32px;border-radius:50%;border:0;background:rgba(0,0,0,.4);color:#ff9aa8;cursor:pointer}
+.srcs a{color:var(--neon);overflow-wrap:anywhere}.srcs li{margin:4px 0}
+/* theme cards */
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin-top:10px}
+.tc{border:1px solid var(--line);border-radius:18px;overflow:hidden;cursor:pointer;background:rgba(0,0,0,.25);position:relative}
+.tc.on{border-color:var(--neon);box-shadow:0 0 0 2px var(--neon),0 0 20px color-mix(in srgb,var(--neon) 40%,transparent)}
+.tc .b{padding:8px 10px}.tc h4{margin:0;font-size:.92rem}.tc p{margin:3px 0 0;font-size:.75rem;color:var(--mut)}
+.badge{position:absolute;top:8px;right:8px;z-index:3;background:var(--neon);color:var(--btxt);border-radius:999px;padding:2px 10px;font-size:.72rem;font-weight:700}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.fc{border:1px solid var(--line);border-radius:16px;padding:10px 12px;background:rgba(0,0,0,.25)}
+.fc .smp{font-size:1.6rem;line-height:1.6;margin:4px 0}.fc small{color:var(--mut)}
+/* slide boxes (scaled 1920x1080) */
+.sbx{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:10px;background:#000}
+.sbx>.sl{position:absolute;top:0;right:0;transform-origin:top right}
+/* editor */
+.ed{display:grid;grid-template-columns:200px 1fr 330px;gap:14px;align-items:start}
+@media(max-width:1100px){.ed{grid-template-columns:150px 1fr}.ed .props{grid-column:1/-1}}
+@media(max-width:700px){.ed{grid-template-columns:1fr}}
+.thumbs{display:flex;flex-direction:column;gap:10px;max-height:78vh;overflow:auto;padding:4px}
+.tb{position:relative;cursor:pointer;border-radius:12px;border:2px solid transparent}
+.tb.on{border-color:var(--neon);box-shadow:0 0 14px color-mix(in srgb,var(--neon) 50%,transparent)}
+.tb .n{position:absolute;top:4px;right:6px;z-index:3;background:rgba(0,0,0,.65);color:#fff;border-radius:999px;font-size:.7rem;padding:0 8px}
+.tb .fl{position:absolute;bottom:4px;left:6px;z-index:3;font-size:.75rem;background:rgba(0,0,0,.6);border-radius:999px;padding:0 6px}
+.tb.drag{opacity:.4}.tb.over{border-color:#f6c94e}
+.stage{position:relative}
+.stage .sbx{border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+.props .card{padding:14px}
+.props h4{margin:4px 0 8px}
+.etb{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.etb input{max-width:300px}
+.pbar{height:6px;border-radius:9px;background:rgba(255,255,255,.08);overflow:hidden;margin:6px 0}.pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--neon),var(--neon2));width:0;transition:width .3s}
+.decks{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.dk{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:rgba(0,0,0,.25)}.dk .b{padding:10px}.dk h4{margin:0 0 4px}
+.laygrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.lb{border:1px solid var(--line);border-radius:14px;padding:12px;cursor:pointer;background:rgba(0,0,0,.25);text-align:center}.lb:hover{border-color:var(--neon)}.lb b{display:block;font-size:1.6rem}
+audio{width:100%;height:40px}
+/* present */
+#pres{position:fixed;inset:0;z-index:80;background:#000;display:flex;align-items:center;justify-content:center}
+#pres .pst{position:relative;overflow:hidden}
+#pres .pst>.sl{position:absolute;top:0;right:0;transform-origin:top right;transition:opacity .45s}
+#pres .pnav{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:8px;opacity:.15;transition:opacity .3s;z-index:5}
+#pres:hover .pnav{opacity:1}
+#pres .pnotes{position:absolute;bottom:70px;right:20px;left:20px;max-height:30vh;overflow:auto;background:rgba(10,8,25,.92);border:1px solid var(--line);border-radius:16px;padding:12px 16px;z-index:5;line-height:1.9}
+/* ===== the slide itself (1920x1080 logical) ===== */
+.sl{width:1920px;height:1080px;position:relative;overflow:hidden;direction:rtl;background:var(--bg);color:var(--tx);font-family:var(--fb),Vazirmatn,Tahoma,sans-serif;font-size:48px;line-height:var(--lhb,1.7)}
+.sl *{box-sizing:border-box}
+.sl .dec{position:absolute;inset:0;pointer-events:none;z-index:0}
+.sl .ct{position:absolute;inset:0;z-index:1;padding:90px 110px;display:flex;flex-direction:column;gap:34px}
+.sl .t{font-family:var(--ft),Vazirmatn,sans-serif;font-size:84px;line-height:var(--lht,1.35);font-weight:700;margin:0;color:var(--tx)}
+.sl .st{font-size:46px;color:var(--mu);margin:0;line-height:1.6}
+.sl.tfx-grad .t{color:var(--ac)}.sl.tfx-grad .t::after{content:"";display:block;width:220px;height:10px;border-radius:9px;margin-top:18px;background:linear-gradient(90deg,var(--ac),var(--ac2))}
+.sl.tfx-under .t::after{content:"";display:block;width:160px;height:10px;margin-top:16px;background:var(--ac)}
+.sl.tfx-box .t{align-self:flex-start;background:var(--ac);color:var(--onac);padding:6px 34px}
+.sl.tfx-shadow .t{text-shadow:6px 6px 0 var(--acA)}
+.sl .body{flex:1;min-height:0;display:flex;gap:56px;overflow:hidden}
+.sl .col{flex:1;min-width:0;display:flex;flex-direction:column;gap:22px;overflow:hidden}
+.sl ul.pts{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:26px}
+.sl ul.pts li{position:relative;padding-inline-start:54px}
+.sl ul.pts li::before{content:"";position:absolute;right:0;top:.62em;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2))}
+.sl .crd{background:var(--surf);border:2px solid var(--line);border-radius:var(--r);padding:34px 38px}
+.sl.card-solid .crd{border-color:transparent;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+.sl.card-outline .crd{background:transparent}
+.sl.card-none .crd{background:transparent;border-color:transparent;padding:10px 0}
+.sl.card-shadow .crd{border-color:transparent;box-shadow:0 24px 60px rgba(0,0,0,.18)}
+.sl.card-brutal .crd{border:5px solid var(--tx);box-shadow:12px 12px 0 var(--tx)}
+.sl .crd h3{font-family:var(--ft),Vazirmatn,sans-serif;font-size:52px;margin:0 0 12px;color:var(--ac);line-height:1.4}
+.sl .crd p{margin:0;font-size:40px;color:var(--tx);line-height:1.7}
+.sl .im{position:relative;border-radius:var(--r);overflow:hidden;background:var(--surf);flex:0 0 46%;display:flex;align-items:center;justify-content:center;color:var(--mu);font-size:30px;text-align:center}
+
+.sl.pos-left .body{flex-direction:row-reverse}
+.sl .full{position:absolute;inset:0;z-index:2}.sl .full .fim{position:absolute;inset:0}
+.sl .bgim{position:absolute;inset:0;z-index:0}.sl .bgim .bgp{position:absolute;inset:0}.sl .bgim::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,var(--bgS) 55%)}
+.sl .ph{padding:30px;opacity:.75}
+/* layouts */
+.sl.L-title .ct,.sl.L-end .ct{justify-content:center}
+.sl.L-title .t{font-size:104px}.sl.L-title .st{font-size:48px}
+.sl.L-title .body{flex-direction:row;align-items:stretch}
+.sl.L-end .ct{align-items:center;text-align:center}.sl.L-end .t{font-size:120px;align-self:center}.sl.L-end .t::after{margin-inline:auto}
+.sl.L-section .ct{justify-content:center}.sl.L-section .num{font-family:var(--ft),Vazirmatn,sans-serif;font-size:220px;line-height:1;color:var(--ac);opacity:.9;margin:0}
+.sl.L-section .t{font-size:110px}
+.sl.L-stats .grid,.sl.L-grid .grid{display:grid;gap:34px;flex:1;min-height:0}
+.sl .stv{font-family:var(--ft),Vazirmatn,sans-serif;font-size:110px;line-height:1.2;color:var(--ac);font-weight:700}
+.sl .stl{font-size:42px;color:var(--tx);line-height:1.6}
+.sl.L-stats .crd{display:flex;flex-direction:column;justify-content:center;text-align:center}
+.sl .emo{font-size:70px;line-height:1;margin-bottom:12px}
+.sl.L-timeline .tl{display:flex;gap:26px;flex:1;min-height:0;position:relative;align-items:stretch;padding-top:70px}
+.sl.L-timeline .tl::before{content:"";position:absolute;top:28px;right:0;left:0;height:8px;border-radius:9px;background:linear-gradient(90deg,var(--ac2),var(--ac))}
+.sl.L-timeline .tli{flex:1;min-width:0;position:relative}
+.sl.L-timeline .tli::before{content:"";position:absolute;top:-56px;right:24px;width:40px;height:40px;border-radius:50%;background:var(--ac);border:8px solid var(--bgS)}
+.sl.L-timeline .crd{padding:26px 28px}.sl.L-timeline .crd h3{font-size:50px}.sl.L-timeline .crd p{font-size:38px}
+.sl.L-compare .vs{align-self:center;flex:0 0 auto;width:130px;height:130px;border-radius:50%;background:var(--ac);color:var(--onac);display:flex;align-items:center;justify-content:center;font-family:var(--ft),Vazirmatn,sans-serif;font-size:56px;font-weight:700}
+.sl.L-compare .crd,.sl.L-twocol .crd{flex:1;min-width:0;overflow:hidden}
+.sl.L-quote .ct{justify-content:center}.sl.L-quote .q{font-family:var(--ft),Vazirmatn,sans-serif;font-size:76px;line-height:1.6;margin:0;position:relative;padding-inline-start:70px;border-right:14px solid var(--ac)}
+.sl.L-quote .q::before{content:"";position:absolute;right:-14px;top:-70px;width:120px;height:56px;background:radial-gradient(circle at 25% 50%,var(--ac) 24px,transparent 25px),radial-gradient(circle at 75% 50%,var(--ac) 24px,transparent 25px)}
+.sl.L-quote .au{font-size:44px;color:var(--ac);padding-inline-start:84px}
+.sl .chart{flex:1;min-height:0;display:flex;align-items:flex-end;gap:30px;padding:20px 10px 0;border-bottom:4px solid var(--line)}
+.sl .bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:0}
+.sl .bar i{display:block;width:100%;border-radius:var(--r) var(--r) 0 0;background:linear-gradient(180deg,var(--ac),var(--ac2));min-height:6px}
+.sl .bar b{font-size:40px;color:var(--tx);margin-bottom:8px}.sl .bar span{font-size:32px;color:var(--mu);margin-top:10px;text-align:center;line-height:1.4;height:80px;overflow:hidden}
+.sl.L-end .body{width:100%}
+.sl.L-bullets .col,.sl.L-imgtext .col{justify-content:center}
+.sl.L-compare .body,.sl.L-twocol .body{align-items:center}
+.sl.L-grid .grid{align-content:center}.sl.L-grid .crd{min-height:300px}
+.sl.L-stats .grid{align-content:center}.sl.L-stats .crd{min-height:380px}
+.sl.L-timeline .tl{align-items:flex-start}.sl.L-timeline .crd{height:auto;min-height:280px}
+.sl .foot{position:absolute;bottom:30px;left:110px;right:110px;z-index:3;display:flex;justify-content:space-between;font-size:28px;color:var(--mu)}
+.sl.ed-on .addh{display:block}
+.sl .fit-s,.sl .fit-s li,.sl .fit-s p{font-size:38px!important}.sl .fit-xs,.sl .fit-xs li,.sl .fit-xs p{font-size:31px!important}.sl .t.fit-s{font-size:60px!important}.sl .t.fit-xs{font-size:48px!important}
+</style>
+</head>
+<body>
+<div id="bootErr" style="display:none;position:fixed;z-index:99999;inset:auto 10px 10px 10px;background:#3a0b1e;color:#ffd7e3;border:1px solid #ff5c8a;border-radius:12px;padding:10px 14px;font:13px/1.8 Tahoma,sans-serif;direction:rtl;white-space:pre-wrap;max-height:40vh;overflow:auto"></div>
+<script>(function(){var n=0;function show(m){var b=document.getElementById("bootErr");if(!b||n>6)return;n++;b.style.display="block";b.textContent+=(b.textContent?"\n":"")+"⚠️ خطای برنامه (برای صبا/هارک بفرست): "+m}
+window.addEventListener("error",function(e){show((e.message||"error")+" | خط "+(e.lineno||"?")+":"+(e.colno||"?"))});
+window.addEventListener("unhandledrejection",function(e){var r=e.reason;show("Promise: "+(r&&(r.stack||r.message)||r))});
+window.addEventListener("load",function(){setTimeout(function(){if(!window.__ready&&!window.__booted)show("کد اصلی اجرا نشد؛ احتمالاً جمینی کد را ناقص نوشته یا تغییر داده. آخر کد باید با تگ پایان html تمام شود.")},8000)})})();</script>
+<header class="top">
+ <span class="logo">🎞️ اسلایدساز صبا</span>
+ <nav class="seg" id="tabs"><button class="on" data-a="tab" data-v="make">ساخت ارائه</button><button data-a="tab" data-v="ed">ویرایشگر</button><button data-a="tab" data-v="decks">ارائه‌های من</button><button data-a="tab" data-v="lib">تم‌ها و فونت‌ها</button></nav>
+ <span class="sp"></span>
+ <button class="warn hide" id="brB" data-a="settings" title="وضعیت ذخیره‌ی دائمی"></button>
+ <button class="warn hide" id="tmpB" data-a="settings" title="داده‌ها ممکن است پاک شوند">ذخیره موقت</button>
+ <button class="btn" data-a="about" aria-label="درباره‌ی سازنده" title="درباره‌ی سازنده" style="width:44px;padding:0">ℹ️</button>
+ <button class="btn" data-a="settings" aria-label="تنظیمات" style="width:44px;padding:0">⚙️</button>
+</header>
+<main>
+<div class="banner hide" id="banner"><b>داده‌ها پاک شده‌اند؛ از پشتیبان زیپ بازگردانی کن</b><div class="row" style="margin-top:8px"><button class="btn sm" data-a="zipIn">♻️ بازگردانی از پشتیبان</button><button class="btn sm" data-a="banX">بستن</button></div></div>
+
+<section id="t-make">
+ <div class="card">
+  <h3><span class="step">۱</span>بگو یا بنویس چه ارائه‌ای می‌خواهی</h3>
+  <div class="voice">
+   <button class="btn pri bigmic mic" id="vBig" data-a="voiceBrief" aria-label="ضبط صدا">🎙️</button>
+   <div style="flex:1;min-width:220px"><b id="vTitle">با صدای خودت توضیح بده</b><div class="mut" id="vMsg">روی میکروفون بزن، موضوع و هر توضیحی داری را فارسی بگو و دوباره بزن تا تمام شود. متن و تنظیمات خودکار پر می‌شوند.</div><div class="lvl hide" id="vLvl"><i></i></div></div>
+   <button class="btn sm" data-a="voiceFile">📁 فایل صوتی</button>
+  </div>
+  <label for="topic">موضوع ارائه</label>
+  <div class="fld"><input id="topic" placeholder="مثلاً «هوش مصنوعی در آموزش مدارس»" style="padding-left:52px"><button class="btn mic" data-a="mic" data-t="topic" aria-label="گفتن موضوع">🎙️</button></div>
+  <div class="chips" id="ex"></div>
+  <label for="det">توضیحات و نکته‌هایی که باید در ارائه باشد (اختیاری)</label>
+  <div class="fld"><textarea id="det" placeholder="مخاطب کیست، روی چه چیزی تأکید شود، چه بخش‌هایی حتماً باشد…"></textarea><button class="btn mic" data-a="mic" data-t="det" aria-label="گفتن توضیحات">🎙️</button></div>
+  <div class="g3">
+   <div><label for="cnt">تعداد اسلاید</label><select id="cnt"></select></div>
+   <div><label>مخاطب</label><div class="seg" id="aud"></div></div>
+   <div><label>لحن</label><div class="seg" id="tone"></div></div>
+   <div><label>زبان</label><div class="seg" id="lang"></div></div>
+   <div><label>تصویرسازی</label><div class="seg" id="imgs"></div></div>
+   <div><label>&nbsp;</label><label style="margin:0"><input type="checkbox" id="srch" checked> تحقیق با جستجوی گوگل</label></div>
+  </div>
+  <details><summary>📄 متن یا مقاله‌ی خودم را بده تا ارائه از روی آن ساخته شود</summary><textarea id="srcTxt" placeholder="متن را اینجا بچسبان…" style="min-height:140px"></textarea></details>
+  <div class="row" style="margin-top:14px"><button class="btn pri" id="resBtn" data-a="research">🔎 تحقیق و ساخت طرح</button><button class="btn" id="autoBtn" data-a="auto">✨ همه‌اش را خودت بساز</button><span class="mut" id="resMsg"></span></div>
+ </div>
+
+ <div class="card hide" id="olCard">
+  <div class="row"><h3><span class="step">۲</span>طرح اسلایدها</h3><span class="sp"></span><button class="btn sm" data-a="research">🔄 تحقیق دوباره</button></div>
+  <p class="mut">اگر خواستی روی هر متن بزن و اصلاحش کن. یادداشت هر اسلاید همان متن گویندگی است.</p>
+  <div class="ol" id="ol"></div>
+  <details><summary>📚 منابع</summary><ol class="srcs" id="srcs"></ol></details>
+ </div>
+
+ <div class="card">
+  <h3><span class="step">۳</span>تم و فونت</h3>
+  <div id="sugBox" class="hide"><b>💡 پیشنهاد هوش مصنوعی</b><div class="tgrid" id="sug"></div></div>
+  <div class="g2"><div><label for="fT">فونت تیترها</label><select id="fT"></select></div><div><label for="fB">فونت متن</label><select id="fB"></select></div></div>
+  <details><summary>🎨 همه‌ی تم‌ها</summary><div class="chips" id="tChips"></div><div class="tgrid" id="tPick"></div></details>
+ </div>
+
+ <div class="card">
+  <h3><span class="step">۴</span>ساخت</h3>
+  <button class="btn pri big" data-a="build">🚀 ساخت ارائه</button>
+  <p class="mut">ارائه با متن قابل‌ویرایش ساخته می‌شود و تصویرها پشت سر هم ساخته می‌شوند. هر اسلاید را می‌توانی بعداً «اسلاید تصویری» کنی تا کل اسلاید را مدل تصویر بکشد.</p>
+ </div>
+</section>
+
+<section id="t-ed" class="hide">
+ <div class="card" id="edEmpty"><p class="mut">هنوز ارائه‌ای باز نیست. از «ساخت ارائه» شروع کن یا از «ارائه‌های من» یکی را باز کن.</p><button class="btn pri" data-a="newBlank">➕ ارائه‌ی خالی</button></div>
+ <div id="edBox" class="hide">
+  <div class="etb">
+   <input id="dTitle" aria-label="نام ارائه">
+   <button class="btn ic" data-a="undo" title="برگرد (Ctrl+Z)">↶</button><button class="btn ic" data-a="redo" title="جلو (Ctrl+Y)">↷</button>
+   <select id="dTheme" style="max-width:200px" aria-label="تم ارائه"></select>
+   <span class="sp"></span>
+   <span class="mut" id="jobMsg"></span><button class="btn sm danger hide" id="jobX" data-a="cancelJobs">⏹ توقف</button>
+   <button class="btn sm" data-a="allImgs">🖼️ تصویر همه</button>
+   <button class="btn sm" data-a="allAudio">🔊 گویندگی همه</button>
+   <button class="btn sm" data-a="exportMenu">⬇️ خروجی</button>
+   <button class="btn pri" data-a="present">▶️ ارائه</button>
+  </div>
+  <div class="pbar hide" id="jobBar"><i></i></div>
+  <div class="ed">
+   <div><div class="thumbs" id="thumbs"></div><button class="btn sm" data-a="addSlide" style="width:100%;margin-top:8px">➕ اسلاید</button></div>
+   <div class="stage"><div id="stage"></div><p class="mut" style="margin:8px 4px">روی هر متن بزن و مستقیم ویرایش کن. کلیدها: ← → اسلاید بعد و قبل، Ctrl+Z برگشت.</p></div>
+   <div class="props" id="props"></div>
+  </div>
+ </div>
+</section>
+
+<section id="t-decks" class="hide">
+ <div class="card"><div class="row"><h3>ارائه‌های من</h3><span class="sp"></span><button class="btn sm" data-a="importDeck">📂 باز کردن فایل ارائه</button><button class="btn sm" data-a="newBlank">➕ ارائه‌ی خالی</button></div><div class="decks" id="decks" style="margin-top:12px"></div></div>
+</section>
+
+<section id="t-lib" class="hide">
+ <div class="card"><div class="row"><h3>تم‌ها</h3><span class="mut" id="thCnt"></span><span class="sp"></span><button class="btn sm" data-a="impPack">📥 وارد کردن بسته‌ی تم</button><button class="btn sm" data-a="expPack">📤 خروجی تم‌های من</button></div><div class="chips" id="lChips"></div><div class="tgrid" id="lThemes"></div></div>
+ <div class="card"><div class="row"><h3>فونت‌ها</h3><span class="sp"></span><button class="btn sm pri" data-a="addFont">➕ افزودن فونت شخصی (TTF، OTF، WOFF، WOFF2)</button></div><input id="fSample" placeholder="متن نمونه" value="ارائه‌ای زیبا با فونت فارسی ۱۴۰۵"><div class="fgrid" id="fonts" style="margin-top:10px"></div></div>
+</section>
+
+<footer class="cre"><span>ساخته‌ی <b>سید صبا میری</b></span>·<a href="https://viroai.ir" target="_blank" rel="noopener">viroai.ir</a>·<a href="https://instagram.com/viromedia404" target="_blank" rel="noopener" dir="ltr">Instagram: viromedia404</a>·<a href="tel:+989120349893" dir="ltr">۰۹۱۲۰۳۴۹۸۹۳</a>·<span>تلگرام: به‌زودی</span></footer>
+</main>
+<script>
+const IMAGE_MODEL="gemini-3.1-flash-image";
+const TEXT_MODEL="gemini-2.5-flash";
+const TTS_MODEL="gemini-2.5-flash-preview-tts";
+const apiKey="";
+const APP_VER="1.3";
+const UITHEMES=[["زمرد","#040c09","#0a1813","#2ee59d","#14c4b0","#02170f"],["بنفش","#07051a","#110c27","#a874ff","#7d6aff","#100426"],["فیروزه‌ای","#030c11","#091921","#25d9f2","#2fd6a8","#021c24"],["آبی","#050a18","#0c142e","#5592ff","#7d6cff","#030b22"],["صورتی","#0f0517","#1b0b24","#ff57da","#b763ff","#2a0422"],["نارنجی","#100a04","#1e140a","#ffa83d","#ff7040","#271302"],["قرمز","#110508","#200c11","#ff5a6c","#ff8a4f","#2a0409"],["طلایی","#0d0b05","#1b170b","#f6c94e","#e9a23b","#231a02"]];
+// built-in themes + fonts (generated by themes/gen_themes.py, format slide-themes-v1)
+const LIB={"fonts":{"vazir":{"name_fa":"وزیرمتن","family":"Vazirmatn","src":"https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css","cat":"ساده","desc_en":"clean modern geometric Persian sans-serif (Vazirmatn)"},"shabnam":{"name_fa":"شبنم","family":"Shabnam","src":"https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/font-face.css","cat":"ساده","desc_en":"soft friendly Persian sans-serif (Shabnam)"},"sahel":{"name_fa":"ساحل","family":"Sahel","src":"https://cdn.jsdelivr.net/gh/rastikerdar/sahel-font@v3.4.0/dist/font-face.css","cat":"ساده","desc_en":"neutral readable Persian sans-serif (Sahel)"},"samim":{"name_fa":"صمیم","family":"Samim","src":"https://cdn.jsdelivr.net/gh/rastikerdar/samim-font@v4.0.5/dist/font-face.css","cat":"ساده","desc_en":"rounded warm Persian sans-serif (Samim)"},"tanha":{"name_fa":"تنها","family":"Tanha","src":"https://cdn.jsdelivr.net/gh/rastikerdar/tanha-font/dist/font-face.css","cat":"نمایشی","desc_en":"elegant thin decorative Persian display (Tanha)"},"parastoo":{"name_fa":"پرستو","family":"Parastoo","src":"https://cdn.jsdelivr.net/gh/rastikerdar/parastoo-font@v2.0.1/dist/font-face.css","cat":"کلاسیک","desc_en":"classic calligraphic Persian naskh (Parastoo)"},"gandom":{"name_fa":"گندم","family":"Gandom","src":"https://cdn.jsdelivr.net/gh/rastikerdar/gandom-font@v0.8/dist/font-face.css","cat":"ساده","desc_en":"simple soft Persian text face (Gandom)"},"nahid":{"name_fa":"ناهید","family":"Nahid","src":"https://cdn.jsdelivr.net/gh/rastikerdar/nahid-font@v0.3.0/dist/font-face.css","cat":"نمایشی","desc_en":"playful hand-drawn Persian display (Nahid)"},"lalezar":{"name_fa":"لاله‌زار","family":"Lalezar","src":"g:400","cat":"نمایشی","desc_en":"heavy bold retro Persian poster display (Lalezar)"},"kufi":{"name_fa":"نوتو کوفی","family":"Noto Kufi Arabic","src":"g:400;700","cat":"ساده","desc_en":"geometric Kufi-style Persian sans (Noto Kufi)"},"naskh":{"name_fa":"نوتو نسخ","family":"Noto Naskh Arabic","src":"g:400;700","cat":"کلاسیک","desc_en":"traditional book Naskh Persian serif"},"nastaliq":{"name_fa":"نستعلیق","family":"Noto Nastaliq Urdu","src":"g:400;700","cat":"کلاسیک","desc_en":"flowing Persian Nastaliq calligraphy"},"reemkufi":{"name_fa":"ریم کوفی","family":"Reem Kufi","src":"g:400;700","cat":"نمایشی","desc_en":"square geometric Kufic display"},"reemfun":{"name_fa":"ریم کوفی فان","family":"Reem Kufi Fun","src":"g:400;700","cat":"کودکانه","desc_en":"playful rounded Kufic display"},"changa":{"name_fa":"چنگا","family":"Changa","src":"g:400;700","cat":"مدرن","desc_en":"condensed techy futuristic Persian sans (Changa)"},"markazi":{"name_fa":"مرکزی","family":"Markazi Text","src":"g:400;700","cat":"کلاسیک","desc_en":"editorial Persian serif (Markazi)"},"amiri":{"name_fa":"امیری","family":"Amiri","src":"g:400;700","cat":"کلاسیک","desc_en":"classical elegant Naskh serif (Amiri)"},"harmattan":{"name_fa":"هارمتان","family":"Harmattan","src":"g:400;700","cat":"ساده","desc_en":"light simple Persian sans (Harmattan)"},"mada":{"name_fa":"مدی","family":"Mada","src":"g:400;700","cat":"مدرن","desc_en":"minimal modern Persian sans (Mada)"},"tajawal":{"name_fa":"تجول","family":"Tajawal","src":"g:400;700","cat":"مدرن","desc_en":"crisp corporate Persian sans (Tajawal)"},"cairo":{"name_fa":"قاهره","family":"Cairo","src":"g:400;700","cat":"مدرن","desc_en":"bold contemporary Persian sans (Cairo)"},"messiri":{"name_fa":"المسیری","family":"El Messiri","src":"g:400;700","cat":"نمایشی","desc_en":"stylish modern display with calligraphic feel (El Messiri)"},"ruqaa":{"name_fa":"رقعه","family":"Aref Ruqaa","src":"g:400;700","cat":"کلاسیک","desc_en":"handwritten Ruqaa calligraphy"},"rakkas":{"name_fa":"رکاس","family":"Rakkas","src":"g:400","cat":"نمایشی","desc_en":"heavy ornamental vintage display (Rakkas)"},"lateef":{"name_fa":"لطیف","family":"Lateef","src":"g:400;700","cat":"کلاسیک","desc_en":"traditional Persian/Urdu naskh (Lateef)"},"sheherazade":{"name_fa":"شهرزاد","family":"Scheherazade New","src":"g:400;700","cat":"کلاسیک","desc_en":"rich classic Naskh with tall letters (Scheherazade)"},"gulzar":{"name_fa":"گلزار","family":"Gulzar","src":"g:400","cat":"کلاسیک","desc_en":"decorative Nastaliq calligraphy (Gulzar)"},"kufam":{"name_fa":"کوفام","family":"Kufam","src":"g:400;700","cat":"مدرن","desc_en":"modern Kufic sans (Kufam)"},"baloo":{"name_fa":"بالو","family":"Baloo Bhaijaan 2","src":"g:400;700","cat":"کودکانه","desc_en":"chunky rounded friendly display (Baloo)"},"jomhuria":{"name_fa":"جمهوریه","family":"Jomhuria","src":"g:400","cat":"نمایشی","desc_en":"ultra-bold black poster display (Jomhuria)"},"katibeh":{"name_fa":"کتیبه","family":"Katibeh","src":"g:400","cat":"نمایشی","desc_en":"ornamental inscription display (Katibeh)"},"mirza":{"name_fa":"میرزا","family":"Mirza","src":"g:400;700","cat":"کلاسیک","desc_en":"Qajar-style elegant Naskh (Mirza)"},"lemonada":{"name_fa":"لیموناد","family":"Lemonada","src":"g:400;700","cat":"کودکانه","desc_en":"round bubbly display (Lemonada)"},"readex":{"name_fa":"ریدکس","family":"Readex Pro","src":"g:400;700","cat":"مدرن","desc_en":"wide modern UI sans (Readex Pro)"},"alexandria":{"name_fa":"اسکندریه","family":"Alexandria","src":"g:400;700","cat":"مدرن","desc_en":"sharp contemporary geometric sans (Alexandria)"},"plex":{"name_fa":"آی‌بی‌ام پلکس","family":"IBM Plex Sans Arabic","src":"g:400;700","cat":"مدرن","desc_en":"technical corporate sans (IBM Plex)"},"marhey":{"name_fa":"مرحی","family":"Marhey","src":"g:400;700","cat":"کودکانه","desc_en":"hand-drawn bouncy display (Marhey)"},"handjet":{"name_fa":"هندجت","family":"Handjet","src":"g:400;700","cat":"مدرن","desc_en":"pixel/LED modular display (Handjet)"},"blaka":{"name_fa":"بلاکا","family":"Blaka","src":"g:400","cat":"نمایشی","desc_en":"gothic blackletter-inspired display (Blaka)"},"playpen":{"name_fa":"پلی‌پن","family":"Playpen Sans Arabic","src":"g:400;700","cat":"کودکانه","desc_en":"casual handwriting (Playpen Sans)"}},"themes":[{"id":"neon-purple","name_fa":"نئون بنفش صبا","group":"🌙 تیره و مدرن","dark":1,"bg":"radial-gradient(1200px 800px at 85% -10%,#3b1f7a 0%,transparent 65%),radial-gradient(900px 700px at 0% 110%,#241a66 0%,transparent 70%),#07051a","surf":"rgba(168,116,255,.10)","line":"rgba(168,116,255,.35)","text":"#f4f2fb","muted":"#b9b2d6","acc":"#a874ff","acc2":"#7d6aff","ft":"vazir","fb":"vazir","decor":"orbs","card":"glass","tfx":"grad","r":28,"img_en":"glowing neon purple and violet 3D illustration on a near-black background, soft bloom light","desc_fa":"طرح امضای صبا: مشکی با درخشش بنفش نئونی"},{"id":"midnight","name_fa":"نیمه‌شب طلایی","group":"🌙 تیره و مدرن","dark":1,"bg":"linear-gradient(135deg,#0b0f1e,#151b33)","surf":"rgba(255,255,255,.05)","line":"rgba(246,201,78,.35)","text":"#f6f3ea","muted":"#a9a7a0","acc":"#f6c94e","acc2":"#e9a23b","ft":"messiri","fb":"shabnam","decor":"lines","card":"outline","tfx":"plain","r":18,"img_en":"luxurious dark navy scene with gold accents, cinematic lighting","desc_fa":"سرمه‌ای عمیق با خطوط طلایی، شیک و رسمی"},{"id":"aurora","name_fa":"شفق قطبی","group":"🌙 تیره و مدرن","dark":1,"bg":"radial-gradient(1000px 600px at 20% 0%,#0f5c4d 0%,transparent 60%),radial-gradient(900px 600px at 100% 100%,#3a1f6b 0%,transparent 60%),#050b12","surf":"rgba(255,255,255,.06)","line":"rgba(46,229,157,.3)","text":"#eafff6","muted":"#9cc9b8","acc":"#2ee59d","acc2":"#25d9f2","ft":"kufi","fb":"vazir","decor":"orbs","card":"glass","tfx":"grad","r":26,"img_en":"aurora borealis colors, teal and violet gradients, dreamy glow","desc_fa":"سبز و فیروزه‌ای شفق روی آسمان تاریک"},{"id":"carbon","name_fa":"کربن قرمز","group":"🌙 تیره و مدرن","dark":1,"bg":"linear-gradient(160deg,#111,#1c1c1f)","surf":"rgba(255,255,255,.04)","line":"rgba(255,90,108,.4)","text":"#f5f5f5","muted":"#a0a0a0","acc":"#ff5a6c","acc2":"#ff8a4f","ft":"changa","fb":"sahel","decor":"stripe","card":"solid","tfx":"box","r":10,"img_en":"bold dark carbon texture with red highlights, sporty dynamic","desc_fa":"مشکی کربنی با قرمز پرانرژی، اسپرت"},{"id":"ocean-deep","name_fa":"اقیانوس عمیق","group":"🌙 تیره و مدرن","dark":1,"bg":"linear-gradient(180deg,#03122a,#062a4a)","surf":"rgba(85,146,255,.10)","line":"rgba(85,146,255,.35)","text":"#eaf3ff","muted":"#9fb6d6","acc":"#5592ff","acc2":"#2fd6a8","ft":"readex","fb":"vazir","decor":"waves","card":"glass","tfx":"plain","r":22,"img_en":"deep ocean blue underwater light rays, calm","desc_fa":"آبی عمیق با موج‌های آرام"},{"id":"paper-white","name_fa":"کاغذ سفید","group":"☀️ روشن و مینیمال","dark":0,"bg":"#fbfaf7","surf":"#ffffff","line":"rgba(20,20,30,.12)","text":"#1d1d24","muted":"#6b6b76","acc":"#2b59ff","acc2":"#00b3a4","ft":"vazir","fb":"vazir","decor":"none","card":"shadow","tfx":"plain","r":20,"img_en":"clean minimal flat illustration on white, soft shadows, lots of whitespace","desc_fa":"سفید و تمیز، مینیمال و خوانا"},{"id":"sand","name_fa":"شنی گرم","group":"☀️ روشن و مینیمال","dark":0,"bg":"linear-gradient(135deg,#f6efe4,#efe3d0)","surf":"rgba(255,255,255,.6)","line":"rgba(120,80,40,.18)","text":"#3b2a1a","muted":"#86705a","acc":"#c0703a","acc2":"#7a9a5a","ft":"markazi","fb":"samim","decor":"paper","card":"solid","tfx":"under","r":16,"img_en":"warm beige earthy tones, soft watercolor illustration","desc_fa":"کرم و خاکی گرم، آرام و دنج"},{"id":"pastel","name_fa":"پاستلی","group":"☀️ روشن و مینیمال","dark":0,"bg":"linear-gradient(135deg,#fdf2f8,#eef2ff)","surf":"rgba(255,255,255,.75)","line":"rgba(150,120,200,.2)","text":"#2c2440","muted":"#7a7090","acc":"#e05aa8","acc2":"#7d6aff","ft":"shabnam","fb":"shabnam","decor":"dots","card":"solid","tfx":"plain","r":28,"img_en":"soft pastel 3D clay illustration, pink and lavender","desc_fa":"صورتی و یاسی ملایم"},{"id":"swiss","name_fa":"سوئیسی","group":"☀️ روشن و مینیمال","dark":0,"bg":"#ffffff","surf":"#f3f3f3","line":"rgba(0,0,0,.9)","text":"#111111","muted":"#555555","acc":"#e30613","acc2":"#111111","ft":"cairo","fb":"sahel","decor":"grid","card":"none","tfx":"box","r":0,"img_en":"bold Swiss graphic design, geometric shapes, red and black on white","desc_fa":"سبک گرافیک سوئیسی؛ قرمز و مشکی روی سفید"},{"id":"corporate-blue","name_fa":"شرکتی آبی","group":"🏢 شرکتی و رسمی","dark":0,"bg":"linear-gradient(180deg,#ffffff,#eef3fb)","surf":"#ffffff","line":"rgba(20,60,140,.15)","text":"#10213f","muted":"#5b6b86","acc":"#1f5fd6","acc2":"#14a3c7","ft":"tajawal","fb":"vazir","decor":"corner","card":"shadow","tfx":"under","r":14,"img_en":"professional corporate photography style, blue tones, modern office","desc_fa":"آبی سازمانی، مناسب جلسه و گزارش"},{"id":"executive","name_fa":"مدیریتی","group":"🏢 شرکتی و رسمی","dark":1,"bg":"linear-gradient(135deg,#0f1b2d,#1d2f4a)","surf":"rgba(255,255,255,.06)","line":"rgba(255,255,255,.18)","text":"#f2f5fa","muted":"#9fb0c8","acc":"#4fb3ff","acc2":"#c8a96a","ft":"plex","fb":"plex","decor":"lines","card":"outline","tfx":"plain","r":8,"img_en":"sleek executive business visuals, navy and silver, minimal","desc_fa":"سرمه‌ای و نقره‌ای، جدی و حرفه‌ای"},{"id":"startup","name_fa":"استارتاپی","group":"🏢 شرکتی و رسمی","dark":0,"bg":"linear-gradient(135deg,#ffffff,#f4f0ff)","surf":"#ffffff","line":"rgba(110,80,255,.18)","text":"#1a1433","muted":"#6e6890","acc":"#6e50ff","acc2":"#ff6b9a","ft":"alexandria","fb":"vazir","decor":"orbs","card":"shadow","tfx":"grad","r":24,"img_en":"modern startup pitch-deck 3D illustration, purple and coral gradients","desc_fa":"پیچ‌دک استارتاپی با گرادیان بنفش و مرجانی"},{"id":"finance","name_fa":"مالی سبز","group":"🏢 شرکتی و رسمی","dark":0,"bg":"#f7faf8","surf":"#ffffff","line":"rgba(10,90,60,.15)","text":"#0e2a1f","muted":"#5d7a6c","acc":"#0a8f5a","acc2":"#d4a017","ft":"kufi","fb":"sahel","decor":"grid","card":"shadow","tfx":"box","r":10,"img_en":"clean financial charts and growth visuals, green and gold","desc_fa":"سبز و طلایی برای گزارش مالی"},{"id":"classroom","name_fa":"کلاس درس","group":"🎓 آموزشی","dark":0,"bg":"#fffdf6","surf":"#ffffff","line":"rgba(40,40,80,.15)","text":"#232340","muted":"#6a6a85","acc":"#ff7a00","acc2":"#2b8cff","ft":"lalezar","fb":"vazir","decor":"dots","card":"solid","tfx":"under","r":18,"img_en":"friendly educational flat illustration, bright and clear","desc_fa":"آموزشی روشن و شاد برای کلاس"},{"id":"chalkboard","name_fa":"تخته‌سیاه","group":"🎓 آموزشی","dark":1,"bg":"radial-gradient(1200px 700px at 50% 30%,#2f4a3a,#1d2e25)","surf":"rgba(255,255,255,.04)","line":"rgba(255,255,255,.35)","text":"#f1f4ee","muted":"#c4cfc0","acc":"#ffe27a","acc2":"#9ad1ff","ft":"nahid","fb":"gandom","decor":"frame","card":"outline","tfx":"plain","r":6,"img_en":"chalk drawing on a green chalkboard, hand-drawn sketches","desc_fa":"تخته‌سیاه با نوشته‌های گچی"},{"id":"notebook","name_fa":"دفترچه","group":"🎓 آموزشی","dark":0,"bg":"repeating-linear-gradient(180deg,#fffef8 0 46px,#dbe7f5 46px 48px)","surf":"rgba(255,255,255,.85)","line":"rgba(60,90,160,.25)","text":"#1f2a44","muted":"#5a6680","acc":"#e8463a","acc2":"#2a6fdb","ft":"playpen","fb":"shabnam","decor":"notebook","card":"solid","tfx":"under","r":8,"img_en":"doodle sketches in a lined notebook, pen and highlighter","desc_fa":"دفتر خط‌دار با دودل و هایلایت"},{"id":"science","name_fa":"علمی","group":"🎓 آموزشی","dark":1,"bg":"radial-gradient(1000px 700px at 80% 10%,#0e3b5c,transparent 60%),#06121f","surf":"rgba(37,217,242,.08)","line":"rgba(37,217,242,.3)","text":"#e8f8ff","muted":"#93b8c8","acc":"#25d9f2","acc2":"#a874ff","ft":"readex","fb":"vazir","decor":"blueprint","card":"glass","tfx":"plain","r":18,"img_en":"scientific diagram style, molecules and data visualizations, cyan glow","desc_fa":"علمی با شبکه‌ی آبی و حس آزمایشگاه"},{"id":"tile-turquoise","name_fa":"کاشی و فیروزه","group":"🇮🇷 ایرانی و سنتی","dark":0,"bg":"linear-gradient(180deg,#f3fbfb,#e2f3f3)","surf":"rgba(255,255,255,.8)","line":"rgba(0,120,130,.25)","text":"#0b3a40","muted":"#4c7479","acc":"#0a8f9a","acc2":"#1b4fa0","ft":"nastaliq","fb":"parastoo","decor":"girih","card":"outline","tfx":"plain","r":16,"img_en":"Persian turquoise tilework, Isfahan mosque patterns, cobalt and turquoise","desc_fa":"کاشی‌کاری فیروزه‌ای اصفهان با نقش گره"},{"id":"miniature","name_fa":"مینیاتور","group":"🇮🇷 ایرانی و سنتی","dark":0,"bg":"linear-gradient(180deg,#f7ecd6,#ecd9b4)","surf":"rgba(255,250,240,.75)","line":"rgba(140,90,30,.35)","text":"#3d2410","muted":"#7d5a3a","acc":"#a3281e","acc2":"#1f6f6a","ft":"gulzar","fb":"mirza","decor":"frame","card":"outline","tfx":"plain","r":6,"img_en":"Persian miniature painting style, gold leaf, ornate borders, Safavid art","desc_fa":"مینیاتور ایرانی با قاب تذهیب"},{"id":"qajar","name_fa":"قاجاری","group":"🇮🇷 ایرانی و سنتی","dark":1,"bg":"linear-gradient(135deg,#3a0d18,#5a1a24)","surf":"rgba(255,230,190,.07)","line":"rgba(246,201,78,.4)","text":"#fff3e0","muted":"#e0c49e","acc":"#f6c94e","acc2":"#e9897a","ft":"mirza","fb":"naskh","decor":"girih","card":"outline","tfx":"shadow","r":10,"img_en":"Qajar era painting style, rich crimson and gold, vintage Persian","desc_fa":"زرشکی و طلایی به سبک قاجار"},{"id":"nowruz","name_fa":"نوروزی","group":"🇮🇷 ایرانی و سنتی","dark":0,"bg":"linear-gradient(180deg,#f2fbf0,#fff7e8)","surf":"rgba(255,255,255,.8)","line":"rgba(60,140,60,.22)","text":"#1d3a1a","muted":"#5d7a55","acc":"#3c9a3c","acc2":"#ff8a3d","ft":"messiri","fb":"samim","decor":"confetti","card":"solid","tfx":"plain","r":22,"img_en":"Nowruz spring celebration, sabzeh, goldfish, colorful painted eggs, fresh green","desc_fa":"بهاری و نوروزی، سبز و شاد"},{"id":"calligraphy","name_fa":"خوشنویسی","group":"🇮🇷 ایرانی و سنتی","dark":0,"bg":"#f5f0e6","surf":"rgba(255,255,255,.55)","line":"rgba(40,30,20,.3)","text":"#1f1812","muted":"#6d6052","acc":"#8c1c13","acc2":"#1f1812","ft":"nastaliq","fb":"naskh","decor":"paper","card":"none","tfx":"plain","r":4,"img_en":"ink calligraphy on aged paper, brush strokes, minimal","desc_fa":"کاغذ کاهی و جوهر سیاه خوشنویسی"},{"id":"bauhaus","name_fa":"باوهاوس","group":"🎨 خلاق و هنری","dark":0,"bg":"#f1ece1","surf":"#ffffff","line":"rgba(0,0,0,.85)","text":"#141414","muted":"#4d4d4d","acc":"#e63946","acc2":"#1d4ed8","ft":"reemkufi","fb":"sahel","decor":"bauhaus","card":"solid","tfx":"box","r":0,"img_en":"Bauhaus poster art, primary colors, circles and triangles","desc_fa":"هنر باوهاوس با رنگ‌های اصلی"},{"id":"risograph","name_fa":"ریسوگراف","group":"🎨 خلاق و هنری","dark":0,"bg":"#fbf4ea","surf":"rgba(255,255,255,.6)","line":"rgba(255,72,120,.35)","text":"#21183a","muted":"#6b5f86","acc":"#ff4878","acc2":"#2f6bff","ft":"jomhuria","fb":"samim","decor":"dots","card":"outline","tfx":"shadow","r":12,"img_en":"risograph print texture, pink and blue overprint, grain","desc_fa":"چاپ ریسو با صورتی و آبی دانه‌دار"},{"id":"gradient-pop","name_fa":"گرادیان پاپ","group":"🎨 خلاق و هنری","dark":1,"bg":"linear-gradient(135deg,#ff3cac 0%,#784ba0 50%,#2b86c5 100%)","surf":"rgba(255,255,255,.14)","line":"rgba(255,255,255,.35)","text":"#ffffff","muted":"#f0e6ff","acc":"#ffe066","acc2":"#ffffff","ft":"lalezar","fb":"vazir","decor":"orbs","card":"glass","tfx":"plain","r":30,"img_en":"vibrant gradient 3D shapes, glossy pop art, pink purple blue","desc_fa":"گرادیان پرانرژی صورتی تا آبی"},{"id":"brutal","name_fa":"نئوبروتال","group":"🎨 خلاق و هنری","dark":0,"bg":"#fff6d6","surf":"#ffffff","line":"#111111","text":"#111111","muted":"#3d3d3d","acc":"#ff5c00","acc2":"#00c2a8","ft":"cairo","fb":"vazir","decor":"none","card":"brutal","tfx":"box","r":4,"img_en":"neo-brutalist flat graphics, thick black outlines, bold colors","desc_fa":"خطوط مشکی ضخیم و رنگ‌های تند"},{"id":"forest","name_fa":"جنگلی","group":"🌿 طبیعت","dark":1,"bg":"linear-gradient(160deg,#0f2418,#1d3b27)","surf":"rgba(255,255,255,.06)","line":"rgba(140,200,120,.3)","text":"#eef7ea","muted":"#a9c2a0","acc":"#8cd27a","acc2":"#f2c14e","ft":"kufam","fb":"shabnam","decor":"leaves","card":"glass","tfx":"plain","r":20,"img_en":"lush forest nature photography, green leaves, misty light","desc_fa":"سبز جنگلی و آرام"},{"id":"sunset","name_fa":"غروب","group":"🌿 طبیعت","dark":1,"bg":"linear-gradient(180deg,#2b1055,#7a2a6b 55%,#d4574a)","surf":"rgba(255,255,255,.10)","line":"rgba(255,200,150,.35)","text":"#fff4ec","muted":"#f1cdbd","acc":"#ffb36b","acc2":"#ff6b8a","ft":"messiri","fb":"vazir","decor":"sun","card":"glass","tfx":"plain","r":24,"img_en":"warm sunset sky gradient, silhouettes, golden hour","desc_fa":"آسمان غروب بنفش تا نارنجی"},{"id":"desert","name_fa":"کویر","group":"🌿 طبیعت","dark":0,"bg":"linear-gradient(180deg,#fbe9cf,#f0c99a)","surf":"rgba(255,255,255,.45)","line":"rgba(150,80,20,.25)","text":"#4a2a0f","muted":"#8a6040","acc":"#c2562a","acc2":"#2e7d8c","ft":"katibeh","fb":"samim","decor":"waves","card":"solid","tfx":"plain","r":14,"img_en":"Iranian desert dunes, adobe architecture, warm sand tones","desc_fa":"رنگ‌های کویر و خشت"},{"id":"cyber","name_fa":"سایبرپانک","group":"🚀 تکنولوژی","dark":1,"bg":"linear-gradient(135deg,#0a0016,#14002b)","surf":"rgba(255,0,200,.06)","line":"rgba(0,255,240,.45)","text":"#e9fbff","muted":"#9ab6c9","acc":"#00f0ff","acc2":"#ff2bd6","ft":"handjet","fb":"vazir","decor":"grid","card":"outline","tfx":"shadow","r":4,"img_en":"cyberpunk neon city, magenta and cyan glow, futuristic","desc_fa":"نئون سایبرپانک فیروزه‌ای و سرخابی"},{"id":"ai-glass","name_fa":"هوش مصنوعی","group":"🚀 تکنولوژی","dark":1,"bg":"radial-gradient(1100px 700px at 70% 0%,#1d2b6b,transparent 60%),radial-gradient(800px 600px at 0% 100%,#3b1460,transparent 60%),#05060f","surf":"rgba(255,255,255,.07)","line":"rgba(125,106,255,.35)","text":"#eef0ff","muted":"#a7acd6","acc":"#7d9bff","acc2":"#c56bff","ft":"alexandria","fb":"vazir","decor":"orbs","card":"glass","tfx":"grad","r":26,"img_en":"abstract AI neural network, glass 3D shapes, blue and violet glow","desc_fa":"شیشه‌ای و درخشان برای موضوعات هوش مصنوعی"},{"id":"terminal","name_fa":"ترمینال","group":"🚀 تکنولوژی","dark":1,"bg":"#0b0f0b","surf":"rgba(0,255,120,.04)","line":"rgba(0,255,120,.35)","text":"#d9ffe6","muted":"#7fb894","acc":"#00ff88","acc2":"#9dff00","ft":"changa","fb":"plex","decor":"blueprint","card":"outline","tfx":"plain","r":2,"img_en":"retro terminal green code on black, matrix style","desc_fa":"کد سبز روی مشکی، حس برنامه‌نویسی"},{"id":"kids-candy","name_fa":"آبنباتی","group":"🧸 کودکانه","dark":0,"bg":"linear-gradient(180deg,#fff7fb,#f0fbff)","surf":"#ffffff","line":"rgba(255,120,180,.3)","text":"#2b1b3a","muted":"#7a6890","acc":"#ff5fa2","acc2":"#21b8ff","ft":"baloo","fb":"shabnam","decor":"confetti","card":"solid","tfx":"plain","r":32,"img_en":"cute colorful cartoon illustration for kids, candy colors","desc_fa":"رنگ‌های آبنباتی و کارتونی"},{"id":"crayon","name_fa":"مدادشمعی","group":"🧸 کودکانه","dark":0,"bg":"#fffdf4","surf":"#ffffff","line":"rgba(80,60,40,.25)","text":"#2a2116","muted":"#6e604c","acc":"#ff6a3d","acc2":"#3cb371","ft":"marhey","fb":"samim","decor":"doodle","card":"outline","tfx":"plain","r":26,"img_en":"children's crayon drawing style, hand-drawn, playful","desc_fa":"نقاشی کودکانه با مداد شمعی"},{"id":"toy-blocks","name_fa":"اسباب‌بازی","group":"🧸 کودکانه","dark":0,"bg":"#eef7ff","surf":"#ffffff","line":"rgba(0,0,0,.15)","text":"#1b2440","muted":"#5b6785","acc":"#ffb703","acc2":"#fb5607","ft":"lemonada","fb":"vazir","decor":"bauhaus","card":"brutal","tfx":"plain","r":24,"img_en":"3D toy blocks and plastic toys, bright primary colors","desc_fa":"مکعب‌های رنگی و اسباب‌بازی سه‌بعدی"},{"id":"magazine","name_fa":"مجله‌ای","group":"📰 مجله‌ای","dark":0,"bg":"#f8f6f2","surf":"#ffffff","line":"rgba(0,0,0,.12)","text":"#121212","muted":"#5c5c5c","acc":"#c8102e","acc2":"#121212","ft":"rakkas","fb":"markazi","decor":"lines","card":"none","tfx":"under","r":0,"img_en":"high-end editorial magazine photography, dramatic lighting","desc_fa":"سبک مجله‌های مد و خبری"},{"id":"newspaper","name_fa":"روزنامه","group":"📰 مجله‌ای","dark":0,"bg":"#efebe2","surf":"rgba(255,255,255,.45)","line":"rgba(0,0,0,.35)","text":"#161616","muted":"#555","acc":"#161616","acc2":"#8a1c1c","ft":"blaka","fb":"naskh","decor":"lines","card":"outline","tfx":"plain","r":0,"img_en":"vintage newspaper halftone print, black and white","desc_fa":"روزنامه‌ی قدیمی و چاپ هافتون"},{"id":"vogue-dark","name_fa":"گالری تیره","group":"📰 مجله‌ای","dark":1,"bg":"#0d0d0d","surf":"rgba(255,255,255,.03)","line":"rgba(255,255,255,.2)","text":"#f4f1ea","muted":"#9b968c","acc":"#e8d3a2","acc2":"#ffffff","ft":"tanha","fb":"sahel","decor":"frame","card":"none","tfx":"plain","r":0,"img_en":"moody fine-art gallery photography, black backdrop, spotlight","desc_fa":"تیره و هنری مثل گالری"}]};
+const FONTS=LIB.fonts,BUILTIN=LIB.themes;
+const AUD={general:["عمومی","the general public"],student:["دانش‌آموز","school students aged 11-17"],uni:["دانشجو","university students"],pro:["حرفه‌ای","professionals and managers"],child:["کودک","young children aged 6-10"]};
+const TONES={formal:["رسمی","formal and credible"],friendly:["دوستانه","warm and conversational"],edu:["آموزشی","clear and educational, step by step"],inspire:["الهام‌بخش","inspiring and energetic, storytelling"]};
+const LANGS={fa:"فارسی",en:"انگلیسی",both:"دوزبانه"};
+const IMGS={all:"همه‌ی اسلایدها",some:"بعضی",none:"بدون تصویر"};
+const LAYOUTS={title:["🏁","عنوان"],section:["🔖","بخش جدید"],bullets:["📝","عنوان و نکته‌ها"],imgtext:["🖼️","تصویر و متن"],twocol:["📑","دو ستون"],grid:["🧩","کارت‌ها"],stats:["🔢","آمار بزرگ"],timeline:["⏳","خط زمانی"],compare:["⚖️","مقایسه"],quote:["💬","نقل‌قول"],chart:["📊","نمودار"],end:["🙏","پایان و تشکر"]};
+const IMG_LAYOUTS=["title","imgtext","section","quote","end"];
+const VOICES=[["Kore","کوره · زن، محکم"],["Aoede","آئوده · زن، روشن"],["Leda","لدا · زن، جوان"],["Sulafat","سولافات · زن، گرم"],["Achernar","آخرنار · زن، نرم"],["Puck","پاک · مرد، شاد"],["Charon","کارون · مرد، آگاه"],["Orus","اوروس · مرد، محکم"],["Fenrir","فنریر · مرد، پرشور"],["Iapetus","یاپتوس · مرد، شفاف"],["Algieba","الجیبا · مرد، صاف"],["Zephyr","زفیر · زن، روشن"]];
+const VSTYLES=[["calm","آرام و گرم","Read in a calm, warm and clear Persian voice"],["pro","رسمی و مطمئن","Read like a confident professional presenter, clear Persian"],["teacher","معلم مهربان","Read like a kind teacher explaining to students, in Persian"],["energetic","پرانرژی","Read with enthusiasm and energy, like an inspiring speaker, in Persian"],["news","گوینده‌ی خبر","Read like a Persian news anchor, steady and formal"]];
+const REWRITES=["کوتاه‌تر کن","ساده‌تر کن","رسمی‌تر کن","جذاب‌تر کن","یک مثال اضافه کن","عدد و آمار اضافه کن"];
+const EXAMPLES=["هوش مصنوعی در آموزش مدارس","معرفی استارتاپ ما به سرمایه‌گذار","تاریخچه‌ی تخت جمشید","۱۰ نکته برای مدیریت زمان","انرژی‌های تجدیدپذیر در ایران","معرفی ابزارهای رایگان جمینی"];
+
+// utils
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const fa=s=>String(s??"").replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+const faNum=s=>String(s??"").replace(/(\d)\.(\d)/g,"$1٫$2").replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]).replace(/%/g,"٪");
+const enNum=s=>String(s??"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/٫/g,".");
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid=p=>p+"-"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const clone=o=>JSON.parse(JSON.stringify(o));
+// deep copy that keeps Blob objects (for undo + duplicate)
+const dcopy=v=>v instanceof Blob||v==null||typeof v!="object"?v:Array.isArray(v)?v.map(dcopy):Object.fromEntries(Object.entries(v).map(([k,x])=>[k,dcopy(x)]));
+const U=new WeakMap(),url=b=>{if(!b)return"";let u=U.get(b);if(!u){u=URL.createObjectURL(b);U.set(b,u)}return u};
+const fmtB=n=>n>=1073741824?fa((n/1073741824).toFixed(1)).replace(".","٫")+" گیگ":fa(Math.max(0,Math.round(n/1048576)))+" مگ";
+const fdate=t=>{try{return new Date(t).toLocaleDateString("fa-IR")+" · "+new Date(t).toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit"})}catch{return fa(new Date(t).toISOString().slice(0,10))}};
+const txt=el=>String(el.innerText!=null?el.innerText:el.textContent||"");
+const fdur=s=>fa(Math.floor(s/60))+":"+fa(String(Math.round(s%60)).padStart(2,"0"));
+function toast(m,t=4000){const d=document.createElement("div");d.className="toast";d.textContent=m;document.body.append(d);setTimeout(()=>d.remove(),t)}
+function modal(html,cls=""){const m=document.createElement("div");m.className="modal "+cls;m.innerHTML=`<div class="card"><button class="btn x" data-a="close" aria-label="بستن">✕</button>${html}</div>`;m.onclick=e=>{if(e.target===m)m.remove()};document.body.append(m);return m}
+function ask(msg){return new Promise(ok=>{const m=modal(`<h3>تأیید</h3><p>${esc(msg)}</p><div class="row"><button class="btn pri" id="cy">بله</button><button class="btn" id="cn">انصراف</button></div>`);$("#cy",m).onclick=()=>{m.remove();ok(true)};$("#cn",m).onclick=()=>{m.remove();ok(false)}})}
+function dl(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),5000)}
+const blobToB64=b=>new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(",")[1]||"");r.onerror=()=>no(r.error);r.readAsDataURL(b)});
+const b64ToBlob=(d,t)=>{const s=atob(d),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return new Blob([a],{type:t})};
+const blobAB=b=>b.arrayBuffer?b.arrayBuffer():new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=()=>no(r.error);r.readAsArrayBuffer(b)});
+const loadImg=src=>new Promise((ok,no)=>{const i=new Image(),t=setTimeout(()=>no(new Error("timeout")),15000);i.onload=()=>{clearTimeout(t);ok(i)};i.onerror=()=>{clearTimeout(t);no(new Error("img"))};i.src=src});
+const abortErr=()=>{const e=new Error("لغو شد");e.name="AbortError";return e};
+const sleep=(ms,sig)=>new Promise((ok,no)=>{if(sig&&sig.aborted)return no(abortErr());const t=setTimeout(ok,ms);sig&&sig.addEventListener("abort",()=>{clearTimeout(t);no(abortErr())},{once:true})});
+const pick=accept=>new Promise(ok=>{const i=document.createElement("input");i.type="file";i.accept=accept;i.onchange=()=>ok(i.files[0]||null);i.click()});
+const cBlob=(c,type,q)=>new Promise(ok=>{try{c.toBlob(b=>ok(b),type,q)}catch{ok(null)}});
+async function drawable(b){const u=URL.createObjectURL(b);try{const i=await loadImg(u);const W=i.naturalWidth||i.width,H=i.naturalHeight||i.height;return W&&H?{i,W,H}:null}catch{return null}finally{setTimeout(()=>URL.revokeObjectURL(u),1000)}}
+async function convert(b,type,maxSide){const d=await drawable(b);if(!d)return null;const s=maxSide?Math.min(1,maxSide/Math.max(d.W,d.H)):1,c=document.createElement("canvas");c.width=Math.round(d.W*s);c.height=Math.round(d.H*s);const x=c.getContext&&c.getContext("2d");if(!x)return null;x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(d.i,0,0,c.width,c.height);return cBlob(c,type,.92)}
+async function toRef(b){try{const j=await convert(b,"image/jpeg",1600);if(j)return{mimeType:"image/jpeg",data:await blobToB64(j)}}catch{}return{mimeType:b.type||"image/png",data:await blobToB64(b)}}
+function parseJ(t){t=String(t).replace(/```(?:json)?/gi,"").trim();try{return JSON.parse(t)}catch{}const a=t.search(/[\[{]/),z=Math.max(t.lastIndexOf("]"),t.lastIndexOf("}"));if(a<0||z<a)throw new Error("پاسخ مدل JSON معتبر نبود");return JSON.parse(t.slice(a,z+1))}
+const hexRgb=h=>{h=String(h||"#000").replace("#","");if(h.length==3)h=h.split("").map(c=>c+c).join("");const n=parseInt(h.slice(0,6),16)||0;return[n>>16&255,n>>8&255,n&255]};
+const rgba=(h,a)=>{if(/^rgba?\(/.test(h))return h;const[r,g,b]=hexRgb(h);return`rgba(${r},${g},${b},${a})`};
+const lum=h=>{const[r,g,b]=hexRgb(h).map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*r+.7152*g+.0722*b};
+const firstColor=css=>{const m=String(css).match(/#[0-9a-f]{6}\b|#[0-9a-f]{3}\b/gi);return m?m[m.length-1]:"#000000"};
+
+// ---------- audio helpers ----------
+const Audio16={
+ // raw 16-bit PCM (little endian) → WAV blob
+ wav(pcm,rate=24000,ch=1){const len=pcm.byteLength,b=new ArrayBuffer(44+len),v=new DataView(b),w=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i))};
+  w(0,"RIFF");v.setUint32(4,36+len,true);w(8,"WAVE");w(12,"fmt ");v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,ch,true);v.setUint32(24,rate,true);v.setUint32(28,rate*ch*2,true);v.setUint16(32,ch*2,true);v.setUint16(34,16,true);w(36,"data");v.setUint32(40,len,true);
+  new Uint8Array(b,44).set(new Uint8Array(pcm.buffer||pcm,pcm.byteOffset||0,len));return new Blob([b],{type:"audio/wav"})},
+ rate(mime){const m=String(mime||"").match(/rate=(\d+)/);return m?+m[1]:24000},
+ // seconds of a 16-bit mono WAV
+ dur(blob,rate=24000){return blob?Math.max(0,(blob.size-44)/(rate*2)):0},
+ // join several 16-bit mono WAVs (same rate) with a short pause
+ async join(blobs,rate=24000,gap=.6){const parts=[];for(const b of blobs){parts.push(new Uint8Array((await blobAB(b)).slice(44)));parts.push(new Uint8Array(Math.round(rate*gap)*2))}
+  const n=parts.reduce((a,p)=>a+p.length,0),all=new Uint8Array(n);let o=0;for(const p of parts){all.set(p,o);o+=p.length}return this.wav(all,rate)},
+ // any recorded audio → 16 kHz mono WAV (Gemini accepts WAV; MediaRecorder gives webm/opus)
+ async toWav16(blob){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return null;try{const ctx=new AC(),buf=await ctx.decodeAudioData(await blobAB(blob));ctx.close&&ctx.close();
+  const r=16000,n=Math.floor(buf.duration*r),src=buf.getChannelData(0),k=buf.sampleRate/r,out=new Int16Array(n);
+  for(let i=0;i<n;i++){let s=0,c=0;const a=Math.floor(i*k),z=Math.min(src.length,Math.floor((i+1)*k)||a+1);for(let j=a;j<z;j++){s+=src[j];c++}const x=Math.max(-1,Math.min(1,c?s/c:0));out[i]=x<0?x*32768:x*32767}
+  return this.wav(new Uint8Array(out.buffer),r)}catch{return null}}
+};
+
+// Store: the only module that touches IndexedDB / localStorage
+const Store=(()=>{const N="saba-slides",SS=["kv","decks","fonts","themes"],QUIET=["meta"];let db,subs=[],tm;
+ const ls=(k,v)=>{try{k="sabaSlides."+k;if(v===undefined)return localStorage.getItem(k);v===null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch{return null}};
+ const open=()=>db?Promise.resolve(db):new Promise((ok,no)=>{const r=indexedDB.open(N,1);r.onupgradeneeded=()=>SS.forEach(s=>r.result.objectStoreNames.contains(s)||r.result.createObjectStore(s,{keyPath:s=="kv"?"k":"id"}));r.onsuccess=()=>{db=r.result;ok(db)};r.onerror=()=>no(r.error)});
+ const run=(s,m,f)=>open().then(d=>new Promise((ok,no)=>{const t=d.transaction(s,m),q=f(t.objectStore(s));t.oncomplete=()=>ok(q&&q.result);t.onerror=t.onabort=()=>no(t.error)}));
+ const changed=(s,k)=>{if(s=="kv"&&QUIET.includes(k))return;clearTimeout(tm);tm=setTimeout(async()=>{const t=Date.now();await run("kv","readwrite",o=>o.put({k:"meta",v:{lastSave:t}}));ls("lastSave",t);subs.forEach(f=>f())},1000)};
+ return{SS,
+  get:async(s,k)=>{const r=await run(s,"readonly",o=>o.get(k));return s=="kv"?r&&r.v:r},
+  set:async(s,v,k)=>{if(s=="kv"&&k=="uitheme")ls("uitheme",v);await run(s,"readwrite",o=>o.put(s=="kv"?{k,v}:v));changed(s,k)},
+  list:s=>run(s,"readonly",o=>o.getAll()),
+  delete:async(s,k)=>{await run(s,"readwrite",o=>o.delete(k));changed(s,k)},
+  clear:async()=>{const d=await open();await new Promise(ok=>{const t=d.transaction(SS,"readwrite");SS.forEach(s=>t.objectStore(s).clear());t.oncomplete=ok});["uitheme","lastSave"].forEach(k=>ls(k,null))},
+  fastTheme:()=>ls("uitheme"),lastSaveLS:()=>ls("lastSave"),onChange:f=>subs.push(f),
+  persist:async()=>{try{const s=navigator.storage;if(!s||!s.persist)return false;return(s.persisted&&await s.persisted())||await s.persist()}catch{return false}},
+  estimate:async()=>{try{return await navigator.storage.estimate()}catch{return null}}
+ }})();
+
+// zip backup: one JSON per store, every Blob (at any depth) saved as a file under files/
+const EXT={"image/png":"png","image/jpeg":"jpg","image/webp":"webp","audio/wav":"wav","font/ttf":"ttf","font/otf":"otf","font/woff":"woff","font/woff2":"woff2"};
+const Backup={
+ async pack(v,f,st){if(v instanceof Blob){const p=`files/${++st.n}.${EXT[v.type]||"bin"}`;f[p]=v;return{__file:p,t:v.type||""}}
+  if(Array.isArray(v)){const a=[];for(const x of v)a.push(await this.pack(x,f,st));return a}
+  if(v&&typeof v=="object"){const o={};for(const k in v)o[k]=await this.pack(v[k],f,st);return o}return v},
+ async unpack(v,get){if(Array.isArray(v)){const a=[];for(const x of v)a.push(await this.unpack(x,get));return a}
+  if(v&&typeof v=="object"){if(typeof v.__file=="string"){const b=await get(v.__file);return b?new Blob([b],{type:v.t||""}):null}const o={};for(const k in v)o[k]=await this.unpack(v[k],get);return o}return v},
+ async dump(){const f={},st={n:0},kv={};for(const r of await Store.list("kv"))if(r.k!="meta")kv[r.k]=r.v;f["kv.json"]=JSON.stringify({format:"slides-kv-v1",kv:await this.pack(kv,f,st)});
+  for(const s of["decks","fonts","themes"])f[s+".json"]=JSON.stringify({format:`slides-${s}-v1`,items:await this.pack(await Store.list(s),f,st)});return f},
+ async load(get){let n=0;const kt=await get("kv.json");if(kt){const j=JSON.parse(kt),kv=await this.unpack(j.kv||{},get);for(const k in kv){await Store.set("kv",kv[k],k);n++}}
+  for(const s of["decks","fonts","themes"]){const t=await get(s+".json");if(!t)continue;const j=JSON.parse(t);for(const o of await this.unpack(j.items||[],get)){if(o&&o.id!=null){await Store.set(s,o);n++}}}return n},
+ async jz(){if(window.JSZip)return JSZip;await Lazy.js("https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js","JSZip");if(!window.JSZip)throw new Error("بارگیری JSZip ممکن نشد");return JSZip},
+ async zipOut(){try{const Z=await this.jz(),z=new Z(),f=await this.dump();for(const n in f)z.file(n,f[n]);dl(await z.generateAsync({type:"blob"}),"saba-slides-backup-"+new Date().toISOString().slice(0,10)+".zip");toast("پشتیبان کامل دانلود شد")}catch(e){toast("خطا در ساخت پشتیبان: "+e.message)}},
+ async zipIn(){const file=await pick(".zip");if(!file)return;try{const Z=await this.jz(),z=await Z.loadAsync(file);const n=await this.load(async p=>{const e=z.file(p);return e?e.async(p.endsWith(".json")?"string":"blob"):null});await App.reload();$("#banner").classList.add("hide");toast(`${fa(n)} مورد از پشتیبان بازگردانی شد`)}catch(e){toast("فایل پشتیبان معتبر نیست: "+e.message)}}
+};
+
+// lazy loading of CDN scripts / stylesheets
+const Lazy={done:{},
+ js(src,g){if(g&&window[g])return Promise.resolve();if(this.done[src])return this.done[src];return this.done[src]=new Promise((ok,no)=>{const s=document.createElement("script");s.src=src;s.onload=ok;s.onerror=()=>{delete this.done[src];no(new Error("بارگیری کتابخانه ممکن نشد: "+src.split("/").pop()))};document.head.append(s)})},
+ css(href){if(this.done[href])return;this.done[href]=1;const l=document.createElement("link");l.rel="stylesheet";l.href=href;document.head.append(l)}
+};
+
+// Bridge: optional storage in the Chrome extension (chrome.storage.local), which survives closing Gemini Canvas.
+// Protocol: window.postMessage({__sabaBridge:1,dir:"req",app:"saba-slides",id,op,...}) answered by the extension's content script with dir:"res".
+// The bridge is the source of truth on load; every IndexedDB write is mirrored to it (debounced, batched).
+const Bridge=(()=>{const NS="__sabaBridge",APP="saba-slides",SS=Store.SS,SKIP=["meta"],CH=8e6,P=new Map(),dirty=new Map();
+ let tm=0,busy=null,mute=0,seq=0,raw=null,lastToast=0,retry=0;
+ const st={on:false,checked:false,ver:"",last:0,pending:0,err:"",restored:0,synced:0};
+ window.addEventListener("message",e=>{const d=e.data;if(e.source!==window||!d||typeof d!="object"||d[NS]!==1||d.dir!=="res"||d.app!==APP)return;const p=P.get(d.id);if(!p)return;P.delete(d.id);clearTimeout(p.t);
+  d.ok?p.ok(d):p.no(Object.assign(new Error(d.error||"bridge error"),{quota:!!d.quota,invalidated:!!d.invalidated}))});
+ const call=(op,o={},ms=60000)=>new Promise((ok,no)=>{const id="b"+(++seq)+"-"+Date.now().toString(36);P.set(id,{ok,no,t:setTimeout(()=>{P.delete(id);no(Object.assign(new Error("timeout"),{timeout:true}))},ms)});
+  window.postMessage({[NS]:1,dir:"req",app:APP,id,op,...o},"*")});
+ const b64ToAB=d=>{const s=atob(d||""),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return a.buffer};
+ // JSON-safe encoding: Blob → {__sb:"blob"}, ArrayBuffer/TypedArray → {__sb:"ab"}; functions and class instances are dropped
+ async function enc(v){if(v==null||typeof v=="string"||typeof v=="boolean")return v;if(typeof v=="number")return isFinite(v)?v:null;if(typeof v!="object")return undefined;
+  if(v instanceof Blob)return{__sb:"blob",t:v.type||"",d:v.size?await blobToB64(v):""};
+  if(v instanceof ArrayBuffer||ArrayBuffer.isView(v)){const b=new Blob([v]);return{__sb:"ab",d:b.size?await blobToB64(b):""}}
+  if(Array.isArray(v)){const a=[];for(const x of v){const y=await enc(x);a.push(y===undefined?null:y)}return a}
+  const p=Object.getPrototypeOf(v);if(p!==Object.prototype&&p!==null)return undefined;
+  const o={};for(const k of Object.keys(v)){const y=await enc(v[k]);if(y!==undefined)o[k]=y}return o}
+ function dec(v){if(Array.isArray(v))return v.map(dec);if(!v||typeof v!="object")return v;if(v.__sb=="blob")return b64ToBlob(v.d||"",v.t||"");if(v.__sb=="ab")return b64ToAB(v.d);
+  const o={};for(const k of Object.keys(v))o[k]=dec(v[k]);return o}
+ function msg(e){return e.quota?"فضای ذخیره‌ی اکستنشن پر است؛ چند کار قدیمی را پاک کن و «همگام‌سازی کامل الان» را بزن، یا پشتیبان زیپ بگیر":
+  e.invalidated?"اکستنشن دوباره بارگذاری شده؛ این پنجره را ببند و برنامه را از آیکون اکستنشن دوباره باز کن":
+  e.timeout?"اکستنشن پاسخ نداد؛ تغییرات هنوز در اکستنشن ذخیره نشده‌اند":"خطا در ذخیره در اکستنشن: "+e.message}
+ function fail(e,silent){st.err=msg(e);if(!silent&&Date.now()-lastToast>20000){lastToast=Date.now();toast("⚠️ "+st.err,8000)}
+  if(!e.quota&&!e.invalidated&&dirty.size){clearTimeout(retry);retry=setTimeout(()=>flush(),15000)}refresh()}
+ const refresh=()=>{st.pending=dirty.size;try{UI.status()}catch{}};
+ function mark(s,k,op){if(!st.on||mute||k==null||(s=="kv"&&SKIP.includes(k)))return;dirty.set(JSON.stringify([s,k]),[s,k,op]);st.pending=dirty.size;clearTimeout(tm);tm=setTimeout(()=>flush(),500)}
+ async function sendAll(sets,dels,full){let a=[],size=0,n=0;const go=async()=>{if(!a.length)return;await call("batch",{sets:a,dels:[],full});n+=a.length;a=[];size=0};
+  for(const x of sets){a.push([x[0],x[1],x[2]]);size+=x[3];if(size>CH)await go()}await go();if(dels.length||full)await call("batch",{sets:[],dels,full});return n}
+ async function flush(){clearTimeout(tm);if(!st.on||!dirty.size)return;if(busy){await busy.catch(()=>{});return flush()}
+  busy=(async()=>{const items=[...dirty.values()];dirty.clear();const sets=[],dels=[];
+   try{for(const[s,k,op]of items){if(!op){dels.push([s,k]);continue}const v=await Store.get(s,k);if(v===undefined){dels.push([s,k]);continue}const e=await enc(v);if(e===undefined)continue;sets.push([s,k,e,JSON.stringify(e).length])}
+    await sendAll(sets,dels,false);st.last=Date.now();st.err=""}
+   catch(e){for(const[s,k,op]of items){const id=JSON.stringify([s,k]);dirty.has(id)||dirty.set(id,[s,k,op])}fail(e)}})();
+  try{await busy}finally{busy=null;refresh()}}
+ // the whole IndexedDB → extension (also removes extension entries that no longer exist here)
+ async function full(user){if(!st.on)return -1;clearTimeout(tm);if(busy)await busy.catch(()=>{});dirty.clear();
+  try{const sets=[],have=new Set();for(const s of SS)for(const r of await Store.list(s)){const k=s=="kv"?r.k:r.id;if(k==null||(s=="kv"&&SKIP.includes(k)))continue;const e=await enc(s=="kv"?r.v:r);if(e===undefined)continue;have.add(JSON.stringify([s,k]));sets.push([s,k,e,JSON.stringify(e).length])}
+   const ks=(await call("list",{},60000)).keys||[],dels=ks.filter(p=>!have.has(JSON.stringify(p)));
+   const n=await sendAll(sets,dels,true);st.last=st.synced=Date.now();st.err="";refresh();if(user)toast(`همگام‌سازی کامل شد: ${fa(n)} مورد در اکستنشن ذخیره شد`);return n}
+  catch(e){fail(e,!user);if(user)toast("⚠️ همگام‌سازی کامل ناموفق: "+st.err,8000);return -1}}
+ async function restore(){const r=await call("getAll",{},180000),items=(r.items||[]).filter(x=>Array.isArray(x)&&SS.includes(x[0]));if(!items.length)return 0;
+  mute++;
+  try{await raw.clear();for(const[s,k,v]of items){const x=dec(v);if(s=="kv")await raw.set("kv",x,k);else if(x&&typeof x=="object"&&x.id!=null)await raw.set(s,x)}}
+  finally{mute--}return items.length}
+ function patch(){if(raw)return;raw={set:Store.set,delete:Store.delete,clear:Store.clear};
+  Store.set=async(s,v,k)=>{await raw.set(s,v,k);mark(s,s=="kv"?k:v&&v.id,1)};
+  Store.delete=async(s,k)=>{await raw.delete(s,k);mark(s,k,0)};
+  Store.clear=async()=>{await raw.clear();if(!st.on||mute)return;clearTimeout(tm);dirty.clear();try{await call("clear");st.last=Date.now()}catch(e){fail(e)}}}
+ async function init(){for(let i=0;i<4&&!st.on;i++){try{const r=await call("ping",{},200);st.ver=r.version||"";st.on=true}catch{}}st.checked=true;if(!st.on)return false;patch();
+  try{st.restored=await restore();if(!st.restored)await full(false);st.last=Date.now()}
+  catch(e){st.on=false;st.err="بازیابی از اکستنشن ناموفق بود ("+msg(e)+")؛ داده‌های اکستنشن دست نخورده ماندند. صفحه را دوباره باز کن";toast("⚠️ "+st.err,9000)}
+  return st.on}
+ const save=()=>{if(dirty.size)flush()};window.addEventListener("pagehide",save);document.addEventListener("visibilitychange",()=>{if(document.visibilityState=="hidden")save()});
+ return{st,init,flush,full,call,enc,dec}})();
+
+// ---------- Gemini API (one model per job, no fallback chain) ----------
+async function callApi(model,body,sig,onStatus,tries=3){
+ for(let a=0;;a++){let r;
+  try{r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body),signal:sig})}
+  catch(e){if(e.name=="AbortError")throw abortErr();throw new Error("خطای شبکه: "+e.message)}
+  if(r.ok)return r.json();
+  let m="";try{const j=await r.json();m=j.error&&j.error.message||JSON.stringify(j)}catch{m=r.statusText||""}
+  if((r.status==429||r.status>=500)&&a<tries){onStatus&&onStatus(`خطای ${fa(r.status)} — تلاش دوباره ${fa(a+1)} از ${fa(tries)} تا ۱۵ ثانیه‌ی دیگر…`);await sleep(15000,sig);continue}
+  throw new Error(`خطای API (کد ${fa(r.status)}): ${m}`)}}
+const parts=(prompt,refs=[])=>[{text:prompt},...refs.map(r=>({inlineData:{mimeType:r.mimeType,data:r.data}}))];
+async function genImage(prompt,refs,sig,onStatus,ar="16:9"){
+ const j=await callApi(IMAGE_MODEL,{contents:[{role:"user",parts:parts(prompt,refs)}],generationConfig:{responseModalities:["IMAGE"],imageConfig:{aspectRatio:ar}}},sig,onStatus);
+ const c=j.candidates&&j.candidates[0],ps=c&&c.content&&c.content.parts||[],p=ps.find(p=>p.inlineData);
+ if(!p){const t=ps.map(p=>p.text).filter(Boolean).join(" ");throw new Error("مدل تصویری تصویر برنگرداند"+(c&&c.finishReason?` (دلیل: ${c.finishReason})`:"")+(j.promptFeedback&&j.promptFeedback.blockReason?` (مسدود شد: ${j.promptFeedback.blockReason})`:"")+(t?" — "+t:""))}
+ return b64ToBlob(p.inlineData.data,p.inlineData.mimeType||"image/png")}
+async function genText(prompt,refs=[],o={},sig){const json=o.json!==false,body={contents:[{role:"user",parts:parts(prompt,refs)}]};
+ if(o.search)body.tools=[{google_search:{}}];else if(json)body.generationConfig={responseMimeType:"application/json"};
+ const j=await callApi(TEXT_MODEL,body,sig,o.onStatus,o.tries),c=j.candidates&&j.candidates[0],t=(c&&c.content&&c.content.parts||[]).map(p=>p.text||"").join("");
+ if(!t)throw new Error("پاسخ مدل متنی خالی بود"+(c&&c.finishReason?` (${c.finishReason})`:""));
+ if(o.raw)return{text:t,meta:c.groundingMetadata||null};return json?parseJ(t):t}
+// Persian text-to-speech → WAV blob
+async function genSpeech(text,voice,style,sig,onStatus){
+ const j=await callApi(TTS_MODEL,{contents:[{role:"user",parts:[{text:`${style}:\n${text}`}]}],generationConfig:{responseModalities:["AUDIO"],speechConfig:{voiceConfig:{prebuiltVoiceConfig:{voiceName:voice}}}}},sig,onStatus);
+ const c=j.candidates&&j.candidates[0],p=(c&&c.content&&c.content.parts||[]).find(p=>p.inlineData);
+ if(!p)throw new Error("مدل گویندگی صدا برنگرداند"+(c&&c.finishReason?` (${c.finishReason})`:""));
+ const mt=p.inlineData.mimeType||"",raw=b64ToBlob(p.inlineData.data,mt);
+ if(/wav/i.test(mt))return raw;const rate=Audio16.rate(mt);return Audio16.wav(new Uint8Array(await blobAB(raw)),rate)}
+// speech-to-text with the text model (audio in, Persian transcript out)
+async function transcribe(blob,sig){let b=blob;if(!/wav|mp3|mpeg|aiff|aac|ogg|flac/i.test(blob.type||"")){const w=await Audio16.toWav16(blob);if(w)b=w}
+ if(b.size>19e6)throw new Error("فایل صوتی خیلی بزرگ است (حداکثر حدود ۱۰ دقیقه)");
+ const mt=(b.type||"audio/wav").split(";")[0].replace("audio/x-wav","audio/wav").replace("audio/mp3","audio/mpeg");
+ const t=await genText(`Transcribe this audio exactly as spoken. The speaker talks in Persian (Farsi) and may use some English words or brand names. Write the Persian in standard modern Persian script with correct spelling, half-spaces (ZWNJ) and punctuation; keep English terms in Latin letters. Return ONLY the transcript text, with no comments, no quotes and no timestamps. If nothing is said, return an empty line.`,[{mimeType:mt,data:await blobToB64(b)}],{json:false},sig);
+ return String(t).trim()}
+
+// ---------- fonts (built-in Persian fonts + the user's own) ----------
+const Fonts={user:[],
+ all(){return[...Object.keys(FONTS).map(k=>({key:k,...FONTS[k]})),...Fonts.user.map(u=>({key:u.id,name_fa:u.name,family:u.family,cat:"فونت‌های من",user:1}))]},
+ get(k){return FONTS[k]?{key:k,...FONTS[k]}:(Fonts.user.find(u=>u.id==k)?{key:k,name_fa:Fonts.user.find(u=>u.id==k).name,family:Fonts.user.find(u=>u.id==k).family,user:1}:null)},
+ fam(k){const f=Fonts.get(k)||Fonts.get("vazir"),g=FONTS[f.key]&&FONTS[f.key].src.startsWith("g:");return(g?"'PDigits',":"")+`'${f.family}'`},
+ TALL:{nastaliq:1.95,gulzar:1.95,sheherazade:1.6,amiri:1.6,lateef:1.55,mirza:1.55,parastoo:1.55,ruqaa:1.5},
+ name(k){const f=Fonts.get(k);return f?f.name_fa:"؟"},
+ ensure(k){const f=FONTS[k];if(!f)return;if(f.src.startsWith("g:"))Lazy.css(`https://fonts.googleapis.com/css2?family=${f.family.replace(/ /g,"+")}:wght@${f.src.slice(2)}&display=swap`);else Lazy.css(f.src)},
+ ensureDeck(d){const ks=new Set([d.fT,d.fB]);(d.slides||[]).forEach(s=>{s.fT&&ks.add(s.fT);s.fB&&ks.add(s.fB)});ks.forEach(k=>Fonts.ensure(k))},
+ async register(u){try{if(!window.FontFace||!document.fonts)return;const ff=new FontFace(u.family,await blobAB(u.blob));await ff.load();document.fonts.add(ff)}catch(e){console.warn("font",e)}},
+ async load(){Fonts.user=(await Store.list("fonts")).sort((a,b)=>a.created-b.created);for(const u of Fonts.user)await Fonts.register(u)},
+ async add(){const f=await pick(".ttf,.otf,.woff,.woff2");if(!f)return;if(f.size>15e6)return toast("فایل فونت خیلی بزرگ است");
+  const ext=(f.name.split(".").pop()||"ttf").toLowerCase(),id=uid("font"),name=f.name.replace(/\.[^.]+$/,"").replace(/[-_]+/g," ").trim()||"فونت من";
+  const u={id,name,family:"UF "+id.slice(-8),blob:new Blob([f],{type:"font/"+ext}),created:Date.now()};await Store.set("fonts",u);Fonts.user.push(u);await Fonts.register(u);Lib.renderFonts();Make.fontSelects();Ed.props();toast(`فونت «${name}» اضافه شد و در همه‌ی فهرست‌های فونت هست`)},
+ async del(id){const u=Fonts.user.find(x=>x.id==id);if(!u||!await ask(`فونت «${u.name}» حذف شود؟`))return;await Store.delete("fonts",id);Fonts.user=Fonts.user.filter(x=>x.id!=id);Lib.renderFonts();Make.fontSelects();Ed.props()},
+ options(sel,first){const g={};for(const f of Fonts.all())(g[f.cat]=g[f.cat]||[]).push(f);
+  return(first?`<option value="">${esc(first)}</option>`:"")+Object.keys(g).map(c=>`<optgroup label="${esc(c)}">${g[c].map(f=>`<option value="${esc(f.key)}" ${f.key==sel?"selected":""}>${esc(f.name_fa)}</option>`).join("")}</optgroup>`).join("")},
+ desc(k){const f=FONTS[k];return f?f.desc_en:`the user's own font «${Fonts.name(k)}» (see attached lettering sample)`},
+ // a small picture of the font, used as a lettering reference for the image model
+ async sample(k){try{const f=Fonts.get(k);if(!f||!document.fonts||!document.createElement("canvas").getContext)return null;Fonts.ensure(k);await document.fonts.load(`700 64px '${f.family}'`,"ابپ");
+  const c=document.createElement("canvas");c.width=900;c.height=220;const x=c.getContext("2d");if(!x)return null;x.fillStyle="#fff";x.fillRect(0,0,900,220);x.fillStyle="#111";x.direction="rtl";x.textAlign="right";
+  x.font=`700 72px '${f.family}'`;x.fillText("ارائه‌ی زیبای فارسی",870,100);x.font=`400 48px '${f.family}'`;x.fillText("گچپژ ۱۲۳۴۵۶۷۸۹۰ نمونه‌ی حروف",870,180);const b=await cBlob(c,"image/png");return b&&b.size>500?{mimeType:"image/png",data:await blobToB64(b)}:null}catch{return null}}
+};
+
+// ---------- deck themes ----------
+const Themes={user:[],
+ all(){return[...BUILTIN,...Themes.user]},
+ get(id){return Themes.all().find(t=>t.id==id)||BUILTIN[0]},
+ isUser(id){return Themes.user.some(t=>t.id==id)},
+ async load(){Themes.user=(await Store.list("themes")).sort((a,b)=>(a.created||0)-(b.created||0))},
+ norm(t){const b=BUILTIN[0],o={...b,...t};o.id=String(t.id||uid("theme"));o.name_fa=String(t.name_fa||t.name||"تم من");o.group=String(t.group||"🎨 تم‌های من");
+  for(const k of["bg","surf","line","text","muted","acc","acc2"])o[k]=String(o[k]||b[k]);o.ft=FONTS[o.ft]?o.ft:"vazir";o.fb=FONTS[o.fb]?o.fb:"vazir";o.r=Math.max(0,Math.min(60,+o.r||0));o.dark=o.dark?1:0;return o},
+ vars(t,s,d){const bgS=firstColor(t.bg),ft=Fonts.fam(s&&s.fT||d&&d.fT||t.ft),fb=Fonts.fam(s&&s.fB||d&&d.fB||t.fb);
+  const ftk=s&&s.fT||d&&d.fT||t.ft,fbk=s&&s.fB||d&&d.fB||t.fb,lt=Fonts.TALL[ftk],lb=Fonts.TALL[fbk];
+  return`--lht:${lt||1.35};--lhb:${lb?Math.max(1.7,lb):1.7};--bg:${t.bg};--bgS:${bgS};--surf:${t.surf};--line:${t.line};--tx:${t.text};--mu:${t.muted};--ac:${t.acc};--ac2:${t.acc2};--acA:${rgba(t.acc,.35)};--onac:${lum(t.acc)>.45?"#111111":"#ffffff"};--ft:${ft};--fb:${fb};--r:${t.r}px`},
+ svg(s){return`url('data:image/svg+xml,${encodeURIComponent(s).replace(/'/g,"%27")}')`},
+ decor(t){const a=t.acc,b=t.acc2,A=rgba(a,.3),B=rgba(b,.25),T=rgba(t.text,.07),S=Themes.svg.bind(this);
+  switch(t.decor){
+   case"orbs":return`background:radial-gradient(700px 700px at 92% 8%,${A},transparent 70%),radial-gradient(600px 600px at 4% 96%,${B},transparent 70%)`;
+   case"grid":return`background:linear-gradient(${T} 2px,transparent 2px) 0 0/80px 80px,linear-gradient(90deg,${T} 2px,transparent 2px) 0 0/80px 80px`;
+   case"blueprint":return`background:linear-gradient(${rgba(a,.16)} 2px,transparent 2px) 0 0/200px 200px,linear-gradient(90deg,${rgba(a,.16)} 2px,transparent 2px) 0 0/200px 200px,linear-gradient(${rgba(a,.07)} 1px,transparent 1px) 0 0/40px 40px,linear-gradient(90deg,${rgba(a,.07)} 1px,transparent 1px) 0 0/40px 40px`;
+   case"dots":return`background:radial-gradient(circle,${rgba(t.text,.13)} 3px,transparent 4px) 0 0/52px 52px`;
+   case"lines":return`background:linear-gradient(90deg,${a},${b}) top/100% 14px no-repeat,linear-gradient(90deg,${b},${a}) bottom/100% 14px no-repeat`;
+   case"frame":return`inset:34px;border:5px double ${rgba(a,.75)};border-radius:${t.r}px`;
+   case"girih":return`background:${S(`<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><g fill='none' stroke='${rgba(a,.22)}' stroke-width='3'><path d='M80 8l20 52 52 20-52 20-20 52-20-52-52-20 52-20z'/><path d='M80 40l12 28 28 12-28 12-12 28-12-28-28-12 28-12z'/><path d='M0 0l40 40M160 0l-40 40M0 160l40-40M160 160l-40-40'/></g></svg>`)} 0 0/160px 160px`;
+   case"waves":return`background:${S(`<svg xmlns='http://www.w3.org/2000/svg' width='1920' height='300' viewBox='0 0 1920 300' preserveAspectRatio='none'><path d='M0 140 C320 60 640 220 960 140 S1600 60 1920 140 V300 H0Z' fill='${rgba(a,.18)}'/><path d='M0 200 C320 130 640 280 960 200 S1600 130 1920 200 V300 H0Z' fill='${rgba(b,.22)}'/></svg>`)} bottom/100% 300px no-repeat`;
+   case"paper":return`background:radial-gradient(1400px 900px at 50% 50%,transparent 60%,${rgba(t.text,.10)}),repeating-linear-gradient(0deg,${rgba(t.text,.025)} 0 2px,transparent 2px 6px)`;
+   case"corner":return`background:linear-gradient(225deg,${a} 0,${a} 150px,transparent 151px),linear-gradient(45deg,${B} 0,${B} 260px,transparent 261px)`;
+   case"stripe":return`background:linear-gradient(115deg,transparent 0 68%,${A} 68% 73%,transparent 73% 77%,${B} 77% 80%,transparent 80%)`;
+   case"notebook":return`background:linear-gradient(90deg,transparent 0 1752px,rgba(232,70,58,.55) 1752px 1756px,transparent 1756px)`;
+   case"confetti":return`background:${S(`<svg xmlns='http://www.w3.org/2000/svg' width='640' height='420'><g opacity='.5'><circle cx='40' cy='60' r='12' fill='${a}'/><circle cx='300' cy='30' r='8' fill='${b}'/><rect x='520' y='80' width='22' height='22' rx='4' fill='${a}' transform='rotate(25 531 91)'/><circle cx='180' cy='300' r='10' fill='${b}'/><rect x='420' y='330' width='18' height='18' rx='3' fill='${b}' transform='rotate(-20 429 339)'/><circle cx='600' cy='250' r='7' fill='${a}'/></g></svg>`)} 0 0/640px 420px`;
+   case"bauhaus":return`background:${S(`<svg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'><circle cx='120' cy='1000' r='260' fill='${rgba(a,.9)}'/><path d='M1920 0 V420 L1500 0Z' fill='${rgba(b,.9)}'/><rect x='1700' y='860' width='140' height='140' fill='${rgba(t.text,.85)}'/></svg>`)} 0 0/100% 100% no-repeat`;
+   case"leaves":return`background:${S(`<svg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'><g fill='${rgba(a,.22)}'><path d='M0 1080 C120 860 300 820 420 900 C300 960 200 1040 160 1080Z'/><path d='M0 940 C80 800 220 760 300 800 C200 840 100 900 40 1000Z'/><path d='M1920 0 C1800 200 1640 240 1520 170 C1640 120 1740 60 1780 0Z'/></g></svg>`)} 0 0/100% 100% no-repeat`;
+   case"sun":return`background:radial-gradient(760px 760px at 18% 112%,${rgba(a,.55)},transparent 70%)`;
+   case"doodle":return`background:${S(`<svg xmlns='http://www.w3.org/2000/svg' width='480' height='360'><g fill='none' stroke='${rgba(a,.35)}' stroke-width='5' stroke-linecap='round'><path d='M30 60 q20 -30 40 0 t40 0 t40 0'/><path d='M330 260 l18 -36 18 36 -36 -22 h40z'/><circle cx='380' cy='70' r='18'/></g></svg>`)} 0 0/480px 360px`;
+   default:return""}}
+};
+
+// ---------- slide model ----------
+const LIST_OF={bullets:"pts",imgtext:"pts",grid:"items",stats:"stats",timeline:"items",chart:"chart"};
+function normSlide(o,lang){o=o||{};const L=LAYOUTS[o.layout]?o.layout:"bullets",T=v=>lang=="en"?String(v??"").trim():faNum(String(v??"").trim());
+ const arr=(a,n)=>(Array.isArray(a)?a:[]).map(T).filter(Boolean).slice(0,n);
+ const s={id:o.id||uid("s"),layout:L,title:T(o.title),sub:T(o.subtitle??o.sub),pts:arr(o.points||o.pts,7),
+  items:(Array.isArray(o.items)?o.items:[]).slice(0,6).map(x=>({t:T(x.title??x.t),d:T(x.text??x.d),e:String(x.emoji??x.e??"").trim().slice(0,4)})).filter(x=>x.t||x.d),
+  stats:(Array.isArray(o.stats)?o.stats:[]).slice(0,4).map(x=>({v:T(x.value??x.v),l:T(x.label??x.l)})).filter(x=>x.v),
+  L:{t:T(o.left&&o.left.title||o.L&&o.L.t),pts:arr(o.left&&o.left.points||o.L&&o.L.pts,6)},R:{t:T(o.right&&o.right.title||o.R&&o.R.t),pts:arr(o.right&&o.right.points||o.R&&o.R.pts,6)},
+  quote:T(o.quote),author:T(o.author),notes:String(o.notes??"").trim(),idea:String(o.image_idea??o.idea??"").trim(),
+  chart:{labels:[],values:[],unit:""},ipos:o.ipos||"side",mode:o.mode=="image"?"image":"edit",fT:o.fT||"",fB:o.fB||""};
+ const c=o.chart||{};s.chart.labels=arr(c.labels,8);s.chart.values=(Array.isArray(c.values)?c.values:[]).slice(0,s.chart.labels.length).map(v=>+enNum(v)||0);while(s.chart.values.length<s.chart.labels.length)s.chart.values.push(0);s.chart.unit=T(c.unit);
+ for(const k of["img","full","audio"])if(o[k]instanceof Blob)s[k]=o[k];if(o.adur)s.adur=o.adur;
+ if(!s.title&&!s.quote)s.title=L=="end"?(lang=="en"?"Thank you":"سپاس از توجه شما"):"عنوان اسلاید";
+ if(L=="grid"&&!s.items.length)s.items=s.pts.slice(0,4).map(p=>({t:p,d:"",e:""}));
+ if(L=="timeline"&&!s.items.length)s.items=s.pts.slice(0,5).map((p,i)=>({t:fa(i+1),d:p,e:""}));
+ if(L=="stats"&&!s.stats.length)s.stats=[{v:"۸۵٪",l:"عدد کلیدی"}];
+ if((L=="twocol"||L=="compare")&&!s.L.pts.length&&!s.R.pts.length){const h=Math.ceil(s.pts.length/2);s.L={t:s.L.t||"",pts:s.pts.slice(0,h)};s.R={t:s.R.t||"",pts:s.pts.slice(h)}}
+ if(L=="chart"&&!s.chart.labels.length)s.chart={labels:["الف","ب","ج"],values:[30,50,80],unit:""};
+ return s}
+const getPath=(o,p)=>p.split(".").reduce((a,k)=>a==null?a:a[k],o);
+function setPath(o,p,v){const k=p.split("."),last=k.pop(),t=k.reduce((a,x)=>a[x]=a[x]??(/^\d+$/.test(x)?[]:{}),o);t[last]=v}
+
+// ---------- slide renderer (1920×1080 logical) ----------
+const R={
+ e(ed,path,tag,cls,txt){return`<${tag} class="${cls}"${ed?` data-f="${path}" contenteditable="true" spellcheck="false"`:""}>${esc(txt)}</${tag}>`},
+ hasImg(s,mode){return IMG_LAYOUTS.includes(s.layout)&&s.ipos!="none"&&(s.img||mode=="edit")},
+ bgi(b){return`background:url('${url(b)}') center/cover no-repeat`},
+ imgBox(s,mode,pending){if(s.img)return`<div class="im has" style="${R.bgi(s.img)}"></div>`;return`<div class="im"><div class="ph">${pending?"⏳ تصویر در حال ساخت…":"🖼️ این اسلاید تصویر ندارد<br>از پنل کنار «ساخت تصویر» را بزن"}</div></div>`},
+ list(ed,base,a){return`<ul class="pts">${a.map((p,i)=>R.e(ed,`${base}.${i}`,"li","",p)).join("")}</ul>`},
+ html(d,s,i,mode,pending){const t=Themes.get(d.theme),ed=mode=="edit"&&s.mode!="image",E=R.e.bind(this),n=d.slides.length,img=R.hasImg(s,mode),bg=img&&s.ipos=="bg";
+  let inner="",bgim=bg&&s.img?`<div class="bgim"><div class="bgp" style="${R.bgi(s.img)}"></div></div>`:"";
+  const side=img&&!bg?R.imgBox(s,mode,pending&&pending.img):"",title=E(ed,"title","h2","t",s.title),sub=s.sub||ed?E(ed,"sub","p","st",s.sub):"";
+  switch(s.layout){
+   case"title":inner=`<div class="body"><div class="col" style="justify-content:center">${title}${sub}</div>${side}</div>`;break;
+   case"section":{const k=d.slides.slice(0,i+1).filter(x=>x.layout=="section").length;inner=`<div class="body"><div class="col" style="justify-content:center"><p class="num">${fa(k)}</p>${title}${sub}</div>${side}</div>`;break}
+   case"imgtext":inner=`${title}<div class="body"><div class="col">${sub}${R.list(ed,"pts",s.pts)}</div>${side}</div>`;break;
+   case"twocol":case"compare":{const c=k=>`<div class="crd">${E(ed,k+".t","h3","",s[k].t)}${R.list(ed,k+".pts",s[k].pts)}</div>`;inner=`${title}<div class="body">${c("L")}${s.layout=="compare"?`<div class="vs">VS</div>`:""}${c("R")}</div>`;break}
+   case"grid":{const m=s.items.length,cols=m<=3?m:m==4?2:3;inner=`${title}<div class="grid" style="grid-template-columns:repeat(${cols||1},1fr)">${s.items.map((x,j)=>`<div class="crd">${x.e?`<div class="emo">${esc(x.e)}</div>`:""}${E(ed,`items.${j}.t`,"h3","",x.t)}${E(ed,`items.${j}.d`,"p","",x.d)}</div>`).join("")}</div>`;break}
+   case"stats":inner=`${title}${sub}<div class="grid" style="grid-template-columns:repeat(${s.stats.length||1},1fr)">${s.stats.map((x,j)=>`<div class="crd">${E(ed,`stats.${j}.v`,"div","stv",x.v)}${E(ed,`stats.${j}.l`,"div","stl",x.l)}</div>`).join("")}</div>`;break;
+   case"timeline":inner=`${title}<div class="tl">${s.items.map((x,j)=>`<div class="tli"><div class="crd">${E(ed,`items.${j}.t`,"h3","",x.t)}${E(ed,`items.${j}.d`,"p","",x.d)}</div></div>`).join("")}</div>`;break;
+   case"quote":inner=`<div class="body"><div class="col" style="justify-content:center">${E(ed,"quote","p","q",s.quote||s.title)}${E(ed,"author","div","au",s.author)}</div>${side}</div>`;break;
+   case"chart":{const c=s.chart,mx=Math.max(1,...c.values.map(Math.abs));inner=`${title}<div class="body"><div class="col"><div class="chart">${c.labels.map((l,j)=>`<div class="bar"><b>${esc(faNum(c.values[j]))}${esc(c.unit?" "+c.unit:"")}</b><i style="height:${Math.max(2,Math.round(Math.abs(c.values[j])/mx*78))}%"></i><span>${esc(l)}</span></div>`).join("")}</div></div>${s.pts.length||ed?`<div class="col" style="flex:0 0 36%">${R.list(ed,"pts",s.pts)}</div>`:""}</div>`;break}
+   case"end":inner=`<div class="body"><div class="col" style="justify-content:center;align-items:center;text-align:center">${title}${sub}</div>${side}</div>`;break;
+   default:inner=`${title}${sub}<div class="body"><div class="col">${R.list(ed,"pts",s.pts)}</div></div>`}
+  const full=s.mode=="image"?`<div class="full">${s.full?`<div class="fim" style="${R.bgi(s.full)}"></div>`:`<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.55);color:#fff;font-size:44px;font-family:Vazirmatn">${pending&&pending.full?"⏳ مدل تصویر در حال کشیدن کل اسلاید…":"🖼️ اسلاید تصویری — «ساخت کل اسلاید» را بزن"}</div>`}</div>`:"";
+  const foot=d.num!==false&&!["title","end","section"].includes(s.layout)&&s.mode!="image"?`<div class="foot"><span></span><span>${fa(i+1)} / ${fa(n)}</span></div>`:"";
+  return`<div class="sl L-${s.layout} card-${t.card} tfx-${t.tfx} pos-${s.ipos=="alt"?"left":"right"}" style="${Themes.vars(t,s,d)}" data-i="${i}"><div class="dec" style="${Themes.decor(t)}"></div>${bgim}<div class="ct">${inner}</div>${full}${foot}</div>`},
+ // mount a slide into a box, scaled to the box width
+ mount(box,d,s,i,mode,pending){box.innerHTML=R.html(d,s,i,mode,pending);R.scale(box);if(mode!="thumb")R.fit(box);return box.firstElementChild},
+ scale(box){const el=box.firstElementChild;if(!el)return;const w=box.clientWidth||box.getBoundingClientRect().width||0;el.style.transform=`scale(${w?w/1920:.1})`},
+ fit(box){const el=box.firstElementChild;if(!el||!el.clientHeight)return;$$(".col,.crd,.q,.t",el).forEach(c=>{for(const k of["fit-s","fit-xs"]){if(c.scrollHeight<=c.clientHeight+2)break;c.classList.add(k)}})}
+};
+
+// ---------- voice input (speech → text) ----------
+const Voice={rec:null,btn:null,chunks:[],stream:null,t0:0,timer:0,an:null,raf:0,onText:null,MAX:300,
+ supported(){return!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&window.MediaRecorder)},
+ async toggle(btn,onText,big){if(Voice.rec){if(Voice.btn===btn)return Voice.stop();toast("یک ضبط دیگر در جریان است");return}
+  if(!Voice.supported())return Voice.blocked();
+  try{Voice.stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}})}catch(e){return Voice.blocked(e)}
+  Voice.btn=btn;Voice.onText=onText;Voice.big=big;Voice.chunks=[];const mt=["audio/webm;codecs=opus","audio/webm","audio/ogg;codecs=opus","audio/mp4"].find(t=>MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(t))||"";
+  Voice.rec=new MediaRecorder(Voice.stream,mt?{mimeType:mt}:{});Voice.rec.ondataavailable=e=>e.data&&e.data.size&&Voice.chunks.push(e.data);Voice.rec.onstop=()=>Voice.done();Voice.rec.start(500);
+  Voice.t0=Date.now();btn.classList.add("rec");btn.dataset.lbl=btn.dataset.lbl||btn.textContent;btn.textContent="⏹";Voice.tick();Voice.meter()},
+ blocked(e){const m="دسترسی به میکروفون در این صفحه ممکن نشد"+(e&&e.name=="NotAllowedError"?" (اجازه داده نشد)":"")+". اجازه‌ی میکروفون را در مرورگر بده، یا ویس را با گوشی ضبط کن و با «📁 فایل صوتی» بده.";toast(m,9000);if(Voice.big)$("#vMsg").textContent=m},
+ tick(){clearInterval(Voice.timer);Voice.timer=setInterval(()=>{const s=(Date.now()-Voice.t0)/1000;if(Voice.big)$("#vMsg").textContent=`🔴 در حال ضبط… ${fdur(s)} — برای پایان دوباره روی میکروفون بزن`;if(s>=Voice.MAX){toast("حداکثر ۵ دقیقه؛ ضبط تمام شد");Voice.stop()}},250)},
+ meter(){try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC||!Voice.big)return;const c=new AC(),a=c.createAnalyser();a.fftSize=512;c.createMediaStreamSource(Voice.stream).connect(a);Voice.an={c,a};$("#vLvl").classList.remove("hide");const buf=new Uint8Array(a.fftSize);
+  const f=()=>{if(!Voice.an)return;a.getByteTimeDomainData(buf);let m=0;for(const v of buf)m=Math.max(m,Math.abs(v-128));$("#vLvl i").style.width=Math.min(100,m/1.1)+"%";Voice.raf=requestAnimationFrame(f)};f()}catch{}},
+ stop(){clearInterval(Voice.timer);try{Voice.rec&&Voice.rec.state!="inactive"&&Voice.rec.stop()}catch{Voice.done()}},
+ async done(){const btn=Voice.btn,cb=Voice.onText,big=Voice.big,type=Voice.rec&&Voice.rec.mimeType||"audio/webm";Voice.stream&&Voice.stream.getTracks().forEach(t=>t.stop());cancelAnimationFrame(Voice.raf);if(Voice.an){try{Voice.an.c.close()}catch{}Voice.an=null}
+  Voice.rec=null;Voice.btn=null;btn.classList.remove("rec");btn.textContent="⏳";btn.disabled=true;if(big){$("#vLvl").classList.add("hide");$("#vMsg").textContent="⏳ در حال تبدیل صدا به متن…"}
+  const blob=new Blob(Voice.chunks,{type});Voice.chunks=[];
+  try{if(blob.size<800)throw new Error("صدایی ضبط نشد");const t=await transcribe(blob);if(!t)throw new Error("حرفی شنیده نشد");await cb(t)}catch(e){toast("⚠️ "+e.message,7000);if(big)$("#vMsg").textContent="⚠️ "+e.message}
+  finally{btn.disabled=false;btn.textContent=btn.dataset.lbl||"🎙️"}},
+ async file(cb){const f=await pick("audio/*,.mp3,.wav,.m4a,.ogg,.webm,.aac,.flac");if(!f)return;$("#vMsg").textContent="⏳ در حال تبدیل فایل صوتی به متن…";
+  try{const t=await transcribe(f);if(!t)throw new Error("حرفی شنیده نشد");await cb(t)}catch(e){toast("⚠️ "+e.message,7000);$("#vMsg").textContent="⚠️ "+e.message}},
+ // fill a field with what was said
+ into(el,t){if(!el)return;const v=el.value.trim();el.value=v?v+(el.tagName=="TEXTAREA"?"\n":" ")+t:t;el.dispatchEvent(new Event("input",{bubbles:true}))}
+};
+
+// ---------- make (brief → research → outline → theme → deck) ----------
+const D0={topic:"",det:"",cnt:8,aud:"general",tone:"friendly",lang:"fa",imgs:"some",srch:true,srcTxt:"",outline:null,sug:[],theme:"neon-purple",fT:"",fB:"",transcript:""};
+const D=clone(D0);
+const Draft={tm:0,save(){clearTimeout(this.tm);this.tm=setTimeout(()=>Store.set("kv",clone(D),"draft"),400)},async load(){Object.assign(D,clone(D0),await Store.get("kv","draft")||{})}};
+const Make={grp:"",busy:false,
+ init(){$("#ex").innerHTML=EXAMPLES.map(t=>`<button class="chip" data-a="ex" data-v="${esc(t)}">${esc(t)}</button>`).join("");
+  $("#cnt").innerHTML=[4,5,6,7,8,9,10,12,14,16,18,20].map(n=>`<option value="${n}">${fa(n)} اسلاید</option>`).join("");
+  const seg=(id,k,o)=>$("#"+id).innerHTML=Object.keys(o).map(v=>`<button data-a="opt" data-k="${k}" data-v="${v}">${esc(Array.isArray(o[v])?o[v][0]:o[v])}</button>`).join("");
+  seg("aud","aud",AUD);seg("tone","tone",TONES);seg("lang","lang",LANGS);seg("imgs","imgs",IMGS);
+  $("#topic").oninput=e=>{D.topic=e.target.value;Draft.save()};$("#det").oninput=e=>{D.det=e.target.value;Draft.save()};$("#srcTxt").oninput=e=>{D.srcTxt=e.target.value;Draft.save()};
+  $("#cnt").onchange=e=>{D.cnt=+e.target.value;Draft.save()};$("#srch").onchange=e=>{D.srch=e.target.checked;Draft.save()};
+  $("#fT").onchange=e=>{D.fT=e.target.value;Draft.save();Fonts.ensure(D.fT);Make.renderThemes()};$("#fB").onchange=e=>{D.fB=e.target.value;Draft.save();Fonts.ensure(D.fB);Make.renderThemes()}},
+ sync(){$("#topic").value=D.topic;$("#det").value=D.det;$("#srcTxt").value=D.srcTxt;$("#cnt").value=String(D.cnt);$("#srch").checked=D.srch!==false;
+  for(const k of["aud","tone","lang","imgs"])$$(`#${k} button`).forEach(b=>b.classList.toggle("on",b.dataset.v==D[k]));Make.fontSelects();Make.renderOutline();Make.renderThemes()},
+ opt(k,v){D[k]=v;Draft.save();$$(`#${k} button`).forEach(b=>b.classList.toggle("on",b.dataset.v==v))},
+ fontSelects(){$("#fT").innerHTML=Fonts.options(D.fT,"فونت پیشنهادی تم");$("#fB").innerHTML=Fonts.options(D.fB,"فونت پیشنهادی تم")},
+ // spoken brief → fill every field
+ async brief(t){D.transcript=t;$("#vMsg").textContent="⏳ در حال فهمیدن درخواست…";
+  let j={};try{j=await genText(`A user described, by voice in Persian, the presentation they want. Transcript:\n«${t}»\nExtract the request. Return ONLY JSON:\n{"topic":"short Persian topic title","details":"everything else they asked for, in Persian, as clear notes","slides":null,"audience":"general|student|uni|pro|child|null","tone":"formal|friendly|edu|inspire|null","language":"fa|en|both|null"}\nUse null when they did not say it. slides is a number when they said how many slides.`)}catch(e){toast("⚠️ "+e.message)}
+  D.topic=String(j.topic||t).trim();D.det=[String(j.details||"").trim()].filter(Boolean).join("\n");
+  const n=parseInt(enNum(j.slides));if(n>=3&&n<=20)D.cnt=[4,5,6,7,8,9,10,12,14,16,18,20].reduce((a,b)=>Math.abs(b-n)<Math.abs(a-n)?b:a);
+  if(AUD[j.audience])D.aud=j.audience;if(TONES[j.tone])D.tone=j.tone;if(LANGS[j.language])D.lang=j.language;Draft.save();Make.sync();
+  $("#vMsg").innerHTML=`✅ فهمیدم: <b>${esc(D.topic)}</b> · ${fa(D.cnt)} اسلاید · ${esc(AUD[D.aud][0])} · ${esc(TONES[D.tone][0])}. اگر لازم است اصلاح کن و «تحقیق و ساخت طرح» را بزن.`},
+ slideSchema:`{"layout":"title|section|bullets|imgtext|twocol|grid|stats|timeline|compare|quote|chart|end","title":"","subtitle":"","points":[""],"items":[{"title":"","text":"","emoji":""}],"stats":[{"value":"","label":""}],"left":{"title":"","points":[""]},"right":{"title":"","points":[""]},"quote":"","author":"","chart":{"labels":[""],"values":[0],"unit":""},"notes":"","image_idea":""}`,
+ schema:`{"title":"","subtitle":"","theme_ids":["","",""],"slides":[{"layout":"title|section|bullets|imgtext|twocol|grid|stats|timeline|compare|quote|chart|end","title":"","subtitle":"","points":[""],"items":[{"title":"","text":"","emoji":""}],"stats":[{"value":"","label":""}],"left":{"title":"","points":[""]},"right":{"title":"","points":[""]},"quote":"","author":"","chart":{"labels":[""],"values":[0],"unit":""},"notes":"","image_idea":""}],"sources":[{"title":"","url":""}]}`,
+ rules(d){const fa_=d.lang!="en",img=d.imgs=="none"?"no slide needs an image: leave image_idea empty":d.imgs=="all"?"prefer layouts with images (title, imgtext, section, quote, end) where it fits and give every slide an image_idea":"about a third of the slides use imgtext/title/section/end with an image_idea";
+  return`Rules:
+- exactly ${d.cnt} slides; slide 1 layout "title"; the last slide layout "end" (a thank-you or call to action); vary the layouts, never the same layout three times in a row
+- use only the fields the layout needs: bullets/imgtext → points (3-5); twocol/compare → left+right (title + 2-4 points each); grid → items (3-6, each with a fitting emoji); stats → stats (2-4 short numbers with labels); timeline → items (3-5, title = year or step); quote → quote + author; chart → chart (3-6 labels with numeric values and a unit) + 0-3 points; section → title + subtitle
+- keep texts short: title max 8 words; each point max 14 words; item text max 16 words
+- notes: what the presenter SAYS for this slide, 2-4 natural spoken sentences (40-80 words), in ${fa_?"Persian":"English"}; it will be read aloud by a text-to-speech voice, so no lists or symbols
+- image_idea: a short ENGLISH description of an illustration or photo for that slide, with no text in it; ${img}
+${fa_?"- Persian texts use standard modern Persian spelling and Persian digits (۰۱۲۳۴۵۶۷۸۹)\n":""}- every fact must be accurate and current; no invented numbers
+- theme_ids: the 3 best theme ids for this topic from this list: ${Themes.all().map(t=>`${t.id} (${t.img_en.split(",")[0]})`).join("; ")}`},
+ async research(){const d=D;d.topic=$("#topic").value.trim();if(!d.topic&&!d.srcTxt.trim())return toast("اول موضوع را بنویس یا بگو");if(Make.busy)return;Make.busy=true;
+  const msg=$("#resMsg"),st=m=>msg.textContent=m;$("#resBtn").disabled=$("#autoBtn").disabled=true;
+  try{const src=d.srcTxt.trim(),lang=d.lang=="en"?"English":d.lang=="both"?"Persian (Farsi), with the English term in parentheses after key words":"Persian (Farsi)";
+   const prompt=`You are an expert presentation writer${d.srch&&!src?" and careful researcher. First use Google Search to collect accurate, up-to-date facts about the topic, then":"."} Write a complete slide deck.
+Topic: ${d.topic||"(take it from the source text)"}
+${d.det?`What the user wants: ${d.det}\n`:""}Audience: ${AUD[d.aud][1]}
+Tone: ${TONES[d.tone][1]}
+Language of all slide texts: ${lang}
+${src?`Build the deck from this source text (do not add facts that contradict it):\n"""${src.slice(0,30000)}"""\n`:""}${Make.rules(d)}
+- sources: ${src?"[]":"2 to 6 real web pages you used, as {title,url}"}
+Return ONLY this JSON, nothing else:
+${Make.schema}`;
+   st(d.srch&&!src?"⏳ جمینی در حال جستجو در گوگل و نوشتن اسلایدهاست…":"⏳ جمینی در حال نوشتن اسلایدهاست…");
+   let j,g=[];if(d.srch&&!src){const r=await genText(prompt,[],{search:true,raw:true,onStatus:st});g=((r.meta&&r.meta.groundingChunks)||[]).map(c=>c&&c.web).filter(Boolean).map(w=>({title:String(w.title||w.uri),url:w.uri}));
+    try{j=parseJ(r.text)}catch{st("⏳ در حال مرتب کردن نتیجه‌ی تحقیق…");j=await genText(`Turn these notes into the JSON below, keeping the facts and rules.\n${Make.rules(d)}\nJSON:\n${Make.schema}\n\nNotes:\n${r.text}`)}}
+   else j=await genText(prompt,[],{onStatus:st});
+   d.outline=Make.norm(j,g);const ids=(Array.isArray(j.theme_ids)?j.theme_ids:[]).filter(id=>Themes.all().some(t=>t.id==id));
+   for(const t of Make.heur(d.topic))if(ids.length<3&&!ids.includes(t))ids.push(t);d.sug=ids.slice(0,3);d.theme=d.sug[0];
+   Draft.save();Make.renderOutline();Make.renderThemes();st(`✅ طرح ${fa(d.outline.slides.length)} اسلاید آماده شد`);$("#olCard").scrollIntoView({behavior:"smooth"});return true}
+  catch(e){st("⚠️ "+e.message);return false}finally{Make.busy=false;$("#resBtn").disabled=$("#autoBtn").disabled=false}},
+ norm(j,g=[]){const lang=D.lang,slides=(Array.isArray(j.slides)?j.slides:[]).map(x=>normSlide(x,lang)).slice(0,24);if(!slides.length)throw new Error("مدل اسلایدی برنگرداند؛ دوباره امتحان کن");
+  const ok=u=>/^https?:\/\/\S+$/i.test(String(u||"")),src=(Array.isArray(j.sources)?j.sources:[]).filter(s=>s&&ok(s.url)).map(s=>({title:String(s.title||s.url),url:s.url}));
+  for(const s of g)if(ok(s.url)&&!src.some(x=>x.url==s.url)&&src.length<8)src.push(s);
+  return{title:lang=="en"?String(j.title||slides[0].title):faNum(j.title||slides[0].title),subtitle:faNum(j.subtitle||""),slides,sources:src}},
+ heur(t){t=String(t);const m=[[/کودک|بچه|دبستان/,"kids-candy"],[/ایران|تاریخ|فرهنگ|شعر|ادب|نوروز|اصفهان|پارس/,"tile-turquoise"],[/هوش|AI|فناوری|تکنولوژی|دیجیتال|نرم‌افزار|کامپیوتر/i,"ai-glass"],[/استارتاپ|سرمایه|کسب|بازار|فروش/,"startup"],[/مالی|اقتصاد|بورس|بودجه/,"finance"],[/طبیعت|محیط|انرژی|سبز|درخت|آب/,"forest"],[/آموزش|درس|کلاس|مدرسه|دانش/,"classroom"],[/علم|فیزیک|شیمی|زیست|پزشک/,"science"]];
+  const r=m.filter(([re])=>re.test(t)).map(x=>x[1]);return[...new Set([...r,"neon-purple","paper-white","corporate-blue"])]},
+ renderOutline(){const o=D.outline;$("#olCard").classList.toggle("hide",!o);if(!o)return;
+  $("#ol").innerHTML=o.slides.map((s,i)=>`<div class="osl"><button class="x2" data-a="rmOs" data-i="${i}" aria-label="حذف">✕</button><h4>${fa(i+1)}. <span contenteditable="true" data-o="${i}.title">${esc(s.title||s.quote)}</span><span class="lay">${LAYOUTS[s.layout][0]} ${LAYOUTS[s.layout][1]}</span></h4>${s.pts.length?`<ul>${s.pts.map((p,k)=>`<li contenteditable="true" data-o="${i}.pts.${k}">${esc(p)}</li>`).join("")}</ul>`:""}${s.items.length?`<ul>${s.items.map(x=>`<li>${esc(x.e)} ${esc(x.t)}${x.d?" — "+esc(x.d):""}</li>`).join("")}</ul>`:""}${s.stats.length?`<div>${s.stats.map(x=>`<b>${esc(x.v)}</b> ${esc(x.l)}`).join(" · ")}</div>`:""}${s.L.pts.length?`<div class="mut">${esc(s.L.t)} ↔ ${esc(s.R.t)}</div>`:""}${s.notes?`<div class="nt">🗣️ <span contenteditable="true" data-o="${i}.notes">${esc(s.notes)}</span></div>`:""}</div>`).join("");
+  $("#srcs").innerHTML=o.sources.length?o.sources.map(s=>`<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a></li>`).join(""):'<li class="mut">منبعی نیست</li>'},
+ demo(t){return{title:t.name_fa,slides:[normSlide({layout:"title",title:t.name_fa,subtitle:t.desc_fa},"fa")],theme:t.id,fT:D.fT||"",fB:D.fB||"",num:false}},
+ card(t,on,badge){Fonts.ensure(D.fT||t.ft);Fonts.ensure(D.fB||t.fb);const d=Make.demo(t);return`<div class="tc ${on?"on":""}" data-a="pickTheme" data-id="${esc(t.id)}">${badge?`<span class="badge">${badge}</span>`:""}<div class="sbx" data-th="${esc(t.id)}">${R.html({...d,theme:t.id},d.slides[0],0,"thumb")}</div><div class="b"><h4>${esc(t.name_fa)}</h4><p>${esc(t.desc_fa||"")} · ${esc(Fonts.name(D.fT||t.ft))}</p></div></div>`},
+ renderThemes(){const all=Themes.all();$("#sugBox").classList.toggle("hide",!D.sug.length);
+  $("#sug").innerHTML=D.sug.map((id,i)=>Make.card(Themes.get(id),D.theme==id,i==0?"پیشنهاد اول":"")).join("");
+  const gs=[...new Set(all.map(t=>t.group))];$("#tChips").innerHTML=[["","همه"],...gs.map(g=>[g,g])].map(([v,n])=>`<button class="chip ${Make.grp==v?"on":""}" data-a="tgrp" data-v="${esc(v)}">${esc(n)}</button>`).join("");
+  $("#tPick").innerHTML=all.filter(t=>!Make.grp||t.group==Make.grp).map(t=>Make.card(t,D.theme==t.id)).join("");requestAnimationFrame(()=>$$("#t-make .sbx").forEach(b=>R.scale(b)))},
+ pickTheme(id){D.theme=id;Draft.save();$$("#t-make .tc").forEach(c=>c.classList.toggle("on",c.dataset.id==id))},
+ // outline → new deck
+ async build(){if(!D.outline){if(!$("#topic").value.trim())return toast("اول موضوع را بنویس یا بگو");if(!await Make.research())return}
+  const o=D.outline,t=Themes.get(D.theme),dk={id:uid("deck"),title:o.title||D.topic,created:Date.now(),updated:Date.now(),theme:t.id,fT:D.fT||t.ft,fB:D.fB||t.fb,lang:D.lang,voice:S.settings.voice||"Kore",vstyle:S.settings.vstyle||"calm",num:true,
+   slides:o.slides.map(s=>({...dcopy(s),id:uid("s")})),sources:o.sources,topic:D.topic};
+  if(D.imgs=="none")dk.slides.forEach(s=>{s.ipos="none"});
+  await Decks.save(dk,true);Ed.open(dk.id);UI.tab("ed");toast("ارائه ساخته شد ✨");
+  if(D.imgs!="none"){const ids=dk.slides.filter(s=>IMG_LAYOUTS.includes(s.layout)&&s.ipos!="none"&&(D.imgs=="all"||s.idea)).map(s=>s.id);Jobs.images(dk,ids)}},
+ async auto(){if(await Make.research())await Make.build()}
+};
+
+// ---------- decks (persisted presentations) ----------
+const Decks={list:[],tm:{},
+ async load(){Decks.list=(await Store.list("decks")).sort((a,b)=>b.updated-a.updated)},
+ get(id){return Decks.list.find(d=>d.id==id)},
+ async save(d,now){d.updated=Date.now();if(!Decks.get(d.id))Decks.list.unshift(d);clearTimeout(Decks.tm[d.id]);const go=()=>Store.set("decks",d).catch(e=>toast("⚠️ ذخیره نشد: "+e.message));if(now)return go();Decks.tm[d.id]=setTimeout(go,600)},
+ async del(id){const d=Decks.get(id);if(!d||!await ask(`ارائه‌ی «${d.title}» حذف شود؟`))return;await Store.delete("decks",id);Decks.list=Decks.list.filter(x=>x.id!=id);if(Ed.d&&Ed.d.id==id)Ed.close();Decks.render()},
+ async dup(id){const d=Decks.get(id);if(!d)return;const n={...dcopy(d),id:uid("deck"),title:d.title+" (کپی)",created:Date.now()};n.slides.forEach(s=>s.id=uid("s"));await Decks.save(n,true);Decks.render();toast("کپی ساخته شد")},
+ render(){const b=$("#decks");if(!b)return;if(!Decks.list.length){b.innerHTML='<p class="mut">هنوز ارائه‌ای نساخته‌ای.</p>';return}
+  b.innerHTML=Decks.list.map(d=>`<div class="dk"><div class="sbx" data-a="openDeck" data-id="${d.id}" style="cursor:pointer">${d.slides[0]?R.html(d,d.slides[0],0,"thumb"):""}</div><div class="b"><h4>${esc(d.title)}</h4><div class="mut">${fa(d.slides.length)} اسلاید · ${esc(Themes.get(d.theme).name_fa)} · ${esc(fdate(d.updated))}</div><div class="row" style="margin-top:8px"><button class="btn sm pri" data-a="openDeck" data-id="${d.id}">باز کردن</button><button class="btn sm" data-a="dupDeck" data-id="${d.id}">⧉ کپی</button><button class="btn sm" data-a="saveDeckFile" data-id="${d.id}">💾 فایل</button><button class="btn sm danger" data-a="delDeck" data-id="${d.id}" aria-label="حذف">🗑️</button></div></div></div>`).join("");
+  Decks.list.forEach(d=>Fonts.ensureDeck(d));requestAnimationFrame(()=>$$("#decks .sbx").forEach(x=>R.scale(x)))},
+ // single-deck project file (images + audio inside, base64)
+ async fileOut(id){const d=Decks.get(id);if(!d)return;const j={format:"saba-slides-deck-v1",deck:await Bridge.enc(d)};dl(new Blob([JSON.stringify(j)],{type:"application/json"}),(d.title||"deck").replace(/[\\/:*?"<>|]+/g," ").slice(0,60)+".saba-slides.json");toast("فایل ارائه ذخیره شد")},
+ async fileIn(){const f=await pick(".json");if(!f)return;try{const j=JSON.parse(await f.text());if(j.format!="saba-slides-deck-v1"||!j.deck)throw new Error("این فایل ارائه‌ی اسلایدساز نیست");const d=Bridge.dec(j.deck);d.id=uid("deck");d.slides=(d.slides||[]).map(s=>normSlide(s,d.lang));await Decks.save(d,true);Decks.render();Ed.open(d.id);UI.tab("ed");toast("ارائه باز شد")}catch(e){toast("⚠️ "+e.message)}}
+};
+
+// ---------- editor ----------
+const Ed={d:null,i:0,undo:[],redo:[],pend:{},snapT:0,
+ open(id){const d=Decks.get(id);if(!d)return;Ed.d=d;Ed.i=0;Ed.undo=[];Ed.redo=[];Fonts.ensureDeck(d);$("#edEmpty").classList.add("hide");$("#edBox").classList.remove("hide");
+  $("#dTitle").value=d.title;$("#dTheme").innerHTML=Themes.all().map(t=>`<option value="${esc(t.id)}" ${t.id==d.theme?"selected":""}>${esc(t.name_fa)}</option>`).join("");Ed.render()},
+ close(){Ed.d=null;$("#edEmpty").classList.remove("hide");$("#edBox").classList.add("hide")},
+ get s(){return Ed.d&&Ed.d.slides[Ed.i]},
+ snap(){if(!Ed.d)return;Ed.undo.push(dcopy({slides:Ed.d.slides,theme:Ed.d.theme,fT:Ed.d.fT,fB:Ed.d.fB,title:Ed.d.title,i:Ed.i}));if(Ed.undo.length>60)Ed.undo.shift();Ed.redo=[]},
+ restore(from,to){if(!Ed.d||!from.length)return toast("چیزی برای برگشت نیست");to.push(dcopy({slides:Ed.d.slides,theme:Ed.d.theme,fT:Ed.d.fT,fB:Ed.d.fB,title:Ed.d.title,i:Ed.i}));const x=from.pop();Object.assign(Ed.d,{slides:x.slides,theme:x.theme,fT:x.fT,fB:x.fB,title:x.title});Ed.i=Math.min(x.i,Ed.d.slides.length-1);$("#dTitle").value=Ed.d.title;$("#dTheme").value=Ed.d.theme;Ed.changed(true)},
+ changed(all){Decks.save(Ed.d);all?Ed.render():(Ed.thumb(Ed.i),Ed.props())},
+ pending(s){const p=Ed.pend[s.id]||{};return p},
+ render(){if(!Ed.d)return;Ed.renderThumbs();Ed.stage();Ed.props()},
+ renderThumbs(){const d=Ed.d;$("#thumbs").innerHTML=d.slides.map((s,i)=>`<div class="tb ${i==Ed.i?"on":""}" data-a="goto" data-i="${i}" draggable="true"><span class="n">${fa(i+1)}</span>${s.audio?'<span class="fl">🔊</span>':""}<div class="sbx">${R.html(d,s,i,"thumb",Ed.pending(s))}</div></div>`).join("");
+  requestAnimationFrame(()=>$$("#thumbs .sbx").forEach(b=>R.scale(b)))},
+ thumb(i){const tb=$(`#thumbs .tb[data-i="${i}"]`);if(!tb)return;const s=Ed.d.slides[i],el=$(".sbx",tb);if(el)R.mount(el,Ed.d,s,i,"thumb",Ed.pending(s));let f=$(".fl",tb);if(s.audio&&!f){f=document.createElement("span");f.className="fl";f.textContent="🔊";tb.append(f)}else if(!s.audio&&f)f.remove()},
+ stage(){const box=$("#stage");box.className="sbx";const s=Ed.s;if(!s){box.innerHTML="";return}R.mount(box,Ed.d,s,Ed.i,"edit",Ed.pending(s))},
+ go(i){if(!Ed.d)return;Ed.i=Math.max(0,Math.min(Ed.d.slides.length-1,i));$$("#thumbs .tb").forEach(t=>t.classList.toggle("on",+t.dataset.i==Ed.i));Ed.stage();Ed.props();const t=$(`#thumbs .tb[data-i="${Ed.i}"]`);t&&t.scrollIntoView&&t.scrollIntoView({block:"nearest"})},
+ // inline text editing
+ input(el){const s=Ed.s;if(!s)return;if(!Ed.snapT){Ed.snap();Ed.snapT=1}setPath(s,el.dataset.f,txt(el).replace(/\n+/g," ").trim());Decks.save(Ed.d);clearTimeout(Ed.tt);Ed.tt=setTimeout(()=>Ed.thumb(Ed.i),400)},
+ key(e,el){const p=el.dataset.f,m=p.match(/^(pts|L\.pts|R\.pts)\.(\d+)$/);if(!m)return;const a=getPath(Ed.s,m[1]),k=+m[2];
+  if(e.key=="Enter"){e.preventDefault();Ed.snap();a.splice(k+1,0,"");Ed.changed();Ed.stage();Ed.focus(`${m[1]}.${k+1}`)}
+  else if(e.key=="Backspace"&&!txt(el).trim()&&a.length>1){e.preventDefault();Ed.snap();a.splice(k,1);Ed.changed();Ed.stage();Ed.focus(`${m[1]}.${Math.max(0,k-1)}`)}},
+ focus(p){const el=$(`#stage [data-f="${p}"]`);if(el){el.focus();try{const r=document.createRange();r.selectNodeContents(el);r.collapse(false);const s=getSelection();s.removeAllRanges();s.addRange(r)}catch{}}},
+ // structural edits
+ listAdd(sign){const s=Ed.s;if(!s)return;Ed.snap();const L=s.layout;
+  if(L=="grid"||L=="timeline"){if(sign>0&&s.items.length<6)s.items.push({t:L=="timeline"?fa(s.items.length+1):"عنوان",d:"توضیح کوتاه",e:L=="grid"?"✨":""});else if(sign<0&&s.items.length>1)s.items.pop()}
+  else if(L=="stats"){if(sign>0&&s.stats.length<4)s.stats.push({v:"۱۰۰",l:"توضیح عدد"});else if(sign<0&&s.stats.length>1)s.stats.pop()}
+  else if(L=="twocol"||L=="compare"){for(const k of["L","R"]){if(sign>0&&s[k].pts.length<6)s[k].pts.push("نکته‌ی تازه");else if(sign<0&&s[k].pts.length>1)s[k].pts.pop()}}
+  else{if(sign>0&&s.pts.length<7)s.pts.push("نکته‌ی تازه");else if(sign<0&&s.pts.length>0)s.pts.pop()}Ed.changed();Ed.stage()},
+ setChart(txt){const s=Ed.s;Ed.snap();const rows=txt.split("\n").map(l=>l.split(/[:：،,]/)).filter(r=>r[0]&&r[0].trim()).slice(0,8);s.chart.labels=rows.map(r=>faNum(r[0].trim()));s.chart.values=rows.map(r=>+enNum((r[1]||"0").trim())||0);Ed.changed();Ed.stage()},
+ setLayout(L){const s=Ed.s;Ed.snap();const n=normSlide({...s,layout:L,points:s.pts,items:s.items.map(x=>({title:x.t,text:x.d,emoji:x.e})),stats:s.stats.map(x=>({value:x.v,label:x.l})),left:{title:s.L.t,points:s.L.pts},right:{title:s.R.t,points:s.R.pts},image_idea:s.idea,subtitle:s.sub},Ed.d.lang);
+  Object.assign(s,n,{id:s.id});Ed.changed(true)},
+ set(k,v,all){const s=Ed.s;Ed.snap();s[k]=v;Ed.changed(all);Ed.stage()},
+ deckSet(k,v){Ed.snap();Ed.d[k]=v;if(k=="fT"||k=="fB")Fonts.ensure(v);Ed.changed(true)},
+ move(dir){const a=Ed.d.slides,i=Ed.i,j=i+dir;if(j<0||j>=a.length)return;Ed.snap();[a[i],a[j]]=[a[j],a[i]];Ed.i=j;Ed.changed(true)},
+ drop(from,to){const a=Ed.d.slides;if(from==to||from<0||to<0)return;Ed.snap();const[x]=a.splice(from,1);a.splice(to,0,x);Ed.i=to;Ed.changed(true)},
+ dup(){const s=Ed.s;Ed.snap();Ed.d.slides.splice(Ed.i+1,0,{...dcopy(s),id:uid("s")});Ed.i++;Ed.changed(true)},
+ async del(){if(Ed.d.slides.length<2)return toast("حداقل یک اسلاید لازم است");if(!await ask("این اسلاید حذف شود؟"))return;Ed.snap();Ed.d.slides.splice(Ed.i,1);Ed.i=Math.min(Ed.i,Ed.d.slides.length-1);Ed.changed(true)},
+ add(L){Ed.snap();const s=normSlide({layout:L,title:LAYOUTS[L][1],points:["نکته‌ی اول","نکته‌ی دوم","نکته‌ی سوم"]},Ed.d.lang);if(!IMG_LAYOUTS.includes(L))s.ipos="side";Ed.d.slides.splice(Ed.i+1,0,s);Ed.i++;Ed.changed(true);$$(".modal").forEach(m=>m.remove())},
+ addBox(){const m=modal(`<h3>➕ اسلاید جدید</h3><div class="laygrid">${Object.keys(LAYOUTS).map(k=>`<div class="lb" data-a="addL" data-v="${k}"><b>${LAYOUTS[k][0]}</b>${LAYOUTS[k][1]}</div>`).join("")}</div><h4>✨ یا بگو درباره‌ی چه باشد تا هوش مصنوعی بسازد</h4><div class="fld"><textarea id="nsTxt" placeholder="مثلاً «یک اسلاید آمار درباره‌ی رشد کاربران در سه سال اخیر»"></textarea><button class="btn mic" data-a="mic" data-t="nsTxt" aria-label="گفتن">🎙️</button></div><button class="btn pri big" data-a="aiNew">✨ ساخت اسلاید با هوش مصنوعی</button>`)},
+ deckJSON(){return JSON.stringify({topic:Ed.d.topic||Ed.d.title,slides:Ed.d.slides.map(s=>({layout:s.layout,title:s.title}))})},
+ slideJSON(s){return{layout:s.layout,title:s.title,subtitle:s.sub,points:s.pts,items:s.items.map(x=>({title:x.t,text:x.d,emoji:x.e})),stats:s.stats.map(x=>({value:x.v,label:x.l})),left:{title:s.L.t,points:s.L.pts},right:{title:s.R.t,points:s.R.pts},quote:s.quote,author:s.author,chart:s.chart,notes:s.notes,image_idea:s.idea}},
+ async aiNew(){const t=$("#nsTxt").value.trim();if(!t)return toast("بنویس یا بگو اسلاید درباره‌ی چه باشد");const b=$("[data-a=aiNew]");b.disabled=true;b.textContent="⏳ در حال ساخت…";
+  try{const j=await genText(`Write ONE new slide for this deck. Deck: ${Ed.deckJSON()}\nRequest (Persian): «${t}»\nLanguage: ${Ed.d.lang=="en"?"English":"Persian with Persian digits"}. Pick the best layout. Keep texts short; notes = 2-4 spoken sentences for text-to-speech; image_idea in English.\nReturn ONLY JSON of one slide in this shape: ${Make.slideSchema}`);
+   const s=normSlide(j.slide||j,Ed.d.lang);Ed.snap();Ed.d.slides.splice(Ed.i+1,0,s);Ed.i++;Ed.changed(true);$$(".modal").forEach(m=>m.remove());if(IMG_LAYOUTS.includes(s.layout)&&s.idea)Jobs.images(Ed.d,[s.id])}
+  catch(e){toast("⚠️ "+e.message);b.disabled=false;b.textContent="✨ ساخت اسلاید با هوش مصنوعی"}},
+ async rewrite(ins){const s=Ed.s;if(!s||!ins)return;const b=$("#rwGo");if(b){b.disabled=true;b.textContent="⏳"}
+  try{const j=await genText(`Rewrite this presentation slide following the instruction. Keep the same JSON shape and layout unless the instruction asks otherwise. Language: ${Ed.d.lang=="en"?"English":"Persian with Persian digits"}. Keep texts short. Update the notes (spoken script) to match.\nInstruction (Persian): «${ins}»\nDeck context: ${Ed.deckJSON()}\nSlide JSON: ${JSON.stringify(Ed.slideJSON(s))}\nReturn ONLY the slide JSON.`);
+   const n=normSlide(j.slide||j,Ed.d.lang);Ed.snap();Object.assign(s,n,{id:s.id,img:s.img,full:s.full,ipos:s.ipos,mode:s.mode,fT:s.fT,fB:s.fB});delete s.audio;delete s.adur;Ed.changed(true);toast("اسلاید بازنویسی شد؛ گویندگی‌اش را دوباره بساز")}
+  catch(e){toast("⚠️ "+e.message)}finally{if(b){b.disabled=false;b.textContent="اعمال"}}},
+ props(){const s=Ed.s,d=Ed.d,box=$("#props");if(!s||!box)return;const p=Ed.pending(s),t=Themes.get(d.theme),isImg=s.mode=="image",hasImgL=IMG_LAYOUTS.includes(s.layout);
+  const listL={bullets:1,imgtext:1,grid:1,stats:1,timeline:1,twocol:1,compare:1,chart:1}[s.layout];
+  box.innerHTML=`<div class="card"><div class="row"><b>اسلاید ${fa(Ed.i+1)} از ${fa(d.slides.length)}</b><span class="sp"></span><button class="btn ic sm" data-a="mvS" data-v="-1" title="بالا">⬆️</button><button class="btn ic sm" data-a="mvS" data-v="1" title="پایین">⬇️</button><button class="btn ic sm" data-a="dupS" title="کپی">⧉</button><button class="btn ic sm danger" data-a="delS" title="حذف">🗑️</button></div>
+   <label>نوع اسلاید</label><div class="seg"><button class="${isImg?"":"on"}" data-a="mode" data-v="edit">✏️ قابل‌ویرایش</button><button class="${isImg?"on":""}" data-a="mode" data-v="image">🖼️ اسلاید تصویری</button></div>
+   <label for="pLay">چیدمان</label><select id="pLay">${Object.keys(LAYOUTS).map(k=>`<option value="${k}" ${k==s.layout?"selected":""}>${LAYOUTS[k][0]} ${LAYOUTS[k][1]}</option>`).join("")}</select>
+   ${listL&&!isImg?`<div class="row" style="margin-top:8px"><button class="btn sm" data-a="lAdd" data-v="1">➕ مورد</button><button class="btn sm" data-a="lAdd" data-v="-1">➖ مورد</button><span class="mut">Enter در هر نکته = نکته‌ی بعدی</span></div>`:""}
+   ${s.layout=="chart"&&!isImg?`<label for="pChart">داده‌های نمودار (هر خط: برچسب: عدد)</label><textarea id="pChart" dir="rtl">${esc(s.chart.labels.map((l,j)=>l+": "+s.chart.values[j]).join("\n"))}</textarea><label for="pUnit">واحد</label><input id="pUnit" value="${esc(s.chart.unit)}">`:""}</div>
+  <div class="card"><h4>🖼️ ${isImg?"اسلاید تصویری":"تصویر"}</h4>
+   ${isImg?`<p class="mut">کل اسلاید با متن فارسی را مدل تصویر می‌کشد (با تم و فونت‌های همین ارائه). متن‌ها را قبلش در حالت قابل‌ویرایش درست کن.</p><button class="btn pri" data-a="genFull" ${p.full?"disabled":""}>${p.full?"⏳ در حال ساخت…":s.full?"🔁 ساخت دوباره‌ی کل اسلاید":"✨ ساخت کل اسلاید"}</button>${s.full?`<div class="fld" style="margin-top:8px"><textarea id="fEd" placeholder="ویرایش با هوش مصنوعی: مثلاً «تیتر بزرگ‌تر شود» یا «کلمه‌ی … را درست بنویس»"></textarea><button class="btn mic" data-a="mic" data-t="fEd" aria-label="گفتن">🎙️</button></div><button class="btn sm" data-a="editFull">✏️ اعمال ویرایش</button>`:""}`
+   :hasImgL?`<label for="pPos">جای تصویر</label><select id="pPos">${[["side","کنار متن"],["alt","سمت دیگر"],["bg","پس‌زمینه‌ی کامل"],["none","بدون تصویر"]].map(([v,n])=>`<option value="${v}" ${s.ipos==v?"selected":""}>${n}</option>`).join("")}</select>
+   ${s.ipos!="none"?`<label for="pIdea">ایده‌ی تصویر (فارسی یا انگلیسی)</label><div class="fld"><textarea id="pIdea" style="min-height:70px">${esc(s.idea)}</textarea><button class="btn mic" data-a="mic" data-t="pIdea" aria-label="گفتن">🎙️</button></div><div class="row" style="margin-top:8px"><button class="btn sm pri" data-a="genImg" ${p.img?"disabled":""}>${p.img?"⏳ در حال ساخت…":s.img?"🔁 تصویر دیگر":"✨ ساخت تصویر"}</button><button class="btn sm" data-a="upImg">📁 تصویر خودم</button>${s.img?`<button class="btn sm danger" data-a="rmImg">حذف</button>`:""}</div>`:""}`
+   :`<p class="mut">این چیدمان تصویر ندارد؛ برای تصویر «تصویر و متن» را انتخاب کن یا اسلاید را تصویری کن.</p>`}</div>
+  ${isImg?"":`<div class="card"><h4>✨ بازنویسی با هوش مصنوعی</h4><div class="chips">${REWRITES.map(r=>`<button class="chip" data-a="rw" data-v="${esc(r)}">${esc(r)}</button>`).join("")}</div><div class="fld"><input id="rwIn" placeholder="یا بگو چه تغییری بدهد…" style="padding-left:52px"><button class="btn mic" data-a="mic" data-t="rwIn" aria-label="گفتن">🎙️</button></div><button class="btn sm pri" id="rwGo" data-a="rwGo" style="margin-top:8px">اعمال</button></div>`}
+  <div class="card"><h4>🗣️ متن گوینده و گویندگی</h4><div class="fld"><textarea id="pNotes" placeholder="آنچه هنگام این اسلاید گفته می‌شود…">${esc(s.notes)}</textarea><button class="btn mic" data-a="mic" data-t="pNotes" aria-label="گفتن">🎙️</button></div>
+   <div class="row" style="margin-top:8px"><button class="btn sm pri" data-a="genAud" ${p.audio?"disabled":""}>${p.audio?"⏳ در حال ساخت صدا…":s.audio?"🔁 ساخت دوباره‌ی صدا":"🔊 ساخت گویندگی"}</button>${s.audio?`<button class="btn sm" data-a="dlAud">⬇️ صدا</button><button class="btn sm danger" data-a="rmAud">حذف صدا</button>`:""}</div>${s.audio?`<audio controls src="${url(s.audio)}" style="margin-top:8px"></audio>`:""}</div>
+  <details class="card"><summary>🎨 تنظیمات کل ارائه</summary>
+   <label for="dfT">فونت تیترها</label><select id="dfT">${Fonts.options(d.fT)}</select><label for="dfB">فونت متن</label><select id="dfB">${Fonts.options(d.fB)}</select>
+   <label for="sfT">فونت تیتر فقط این اسلاید</label><select id="sfT">${Fonts.options(s.fT,"مثل کل ارائه")}</select><label for="sfB">فونت متن فقط این اسلاید</label><select id="sfB">${Fonts.options(s.fB,"مثل کل ارائه")}</select>
+   <button class="btn sm" data-a="addFont" style="margin-top:8px">➕ فونت شخصی</button>
+   <label for="dVoice">صدای گوینده</label><select id="dVoice">${VOICES.map(([v,n])=>`<option value="${v}" ${v==d.voice?"selected":""}>${esc(n)}</option>`).join("")}</select>
+   <label for="dVst">سبک خواندن</label><select id="dVst">${VSTYLES.map(([v,n])=>`<option value="${v}" ${v==d.vstyle?"selected":""}>${esc(n)}</option>`).join("")}</select>
+   <label style="margin-top:12px"><input type="checkbox" id="dNum" ${d.num!==false?"checked":""}> شماره‌ی اسلاید پایین صفحه</label>
+   <p class="mut">تم: ${esc(t.name_fa)} — از فهرست بالای ویرایشگر عوضش کن.</p></details>`;
+  const on=(id,ev,f)=>{const e=$("#"+id);e&&(e[ev]=f)};
+  on("pLay","onchange",e=>Ed.setLayout(e.target.value));on("pPos","onchange",e=>Ed.set("ipos",e.target.value,true));
+  on("pIdea","onchange",e=>{Ed.s.idea=e.target.value.trim();Decks.save(Ed.d)});on("pNotes","onchange",e=>{Ed.snap();Ed.s.notes=e.target.value.trim();Decks.save(Ed.d)});
+  on("pChart","onchange",e=>Ed.setChart(e.target.value));on("pUnit","onchange",e=>{Ed.snap();Ed.s.chart.unit=faNum(e.target.value.trim());Ed.changed();Ed.stage()});
+  on("dfT","onchange",e=>Ed.deckSet("fT",e.target.value));on("dfB","onchange",e=>Ed.deckSet("fB",e.target.value));
+  on("sfT","onchange",e=>{Fonts.ensure(e.target.value);Ed.set("fT",e.target.value,true)});on("sfB","onchange",e=>{Fonts.ensure(e.target.value);Ed.set("fB",e.target.value,true)});
+  on("dVoice","onchange",e=>{Ed.d.voice=e.target.value;S.settings.voice=e.target.value;Store.set("kv",S.settings,"settings");Decks.save(Ed.d)});on("dVst","onchange",e=>{Ed.d.vstyle=e.target.value;S.settings.vstyle=e.target.value;Store.set("kv",S.settings,"settings");Decks.save(Ed.d)});
+  on("dNum","onchange",e=>Ed.deckSet("num",e.target.checked));
+  on("rwIn","onkeydown",e=>{if(e.key=="Enter")Ed.rewrite(e.target.value.trim())})},
+ async upImg(){const f=await pick("image/*");if(!f)return;Ed.set("img",await convert(f,"image/jpeg",1920)||f,true)}
+};
+
+// ---------- background jobs: images, full-image slides, narration ----------
+const Jobs={q:[],active:0,max:2,total:0,done:0,ac:null,
+ key:(s,k)=>s.id+":"+k,
+ add(deck,s,kind,run){if((Ed.pend[s.id]||{})[kind])return;(Ed.pend[s.id]=Ed.pend[s.id]||{})[kind]=1;Jobs.q.push({deck,s,kind,run});Jobs.total++;Jobs.ui();Jobs.refresh(deck,s);Jobs.pump()},
+ pump(){if(!Jobs.ac||Jobs.ac.signal.aborted)Jobs.ac=new AbortController();while(Jobs.active<Jobs.max&&Jobs.q.length){const j=Jobs.q.shift();Jobs.active++;Jobs.exec(j)}},
+ async exec(j){const sig=Jobs.ac.signal;try{await j.run(sig);Decks.save(j.deck)}catch(e){if(e.name!="AbortError")toast(`⚠️ اسلاید ${fa(j.deck.slides.indexOf(j.s)+1)}: ${e.message}`,7000)}
+  finally{Jobs.active--;Jobs.done++;const p=Ed.pend[j.s.id];if(p)delete p[j.kind];Jobs.refresh(j.deck,j.s);Jobs.ui();if(!Jobs.q.length&&!Jobs.active){Jobs.total=Jobs.done=0;Jobs.ui()}Jobs.pump()}},
+ refresh(deck,s){if(Ed.d!==deck)return;const i=deck.slides.indexOf(s);if(i<0)return;Ed.thumb(i);if(i==Ed.i){Ed.stage();Ed.props()}},
+ ui(){const on=Jobs.total>0,bar=$("#jobBar");$("#jobX").classList.toggle("hide",!on);bar.classList.toggle("hide",!on);$("#jobMsg").textContent=on?`⏳ ${fa(Jobs.done)} از ${fa(Jobs.total)} کار`:"";$("#jobBar i").style.width=on?Math.round(Jobs.done/Jobs.total*100)+"%":"0"},
+ cancel(){Jobs.q.forEach(j=>{const p=Ed.pend[j.s.id];if(p)delete p[j.kind];Jobs.refresh(j.deck,j.s)});Jobs.q=[];Jobs.ac&&Jobs.ac.abort();Jobs.total=Jobs.done=0;Jobs.ui();toast("کارهای در صف متوقف شد")},
+ imgPrompt(d,s){const t=Themes.get(d.theme),idea=s.idea||`an illustration that represents: ${s.title}. ${s.sub||s.pts.join(", ")}`;
+  return`Create an image for a presentation slide.
+Subject: ${idea}
+Visual style: ${t.img_en}.
+Color palette: accent ${t.acc} and ${t.acc2}, background tone ${firstColor(t.bg)} — the image must sit harmoniously in a slide with these colors.
+Composition: a single clear focal subject with breathing room${s.ipos=="bg"?", wide cinematic background with calm empty space on the right half for overlaid text":""}.
+Absolutely NO text, letters, words, numbers, captions, logos or watermarks anywhere in the image.`},
+ images(d,ids){for(const id of ids){const s=d.slides.find(x=>x.id==id);if(!s)continue;Jobs.add(d,s,"img",async sig=>{const ar=s.ipos=="bg"?"16:9":s.layout=="imgtext"?"4:3":"1:1";s.img=await genImage(Jobs.imgPrompt(d,s),[],sig,null,ar)})}},
+ fullPrompt(d,s,hasRef){const t=Themes.get(d.theme),en=d.lang=="en",ft=s.fT||d.fT||t.ft,fb=s.fB||d.fB||t.fb,q=x=>`«${x}»`,L=[];
+  L.push(`Title: ${q(s.title||s.quote)}`);if(s.sub)L.push(`Subtitle: ${q(s.sub)}`);if(s.pts.length)L.push("Points:\n"+s.pts.map(p=>"• "+q(p)).join("\n"));
+  if(s.items.length)L.push("Items:\n"+s.items.map(x=>`• ${q(x.t)}${x.d?": "+q(x.d):""}`).join("\n"));if(s.stats.length)L.push("Big numbers:\n"+s.stats.map(x=>`• ${q(x.v)} ${q(x.l)}`).join("\n"));
+  if(s.L.pts.length||s.R.pts.length)L.push(`Left column ${q(s.L.t)}: ${s.L.pts.map(q).join(" ")}\nRight column ${q(s.R.t)}: ${s.R.pts.map(q).join(" ")}`);if(s.quote&&s.layout=="quote")L.push(`Quote: ${q(s.quote)} — ${q(s.author)}`);
+  if(s.layout=="chart")L.push("Bar chart data: "+s.chart.labels.map((l,j)=>`${q(l)} = ${s.chart.values[j]}${s.chart.unit?" "+s.chart.unit:""}`).join(", "));
+  return`Design ONE complete, finished presentation slide as a 16:9 image (like a top-quality Keynote/Canva slide).
+Theme «${t.name_fa}»: ${t.img_en}. Background ${t.bg.includes("gradient")?"gradient based on "+firstColor(t.bg):t.bg}, text color ${t.text}, accent colors ${t.acc} and ${t.acc2}, ${t.dark?"dark":"light"} look, ${t.decor!="none"?t.decor+" decorative motif":"clean background"}.
+Layout: ${LAYOUTS[s.layout][1]} slide (${s.layout}). ${s.idea?"Visual: "+s.idea+".":""}
+Typography: titles in ${Fonts.desc(ft)}; body text in ${Fonts.desc(fb)}.${hasRef?" Match the visual style, fonts and colors of the attached reference slide from the same deck.":""}
+Write EXACTLY these texts on the slide, nothing else, no extra words:
+${L.join("\n")}
+${en?"All text is English in clean Latin letters.":"All Persian (Farsi) text is right-to-left with every letter correctly joined in its proper initial, medial or final form; no isolated, mirrored or reversed letters, no invented words, no Arabic-only letter shapes. Numbers use Persian digits (۰۱۲۳۴۵۶۷۸۹)."}
+Large, highly readable text with strong contrast; generous margins; no watermark, no slide number, no logo.`},
+ full(d,s){Jobs.add(d,s,"full",async sig=>{const refs=[],other=d.slides.find(x=>x!==s&&x.mode=="image"&&x.full);if(other)refs.push(await toRef(other.full));
+  const t=Themes.get(d.theme);for(const k of new Set([s.fT||d.fT||t.ft,s.fB||d.fB||t.fb]))if(!FONTS[k]){const r=await Fonts.sample(k);r&&refs.push(r)}
+  s.full=await genImage(Jobs.fullPrompt(d,s,!!other),refs,sig,null,"16:9")})},
+ editFull(d,s,ins){Jobs.add(d,s,"full",async sig=>{s.full=await genImage(`Edit the attached presentation slide. Requested change (written in Persian): «${ins}». Keep everything else identical: layout, colors, fonts, illustrations and all texts unless the change is about them. Persian text must stay right-to-left with correctly joined letters. Output the full 16:9 slide.`,[await toRef(s.full)],sig,null,"16:9")})},
+ audio(d,s){if(!s.notes)return toast(`اسلاید ${fa(d.slides.indexOf(s)+1)} متن گوینده ندارد`);const st=(VSTYLES.find(v=>v[0]==d.vstyle)||VSTYLES[0])[2];
+  Jobs.add(d,s,"audio",async sig=>{const b=await genSpeech(s.notes,d.voice||"Kore",st,sig);s.audio=b;s.adur=Audio16.dur(b)})}
+};
+
+// ---------- present mode ----------
+const Pres={i:0,auto:false,notes:false,el:null,
+ open(from=0){const d=Ed.d;if(!d)return;Pres.i=from;Pres.el=document.createElement("div");Pres.el.id="pres";Pres.el.tabIndex=0;
+  Pres.el.innerHTML=`<div class="pst" id="pst"></div><div class="pnav"><button class="btn sm" data-a="pPrev">→ قبلی</button><span class="btn sm" id="pNum"></span><button class="btn sm" data-a="pNext">بعدی ←</button><button class="btn sm" data-a="pAuto" id="pAutoB">▶️ پخش خودکار با صدا</button><button class="btn sm" data-a="pNotes">🗒️ یادداشت</button><button class="btn sm" data-a="pFull">⛶</button><button class="btn sm" data-a="pClose">✕ خروج</button></div><div class="pnotes hide" id="pNt"></div><audio id="pAud"></audio>`;
+  document.body.append(Pres.el);Pres.el.focus&&Pres.el.focus();$("#pAud").onended=()=>{if(Pres.auto)Pres.next(true)};window.addEventListener("resize",Pres.rs=()=>Pres.show());Pres.show()},
+ size(){const W=innerWidth||1280,H=innerHeight||720,k=Math.min(W/1920,H/1080);return{w:1920*k,h:1080*k,k}},
+ show(){const d=Ed.d,s=d.slides[Pres.i];if(!s)return;const z=Pres.size(),st=$("#pst");st.style.width=z.w+"px";st.style.height=z.h+"px";st.innerHTML=R.html(d,s,Pres.i,"present");const el=st.firstElementChild;el.style.transform=`scale(${z.k})`;el.style.opacity=0;requestAnimationFrame(()=>{el.style.opacity=1});R.fit(st);
+  $("#pNum").textContent=`${fa(Pres.i+1)} / ${fa(d.slides.length)}`;$("#pNt").textContent=s.notes||"(یادداشتی نیست)";$("#pNt").classList.toggle("hide",!Pres.notes);
+  const a=$("#pAud");clearTimeout(Pres.tm);a.pause();if(Pres.auto){if(s.audio){a.src=url(s.audio);const p=a.play();p&&p.catch&&p.catch(()=>{})}else Pres.tm=setTimeout(()=>Pres.next(true),Math.max(5000,(s.notes||"").split(/\s+/).length*420))}},
+ next(auto){if(Pres.i<Ed.d.slides.length-1){Pres.i++;Pres.show()}else if(auto){Pres.auto=false;$("#pAutoB").textContent="▶️ پخش خودکار با صدا";toast("پایان ارائه")}},
+ prev(){if(Pres.i>0){Pres.i--;Pres.show()}},
+ toggleAuto(){Pres.auto=!Pres.auto;$("#pAutoB").textContent=Pres.auto?"⏸ توقف پخش":"▶️ پخش خودکار با صدا";if(!Pres.auto){$("#pAud").pause();clearTimeout(Pres.tm)}else Pres.show()},
+ close(){clearTimeout(Pres.tm);Pres.auto=false;try{$("#pAud").pause()}catch{}window.removeEventListener("resize",Pres.rs);try{document.fullscreenElement&&document.exitFullscreen()}catch{}Pres.el&&Pres.el.remove();Pres.el=null;Ed.go(Pres.i)},
+ full(){try{document.fullscreenElement?document.exitFullscreen():Pres.el.requestFullscreen()}catch{toast("تمام‌صفحه در این محیط مجاز نیست")}}
+};
+
+// ---------- export ----------
+const Exp={
+ menu(){if(!Ed.d)return;const d=Ed.d,na=d.slides.filter(s=>s.audio).length;modal(`<h3>⬇️ خروجی «${esc(d.title)}»</h3>
+  <div class="laygrid"><div class="lb" data-a="xPptx"><b>📊</b>پاورپوینت PPTX<br><small class="mut">متن قابل‌ویرایش</small></div><div class="lb" data-a="xPdf"><b>📄</b>PDF</div><div class="lb" data-a="xPng"><b>🖼️</b>PNG همه (ZIP)</div><div class="lb" data-a="xCur"><b>🖼️</b>PNG همین اسلاید</div>
+  <div class="lb" data-a="xWav"><b>🎧</b>کل گویندگی یک فایل<br><small class="mut">${fa(na)} اسلاید صدا دارد</small></div><div class="lb" data-a="xAudZip"><b>🔊</b>صداها جدا (ZIP)</div><div class="lb" data-a="xNotes"><b>🗒️</b>متن گوینده (TXT)</div><div class="lb" data-a="xDeck"><b>💾</b>فایل پروژه<br><small class="mut">برای باز کردن دوباره</small></div></div>
+  <p class="mut" id="xMsg">برای PPTX، فونت‌ها باید روی کامپیوتر نصب باشند تا پاورپوینت همان شکل را نشان دهد. PDF و PNG دقیقاً همین ظاهر را دارند.</p>`)},
+ msg(m){const e=$("#xMsg");if(e)e.textContent=m},
+ name(ext){return(Ed.d.title||"slides").replace(/[\\/:*?"<>|]+/g," ").slice(0,60)+"."+ext},
+ // render one slide at full size off-screen
+ async offscreen(d,s,i,fn){const box=document.createElement("div");box.style.cssText="position:fixed;left:-99999px;top:0;width:1920px;height:1080px;overflow:hidden;";document.body.append(box);box.innerHTML=R.html(d,s,i,"present");
+  try{if(document.fonts&&document.fonts.ready)await document.fonts.ready;R.fit(box);return await fn(box.firstElementChild,box)}finally{box.remove()}},
+ async canvas(el){await Lazy.js("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js","html2canvas");if(!window.html2canvas)throw new Error("html2canvas در دسترس نیست");el.style.transform="none";return html2canvas(el,{width:1920,height:1080,scale:1,useCORS:true,backgroundColor:null,logging:false})},
+ async png(i){const d=Ed.d;return Exp.offscreen(d,d.slides[i],i,async el=>cBlob(await Exp.canvas(el),"image/png"))},
+ async cur(){Exp.msg("⏳ در حال ساخت تصویر…");try{const b=await Exp.png(Ed.i);if(!b)throw new Error("ساخت تصویر ممکن نشد");dl(b,Exp.name("png").replace(".png",`-${Ed.i+1}.png`));Exp.msg("✅ دانلود شد")}catch(e){Exp.msg("⚠️ "+e.message)}},
+ async pngZip(){const d=Ed.d;try{const Z=await Backup.jz(),z=new Z();for(let i=0;i<d.slides.length;i++){Exp.msg(`⏳ اسلاید ${fa(i+1)} از ${fa(d.slides.length)}…`);const b=await Exp.png(i);b&&z.file(`slide-${String(i+1).padStart(2,"0")}.png`,b)}dl(await z.generateAsync({type:"blob"}),Exp.name("zip"));Exp.msg("✅ دانلود شد")}catch(e){Exp.msg("⚠️ "+e.message)}},
+ async pdf(){const d=Ed.d;try{await Lazy.js("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js","jspdf");const J=window.jspdf&&window.jspdf.jsPDF;if(!J)throw new Error("jsPDF در دسترس نیست");const pdf=new J({orientation:"landscape",unit:"px",format:[1920,1080],compress:true});
+  for(let i=0;i<d.slides.length;i++){Exp.msg(`⏳ اسلاید ${fa(i+1)} از ${fa(d.slides.length)}…`);const c=await Exp.offscreen(d,d.slides[i],i,el=>Exp.canvas(el));if(i)pdf.addPage([1920,1080],"landscape");pdf.addImage(c.toDataURL("image/jpeg",.9),"JPEG",0,0,1920,1080)}
+  dl(pdf.output("blob"),Exp.name("pdf"));Exp.msg("✅ PDF دانلود شد")}catch(e){Exp.msg("⚠️ "+e.message)}},
+ hex(c){const m=String(c).match(/rgba?\(([^)]+)\)/);if(!m)return{h:String(c).replace("#","").slice(0,6)||"000000",a:0};const v=m[1].split(",").map(x=>parseFloat(x));return{h:v.slice(0,3).map(x=>Math.round(x).toString(16).padStart(2,"0")).join(""),a:v.length>3?Math.round((1-v[3])*100):0}},
+ async dataUrl(b){return`data:${b.type||"image/png"};base64,`+await blobToB64(b)},
+ // PPTX: background (with decoration) as a picture, every text as an editable RTL text box at its exact place
+ async pptx(){const d=Ed.d,t=Themes.get(d.theme);try{await Lazy.js("https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js","PptxGenJS");if(!window.PptxGenJS)throw new Error("PptxGenJS در دسترس نیست");
+  let bgc="";const P=new PptxGenJS();P.layout="LAYOUT_16x9";P.rtlMode=true;P.title=d.title;P.author="اسلایدساز صبا";const k=10/1920,pt=.375;
+  for(let i=0;i<d.slides.length;i++){const s=d.slides[i];Exp.msg(`⏳ اسلاید ${fa(i+1)} از ${fa(d.slides.length)}…`);const ps=P.addSlide();
+   if(s.mode=="image"&&s.full){ps.addImage({data:await Exp.dataUrl(s.full),x:0,y:0,w:10,h:5.625});s.notes&&ps.addNotes(s.notes);continue}
+   await Exp.offscreen(d,s,i,async(el,box)=>{const R0=el.getBoundingClientRect(),pos=r=>({x:(r.left-R0.left)*k,y:(r.top-R0.top)*k,w:Math.max(.05,r.width*k),h:Math.max(.05,r.height*k)});
+    // background picture: the slide without its content
+    try{if(!bgc){const c=el.cloneNode(true);$$(".ct,.foot,.full,.bgim",c).forEach(x=>x.remove());c.style.transform="none";box.append(c);c.style.position="absolute";c.style.top="0";const cv=await Exp.canvas(c);c.remove();bgc=cv.toDataURL("image/jpeg",.9)}ps.background={data:bgc}}catch{ps.background={color:firstColor(t.bg).replace("#","")}}
+    for(const b of $$(".im.has,.bgim",el)){const r=pos(b.getBoundingClientRect());if(s.img)ps.addImage({data:await Exp.dataUrl(s.img),...r,sizing:{type:"cover",w:r.w,h:r.h}})}
+    for(const c of $$(".crd,.vs,.bar i",el)){const cs=getComputedStyle(c),f=Exp.hex(cs.backgroundColor),bimg=cs.backgroundImage;const fill=bimg&&bimg!="none"?{color:t.acc.replace("#","")}:f.a>=100?null:{color:f.h,transparency:f.a};const bw=parseFloat(cs.borderTopWidth)||0,ln=bw?Exp.hex(cs.borderTopColor):null;
+     if(!fill&&!ln)continue;ps.addShape(c.classList.contains("vs")?P.ShapeType.ellipse:P.ShapeType.roundRect,{...pos(c.getBoundingClientRect()),fill:fill||{type:"none"},line:ln&&ln.a<100?{color:ln.h,transparency:ln.a,width:Math.max(.5,bw*pt)}:{type:"none"},rectRadius:Math.min(.5,t.r*k)})}
+    for(const x of $$(".t,.st,.num,.q,.au,.crd h3,.crd p,.stv,.stl,ul.pts li,.vs,.bar b,.bar span,.foot span",el)){const tx=txt(x).trim();if(!tx)continue;const cs=getComputedStyle(x),r=pos(x.getBoundingClientRect()),fam=(cs.fontFamily||"Vazirmatn").split(",").map(x=>x.replace(/['"]/g,"").trim()).find(x=>x&&x!="PDigits")||"Vazirmatn",li=x.tagName=="LI";
+     ps.addText(tx,{...r,fontFace:fam,fontSize:Math.max(6,Math.round((parseFloat(cs.fontSize)||40)*pt)),color:Exp.hex(cs.color).h,bold:+cs.fontWeight>=600,align:cs.textAlign=="center"?"center":x.classList.contains("vs")?"center":"right",valign:"top",rtlMode:true,margin:0,fit:"shrink",bullet:li?{indent:18}:false,lang:"fa-IR"})}
+    s.notes&&ps.addNotes(s.notes)})}
+  Exp.msg("⏳ در حال ساخت فایل…");const b=await P.write({outputType:"blob"});dl(b,Exp.name("pptx"));Exp.msg("✅ PPTX دانلود شد")}catch(e){Exp.msg("⚠️ "+e.message)}},
+ async wav(){const a=Ed.d.slides.filter(s=>s.audio).map(s=>s.audio);if(!a.length)return Exp.msg("هنوز هیچ اسلایدی گویندگی ندارد؛ «🔊 گویندگی همه» را بزن");dl(await Audio16.join(a),Exp.name("wav"));Exp.msg("✅ دانلود شد")},
+ async audZip(){const d=Ed.d,a=d.slides.map((s,i)=>[s,i]).filter(([s])=>s.audio);if(!a.length)return Exp.msg("هنوز هیچ اسلایدی گویندگی ندارد");try{const Z=await Backup.jz(),z=new Z();a.forEach(([s,i])=>z.file(`slide-${String(i+1).padStart(2,"0")}.wav`,s.audio));dl(await z.generateAsync({type:"blob"}),Exp.name("zip").replace(".zip","-audio.zip"));Exp.msg("✅ دانلود شد")}catch(e){Exp.msg("⚠️ "+e.message)}},
+ notes(){const d=Ed.d;dl(new Blob([d.title+"\n\n"+d.slides.map((s,i)=>`اسلاید ${fa(i+1)}: ${s.title||s.quote}\n${s.notes||"—"}`).join("\n\n")],{type:"text/plain;charset=utf-8"}),Exp.name("txt"))}
+};
+
+// ---------- library tab: themes + fonts ----------
+const Lib={grp:"",
+ render(){const all=Themes.all(),gs=[...new Set(all.map(t=>t.group))];$("#thCnt").textContent=`${fa(all.length)} تم`;
+  $("#lChips").innerHTML=[["","همه"],...gs.map(g=>[g,g])].map(([v,n])=>`<button class="chip ${Lib.grp==v?"on":""}" data-a="lgrp" data-v="${esc(v)}">${esc(n)}</button>`).join("");
+  $("#lThemes").innerHTML=all.filter(t=>!Lib.grp||t.group==Lib.grp).map(t=>{Fonts.ensure(t.ft);Fonts.ensure(t.fb);const d={...Make.demo(t),fT:t.ft,fB:t.fb};
+   return`<div class="tc"><div class="sbx">${R.html(d,d.slides[0],0,"thumb")}</div><div class="b"><h4>${esc(t.name_fa)}</h4><p>${esc(t.desc_fa||"")} · تیتر ${esc(Fonts.name(t.ft))} · متن ${esc(Fonts.name(t.fb))}</p><div class="row" style="margin-top:6px"><button class="btn sm" data-a="useTheme" data-id="${esc(t.id)}">انتخاب برای ساخت</button>${Ed.d?`<button class="btn sm pri" data-a="applyTheme" data-id="${esc(t.id)}">روی ارائه‌ی باز</button>`:""}${Themes.isUser(t.id)?`<button class="btn sm danger" data-a="delTheme" data-id="${esc(t.id)}">🗑️</button>`:""}</div></div></div>`}).join("");
+  requestAnimationFrame(()=>$$("#lThemes .sbx").forEach(b=>R.scale(b)));Lib.renderFonts()},
+ renderFonts(){const b=$("#fonts");if(!b)return;const sm=$("#fSample").value||"نمونه";b.innerHTML=Fonts.all().map(f=>{Fonts.ensure(f.key);return`<div class="fc"><small>${esc(f.cat)}</small><div class="smp" style="font-family:'${esc(f.family)}',Vazirmatn">${esc(sm)}</div><div class="row"><b>${esc(f.name_fa)}</b><span class="sp"></span>${f.user?`<button class="btn sm danger" data-a="delFont" data-id="${esc(f.key)}">🗑️</button>`:""}</div></div>`}).join("")},
+ async imp(){const f=await pick(".json");if(!f)return;try{const j=JSON.parse(await f.text());const arr=Array.isArray(j)?j:j.themes;if(!Array.isArray(arr)||!arr.length)throw new Error("تمی در فایل نیست");
+  let n=0;for(const x of arr){if(!x||typeof x!="object")continue;const t=Themes.norm(x);if(BUILTIN.some(b=>b.id==t.id))t.id=t.id+"-u";t.created=Date.now()+n;await Store.set("themes",t);n++}
+  if(j.fonts&&typeof j.fonts=="object")for(const k in j.fonts)if(!FONTS[k]&&j.fonts[k].family&&j.fonts[k].src)FONTS[k]={name_fa:String(j.fonts[k].name_fa||k),family:String(j.fonts[k].family),src:String(j.fonts[k].src),cat:String(j.fonts[k].cat||"بسته"),desc_en:String(j.fonts[k].desc_en||k)};
+  await Themes.load();Lib.render();Make.renderThemes();toast(`${fa(n)} تم وارد شد`)}catch(e){toast("⚠️ فایل تم معتبر نیست: "+e.message)}},
+ exp(){if(!Themes.user.length)return toast("هنوز تم شخصی نداری");dl(new Blob([JSON.stringify({format:"slide-themes-v1",themes:Themes.user},null,1)],{type:"application/json"}),"my-slide-themes.json")},
+ async del(id){if(!await ask("این تم حذف شود؟"))return;await Store.delete("themes",id);await Themes.load();Lib.render();Make.renderThemes()}
+};
+
+// ---------- UI shell ----------
+const S={uitheme:"بنفش",settings:{voice:"Kore",vstyle:"calm"},persisted:false};
+function applyUI(n){const t=UITHEMES.find(t=>t[0]==n)||UITHEMES[1],r=document.documentElement.style;["--bg","--card","--neon","--neon2","--btxt"].forEach((k,i)=>r.setProperty(k,t[i+1]));S.uitheme=t[0]}
+const UI={
+ tab(v){$$("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.v==v));["make","ed","decks","lib"].forEach(t=>$("#t-"+t).classList.toggle("hide",t!=v));
+  if(v=="decks")Decks.render();if(v=="lib")Lib.render();if(v=="ed")requestAnimationFrame(()=>Ed.d&&Ed.render());if(v=="make")requestAnimationFrame(()=>$$("#t-make .sbx").forEach(b=>R.scale(b)))},
+ status(){$("#tmpB").classList.toggle("hide",S.persisted||Bridge.st.on);const bb=$("#brB");if(bb){bb.className=(Bridge.st.checked?"":"hide ")+(Bridge.st.on&&!Bridge.st.err?"okb":"warn");bb.textContent=Bridge.st.on?(Bridge.st.err?"⚠️ ذخیره در اکستنشن ناموفق":"ذخیره‌ی دائمی با اکستنشن ✓"):"بدون اکستنشن: قبل از بستن پشتیبان زیپ بگیر";bb.title=Bridge.st.err||"وضعیت ذخیره‌ی دائمی"}UI.storage()},
+ about(){modal(`<h3>ℹ️ درباره‌ی سازنده</h3><p><b>سید صبا میری</b></p><p>🌐 وب‌سایت: <a href="https://viroai.ir" target="_blank" rel="noopener">viroai.ir</a></p><p>📸 اینستاگرام: <a href="https://instagram.com/viromedia404" target="_blank" rel="noopener" dir="ltr">viromedia404</a></p><p>📞 تلفن: <a href="tel:+989120349893" dir="ltr">۰۹۱۲۰۳۴۹۸۹۳</a></p><p>✈️ تلگرام: به‌زودی…</p><p class="mut">اسلایدساز صبا · نسخه‌ی ${fa(APP_VER)}</p>`)},
+ settings(){modal(`<h3>⚙️ تنظیمات</h3><h4>رنگ برنامه</h4><div class="themes">${UITHEMES.map(t=>`<button class="th ${t[0]==S.uitheme?"on":""}" data-a="uitheme" data-v="${t[0]}" style="background:${t[1]};border-color:${t[3]}"><i style="background:linear-gradient(90deg,${t[3]},${t[4]})"></i>${t[0]}</button>`).join("")}</div>
+  <h4>ذخیره‌سازی</h4><div id="sto"></div><h4>پاک کردن</h4><button class="btn danger" data-a="wipe">🗑️ پاک کردن همه‌ی داده‌ها</button>
+  <p class="mut">نسخه‌ی ${fa(APP_VER)} · تصویر: ${IMAGE_MODEL} · متن: ${TEXT_MODEL} · گویندگی: ${TTS_MODEL} · ${fa(BUILTIN.length)} تم و ${fa(Object.keys(FONTS).length)} فونت داخلی</p><p class="mut">ساخته‌ی سید صبا میری · viroai.ir · اینستاگرام viromedia404 · ۰۹۱۲۰۳۴۹۸۹۳</p>`);UI.storage()},
+ async storage(){const b=$("#sto");if(!b)return;const e=await Store.estimate(),B=Bridge.st,tf=t=>t?new Date(t).toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit",second:"2-digit"}):"هنوز نه";
+  b.innerHTML=`<div class="sbox"><b>🧩 ذخیره‌ی دائمی با اکستنشن</b>${B.on?`<div class="mut">✅ وصل است (اکستنشن نسخه‌ی ${fa(B.ver||"؟")}) — هر تغییر خودکار در اکستنشن ذخیره می‌شود و با بستن Canvas پاک نمی‌شود</div><div class="mut">آخرین ذخیره: ${tf(B.last)} · در صف: ${fa(B.pending)}${B.restored?` · ${fa(B.restored)} مورد هنگام باز شدن بازیابی شد`:""}</div>${B.err?`<div class="mut" style="color:#ff8a8a">⚠️ ${esc(B.err)}</div>`:""}<div class="row" style="margin-top:8px"><button class="btn sm pri" data-a="bsync">🔄 همگام‌سازی کامل الان</button></div>`:`<div class="mut">${B.err?"⚠️ "+esc(B.err):"اکستنشن پیدا نشد؛ داده‌ها فقط تا بستن Canvas می‌مانند. قبل از بستن «دانلود پشتیبان کامل» را بزن، یا برنامه را از آیکون اکستنشن «اسلایدساز صبا» یا جعبه‌ابزار باز کن تا همه‌چیز خودکار و دائمی ذخیره شود."}</div>`}</div>
+  <div class="sbox"><b>🌐 مرورگر (IndexedDB)</b><div class="mut">${S.persisted?"✅ ذخیره‌ی دائمی فعال است":"⚠️ ذخیره‌ی موقت — مرورگر ممکن است داده‌ها را پاک کند"}</div><div class="mut">فضا: ${e?fmtB(e.usage||0)+" از "+fmtB(e.quota||0):"نامشخص"}</div></div>
+  <div class="sbox"><b>🗂️ پشتیبان فایل</b><div class="row" style="margin-top:8px"><button class="btn sm" data-a="zipOut">⬇️ دانلود پشتیبان کامل</button><button class="btn sm" data-a="zipIn">♻️ بازگردانی از پشتیبان</button></div></div>`},
+ async wipe(){if(!await ask("همه‌ی ارائه‌ها، فونت‌ها و تم‌های شخصی و تنظیمات پاک شود؟ این کار برگشت‌پذیر نیست."))return;await Store.clear();Ed.close();await App.reload();$$(".modal").forEach(m=>m.remove());toast("همه‌ی داده‌ها پاک شد")}
+};
+
+// ---------- actions (event delegation) ----------
+const A={
+ tab:e=>UI.tab(e.dataset.v),settings:()=>UI.settings(),about:()=>UI.about(),close:e=>e.closest(".modal").remove(),
+ uitheme:e=>{applyUI(e.dataset.v);Store.set("kv",S.uitheme,"uitheme");$$(".th").forEach(b=>b.classList.toggle("on",b.dataset.v==S.uitheme))},
+ opt:e=>Make.opt(e.dataset.k,e.dataset.v),ex:e=>{$("#topic").value=e.dataset.v;D.topic=e.dataset.v;Draft.save()},
+ voiceBrief:e=>Voice.toggle(e,t=>Make.brief(t),true),voiceFile:()=>Voice.file(t=>Make.brief(t)),
+ mic:e=>Voice.toggle(e,t=>Voice.into($("#"+e.dataset.t),t)),
+ research:()=>Make.research(),auto:()=>Make.auto(),build:()=>Make.build(),
+ rmOs:e=>{const o=D.outline;if(!o||o.slides.length<2)return toast("حداقل یک اسلاید لازم است");o.slides.splice(+e.dataset.i,1);Draft.save();Make.renderOutline()},
+ pickTheme:e=>Make.pickTheme(e.dataset.id),tgrp:e=>{Make.grp=e.dataset.v;Make.renderThemes()},
+ newBlank:async()=>{const t=Themes.get(D.theme),d={id:uid("deck"),title:"ارائه‌ی جدید",created:Date.now(),updated:Date.now(),theme:t.id,fT:t.ft,fB:t.fb,lang:"fa",voice:S.settings.voice,vstyle:S.settings.vstyle,num:true,sources:[],slides:[normSlide({layout:"title",title:"عنوان ارائه",subtitle:"زیرعنوان"},"fa"),normSlide({layout:"bullets",title:"عنوان اسلاید",points:["نکته‌ی اول","نکته‌ی دوم","نکته‌ی سوم"]},"fa")]};await Decks.save(d,true);Ed.open(d.id);UI.tab("ed")},
+ goto:e=>Ed.go(+e.dataset.i),undo:()=>Ed.restore(Ed.undo,Ed.redo),redo:()=>Ed.restore(Ed.redo,Ed.undo),
+ mvS:e=>Ed.move(+e.dataset.v),dupS:()=>Ed.dup(),delS:()=>Ed.del(),addSlide:()=>Ed.addBox(),addL:e=>Ed.add(e.dataset.v),aiNew:()=>Ed.aiNew(),
+ lAdd:e=>Ed.listAdd(+e.dataset.v),
+ mode:e=>{const v=e.dataset.v;Ed.set("mode",v,true);if(v=="image"&&!Ed.s.full)toast("«ساخت کل اسلاید» را بزن تا مدل تصویر کل اسلاید را بکشد")},
+ genImg:()=>{const i=$("#pIdea");if(i)Ed.s.idea=i.value.trim();Jobs.images(Ed.d,[Ed.s.id])},upImg:()=>Ed.upImg(),rmImg:()=>{Ed.snap();delete Ed.s.img;Ed.changed(true)},
+ genFull:()=>Jobs.full(Ed.d,Ed.s),editFull:()=>{const v=$("#fEd").value.trim();if(!v)return toast("بنویس یا بگو چه تغییری می‌خواهی");Jobs.editFull(Ed.d,Ed.s,v)},
+ rw:e=>Ed.rewrite(e.dataset.v),rwGo:()=>{const v=$("#rwIn").value.trim();if(!v)return toast("بنویس یا بگو چه تغییری می‌خواهی");Ed.rewrite(v)},
+ genAud:()=>{const n=$("#pNotes");if(n&&n.value.trim()!=Ed.s.notes){Ed.s.notes=n.value.trim();Decks.save(Ed.d)}Jobs.audio(Ed.d,Ed.s)},
+ dlAud:()=>dl(Ed.s.audio,`slide-${Ed.i+1}.wav`),rmAud:()=>{Ed.snap();delete Ed.s.audio;delete Ed.s.adur;Ed.changed();Ed.renderThumbs()},
+ allImgs:()=>{const ids=Ed.d.slides.filter(s=>IMG_LAYOUTS.includes(s.layout)&&s.ipos!="none"&&s.mode!="image"&&!s.img).map(s=>s.id);if(!ids.length)return toast("همه‌ی اسلایدهای تصویردار تصویر دارند");Jobs.images(Ed.d,ids)},
+ allAudio:()=>{const a=Ed.d.slides.filter(s=>s.notes&&!s.audio);if(!a.length)return toast("همه‌ی اسلایدها گویندگی دارند یا متن گوینده ندارند");a.forEach(s=>Jobs.audio(Ed.d,s))},
+ cancelJobs:()=>Jobs.cancel(),present:()=>Pres.open(Ed.i),
+ pPrev:()=>Pres.prev(),pNext:()=>Pres.next(),pAuto:()=>Pres.toggleAuto(),pNotes:()=>{Pres.notes=!Pres.notes;$("#pNt").classList.toggle("hide",!Pres.notes)},pFull:()=>Pres.full(),pClose:()=>Pres.close(),
+ exportMenu:()=>Exp.menu(),xPptx:()=>Exp.pptx(),xPdf:()=>Exp.pdf(),xPng:()=>Exp.pngZip(),xCur:()=>Exp.cur(),xWav:()=>Exp.wav(),xAudZip:()=>Exp.audZip(),xNotes:()=>Exp.notes(),xDeck:()=>Decks.fileOut(Ed.d.id),
+ openDeck:e=>{Ed.open(e.dataset.id);UI.tab("ed")},dupDeck:e=>Decks.dup(e.dataset.id),delDeck:e=>Decks.del(e.dataset.id),saveDeckFile:e=>Decks.fileOut(e.dataset.id),importDeck:()=>Decks.fileIn(),
+ lgrp:e=>{Lib.grp=e.dataset.v;Lib.render()},useTheme:e=>{Make.pickTheme(e.dataset.id);Make.renderThemes();UI.tab("make");toast("تم برای ساخت انتخاب شد")},
+ applyTheme:e=>{if(!Ed.d)return;const t=Themes.get(e.dataset.id);Ed.snap();Ed.d.theme=t.id;Ed.d.fT=t.ft;Ed.d.fB=t.fb;Fonts.ensureDeck(Ed.d);Ed.changed(true);$("#dTheme").value=t.id;UI.tab("ed");toast("تم روی ارائه اعمال شد")},
+ delTheme:e=>Lib.del(e.dataset.id),impPack:()=>Lib.imp(),expPack:()=>Lib.exp(),addFont:()=>Fonts.add(),delFont:e=>Fonts.del(e.dataset.id),
+ zipOut:()=>Backup.zipOut(),zipIn:()=>Backup.zipIn(),bsync:async e=>{e.disabled=true;e.textContent="در حال همگام‌سازی…";await Bridge.full(true);UI.storage()},
+ wipe:()=>UI.wipe(),banX:()=>$("#banner").classList.add("hide")
+};
+document.addEventListener("click",e=>{const el=e.target.closest("[data-a]");if(!el||el.disabled||!A[el.dataset.a])return;if(el.tagName!="A")e.preventDefault();e.stopPropagation();Promise.resolve(A[el.dataset.a](el,e)).catch(err=>toast("⚠️ "+err.message))});
+document.addEventListener("input",e=>{const el=e.target;if(el.dataset&&el.dataset.f&&el.closest("#stage"))Ed.input(el);else if(el.dataset&&el.dataset.o&&D.outline){setPath(D.outline.slides,el.dataset.o,txt(el).trim());Draft.save()}});
+document.addEventListener("focusout",e=>{if(e.target.dataset&&e.target.dataset.f){Ed.snapT=0}});
+document.addEventListener("keydown",e=>{const el=e.target;if(el.dataset&&el.dataset.f&&el.closest("#stage"))return Ed.key(e,el);
+ if(Pres.el){if(["ArrowLeft","PageDown"," ","Enter"].includes(e.key)){e.preventDefault();Pres.next()}else if(["ArrowRight","PageUp","Backspace"].includes(e.key)){e.preventDefault();Pres.prev()}else if(e.key=="Escape")Pres.close();else if(e.key=="n"||e.key=="ی")A.pNotes();return}
+ if(/INPUT|TEXTAREA|SELECT/.test(el.tagName)||el.isContentEditable||$("#t-ed").classList.contains("hide")||!Ed.d)return;
+ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()=="z"){e.preventDefault();A.undo()}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()=="y"){e.preventDefault();A.redo()}
+ else if(e.key=="ArrowLeft"||e.key=="ArrowDown"){e.preventDefault();Ed.go(Ed.i+1)}else if(e.key=="ArrowRight"||e.key=="ArrowUp"){e.preventDefault();Ed.go(Ed.i-1)}else if(e.key=="F5"){e.preventDefault();Pres.open(Ed.i)}});
+// drag & drop slide order
+let dragI=-1;
+document.addEventListener("dragstart",e=>{const t=e.target.closest&&e.target.closest(".tb");if(t){dragI=+t.dataset.i;t.classList.add("drag")}});
+document.addEventListener("dragover",e=>{const t=e.target.closest&&e.target.closest(".tb");if(t&&dragI>=0){e.preventDefault();$$(".tb.over").forEach(x=>x.classList.remove("over"));t.classList.add("over")}});
+document.addEventListener("drop",e=>{const t=e.target.closest&&e.target.closest(".tb");if(t&&dragI>=0){e.preventDefault();Ed.drop(dragI,+t.dataset.i)}dragI=-1;$$(".tb").forEach(x=>x.classList.remove("over","drag"))});
+document.addEventListener("dragend",()=>{dragI=-1;$$(".tb").forEach(x=>x.classList.remove("over","drag"))});
+window.addEventListener("resize",()=>{clearTimeout(window.__rs);window.__rs=setTimeout(()=>{$$(".sbx").forEach(b=>R.scale(b))},150)});
+
+// ---------- app ----------
+const App={
+ async reload(){const th=await Store.get("kv","uitheme");applyUI(th||Store.fastTheme()||"بنفش");S.settings={voice:"Kore",vstyle:"calm",...(await Store.get("kv","settings")||{})};
+  await Draft.load();await Fonts.load();await Themes.load();await Decks.load();Make.sync();Decks.render();
+  $("#dTitle").onchange=e=>{if(!Ed.d)return;Ed.snap();Ed.d.title=e.target.value.trim()||"ارائه";Decks.save(Ed.d)};
+  $("#dTheme").onchange=e=>{if(!Ed.d)return;const t=Themes.get(e.target.value);Ed.snap();Ed.d.theme=t.id;Ed.d.fT=t.ft;Ed.d.fB=t.fb;Fonts.ensureDeck(Ed.d);Ed.changed(true)};
+  $("#fSample").oninput=()=>Lib.renderFonts()},
+ async init(){window.__booted=true;applyUI(Store.fastTheme()||"بنفش");Make.init();Make.sync();
+  try{await Bridge.init()}catch(e){console.warn(e)}
+  const lost=!Bridge.st.restored&&!(await Store.get("kv","meta"))&&Store.lastSaveLS();await App.reload();
+  S.persisted=await Store.persist();UI.status();if(lost)$("#banner").classList.remove("hide");window.__ready=true}
+};
+App.init().catch(e=>toast("⚠️ خطا در شروع برنامه: "+e.message,9000));
+
+</script>
+</body>
+</html>

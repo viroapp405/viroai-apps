@@ -1,2 +1,9 @@
-# viroai-apps
-ابزارهای رایگان هوش مصنوعی ViroAI — سید صبا میری (viroai.ir)
+# ViroAI Apps
+
+ابزارهای رایگان هوش مصنوعی ساخته‌ی **سید صبا میری** · [viroai.ir](https://viroai.ir) · اینستاگرام [viromedia404](https://instagram.com/viromedia404)
+
+| ابزار | فایل کامل | لودر Canvas |
+|---|---|---|
+| 🎞️ اسلایدساز صبا | `slides/index.html` | `slides/canvas-loader.html` |
+
+لودر کوچک در Gemini Canvas اجرا می‌شود و نسخه‌ی کامل برنامه را از همین مخزن بارگذاری می‌کند؛ با هر آپدیت این مخزن، برنامه‌ی Canvas هم به‌روز می‌شود.
