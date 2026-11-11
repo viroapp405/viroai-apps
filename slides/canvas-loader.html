@@ -15,7 +15,15 @@ const CACHE_KEY="sabaLoader.saba-slides";
  for(const u of APP_SOURCES){try{const r=await fetch(u+"?t="+Date.now(),{cache:"no-store"});if(r.ok){const t=await r.text();if(t.includes("</html>")){html=t;break}}}catch(e){}}
  if(html){try{localStorage.setItem(CACHE_KEY,html)}catch(e){}}else{try{html=localStorage.getItem(CACHE_KEY)}catch(e){}}
  if(!html){document.getElementById("m").textContent="⚠️ دریافت برنامه ممکن نشد. اینترنت را بررسی کن و صفحه را تازه کن.";return}
- document.open();document.write(html);document.close();
+ const doc=new DOMParser().parseFromString(html,"text/html");
+ document.title=doc.title||document.title;
+ document.documentElement.lang=doc.documentElement.lang||"fa";document.documentElement.dir=doc.documentElement.dir||"rtl";
+ document.querySelectorAll("style").forEach(s=>s.remove());
+ for(const n of [...doc.head.children]){if(n.tagName==="SCRIPT"||n.tagName==="TITLE")continue;document.head.appendChild(document.importNode(n,true))}
+ const scripts=[...doc.body.querySelectorAll("script")];scripts.forEach(s=>s.remove());
+ document.body.innerHTML=doc.body.innerHTML;
+ for(const s of scripts){const e=document.createElement("script");for(const a of s.attributes)e.setAttribute(a.name,a.value);
+  if(s.src){await new Promise(ok=>{e.onload=e.onerror=ok;document.body.appendChild(e)})}else{e.textContent=s.textContent;document.body.appendChild(e)}}
 })();
 </script>
 </body>
