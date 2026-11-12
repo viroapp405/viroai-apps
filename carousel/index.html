@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>کاروسل‌ساز صبا · v1.0.0</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+<style>
+.decks{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}.dk{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:rgba(0,0,0,.25)}
+.etb{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:10px}.etb input{max-width:260px}.etb select{width:auto;max-width:210px}
+
+@font-face{font-family:PDigits;src:url(https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/fonts/webfonts/Vazirmatn-Regular.woff2) format("woff2");font-weight:100 500;unicode-range:U+0030-0039,U+0660-066C,U+06F0-06F9}
+@font-face{font-family:PDigits;src:url(https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/fonts/webfonts/Vazirmatn-Bold.woff2) format("woff2");font-weight:600 900;unicode-range:U+0030-0039,U+0660-066C,U+06F0-06F9}
+:root{--bg:#07051a;--card:#110c27;--neon:#a874ff;--neon2:#7d6aff;--btxt:#100426;--line:color-mix(in srgb,var(--neon) 26%,transparent);--soft:color-mix(in srgb,var(--neon) 12%,transparent);--txt:color-mix(in srgb,var(--neon) 8%,#f4f2fb);--mut:color-mix(in srgb,var(--neon) 18%,#9a96ad)}
+*{box-sizing:border-box}
+body{margin:0;font-family:Vazirmatn,Tahoma,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;background-image:radial-gradient(900px 600px at 85% -10%,color-mix(in srgb,var(--neon) 22%,transparent),transparent 70%),radial-gradient(700px 500px at 0% 110%,color-mix(in srgb,var(--neon2) 14%,transparent),transparent 70%);background-attachment:fixed}
+button,input,select,textarea{font:inherit;color:inherit}
+h3{margin:0 0 8px}h4{margin:16px 0 8px}
+.card{background:color-mix(in srgb,var(--card) 82%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 0 32px color-mix(in srgb,var(--neon) 10%,transparent);margin-bottom:16px}
+.btn{min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line);background:var(--soft);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;text-decoration:none}
+.btn:hover{border-color:var(--neon)}.btn:disabled{opacity:.5;cursor:wait}
+.pri{background:linear-gradient(135deg,var(--neon),var(--neon2));color:var(--btxt);border:0;font-weight:700;box-shadow:0 0 18px color-mix(in srgb,var(--neon) 40%,transparent)}
+.big{min-height:56px;font-size:1.1rem;width:100%}
+.sm{padding:0 12px;font-size:.82rem;min-height:38px}
+.ic{width:40px;padding:0;min-height:40px}
+.danger{border-color:#ff5a6c;color:#ff8a9a}
+input,select,textarea{width:100%;min-height:44px;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;padding:10px 14px;outline:0}
+select option{background:#15102b}
+textarea{min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--neon)}
+input[type=checkbox],input[type=range]{width:auto;min-height:0;vertical-align:middle;accent-color:var(--neon)}
+label{display:block;margin:12px 0 6px;color:var(--mut);font-size:.9rem}
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:10px 16px;flex-wrap:wrap;background:color-mix(in srgb,var(--bg) 75%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.logo{font-weight:800;font-size:1.15rem;background:linear-gradient(90deg,var(--neon),var(--neon2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.seg{display:inline-flex;gap:4px;padding:4px;border-radius:999px;border:1px solid var(--line);background:rgba(0,0,0,.3);flex-wrap:wrap}
+.seg button{min-height:40px;padding:0 14px;border-radius:999px;border:0;background:none;cursor:pointer}
+.seg .on{background:linear-gradient(135deg,var(--neon),var(--neon2));color:var(--btxt);font-weight:700}
+.sp{flex:1}
+main{max-width:1320px;margin:auto;padding:16px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:800px){.g2,.g3{grid-template-columns:1fr}.top{padding:8px}}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.chip{min-height:38px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(0,0,0,.25);cursor:pointer;font-size:.85rem}
+.chip.on{background:var(--neon);color:var(--btxt);font-weight:700}
+.mut{color:var(--mut);font-size:.85rem}
+.hide{display:none!important}
+.step{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--neon),var(--neon2));color:var(--btxt);font-weight:800;margin-inline-end:6px}
+.modal{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:12px}
+.modal>.card{width:min(980px,100%);max-height:94vh;overflow:auto;margin:0;position:relative}
+.x{position:absolute;top:10px;left:10px;width:44px;padding:0}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:90;background:var(--card);border:1px solid var(--neon);border-radius:16px;padding:12px 18px;max-width:92vw;box-shadow:0 0 24px color-mix(in srgb,var(--neon) 40%,transparent)}
+.okb{background:#1f6f43;color:#eafff2;border-radius:999px;padding:0 14px;font-size:.82rem;font-weight:700;cursor:pointer;border:0;min-height:36px}
+.warn{background:#f6c94e;color:#231a02;border-radius:999px;padding:0 14px;font-size:.82rem;font-weight:700;cursor:pointer;border:0;min-height:36px}
+#brB{max-width:42vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.banner{background:#3a0d18;border:1px solid #ff5a6c;border-radius:18px;padding:12px;margin-bottom:14px}
+.sbox{border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}
+.cre{display:flex;flex-wrap:wrap;gap:6px 10px;justify-content:center;align-items:center;padding:18px 14px 26px;margin-top:10px;border-top:1px solid var(--line);color:var(--mut);font-size:.85rem}.cre b{color:var(--txt)}.cre a{color:var(--neon);text-decoration:none}.cre a:hover{text-decoration:underline}
+pre{white-space:pre-wrap;direction:ltr;text-align:left;font-size:.78rem;background:rgba(0,0,0,.4);padding:12px;border-radius:14px;max-height:300px;overflow:auto}
+summary{cursor:pointer;min-height:44px;display:flex;align-items:center;color:var(--mut)}
+.themes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.th{min-height:64px;border-radius:16px;border:2px solid;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#fff}
+.th i{width:36px;height:12px;border-radius:9px}.th.on{outline:3px solid #fff}
+[contenteditable=true]{outline:0;cursor:text}[contenteditable=true]:hover{box-shadow:0 0 0 2px rgba(168,116,255,.35)}[contenteditable=true]:focus{box-shadow:0 0 0 3px #a874ff;background:rgba(168,116,255,.08)}
+/* voice input */
+.mic{position:relative}
+.mic.rec{background:#ff3b5c;color:#fff;border-color:#ff3b5c;animation:pulse 1.2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 10px rgba(255,59,92,.15)}}
+.fld{position:relative}.fld .mic{position:absolute;bottom:8px;left:8px;min-height:36px;width:36px;padding:0}
+/* outline */
+/* theme cards */
+.badge{position:absolute;top:8px;right:8px;z-index:3;background:var(--neon);color:var(--btxt);border-radius:999px;padding:2px 10px;font-size:.72rem;font-weight:700}
+/* slide boxes (scaled 1920x1080) */
+/* editor */
+@media(max-width:1100px){.ed{grid-template-columns:150px 1fr}.ed .props{grid-column:1/-1}}
+@media(max-width:700px){.ed{grid-template-columns:1fr}}
+.pbar{height:6px;border-radius:9px;background:rgba(255,255,255,.08);overflow:hidden;margin:6px 0}.pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--neon),var(--neon2));width:0;transition:width .3s}
+audio{width:100%;height:40px}
+/* present */
+#pres{position:fixed;inset:0;z-index:80;background:#000;display:flex;align-items:center;justify-content:center}
+#pres .pst{position:relative;overflow:hidden}
+#pres .pst>.sl{position:absolute;top:0;right:0;transform-origin:top right;transition:opacity .45s}
+/* present: entrance animations */
+@keyframes anUp{from{opacity:0;transform:translateY(60px)}to{opacity:1;transform:none}}
+@keyframes anFade{from{opacity:0}to{opacity:1}}
+@keyframes anZoom{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:none}}
+@keyframes anSide{from{opacity:0;transform:translateX(-90px)}to{opacity:1;transform:none}}
+@keyframes anBlur{from{opacity:0;filter:blur(18px)}to{opacity:1;filter:none}}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.12)}}
+#pres .an-up .anx{animation:anUp .7s cubic-bezier(.2,.8,.2,1) both}
+#pres .an-fade .anx{animation:anFade .8s ease both}
+#pres .an-zoom .anx{animation:anZoom .65s cubic-bezier(.2,.9,.3,1.2) both}
+#pres .an-side .anx{animation:anSide .7s cubic-bezier(.2,.8,.2,1) both}
+#pres .an-blur .anx{animation:anBlur .9s ease both}
+#pres .kb .bgp,#pres .kb .fim{animation:kb 14s ease-out both}
+@media (prefers-reduced-motion:reduce){#pres .anx,#pres .kb .bgp,#pres .kb .fim{animation:none!important}}
+#pres .pnav{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:8px;opacity:.15;transition:opacity .3s;z-index:5}
+#pres:hover .pnav{opacity:1}
+#pres .pnotes{position:absolute;bottom:70px;right:20px;left:20px;max-height:30vh;overflow:auto;background:rgba(10,8,25,.92);border:1px solid var(--line);border-radius:16px;padding:12px 16px;z-index:5;line-height:1.9}
+/* ===== the slide itself (1920x1080 logical) ===== */
+
+/* layouts */
+
+.typegrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.tp{border:1px solid var(--line);border-radius:16px;padding:10px;cursor:pointer;background:rgba(0,0,0,.25);text-align:center;min-height:74px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.tp b{font-size:1.5rem;line-height:1.2}.tp.on{border-color:var(--neon);box-shadow:0 0 0 2px var(--neon);background:var(--soft)}
+.mpv{margin-top:12px;display:flex;justify-content:center}
+.mpv canvas{width:min(300px,80vw);height:auto;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.45)}
+.strip{display:flex;gap:10px;overflow-x:auto;padding:6px 4px 10px;direction:rtl}
+.tb{flex:0 0 auto;width:132px;position:relative;cursor:pointer;border-radius:12px;border:2px solid transparent;user-select:none}
+.tb canvas{width:100%;height:auto;display:block;border-radius:10px;background:#000}
+.tb.on{border-color:var(--neon);box-shadow:0 0 14px color-mix(in srgb,var(--neon) 50%,transparent)}
+.tb .n{position:absolute;top:4px;right:6px;background:rgba(0,0,0,.65);color:#fff;border-radius:999px;font-size:.72rem;padding:0 8px}
+.tb .busy{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.55);border-radius:10px;font-size:.8rem}
+.tb.drag{opacity:.4}.tb.over{border-color:#f6c94e}
+.cgrid{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:16px;align-items:start}
+.stage canvas{width:100%;max-width:560px;height:auto;display:block;margin:0 auto;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+.stage .nav{justify-content:center;margin-top:10px}
+.props textarea{min-height:80px}
+.props .row{margin-top:8px}
+.decks .dk canvas{width:100%;height:auto;display:block;background:#000}
+.dk .b{padding:10px 12px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:860px){.cgrid{grid-template-columns:1fr}.g2,.g3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="bootErr" style="display:none;position:fixed;z-index:99999;inset:auto 10px 10px 10px;background:#3a0b1e;color:#ffd7e3;border:1px solid #ff5c8a;border-radius:12px;padding:10px 14px;font:13px/1.8 Tahoma,sans-serif;direction:rtl;white-space:pre-wrap;max-height:40vh;overflow:auto"></div>
+<script>(function(){var n=0;function show(m){var b=document.getElementById("bootErr");if(!b||n>6)return;n++;b.style.display="block";b.textContent+=(b.textContent?"\n":"")+"⚠️ خطای برنامه (برای صبا/هارک بفرست): "+m}
+window.addEventListener("error",function(e){show((e.message||"error")+" | خط "+(e.lineno||"?")+":"+(e.colno||"?"))});
+window.addEventListener("unhandledrejection",function(e){var r=e.reason;show("Promise: "+(r&&(r.stack||r.message)||r))});
+window.addEventListener("load",function(){setTimeout(function(){if(!window.__ready&&!window.__booted)show("کد اصلی اجرا نشد؛ احتمالاً جمینی کد را ناقص نوشته یا تغییر داده. آخر کد باید با تگ پایان html تمام شود.")},8000)})})();</script>
+<header class="top">
+ <span class="logo">🎠 کاروسل‌ساز صبا</span>
+ <nav class="seg" id="tabs"><button class="on" data-a="tab" data-v="make">ساخت کاروسل</button><button data-a="tab" data-v="ed">ویرایش و خروجی</button><button data-a="tab" data-v="hist">کاروسل‌های من</button></nav>
+ <span class="sp"></span>
+ <button class="warn hide" id="brB" data-a="settings" title="وضعیت ذخیره‌ی دائمی"></button>
+ <button class="warn hide" id="tmpB" data-a="settings" title="داده‌ها ممکن است پاک شوند">ذخیره موقت</button>
+ <button class="btn" data-a="about" aria-label="درباره‌ی سازنده" title="درباره‌ی سازنده" style="width:44px;padding:0">ℹ️</button>
+ <button class="btn" data-a="settings" aria-label="تنظیمات" style="width:44px;padding:0">⚙️</button>
+</header>
+<main>
+<div class="banner hide" id="banner"><b>داده‌ها پاک شده‌اند؛ از پشتیبان زیپ بازگردانی کن</b><div class="row" style="margin-top:8px"><button class="btn sm" data-a="zipIn">♻️ بازگردانی از پشتیبان</button><button class="btn sm" data-a="banX">بستن</button></div></div>
+
+<section id="t-make">
+ <div class="card">
+  <h3><span class="step">۱</span>موضوع پست</h3>
+  <label for="topic">موضوع کاروسل</label>
+  <input id="topic" placeholder="مثلاً «۵ اشتباه رایج در عکاسی با موبایل»">
+  <div class="chips" id="ex"></div>
+  <label for="notes">نکته‌ها و توضیحات (اختیاری)</label>
+  <textarea id="notes" placeholder="چه نکته‌هایی حتماً باشد، چه چیزی تأکید شود، محصول یا خدمتی که معرفی می‌کنی…"></textarea>
+  <div class="g2">
+   <div><label for="aud">مخاطب (اختیاری)</label><input id="aud" placeholder="مثلاً «کسب‌وکارهای کوچک اینستاگرامی»"></div>
+   <div><label for="handle">آیدی پیج (روی همه‌ی اسلایدها)</label><input id="handle" dir="ltr" placeholder="@viromedia404"></div>
+  </div>
+  <label>لحن</label><div class="seg" id="tone"></div>
+ </div>
+
+ <div class="card">
+  <h3><span class="step">۲</span>نوع و اندازه</h3>
+  <label>نوع کاروسل</label><div class="typegrid" id="ctype"></div>
+  <div class="g3">
+   <div><label for="cnt">تعداد اسلاید</label><select id="cnt"></select></div>
+   <div><label>اندازه</label><div class="seg" id="ratio"></div></div>
+   <div><label>تصویر پس‌زمینه</label><div class="seg" id="imgs"></div></div>
+  </div>
+ </div>
+
+ <div class="card">
+  <h3><span class="step">۳</span>تم، فونت و سبک تصویر</h3>
+  <div class="g3">
+   <div><label for="mTheme">تم</label><select id="mTheme"></select></div>
+   <div><label for="mFT">فونت تیتر</label><select id="mFT"></select></div>
+   <div><label for="mFB">فونت متن</label><select id="mFB"></select></div>
+  </div>
+  <label for="mSty">سبک تصویرها</label><select id="mSty"></select>
+  <div class="mpv"><canvas id="mPrev" width="1080" height="1080" aria-label="پیش‌نمایش تم"></canvas></div>
+ </div>
+
+ <div class="card">
+  <h3><span class="step">۴</span>ساخت</h3>
+  <button class="btn pri big" id="buildBtn" data-a="build">🚀 ساخت کاروسل</button>
+  <p class="mut" id="buildMsg">متن اسلایدها، کپشن و هشتگ‌ها با هوش مصنوعی نوشته می‌شوند و بعد همه‌چیز قابل ویرایش است. متن فارسی را خود برنامه روی اسلاید می‌چیند، پس همیشه درست و خوانا است.</p>
+ </div>
+</section>
+
+<section id="t-ed" class="hide">
+ <div class="card" id="edEmpty"><p class="mut">هنوز کاروسلی باز نیست. از «ساخت کاروسل» شروع کن یا از «کاروسل‌های من» یکی را باز کن.</p></div>
+ <div id="edBox" class="hide">
+  <div class="etb">
+   <input id="pTitle" aria-label="نام کاروسل">
+   <select id="pTheme" aria-label="تم همه‌ی اسلایدها"></select>
+   <select id="pFT" aria-label="فونت تیتر"></select>
+   <select id="pFB" aria-label="فونت متن"></select>
+   <select id="pSty" aria-label="سبک تصویر"></select>
+   <div class="seg" id="pRatio"></div>
+   <span class="sp"></span>
+  </div>
+  <div class="etb">
+   <span class="mut" id="jobMsg"></span><button class="btn sm danger hide" id="jobX" data-a="cancelJobs">⏹ توقف</button>
+   <span class="sp"></span>
+   <button class="btn sm" data-a="allImgs">🖼️ تصویر برای همه</button>
+   <button class="btn sm" data-a="addSlide">➕ اسلاید</button>
+   <button class="btn sm pri" data-a="xZip">⬇️ همه‌ی اسلایدها (ZIP)</button>
+  </div>
+  <div class="pbar hide" id="jobBar"><i></i></div>
+  <div class="strip" id="strip"></div>
+  <div class="cgrid">
+   <div class="stage"><canvas id="big" width="1080" height="1080" aria-label="اسلاید انتخاب‌شده"></canvas><div class="row nav"><button class="btn ic" data-a="go" data-v="-1" title="اسلاید قبل">→</button><span class="mut" id="pos"></span><button class="btn ic" data-a="go" data-v="1" title="اسلاید بعد">←</button></div></div>
+   <div class="props card" id="props"></div>
+  </div>
+  <div class="card">
+   <div class="row"><h3>✍️ کپشن و هشتگ‌ها</h3><span class="sp"></span><button class="btn sm" data-a="cpCap">📋 کپی کپشن</button><button class="btn sm" data-a="cpTags">#️⃣ کپی هشتگ‌ها</button><button class="btn sm pri" data-a="cpAll">📋 کپی کپشن + هشتگ‌ها</button></div>
+   <label for="cap">کپشن</label><textarea id="cap" style="min-height:180px"></textarea>
+   <label for="tags">هشتگ‌ها</label><textarea id="tags" dir="auto" style="min-height:90px"></textarea>
+   <p class="mut" id="capInfo"></p>
+  </div>
+ </div>
+</section>
+
+<section id="t-hist" class="hide">
+ <div class="card"><div class="row"><h3>کاروسل‌های من</h3><span class="sp"></span><button class="btn sm" data-a="zipOut">⬇️ پشتیبان کامل</button></div><div class="decks" id="hist" style="margin-top:12px"></div></div>
+</section>
+
+<footer class="cre"><span>ساخته‌ی <b>سید صبا میری</b></span>·<a href="https://viroai.ir" target="_blank" rel="noopener">viroai.ir</a>·<a href="https://instagram.com/viromedia404" target="_blank" rel="noopener" dir="ltr">Instagram: viromedia404</a>·<a href="tel:+989120349893" dir="ltr">۰۹۱۲۰۳۴۹۸۹۳</a>·<span>تلگرام: به‌زودی</span></footer>
+</main>
+<script>
+// Canvas (free, no key) allows only these models. With the user's own API key, newer models unlock.
+const CANVAS_MODELS={image:"gemini-3.1-flash-image",text:"gemini-2.5-flash",tts:"gemini-2.5-flash-preview-tts"};
+const KEY_TEXT_MODELS=["gemini-3.5-flash-lite","gemini-3.5-flash","gemini-3.8-flash"];
+const KEY_TTS_MODELS=["gemini-3.8-flash-tts","gemini-3.8-flash-lite-tts"];
+const KeyCfg=(()=>{const L=k=>{try{return localStorage.getItem("sabaKey."+k)||""}catch(e){return""}};
+ return{key:L("key"),text:L("text")||KEY_TEXT_MODELS[0],tts:L("tts")||KEY_TTS_MODELS[0],
+ save(k,v){this[k]=String(v||"").trim();try{this[k]?localStorage.setItem("sabaKey."+k,this[k]):localStorage.removeItem("sabaKey."+k)}catch(e){}KeyCfg.apply();const n=document.getElementById("keyNote");if(n)n.textContent=KeyCfg.note()},
+ apply(){IMAGE_MODEL=CANVAS_MODELS.image;TEXT_MODEL=this.key?this.text:CANVAS_MODELS.text;TTS_MODEL=this.key?this.tts:CANVAS_MODELS.tts},
+ note(){return this.key?`✅ کلید شخصی فعال است · متن: ${TEXT_MODEL}`:"بدون کلید: مدل‌های رایگان Canvas استفاده می‌شوند"},
+ html(){const o=(a,v)=>a.map(m=>`<option ${m==v?"selected":""}>${m}</option>`).join("");return`<h4>🔑 کلید API شخصی (اختیاری)</h4><p class="mut">اگر کلید Gemini API خودت را بزنی، مدل‌های جدیدتر و سریع‌تر متن (3.5 و 3.8) باز می‌شوند (هزینه‌اش با حساب خودت است). کلید فقط در همین مرورگر می‌ماند و جایی فرستاده نمی‌شود جز گوگل. خالی بگذاری، برنامه رایگان با Canvas کار می‌کند.</p><input type="password" dir="ltr" placeholder="AIza..." value="${this.key.replace(/"/g,"&quot;")}" oninput="KeyCfg.save('key',this.value)" style="width:100%;box-sizing:border-box;padding:8px;border-radius:10px"><div class="row" style="margin-top:8px;gap:8px;display:flex;flex-wrap:wrap"><label class="mut">متن <select dir="ltr" onchange="KeyCfg.save('text',this.value)">${o(KEY_TEXT_MODELS,this.text)}</select></label></div><p class="mut" id="keyNote">${this.note()}</p>`}}})();
+let IMAGE_MODEL,TEXT_MODEL,TTS_MODEL;KeyCfg.apply();
+const apiKey="";
+const APP_VER="1.0.0";
+const UITHEMES=[["زمرد","#040c09","#0a1813","#2ee59d","#14c4b0","#02170f"],["بنفش","#07051a","#110c27","#a874ff","#7d6aff","#100426"],["فیروزه‌ای","#030c11","#091921","#25d9f2","#2fd6a8","#021c24"],["آبی","#050a18","#0c142e","#5592ff","#7d6cff","#030b22"],["صورتی","#0f0517","#1b0b24","#ff57da","#b763ff","#2a0422"],["نارنجی","#100a04","#1e140a","#ffa83d","#ff7040","#271302"],["قرمز","#110508","#200c11","#ff5a6c","#ff8a4f","#2a0409"],["طلایی","#0d0b05","#1b170b","#f6c94e","#e9a23b","#231a02"]];
+// built-in themes + fonts (generated by themes/gen_themes.py, format slide-themes-v1)
+const LIB={"fonts":{"vazir":{"name_fa":"وزیرمتن","family":"Vazirmatn","src":"https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css","cat":"ساده","desc_en":"clean modern geometric Persian sans-serif (Vazirmatn)"},"shabnam":{"name_fa":"شبنم","family":"Shabnam","src":"https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/font-face.css","cat":"ساده","desc_en":"soft friendly Persian sans-serif (Shabnam)"},"sahel":{"name_fa":"ساحل","family":"Sahel","src":"https://cdn.jsdelivr.net/gh/rastikerdar/sahel-font@v3.4.0/dist/font-face.css","cat":"ساده","desc_en":"neutral readable Persian sans-serif (Sahel)"},"samim":{"name_fa":"صمیم","family":"Samim","src":"https://cdn.jsdelivr.net/gh/rastikerdar/samim-font@v4.0.5/dist/font-face.css","cat":"ساده","desc_en":"rounded warm Persian sans-serif (Samim)"},"tanha":{"name_fa":"تنها","family":"Tanha","src":"https://cdn.jsdelivr.net/gh/rastikerdar/tanha-font/dist/font-face.css","cat":"نمایشی","desc_en":"elegant thin decorative Persian display (Tanha)"},"parastoo":{"name_fa":"پرستو","family":"Parastoo","src":"https://cdn.jsdelivr.net/gh/rastikerdar/parastoo-font@v2.0.1/dist/font-face.css","cat":"کلاسیک","desc_en":"classic calligraphic Persian naskh (Parastoo)"},"gandom":{"name_fa":"گندم","family":"Gandom","src":"https://cdn.jsdelivr.net/gh/rastikerdar/gandom-font@v0.8/dist/font-face.css","cat":"ساده","desc_en":"simple soft Persian text face (Gandom)"},"nahid":{"name_fa":"ناهید","family":"Nahid","src":"https://cdn.jsdelivr.net/gh/rastikerdar/nahid-font@v0.3.0/dist/font-face.css","cat":"نمایشی","desc_en":"playful hand-drawn Persian display (Nahid)"},"lalezar":{"name_fa":"لاله‌زار","family":"Lalezar","src":"g:400","cat":"نمایشی","desc_en":"heavy bold retro Persian poster display (Lalezar)"},"kufi":{"name_fa":"نوتو کوفی","family":"Noto Kufi Arabic","src":"g:400;700","cat":"ساده","desc_en":"geometric Kufi-style Persian sans (Noto Kufi)"},"naskh":{"name_fa":"نوتو نسخ","family":"Noto Naskh Arabic","src":"g:400;700","cat":"کلاسیک","desc_en":"traditional book Naskh Persian serif"},"nastaliq":{"name_fa":"نستعلیق","family":"Noto Nastaliq Urdu","src":"g:400;700","cat":"کلاسیک","desc_en":"flowing Persian Nastaliq calligraphy"},"reemkufi":{"name_fa":"ریم کوفی","family":"Reem Kufi","src":"g:400;700","cat":"نمایشی","desc_en":"square geometric Kufic display"},"reemfun":{"name_fa":"ریم کوفی فان","family":"Reem Kufi Fun","src":"g:400;700","cat":"کودکانه","desc_en":"playful rounded Kufic display"},"changa":{"name_fa":"چنگا","family":"Changa","src":"g:400;700","cat":"مدرن","desc_en":"condensed techy futuristic Persian sans (Changa)"},"markazi":{"name_fa":"مرکزی","family":"Markazi Text","src":"g:400;700","cat":"کلاسیک","desc_en":"editorial Persian serif (Markazi)"},"amiri":{"name_fa":"امیری","family":"Amiri","src":"g:400;700","cat":"کلاسیک","desc_en":"classical elegant Naskh serif (Amiri)"},"harmattan":{"name_fa":"هارمتان","family":"Harmattan","src":"g:400;700","cat":"ساده","desc_en":"light simple Persian sans (Harmattan)"},"mada":{"name_fa":"مدی","family":"Mada","src":"g:400;700","cat":"مدرن","desc_en":"minimal modern Persian sans (Mada)"},"tajawal":{"name_fa":"تجول","family":"Tajawal","src":"g:400;700","cat":"مدرن","desc_en":"crisp corporate Persian sans (Tajawal)"},"cairo":{"name_fa":"قاهره","family":"Cairo","src":"g:400;700","cat":"مدرن","desc_en":"bold contemporary Persian sans (Cairo)"},"messiri":{"name_fa":"المسیری","family":"El Messiri","src":"g:400;700","cat":"نمایشی","desc_en":"stylish modern display with calligraphic feel (El Messiri)"},"ruqaa":{"name_fa":"رقعه","family":"Aref Ruqaa","src":"g:400;700","cat":"کلاسیک","desc_en":"handwritten Ruqaa calligraphy"},"rakkas":{"name_fa":"رکاس","family":"Rakkas","src":"g:400","cat":"نمایشی","desc_en":"heavy ornamental vintage display (Rakkas)"},"lateef":{"name_fa":"لطیف","family":"Lateef","src":"g:400;700","cat":"کلاسیک","desc_en":"traditional Persian/Urdu naskh (Lateef)"},"sheherazade":{"name_fa":"شهرزاد","family":"Scheherazade New","src":"g:400;700","cat":"کلاسیک","desc_en":"rich classic Naskh with tall letters (Scheherazade)"},"gulzar":{"name_fa":"گلزار","family":"Gulzar","src":"g:400","cat":"کلاسیک","desc_en":"decorative Nastaliq calligraphy (Gulzar)"},"kufam":{"name_fa":"کوفام","family":"Kufam","src":"g:400;700","cat":"مدرن","desc_en":"modern Kufic sans (Kufam)"},"baloo":{"name_fa":"بالو","family":"Baloo Bhaijaan 2","src":"g:400;700","cat":"کودکانه","desc_en":"chunky rounded friendly display (Baloo)"},"jomhuria":{"name_fa":"جمهوریه","family":"Jomhuria","src":"g:400","cat":"نمایشی","desc_en":"ultra-bold black poster display (Jomhuria)"},"katibeh":{"name_fa":"کتیبه","family":"Katibeh","src":"g:400","cat":"نمایشی","desc_en":"ornamental inscription display (Katibeh)"},"mirza":{"name_fa":"میرزا","family":"Mirza","src":"g:400;700","cat":"کلاسیک","desc_en":"Qajar-style elegant Naskh (Mirza)"},"lemonada":{"name_fa":"لیموناد","family":"Lemonada","src":"g:400;700","cat":"کودکانه","desc_en":"round bubbly display (Lemonada)"},"readex":{"name_fa":"ریدکس","family":"Readex Pro","src":"g:400;700","cat":"مدرن","desc_en":"wide modern UI sans (Readex Pro)"},"alexandria":{"name_fa":"اسکندریه","family":"Alexandria","src":"g:400;700","cat":"مدرن","desc_en":"sharp contemporary geometric sans (Alexandria)"},"plex":{"name_fa":"آی‌بی‌ام پلکس","family":"IBM Plex Sans Arabic","src":"g:400;700","cat":"مدرن","desc_en":"technical corporate sans (IBM Plex)"},"marhey":{"name_fa":"مرحی","family":"Marhey","src":"g:400;700","cat":"کودکانه","desc_en":"hand-drawn bouncy display (Marhey)"},"handjet":{"name_fa":"هندجت","family":"Handjet","src":"g:400;700","cat":"مدرن","desc_en":"pixel/LED modular display (Handjet)"},"blaka":{"name_fa":"بلاکا","family":"Blaka","src":"g:400","cat":"نمایشی","desc_en":"gothic blackletter-inspired display (Blaka)"},"playpen":{"name_fa":"پلی‌پن","family":"Playpen Sans Arabic","src":"g:400;700","cat":"کودکانه","desc_en":"casual handwriting (Playpen Sans)"}},"themes":[{"id":"neon-purple","name_fa":"نئون بنفش صبا","group":"🌙 تیره و مدرن","dark":1,"bg":"radial-gradient(1200px 800px at 85% -10%,#3b1f7a 0%,transparent 65%),radial-gradient(900px 700px at 0% 110%,#241a66 0%,transparent 70%),#07051a","surf":"rgba(168,116,255,.10)","line":"rgba(168,116,255,.35)","text":"#f4f2fb","muted":"#b9b2d6","acc":"#a874ff","acc2":"#7d6aff","ft":"vazir","fb":"vazir","decor":"orbs","card":"glass","tfx":"grad","r":28,"img_en":"glowing neon purple and violet 3D illustration on a near-black background, soft bloom light","desc_fa":"طرح امضای صبا: مشکی با درخشش بنفش نئونی"},{"id":"midnight","name_fa":"نیمه‌شب طلایی","group":"🌙 تیره و مدرن","dark":1,"bg":"linear-gradient(135deg,#0b0f1e,#151b33)","surf":"rgba(255,255,255,.05)","line":"rgba(246,201,78,.35)","text":"#f6f3ea","muted":"#a9a7a0","acc":"#f6c94e","acc2":"#e9a23b","ft":"messiri","fb":"shabnam","decor":"lines","card":"outline","tfx":"plain","r":18,"img_en":"luxurious dark navy scene with gold accents, cinematic lighting","desc_fa":"سرمه‌ای عمیق با خطوط طلایی، شیک و رسمی"},{"id":"aurora","name_fa":"شفق قطبی","group":"🌙 تیره و مدرن","dark":1,"bg":"radial-gradient(1000px 600px at 20% 0%,#0f5c4d 0%,transparent 60%),radial-gradient(900px 600px at 100% 100%,#3a1f6b 0%,transparent 60%),#050b12","surf":"rgba(255,255,255,.06)","line":"rgba(46,229,157,.3)","text":"#eafff6","muted":"#9cc9b8","acc":"#2ee59d","acc2":"#25d9f2","ft":"kufi","fb":"vazir","decor":"orbs","card":"glass","tfx":"grad","r":26,"img_en":"aurora borealis colors, teal and violet gradients, dreamy glow","desc_fa":"سبز و فیروزه‌ای شفق روی آسمان تاریک"},{"id":"carbon","name_fa":"کربن قرمز","group":"🌙 تیره و مدرن","dark":1,"bg":"linear-gradient(160deg,#111,#1c1c1f)","surf":"rgba(255,255,255,.04)","line":"rgba(255,90,108,.4)","text":"#f5f5f5","muted":"#a0a0a0","acc":"#ff5a6c","acc2":"#ff8a4f","ft":"changa","fb":"sahel","decor":"stripe","card":"solid","tfx":"box","r":10,"img_en":"bold dark carbon texture with red highlights, sporty dynamic","desc_fa":"مشکی کربنی با قرمز پرانرژی، اسپرت"},{"id":"ocean-deep","name_fa":"اقیانوس عمیق","group":"🌙 تیره و مدرن","dark":1,"bg":"linear-gradient(180deg,#03122a,#062a4a)","surf":"rgba(85,146,255,.10)","line":"rgba(85,146,255,.35)","text":"#eaf3ff","muted":"#9fb6d6","acc":"#5592ff","acc2":"#2fd6a8","ft":"readex","fb":"vazir","decor":"waves","card":"glass","tfx":"plain","r":22,"img_en":"deep ocean blue underwater light rays, calm","desc_fa":"آبی عمیق با موج‌های آرام"},{"id":"paper-white","name_fa":"کاغذ سفید","group":"☀️ روشن و مینیمال","dark":0,"bg":"#fbfaf7","surf":"#ffffff","line":"rgba(20,20,30,.12)","text":"#1d1d24","muted":"#6b6b76","acc":"#2b59ff","acc2":"#00b3a4","ft":"vazir","fb":"vazir","decor":"none","card":"shadow","tfx":"plain","r":20,"img_en":"clean minimal flat illustration on white, soft shadows, lots of whitespace","desc_fa":"سفید و تمیز، مینیمال و خوانا"},{"id":"sand","name_fa":"شنی گرم","group":"☀️ روشن و مینیمال","dark":0,"bg":"linear-gradient(135deg,#f6efe4,#efe3d0)","surf":"rgba(255,255,255,.6)","line":"rgba(120,80,40,.18)","text":"#3b2a1a","muted":"#86705a","acc":"#c0703a","acc2":"#7a9a5a","ft":"markazi","fb":"samim","decor":"paper","card":"solid","tfx":"under","r":16,"img_en":"warm beige earthy tones, soft watercolor illustration","desc_fa":"کرم و خاکی گرم، آرام و دنج"},{"id":"pastel","name_fa":"پاستلی","group":"☀️ روشن و مینیمال","dark":0,"bg":"linear-gradient(135deg,#fdf2f8,#eef2ff)","surf":"rgba(255,255,255,.75)","line":"rgba(150,120,200,.2)","text":"#2c2440","muted":"#7a7090","acc":"#e05aa8","acc2":"#7d6aff","ft":"shabnam","fb":"shabnam","decor":"dots","card":"solid","tfx":"plain","r":28,"img_en":"soft pastel 3D clay illustration, pink and lavender","desc_fa":"صورتی و یاسی ملایم"},{"id":"swiss","name_fa":"سوئیسی","group":"☀️ روشن و مینیمال","dark":0,"bg":"#ffffff","surf":"#f3f3f3","line":"rgba(0,0,0,.9)","text":"#111111","muted":"#555555","acc":"#e30613","acc2":"#111111","ft":"cairo","fb":"sahel","decor":"grid","card":"none","tfx":"box","r":0,"img_en":"bold Swiss graphic design, geometric shapes, red and black on white","desc_fa":"سبک گرافیک سوئیسی؛ قرمز و مشکی روی سفید"},{"id":"corporate-blue","name_fa":"شرکتی آبی","group":"🏢 شرکتی و رسمی","dark":0,"bg":"linear-gradient(180deg,#ffffff,#eef3fb)","surf":"#ffffff","line":"rgba(20,60,140,.15)","text":"#10213f","muted":"#5b6b86","acc":"#1f5fd6","acc2":"#14a3c7","ft":"tajawal","fb":"vazir","decor":"corner","card":"shadow","tfx":"under","r":14,"img_en":"professional corporate photography style, blue tones, modern office","desc_fa":"آبی سازمانی، مناسب جلسه و گزارش"},{"id":"executive","name_fa":"مدیریتی","group":"🏢 شرکتی و رسمی","dark":1,"bg":"linear-gradient(135deg,#0f1b2d,#1d2f4a)","surf":"rgba(255,255,255,.06)","line":"rgba(255,255,255,.18)","text":"#f2f5fa","muted":"#9fb0c8","acc":"#4fb3ff","acc2":"#c8a96a","ft":"plex","fb":"plex","decor":"lines","card":"outline","tfx":"plain","r":8,"img_en":"sleek executive business visuals, navy and silver, minimal","desc_fa":"سرمه‌ای و نقره‌ای، جدی و حرفه‌ای"},{"id":"startup","name_fa":"استارتاپی","group":"🏢 شرکتی و رسمی","dark":0,"bg":"linear-gradient(135deg,#ffffff,#f4f0ff)","surf":"#ffffff","line":"rgba(110,80,255,.18)","text":"#1a1433","muted":"#6e6890","acc":"#6e50ff","acc2":"#ff6b9a","ft":"alexandria","fb":"vazir","decor":"orbs","card":"shadow","tfx":"grad","r":24,"img_en":"modern startup pitch-deck 3D illustration, purple and coral gradients","desc_fa":"پیچ‌دک استارتاپی با گرادیان بنفش و مرجانی"},{"id":"finance","name_fa":"مالی سبز","group":"🏢 شرکتی و رسمی","dark":0,"bg":"#f7faf8","surf":"#ffffff","line":"rgba(10,90,60,.15)","text":"#0e2a1f","muted":"#5d7a6c","acc":"#0a8f5a","acc2":"#d4a017","ft":"kufi","fb":"sahel","decor":"grid","card":"shadow","tfx":"box","r":10,"img_en":"clean financial charts and growth visuals, green and gold","desc_fa":"سبز و طلایی برای گزارش مالی"},{"id":"classroom","name_fa":"کلاس درس","group":"🎓 آموزشی","dark":0,"bg":"#fffdf6","surf":"#ffffff","line":"rgba(40,40,80,.15)","text":"#232340","muted":"#6a6a85","acc":"#ff7a00","acc2":"#2b8cff","ft":"lalezar","fb":"vazir","decor":"dots","card":"solid","tfx":"under","r":18,"img_en":"friendly educational flat illustration, bright and clear","desc_fa":"آموزشی روشن و شاد برای کلاس"},{"id":"chalkboard","name_fa":"تخته‌سیاه","group":"🎓 آموزشی","dark":1,"bg":"radial-gradient(1200px 700px at 50% 30%,#2f4a3a,#1d2e25)","surf":"rgba(255,255,255,.04)","line":"rgba(255,255,255,.35)","text":"#f1f4ee","muted":"#c4cfc0","acc":"#ffe27a","acc2":"#9ad1ff","ft":"nahid","fb":"gandom","decor":"frame","card":"outline","tfx":"plain","r":6,"img_en":"chalk drawing on a green chalkboard, hand-drawn sketches","desc_fa":"تخته‌سیاه با نوشته‌های گچی"},{"id":"notebook","name_fa":"دفترچه","group":"🎓 آموزشی","dark":0,"bg":"repeating-linear-gradient(180deg,#fffef8 0 46px,#dbe7f5 46px 48px)","surf":"rgba(255,255,255,.85)","line":"rgba(60,90,160,.25)","text":"#1f2a44","muted":"#5a6680","acc":"#e8463a","acc2":"#2a6fdb","ft":"playpen","fb":"shabnam","decor":"notebook","card":"solid","tfx":"under","r":8,"img_en":"doodle sketches in a lined notebook, pen and highlighter","desc_fa":"دفتر خط‌دار با دودل و هایلایت"},{"id":"science","name_fa":"علمی","group":"🎓 آموزشی","dark":1,"bg":"radial-gradient(1000px 700px at 80% 10%,#0e3b5c,transparent 60%),#06121f","surf":"rgba(37,217,242,.08)","line":"rgba(37,217,242,.3)","text":"#e8f8ff","muted":"#93b8c8","acc":"#25d9f2","acc2":"#a874ff","ft":"readex","fb":"vazir","decor":"blueprint","card":"glass","tfx":"plain","r":18,"img_en":"scientific diagram style, molecules and data visualizations, cyan glow","desc_fa":"علمی با شبکه‌ی آبی و حس آزمایشگاه"},{"id":"tile-turquoise","name_fa":"کاشی و فیروزه","group":"🇮🇷 ایرانی و سنتی","dark":0,"bg":"linear-gradient(180deg,#f3fbfb,#e2f3f3)","surf":"rgba(255,255,255,.8)","line":"rgba(0,120,130,.25)","text":"#0b3a40","muted":"#4c7479","acc":"#0a8f9a","acc2":"#1b4fa0","ft":"nastaliq","fb":"parastoo","decor":"girih","card":"outline","tfx":"plain","r":16,"img_en":"Persian turquoise tilework, Isfahan mosque patterns, cobalt and turquoise","desc_fa":"کاشی‌کاری فیروزه‌ای اصفهان با نقش گره"},{"id":"miniature","name_fa":"مینیاتور","group":"🇮🇷 ایرانی و سنتی","dark":0,"bg":"linear-gradient(180deg,#f7ecd6,#ecd9b4)","surf":"rgba(255,250,240,.75)","line":"rgba(140,90,30,.35)","text":"#3d2410","muted":"#7d5a3a","acc":"#a3281e","acc2":"#1f6f6a","ft":"gulzar","fb":"mirza","decor":"frame","card":"outline","tfx":"plain","r":6,"img_en":"Persian miniature painting style, gold leaf, ornate borders, Safavid art","desc_fa":"مینیاتور ایرانی با قاب تذهیب"},{"id":"qajar","name_fa":"قاجاری","group":"🇮🇷 ایرانی و سنتی","dark":1,"bg":"linear-gradient(135deg,#3a0d18,#5a1a24)","surf":"rgba(255,230,190,.07)","line":"rgba(246,201,78,.4)","text":"#fff3e0","muted":"#e0c49e","acc":"#f6c94e","acc2":"#e9897a","ft":"mirza","fb":"naskh","decor":"girih","card":"outline","tfx":"shadow","r":10,"img_en":"Qajar era painting style, rich crimson and gold, vintage Persian","desc_fa":"زرشکی و طلایی به سبک قاجار"},{"id":"nowruz","name_fa":"نوروزی","group":"🇮🇷 ایرانی و سنتی","dark":0,"bg":"linear-gradient(180deg,#f2fbf0,#fff7e8)","surf":"rgba(255,255,255,.8)","line":"rgba(60,140,60,.22)","text":"#1d3a1a","muted":"#5d7a55","acc":"#3c9a3c","acc2":"#ff8a3d","ft":"messiri","fb":"samim","decor":"confetti","card":"solid","tfx":"plain","r":22,"img_en":"Nowruz spring celebration, sabzeh, goldfish, colorful painted eggs, fresh green","desc_fa":"بهاری و نوروزی، سبز و شاد"},{"id":"calligraphy","name_fa":"خوشنویسی","group":"🇮🇷 ایرانی و سنتی","dark":0,"bg":"#f5f0e6","surf":"rgba(255,255,255,.55)","line":"rgba(40,30,20,.3)","text":"#1f1812","muted":"#6d6052","acc":"#8c1c13","acc2":"#1f1812","ft":"nastaliq","fb":"naskh","decor":"paper","card":"none","tfx":"plain","r":4,"img_en":"ink calligraphy on aged paper, brush strokes, minimal","desc_fa":"کاغذ کاهی و جوهر سیاه خوشنویسی"},{"id":"bauhaus","name_fa":"باوهاوس","group":"🎨 خلاق و هنری","dark":0,"bg":"#f1ece1","surf":"#ffffff","line":"rgba(0,0,0,.85)","text":"#141414","muted":"#4d4d4d","acc":"#e63946","acc2":"#1d4ed8","ft":"reemkufi","fb":"sahel","decor":"bauhaus","card":"solid","tfx":"box","r":0,"img_en":"Bauhaus poster art, primary colors, circles and triangles","desc_fa":"هنر باوهاوس با رنگ‌های اصلی"},{"id":"risograph","name_fa":"ریسوگراف","group":"🎨 خلاق و هنری","dark":0,"bg":"#fbf4ea","surf":"rgba(255,255,255,.6)","line":"rgba(255,72,120,.35)","text":"#21183a","muted":"#6b5f86","acc":"#ff4878","acc2":"#2f6bff","ft":"jomhuria","fb":"samim","decor":"dots","card":"outline","tfx":"shadow","r":12,"img_en":"risograph print texture, pink and blue overprint, grain","desc_fa":"چاپ ریسو با صورتی و آبی دانه‌دار"},{"id":"gradient-pop","name_fa":"گرادیان پاپ","group":"🎨 خلاق و هنری","dark":1,"bg":"linear-gradient(135deg,#ff3cac 0%,#784ba0 50%,#2b86c5 100%)","surf":"rgba(255,255,255,.14)","line":"rgba(255,255,255,.35)","text":"#ffffff","muted":"#f0e6ff","acc":"#ffe066","acc2":"#ffffff","ft":"lalezar","fb":"vazir","decor":"orbs","card":"glass","tfx":"plain","r":30,"img_en":"vibrant gradient 3D shapes, glossy pop art, pink purple blue","desc_fa":"گرادیان پرانرژی صورتی تا آبی"},{"id":"brutal","name_fa":"نئوبروتال","group":"🎨 خلاق و هنری","dark":0,"bg":"#fff6d6","surf":"#ffffff","line":"#111111","text":"#111111","muted":"#3d3d3d","acc":"#ff5c00","acc2":"#00c2a8","ft":"cairo","fb":"vazir","decor":"none","card":"brutal","tfx":"box","r":4,"img_en":"neo-brutalist flat graphics, thick black outlines, bold colors","desc_fa":"خطوط مشکی ضخیم و رنگ‌های تند"},{"id":"forest","name_fa":"جنگلی","group":"🌿 طبیعت","dark":1,"bg":"linear-gradient(160deg,#0f2418,#1d3b27)","surf":"rgba(255,255,255,.06)","line":"rgba(140,200,120,.3)","text":"#eef7ea","muted":"#a9c2a0","acc":"#8cd27a","acc2":"#f2c14e","ft":"kufam","fb":"shabnam","decor":"leaves","card":"glass","tfx":"plain","r":20,"img_en":"lush forest nature photography, green leaves, misty light","desc_fa":"سبز جنگلی و آرام"},{"id":"sunset","name_fa":"غروب","group":"🌿 طبیعت","dark":1,"bg":"linear-gradient(180deg,#2b1055,#7a2a6b 55%,#d4574a)","surf":"rgba(255,255,255,.10)","line":"rgba(255,200,150,.35)","text":"#fff4ec","muted":"#f1cdbd","acc":"#ffb36b","acc2":"#ff6b8a","ft":"messiri","fb":"vazir","decor":"sun","card":"glass","tfx":"plain","r":24,"img_en":"warm sunset sky gradient, silhouettes, golden hour","desc_fa":"آسمان غروب بنفش تا نارنجی"},{"id":"desert","name_fa":"کویر","group":"🌿 طبیعت","dark":0,"bg":"linear-gradient(180deg,#fbe9cf,#f0c99a)","surf":"rgba(255,255,255,.45)","line":"rgba(150,80,20,.25)","text":"#4a2a0f","muted":"#8a6040","acc":"#c2562a","acc2":"#2e7d8c","ft":"katibeh","fb":"samim","decor":"waves","card":"solid","tfx":"plain","r":14,"img_en":"Iranian desert dunes, adobe architecture, warm sand tones","desc_fa":"رنگ‌های کویر و خشت"},{"id":"cyber","name_fa":"سایبرپانک","group":"🚀 تکنولوژی","dark":1,"bg":"linear-gradient(135deg,#0a0016,#14002b)","surf":"rgba(255,0,200,.06)","line":"rgba(0,255,240,.45)","text":"#e9fbff","muted":"#9ab6c9","acc":"#00f0ff","acc2":"#ff2bd6","ft":"handjet","fb":"vazir","decor":"grid","card":"outline","tfx":"shadow","r":4,"img_en":"cyberpunk neon city, magenta and cyan glow, futuristic","desc_fa":"نئون سایبرپانک فیروزه‌ای و سرخابی"},{"id":"ai-glass","name_fa":"هوش مصنوعی","group":"🚀 تکنولوژی","dark":1,"bg":"radial-gradient(1100px 700px at 70% 0%,#1d2b6b,transparent 60%),radial-gradient(800px 600px at 0% 100%,#3b1460,transparent 60%),#05060f","surf":"rgba(255,255,255,.07)","line":"rgba(125,106,255,.35)","text":"#eef0ff","muted":"#a7acd6","acc":"#7d9bff","acc2":"#c56bff","ft":"alexandria","fb":"vazir","decor":"orbs","card":"glass","tfx":"grad","r":26,"img_en":"abstract AI neural network, glass 3D shapes, blue and violet glow","desc_fa":"شیشه‌ای و درخشان برای موضوعات هوش مصنوعی"},{"id":"terminal","name_fa":"ترمینال","group":"🚀 تکنولوژی","dark":1,"bg":"#0b0f0b","surf":"rgba(0,255,120,.04)","line":"rgba(0,255,120,.35)","text":"#d9ffe6","muted":"#7fb894","acc":"#00ff88","acc2":"#9dff00","ft":"changa","fb":"plex","decor":"blueprint","card":"outline","tfx":"plain","r":2,"img_en":"retro terminal green code on black, matrix style","desc_fa":"کد سبز روی مشکی، حس برنامه‌نویسی"},{"id":"kids-candy","name_fa":"آبنباتی","group":"🧸 کودکانه","dark":0,"bg":"linear-gradient(180deg,#fff7fb,#f0fbff)","surf":"#ffffff","line":"rgba(255,120,180,.3)","text":"#2b1b3a","muted":"#7a6890","acc":"#ff5fa2","acc2":"#21b8ff","ft":"baloo","fb":"shabnam","decor":"confetti","card":"solid","tfx":"plain","r":32,"img_en":"cute colorful cartoon illustration for kids, candy colors","desc_fa":"رنگ‌های آبنباتی و کارتونی"},{"id":"crayon","name_fa":"مدادشمعی","group":"🧸 کودکانه","dark":0,"bg":"#fffdf4","surf":"#ffffff","line":"rgba(80,60,40,.25)","text":"#2a2116","muted":"#6e604c","acc":"#ff6a3d","acc2":"#3cb371","ft":"marhey","fb":"samim","decor":"doodle","card":"outline","tfx":"plain","r":26,"img_en":"children's crayon drawing style, hand-drawn, playful","desc_fa":"نقاشی کودکانه با مداد شمعی"},{"id":"toy-blocks","name_fa":"اسباب‌بازی","group":"🧸 کودکانه","dark":0,"bg":"#eef7ff","surf":"#ffffff","line":"rgba(0,0,0,.15)","text":"#1b2440","muted":"#5b6785","acc":"#ffb703","acc2":"#fb5607","ft":"lemonada","fb":"vazir","decor":"bauhaus","card":"brutal","tfx":"plain","r":24,"img_en":"3D toy blocks and plastic toys, bright primary colors","desc_fa":"مکعب‌های رنگی و اسباب‌بازی سه‌بعدی"},{"id":"magazine","name_fa":"مجله‌ای","group":"📰 مجله‌ای","dark":0,"bg":"#f8f6f2","surf":"#ffffff","line":"rgba(0,0,0,.12)","text":"#121212","muted":"#5c5c5c","acc":"#c8102e","acc2":"#121212","ft":"rakkas","fb":"markazi","decor":"lines","card":"none","tfx":"under","r":0,"img_en":"high-end editorial magazine photography, dramatic lighting","desc_fa":"سبک مجله‌های مد و خبری"},{"id":"newspaper","name_fa":"روزنامه","group":"📰 مجله‌ای","dark":0,"bg":"#efebe2","surf":"rgba(255,255,255,.45)","line":"rgba(0,0,0,.35)","text":"#161616","muted":"#555","acc":"#161616","acc2":"#8a1c1c","ft":"blaka","fb":"naskh","decor":"lines","card":"outline","tfx":"plain","r":0,"img_en":"vintage newspaper halftone print, black and white","desc_fa":"روزنامه‌ی قدیمی و چاپ هافتون"},{"id":"vogue-dark","name_fa":"گالری تیره","group":"📰 مجله‌ای","dark":1,"bg":"#0d0d0d","surf":"rgba(255,255,255,.03)","line":"rgba(255,255,255,.2)","text":"#f4f1ea","muted":"#9b968c","acc":"#e8d3a2","acc2":"#ffffff","ft":"tanha","fb":"sahel","decor":"frame","card":"none","tfx":"plain","r":0,"img_en":"moody fine-art gallery photography, black backdrop, spotlight","desc_fa":"تیره و هنری مثل گالری"}]};
+const FONTS=LIB.fonts,BUILTIN=LIB.themes;
+const IMG_STYLES=[{"id":"cutaway3d","name_fa":"برش سه‌بعدی","group":"🧊 سه‌بعدی و علمی","en":"photorealistic 3D cross-section cutaway render that reveals the inner layers and structure of the subject, clean studio lighting, thin elegant callout leader lines pointing to the parts (lines only, no text), scientific textbook quality"},{"id":"exploded","name_fa":"نمای انفجاری","group":"🧊 سه‌بعدی و علمی","en":"3D exploded-view technical render, every part separated along clear axes and floating in order, precise engineering look, soft studio light"},{"id":"sciviz","name_fa":"شبیه‌سازی علمی","group":"🧊 سه‌بعدی و علمی","en":"high-end scientific 3D visualization with microscopic and molecular detail, depth of field, glowing particles, like a Nature journal cover"},{"id":"anatomy","name_fa":"آناتومی سه‌بعدی","group":"🧊 سه‌بعدی و علمی","en":"medical 3D anatomical render with semi-transparent layers showing the inner organs and structures, clinical clean background"},{"id":"iso","name_fa":"ایزومتریک","group":"🧊 سه‌بعدی و علمی","en":"isometric 3D illustration, clean geometry, soft shadows, miniature diorama feel"},{"id":"blueprint","name_fa":"نقشه‌ی فنی","group":"🧊 سه‌بعدی و علمی","en":"technical blueprint drawing, precise white lines on deep blue paper, measurement lines without numbers"},{"id":"clay3d","name_fa":"خمیری سه‌بعدی","group":"🧊 سه‌بعدی و علمی","en":"cute soft 3D clay render, rounded shapes, matte pastel materials"},{"id":"lowpoly","name_fa":"لوپلی","group":"🧊 سه‌بعدی و علمی","en":"low-poly 3D art, faceted geometric surfaces, crisp lighting"},{"id":"glass","name_fa":"گلس‌مورفیسم","group":"✨ مدرن و دیجیتال","en":"glassmorphism: frosted translucent glass panels and objects floating over a vivid blurred gradient, soft light refraction and glossy edges"},{"id":"holo","name_fa":"هولوگرافیک","group":"✨ مدرن و دیجیتال","en":"iridescent holographic chrome, rainbow foil gradients, liquid metal sheen, futuristic"},{"id":"neon3d","name_fa":"نئون سه‌بعدی","group":"✨ مدرن و دیجیتال","en":"glowing neon 3D objects on a dark background, bloom light, reflective floor"},{"id":"flat","name_fa":"فلت","group":"✨ مدرن و دیجیتال","en":"flat vector illustration, solid colors, no gradients, simple geometric shapes"},{"id":"line","name_fa":"خطی مینیمال","group":"✨ مدرن و دیجیتال","en":"minimal line-art illustration drawn with thin continuous lines, lots of whitespace"},{"id":"papercut","name_fa":"کاغذی لایه‌ای","group":"✨ مدرن و دیجیتال","en":"layered paper-cut art with soft shadows between the paper layers, handcrafted depth"},{"id":"comic","name_fa":"کمیک","group":"🎭 هنری و روایی","en":"comic book art, bold ink outlines, halftone dots, dynamic composition, vivid flat colors, any speech bubbles left empty"},{"id":"manga","name_fa":"مانگا","group":"🎭 هنری و روایی","en":"Japanese manga style, black and white screentones, expressive ink lines"},{"id":"retro80","name_fa":"رترو دهه‌ی ۸۰","group":"🎭 هنری و روایی","en":"1980s synthwave retro art, neon grid horizon, chrome sun, magenta and cyan"},{"id":"vintage","name_fa":"پوستر وینتیج","group":"🎭 هنری و روایی","en":"1950s vintage poster illustration, muted colors, worn print texture"},{"id":"pixel","name_fa":"پیکسل‌آرت","group":"🎭 هنری و روایی","en":"16-bit pixel art, crisp pixels, retro video game look"},{"id":"watercolor","name_fa":"آبرنگ","group":"🎭 هنری و روایی","en":"delicate watercolor painting, soft bleeding edges, paper texture"},{"id":"oil","name_fa":"رنگ روغن","group":"🎭 هنری و روایی","en":"classic oil painting, visible brush strokes, rich warm light"},{"id":"pencil","name_fa":"طراحی مدادی","group":"🎭 هنری و روایی","en":"graphite pencil sketch with cross-hatching, hand-drawn"},{"id":"photo","name_fa":"عکس واقعی","group":"📷 عکاسی","en":"photorealistic professional photography, natural light, shallow depth of field"},{"id":"cinematic","name_fa":"سینمایی","group":"📷 عکاسی","en":"cinematic film still, dramatic lighting, anamorphic lens, color graded"},{"id":"aerial","name_fa":"نمای هوایی","group":"📷 عکاسی","en":"aerial drone photography, top-down view, crisp detail"}];
+// utils
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const fa=s=>String(s??"").replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+const faNum=s=>String(s??"").replace(/(\d)\.(\d)/g,"$1٫$2").replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]).replace(/%/g,"٪");
+const enNum=s=>String(s??"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/٫/g,".");
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid=p=>p+"-"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const clone=o=>JSON.parse(JSON.stringify(o));
+// deep copy that keeps Blob objects (for undo + duplicate)
+const dcopy=v=>v instanceof Blob||v==null||typeof v!="object"?v:Array.isArray(v)?v.map(dcopy):Object.fromEntries(Object.entries(v).map(([k,x])=>[k,dcopy(x)]));
+const U=new WeakMap(),url=b=>{if(!b)return"";let u=U.get(b);if(!u){u=URL.createObjectURL(b);U.set(b,u)}return u};
+const fmtB=n=>n>=1073741824?fa((n/1073741824).toFixed(1)).replace(".","٫")+" گیگ":fa(Math.max(0,Math.round(n/1048576)))+" مگ";
+const fdate=t=>{try{return new Date(t).toLocaleDateString("fa-IR")+" · "+new Date(t).toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit"})}catch{return fa(new Date(t).toISOString().slice(0,10))}};
+const txt=el=>String(el.innerText!=null?el.innerText:el.textContent||"");
+const fdur=s=>fa(Math.floor(s/60))+":"+fa(String(Math.round(s%60)).padStart(2,"0"));
+function toast(m,t=4000){const d=document.createElement("div");d.className="toast";d.textContent=m;document.body.append(d);setTimeout(()=>d.remove(),t)}
+function modal(html,cls=""){const m=document.createElement("div");m.className="modal "+cls;m.innerHTML=`<div class="card"><button class="btn x" data-a="close" aria-label="بستن">✕</button>${html}</div>`;m.onclick=e=>{if(e.target===m)m.remove()};document.body.append(m);return m}
+function ask(msg){return new Promise(ok=>{const m=modal(`<h3>تأیید</h3><p>${esc(msg)}</p><div class="row"><button class="btn pri" id="cy">بله</button><button class="btn" id="cn">انصراف</button></div>`);$("#cy",m).onclick=()=>{m.remove();ok(true)};$("#cn",m).onclick=()=>{m.remove();ok(false)}})}
+function dl(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),5000)}
+const blobToB64=b=>new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(",")[1]||"");r.onerror=()=>no(r.error);r.readAsDataURL(b)});
+const b64ToBlob=(d,t)=>{const s=atob(d),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return new Blob([a],{type:t})};
+const blobAB=b=>b.arrayBuffer?b.arrayBuffer():new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=()=>no(r.error);r.readAsArrayBuffer(b)});
+const loadImg=src=>new Promise((ok,no)=>{const i=new Image(),t=setTimeout(()=>no(new Error("timeout")),15000);i.onload=()=>{clearTimeout(t);ok(i)};i.onerror=()=>{clearTimeout(t);no(new Error("img"))};i.src=src});
+const abortErr=()=>{const e=new Error("لغو شد");e.name="AbortError";return e};
+const sleep=(ms,sig)=>new Promise((ok,no)=>{if(sig&&sig.aborted)return no(abortErr());const t=setTimeout(ok,ms);sig&&sig.addEventListener("abort",()=>{clearTimeout(t);no(abortErr())},{once:true})});
+const pick=accept=>new Promise(ok=>{const i=document.createElement("input");i.type="file";i.accept=accept;i.onchange=()=>ok(i.files[0]||null);i.click()});
+const cBlob=(c,type,q)=>new Promise(ok=>{try{c.toBlob(b=>ok(b),type,q)}catch{ok(null)}});
+async function drawable(b){const u=URL.createObjectURL(b);try{const i=await loadImg(u);const W=i.naturalWidth||i.width,H=i.naturalHeight||i.height;return W&&H?{i,W,H}:null}catch{return null}finally{setTimeout(()=>URL.revokeObjectURL(u),1000)}}
+async function convert(b,type,maxSide){const d=await drawable(b);if(!d)return null;const s=maxSide?Math.min(1,maxSide/Math.max(d.W,d.H)):1,c=document.createElement("canvas");c.width=Math.round(d.W*s);c.height=Math.round(d.H*s);const x=c.getContext&&c.getContext("2d");if(!x)return null;x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(d.i,0,0,c.width,c.height);return cBlob(c,type,.92)}
+async function toRef(b){try{const j=await convert(b,"image/jpeg",1600);if(j)return{mimeType:"image/jpeg",data:await blobToB64(j)}}catch{}return{mimeType:b.type||"image/png",data:await blobToB64(b)}}
+function parseJ(t){t=String(t).replace(/```(?:json)?/gi,"").trim();try{return JSON.parse(t)}catch{}const a=t.search(/[\[{]/),z=Math.max(t.lastIndexOf("]"),t.lastIndexOf("}"));if(a<0||z<a)throw new Error("پاسخ مدل JSON معتبر نبود");return JSON.parse(t.slice(a,z+1))}
+const hexRgb=h=>{h=String(h||"#000").replace("#","");if(h.length==3)h=h.split("").map(c=>c+c).join("");const n=parseInt(h.slice(0,6),16)||0;return[n>>16&255,n>>8&255,n&255]};
+const rgba=(h,a)=>{if(/^rgba?\(/.test(h))return h;const[r,g,b]=hexRgb(h);return`rgba(${r},${g},${b},${a})`};
+const lum=h=>{const[r,g,b]=hexRgb(h).map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*r+.7152*g+.0722*b};
+const firstColor=css=>{const m=String(css).match(/#[0-9a-f]{6}\b|#[0-9a-f]{3}\b/gi);return m?m[m.length-1]:"#000000"};
+
+// Store: the only module that touches IndexedDB / localStorage
+const Store=(()=>{const N="saba-carousel",SS=["kv","decks","fonts","themes"],QUIET=["meta"];let db,subs=[],tm;
+ const ls=(k,v)=>{try{k="sabaCarousel."+k;if(v===undefined)return localStorage.getItem(k);v===null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch{return null}};
+ const open=()=>db?Promise.resolve(db):new Promise((ok,no)=>{const r=indexedDB.open(N,1);r.onupgradeneeded=()=>SS.forEach(s=>r.result.objectStoreNames.contains(s)||r.result.createObjectStore(s,{keyPath:s=="kv"?"k":"id"}));r.onsuccess=()=>{db=r.result;ok(db)};r.onerror=()=>no(r.error)});
+ const run=(s,m,f)=>open().then(d=>new Promise((ok,no)=>{const t=d.transaction(s,m),q=f(t.objectStore(s));t.oncomplete=()=>ok(q&&q.result);t.onerror=t.onabort=()=>no(t.error)}));
+ const changed=(s,k)=>{if(s=="kv"&&QUIET.includes(k))return;clearTimeout(tm);tm=setTimeout(async()=>{const t=Date.now();await run("kv","readwrite",o=>o.put({k:"meta",v:{lastSave:t}}));ls("lastSave",t);subs.forEach(f=>f())},1000)};
+ return{SS,
+  get:async(s,k)=>{const r=await run(s,"readonly",o=>o.get(k));return s=="kv"?r&&r.v:r},
+  set:async(s,v,k)=>{if(s=="kv"&&k=="uitheme")ls("uitheme",v);await run(s,"readwrite",o=>o.put(s=="kv"?{k,v}:v));changed(s,k)},
+  list:s=>run(s,"readonly",o=>o.getAll()),
+  delete:async(s,k)=>{await run(s,"readwrite",o=>o.delete(k));changed(s,k)},
+  clear:async()=>{const d=await open();await new Promise(ok=>{const t=d.transaction(SS,"readwrite");SS.forEach(s=>t.objectStore(s).clear());t.oncomplete=ok});["uitheme","lastSave"].forEach(k=>ls(k,null))},
+  fastTheme:()=>ls("uitheme"),lastSaveLS:()=>ls("lastSave"),onChange:f=>subs.push(f),
+  persist:async()=>{try{const s=navigator.storage;if(!s||!s.persist)return false;return(s.persisted&&await s.persisted())||await s.persist()}catch{return false}},
+  estimate:async()=>{try{return await navigator.storage.estimate()}catch{return null}}
+ }})();
+
+// zip backup: one JSON per store, every Blob (at any depth) saved as a file under files/
+const EXT={"image/png":"png","image/jpeg":"jpg","image/webp":"webp","audio/wav":"wav","font/ttf":"ttf","font/otf":"otf","font/woff":"woff","font/woff2":"woff2"};
+const Backup={
+ async pack(v,f,st){if(v instanceof Blob){const p=`files/${++st.n}.${EXT[v.type]||"bin"}`;f[p]=v;return{__file:p,t:v.type||""}}
+  if(Array.isArray(v)){const a=[];for(const x of v)a.push(await this.pack(x,f,st));return a}
+  if(v&&typeof v=="object"){const o={};for(const k in v)o[k]=await this.pack(v[k],f,st);return o}return v},
+ async unpack(v,get){if(Array.isArray(v)){const a=[];for(const x of v)a.push(await this.unpack(x,get));return a}
+  if(v&&typeof v=="object"){if(typeof v.__file=="string"){const b=await get(v.__file);return b?new Blob([b],{type:v.t||""}):null}const o={};for(const k in v)o[k]=await this.unpack(v[k],get);return o}return v},
+ async dump(){const f={},st={n:0},kv={};for(const r of await Store.list("kv"))if(r.k!="meta")kv[r.k]=r.v;f["kv.json"]=JSON.stringify({format:"carousel-kv-v1",kv:await this.pack(kv,f,st)});
+  for(const s of["decks","fonts","themes"])f[s+".json"]=JSON.stringify({format:`carousel-${s}-v1`,items:await this.pack(await Store.list(s),f,st)});return f},
+ async load(get){let n=0;const kt=await get("kv.json");if(kt){const j=JSON.parse(kt),kv=await this.unpack(j.kv||{},get);for(const k in kv){await Store.set("kv",kv[k],k);n++}}
+  for(const s of["decks","fonts","themes"]){const t=await get(s+".json");if(!t)continue;const j=JSON.parse(t);for(const o of await this.unpack(j.items||[],get)){if(o&&o.id!=null){await Store.set(s,o);n++}}}return n},
+ async jz(){if(window.JSZip)return JSZip;await Lazy.js("https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js","JSZip");if(!window.JSZip)throw new Error("بارگیری JSZip ممکن نشد");return JSZip},
+ async zipOut(){try{const Z=await this.jz(),z=new Z(),f=await this.dump();for(const n in f)z.file(n,f[n]);dl(await z.generateAsync({type:"blob"}),"saba-carousel-backup-"+new Date().toISOString().slice(0,10)+".zip");toast("پشتیبان کامل دانلود شد")}catch(e){toast("خطا در ساخت پشتیبان: "+e.message)}},
+ async zipIn(){const file=await pick(".zip");if(!file)return;try{const Z=await this.jz(),z=await Z.loadAsync(file);const n=await this.load(async p=>{const e=z.file(p);return e?e.async(p.endsWith(".json")?"string":"blob"):null});await App.reload();$("#banner").classList.add("hide");toast(`${fa(n)} مورد از پشتیبان بازگردانی شد`)}catch(e){toast("فایل پشتیبان معتبر نیست: "+e.message)}}
+};
+
+// lazy loading of CDN scripts / stylesheets
+const Lazy={done:{},
+ js(src,g){if(g&&window[g])return Promise.resolve();if(this.done[src])return this.done[src];return this.done[src]=new Promise((ok,no)=>{const s=document.createElement("script");s.src=src;s.onload=ok;s.onerror=()=>{delete this.done[src];no(new Error("بارگیری کتابخانه ممکن نشد: "+src.split("/").pop()))};document.head.append(s)})},
+ css(href){if(this.done[href])return;this.done[href]=1;const l=document.createElement("link");l.rel="stylesheet";l.href=href;document.head.append(l)}
+};
+
+// Bridge: optional storage in the Chrome extension (chrome.storage.local), which survives closing Gemini Canvas.
+// Protocol: window.postMessage({__sabaBridge:1,dir:"req",app:"saba-carousel",id,op,...}) answered by the extension's content script with dir:"res".
+// The bridge is the source of truth on load; every IndexedDB write is mirrored to it (debounced, batched).
+const Bridge=(()=>{const NS="__sabaBridge",APP="saba-carousel",SS=Store.SS,SKIP=["meta"],CH=8e6,P=new Map(),dirty=new Map();
+ let tm=0,busy=null,mute=0,seq=0,raw=null,lastToast=0,retry=0;
+ const st={on:false,checked:false,ver:"",last:0,pending:0,err:"",restored:0,synced:0};
+ window.addEventListener("message",e=>{const d=e.data;if(e.source!==window||!d||typeof d!="object"||d[NS]!==1||d.dir!=="res"||d.app!==APP)return;const p=P.get(d.id);if(!p)return;P.delete(d.id);clearTimeout(p.t);
+  d.ok?p.ok(d):p.no(Object.assign(new Error(d.error||"bridge error"),{quota:!!d.quota,invalidated:!!d.invalidated}))});
+ const call=(op,o={},ms=60000)=>new Promise((ok,no)=>{const id="b"+(++seq)+"-"+Date.now().toString(36);P.set(id,{ok,no,t:setTimeout(()=>{P.delete(id);no(Object.assign(new Error("timeout"),{timeout:true}))},ms)});
+  window.postMessage({[NS]:1,dir:"req",app:APP,id,op,...o},"*")});
+ const b64ToAB=d=>{const s=atob(d||""),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return a.buffer};
+ // JSON-safe encoding: Blob → {__sb:"blob"}, ArrayBuffer/TypedArray → {__sb:"ab"}; functions and class instances are dropped
+ async function enc(v){if(v==null||typeof v=="string"||typeof v=="boolean")return v;if(typeof v=="number")return isFinite(v)?v:null;if(typeof v!="object")return undefined;
+  if(v instanceof Blob)return{__sb:"blob",t:v.type||"",d:v.size?await blobToB64(v):""};
+  if(v instanceof ArrayBuffer||ArrayBuffer.isView(v)){const b=new Blob([v]);return{__sb:"ab",d:b.size?await blobToB64(b):""}}
+  if(Array.isArray(v)){const a=[];for(const x of v){const y=await enc(x);a.push(y===undefined?null:y)}return a}
+  const p=Object.getPrototypeOf(v);if(p!==Object.prototype&&p!==null)return undefined;
+  const o={};for(const k of Object.keys(v)){const y=await enc(v[k]);if(y!==undefined)o[k]=y}return o}
+ function dec(v){if(Array.isArray(v))return v.map(dec);if(!v||typeof v!="object")return v;if(v.__sb=="blob")return b64ToBlob(v.d||"",v.t||"");if(v.__sb=="ab")return b64ToAB(v.d);
+  const o={};for(const k of Object.keys(v))o[k]=dec(v[k]);return o}
+ function msg(e){return e.quota?"فضای ذخیره‌ی اکستنشن پر است؛ چند کار قدیمی را پاک کن و «همگام‌سازی کامل الان» را بزن، یا پشتیبان زیپ بگیر":
+  e.invalidated?"اکستنشن دوباره بارگذاری شده؛ این پنجره را ببند و برنامه را از آیکون اکستنشن دوباره باز کن":
+  e.timeout?"اکستنشن پاسخ نداد؛ تغییرات هنوز در اکستنشن ذخیره نشده‌اند":"خطا در ذخیره در اکستنشن: "+e.message}
+ function fail(e,silent){st.err=msg(e);if(!silent&&Date.now()-lastToast>20000){lastToast=Date.now();toast("⚠️ "+st.err,8000)}
+  if(!e.quota&&!e.invalidated&&dirty.size){clearTimeout(retry);retry=setTimeout(()=>flush(),15000)}refresh()}
+ const refresh=()=>{st.pending=dirty.size;try{UI.status()}catch{}};
+ function mark(s,k,op){if(!st.on||mute||k==null||(s=="kv"&&SKIP.includes(k)))return;dirty.set(JSON.stringify([s,k]),[s,k,op]);st.pending=dirty.size;clearTimeout(tm);tm=setTimeout(()=>flush(),500)}
+ async function sendAll(sets,dels,full){let a=[],size=0,n=0;const go=async()=>{if(!a.length)return;await call("batch",{sets:a,dels:[],full});n+=a.length;a=[];size=0};
+  for(const x of sets){a.push([x[0],x[1],x[2]]);size+=x[3];if(size>CH)await go()}await go();if(dels.length||full)await call("batch",{sets:[],dels,full});return n}
+ async function flush(){clearTimeout(tm);if(!st.on||!dirty.size)return;if(busy){await busy.catch(()=>{});return flush()}
+  busy=(async()=>{const items=[...dirty.values()];dirty.clear();const sets=[],dels=[];
+   try{for(const[s,k,op]of items){if(!op){dels.push([s,k]);continue}const v=await Store.get(s,k);if(v===undefined){dels.push([s,k]);continue}const e=await enc(v);if(e===undefined)continue;sets.push([s,k,e,JSON.stringify(e).length])}
+    await sendAll(sets,dels,false);st.last=Date.now();st.err=""}
+   catch(e){for(const[s,k,op]of items){const id=JSON.stringify([s,k]);dirty.has(id)||dirty.set(id,[s,k,op])}fail(e)}})();
+  try{await busy}finally{busy=null;refresh()}}
+ // the whole IndexedDB → extension (also removes extension entries that no longer exist here)
+ async function full(user){if(!st.on)return -1;clearTimeout(tm);if(busy)await busy.catch(()=>{});dirty.clear();
+  try{const sets=[],have=new Set();for(const s of SS)for(const r of await Store.list(s)){const k=s=="kv"?r.k:r.id;if(k==null||(s=="kv"&&SKIP.includes(k)))continue;const e=await enc(s=="kv"?r.v:r);if(e===undefined)continue;have.add(JSON.stringify([s,k]));sets.push([s,k,e,JSON.stringify(e).length])}
+   const ks=(await call("list",{},60000)).keys||[],dels=ks.filter(p=>!have.has(JSON.stringify(p)));
+   const n=await sendAll(sets,dels,true);st.last=st.synced=Date.now();st.err="";refresh();if(user)toast(`همگام‌سازی کامل شد: ${fa(n)} مورد در اکستنشن ذخیره شد`);return n}
+  catch(e){fail(e,!user);if(user)toast("⚠️ همگام‌سازی کامل ناموفق: "+st.err,8000);return -1}}
+ async function restore(){const r=await call("getAll",{},180000),items=(r.items||[]).filter(x=>Array.isArray(x)&&SS.includes(x[0]));if(!items.length)return 0;
+  mute++;
+  try{await raw.clear();for(const[s,k,v]of items){const x=dec(v);if(s=="kv")await raw.set("kv",x,k);else if(x&&typeof x=="object"&&x.id!=null)await raw.set(s,x)}}
+  finally{mute--}return items.length}
+ function patch(){if(raw)return;raw={set:Store.set,delete:Store.delete,clear:Store.clear};
+  Store.set=async(s,v,k)=>{await raw.set(s,v,k);mark(s,s=="kv"?k:v&&v.id,1)};
+  Store.delete=async(s,k)=>{await raw.delete(s,k);mark(s,k,0)};
+  Store.clear=async()=>{await raw.clear();if(!st.on||mute)return;clearTimeout(tm);dirty.clear();try{await call("clear");st.last=Date.now()}catch(e){fail(e)}}}
+ async function init(){for(let i=0;i<4&&!st.on;i++){try{const r=await call("ping",{},200);st.ver=r.version||"";st.on=true}catch{}}st.checked=true;if(!st.on)return false;patch();
+  try{st.restored=await restore();if(!st.restored)await full(false);st.last=Date.now()}
+  catch(e){st.on=false;st.err="بازیابی از اکستنشن ناموفق بود ("+msg(e)+")؛ داده‌های اکستنشن دست نخورده ماندند. صفحه را دوباره باز کن";toast("⚠️ "+st.err,9000)}
+  return st.on}
+ const save=()=>{if(dirty.size)flush()};window.addEventListener("pagehide",save);document.addEventListener("visibilitychange",()=>{if(document.visibilityState=="hidden")save()});
+ return{st,init,flush,full,call,enc,dec}})();
+
+// ---------- Gemini API (one model per job, no fallback chain) ----------
+async function callApi(model,body,sig,onStatus,tries=3){
+ for(let a=0;;a++){let r;
+  try{r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${KeyCfg.key||apiKey}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body),signal:sig})}
+  catch(e){if(e.name=="AbortError")throw abortErr();throw new Error("خطای شبکه: "+e.message)}
+  if(r.ok)return r.json();
+  let m="";try{const j=await r.json();m=j.error&&j.error.message||JSON.stringify(j)}catch{m=r.statusText||""}
+  if((r.status==429||r.status>=500)&&a<tries){onStatus&&onStatus(`خطای ${fa(r.status)} — تلاش دوباره ${fa(a+1)} از ${fa(tries)} تا ۱۵ ثانیه‌ی دیگر…`);await sleep(15000,sig);continue}
+  throw Object.assign(new Error(`خطای API (کد ${fa(r.status)}): ${m}`),{status:r.status})}}
+const parts=(prompt,refs=[])=>[{text:prompt},...refs.map(r=>({inlineData:{mimeType:r.mimeType,data:r.data}}))];
+// Image models in order: when the first hits its limit (429) or is refused, switch automatically to the next.
+const IMAGE_MODELS=["gemini-3.1-flash-image","gemini-2.5-flash-image-preview"];
+const ImgPick={i:0,since:0,start(){if(this.i&&Date.now()-this.since>10*60*1000)this.i=0;return this.i}};
+async function genImage(prompt,refs,sig,onStatus,ar="16:9"){
+ const body={contents:[{role:"user",parts:parts(prompt,refs)}],generationConfig:{responseModalities:["IMAGE"],imageConfig:{aspectRatio:ar}}};let j;
+ for(let i=ImgPick.start();i<IMAGE_MODELS.length;i++){const last=i==IMAGE_MODELS.length-1;
+  try{j=await callApi(IMAGE_MODELS[i],body,sig,onStatus,last?3:0);if(i!=ImgPick.i){ImgPick.i=i;ImgPick.since=Date.now()}IMAGE_MODEL=IMAGE_MODELS[i];break}
+  catch(e){if(last||!e.status||!(e.status==429||e.status==403||e.status==404||e.status>=500))throw e;
+   onStatus&&onStatus(`مدل ${IMAGE_MODELS[i]} به محدودیت خورد — ادامه با ${IMAGE_MODELS[i+1]}…`)}}
+ const c=j.candidates&&j.candidates[0],ps=c&&c.content&&c.content.parts||[],p=ps.find(p=>p.inlineData);
+ if(!p){const t=ps.map(p=>p.text).filter(Boolean).join(" ");throw new Error("مدل تصویری تصویر برنگرداند"+(c&&c.finishReason?` (دلیل: ${c.finishReason})`:"")+(j.promptFeedback&&j.promptFeedback.blockReason?` (مسدود شد: ${j.promptFeedback.blockReason})`:"")+(t?" — "+t:""))}
+ return b64ToBlob(p.inlineData.data,p.inlineData.mimeType||"image/png")}
+async function genText(prompt,refs=[],o={},sig){const json=o.json!==false,body={contents:[{role:"user",parts:parts(prompt,refs)}]};
+ if(o.search)body.tools=[{google_search:{}}];else if(json)body.generationConfig={responseMimeType:"application/json"};
+ const j=await callApi(TEXT_MODEL,body,sig,o.onStatus,o.tries),c=j.candidates&&j.candidates[0],t=(c&&c.content&&c.content.parts||[]).map(p=>p.text||"").join("");
+ if(!t)throw new Error("پاسخ مدل متنی خالی بود"+(c&&c.finishReason?` (${c.finishReason})`:""));
+ if(o.raw)return{text:t,meta:c.groundingMetadata||null};return json?parseJ(t):t}
+// ---------- fonts (built-in Persian fonts + the user's own) ----------
+const Fonts={user:[],
+ all(){return[...Object.keys(FONTS).map(k=>({key:k,...FONTS[k]})),...Fonts.user.map(u=>({key:u.id,name_fa:u.name,family:u.family,cat:"فونت‌های من",user:1}))]},
+ get(k){return FONTS[k]?{key:k,...FONTS[k]}:(Fonts.user.find(u=>u.id==k)?{key:k,name_fa:Fonts.user.find(u=>u.id==k).name,family:Fonts.user.find(u=>u.id==k).family,user:1}:null)},
+ fam(k){const f=Fonts.get(k)||Fonts.get("vazir"),g=FONTS[f.key]&&FONTS[f.key].src.startsWith("g:");return(g?"'PDigits',":"")+`'${f.family}'`},
+ TALL:{nastaliq:1.95,gulzar:1.95,sheherazade:1.6,amiri:1.6,lateef:1.55,mirza:1.55,parastoo:1.55,ruqaa:1.5},
+ name(k){const f=Fonts.get(k);return f?f.name_fa:"؟"},
+ ensure(k){const f=FONTS[k];if(!f)return;if(f.src.startsWith("g:"))Lazy.css(`https://fonts.googleapis.com/css2?family=${f.family.replace(/ /g,"+")}:wght@${f.src.slice(2)}&display=swap`);else Lazy.css(f.src)},
+ ensureDeck(d){const ks=new Set([d.fT,d.fB]);(d.slides||[]).forEach(s=>{s.fT&&ks.add(s.fT);s.fB&&ks.add(s.fB)});ks.forEach(k=>Fonts.ensure(k))},
+ async register(u){try{if(!window.FontFace||!document.fonts)return;const ff=new FontFace(u.family,await blobAB(u.blob));await ff.load();document.fonts.add(ff)}catch(e){console.warn("font",e)}},
+ async load(){Fonts.user=(await Store.list("fonts")).sort((a,b)=>a.created-b.created);for(const u of Fonts.user)await Fonts.register(u)},
+ async add(){const f=await pick(".ttf,.otf,.woff,.woff2");if(!f)return;if(f.size>15e6)return toast("فایل فونت خیلی بزرگ است");
+  const ext=(f.name.split(".").pop()||"ttf").toLowerCase(),id=uid("font"),name=f.name.replace(/\.[^.]+$/,"").replace(/[-_]+/g," ").trim()||"فونت من";
+  const u={id,name,family:"UF "+id.slice(-8),blob:new Blob([f],{type:"font/"+ext}),created:Date.now()};await Store.set("fonts",u);Fonts.user.push(u);await Fonts.register(u);C.fontsChanged();toast(`فونت «${name}» اضافه شد و در همه‌ی فهرست‌های فونت هست`)},
+ async del(id){const u=Fonts.user.find(x=>x.id==id);if(!u||!await ask(`فونت «${u.name}» حذف شود؟`))return;await Store.delete("fonts",id);Fonts.user=Fonts.user.filter(x=>x.id!=id);C.fontsChanged()},
+ options(sel,first){const g={};for(const f of Fonts.all())(g[f.cat]=g[f.cat]||[]).push(f);
+  return(first?`<option value="">${esc(first)}</option>`:"")+Object.keys(g).map(c=>`<optgroup label="${esc(c)}">${g[c].map(f=>`<option value="${esc(f.key)}" ${f.key==sel?"selected":""}>${esc(f.name_fa)}</option>`).join("")}</optgroup>`).join("")},
+ desc(k){const f=FONTS[k];return f?f.desc_en:`the user's own font «${Fonts.name(k)}» (see attached lettering sample)`},
+ // a small picture of the font, used as a lettering reference for the image model
+ async sample(k){try{const f=Fonts.get(k);if(!f||!document.fonts||!document.createElement("canvas").getContext)return null;Fonts.ensure(k);await document.fonts.load(`700 64px '${f.family}'`,"ابپ");
+  const c=document.createElement("canvas");c.width=900;c.height=220;const x=c.getContext("2d");if(!x)return null;x.fillStyle="#fff";x.fillRect(0,0,900,220);x.fillStyle="#111";x.direction="rtl";x.textAlign="right";
+  x.font=`700 72px '${f.family}'`;x.fillText("ارائه‌ی زیبای فارسی",870,100);x.font=`400 48px '${f.family}'`;x.fillText("گچپژ ۱۲۳۴۵۶۷۸۹۰ نمونه‌ی حروف",870,180);const b=await cBlob(c,"image/png");return b&&b.size>500?{mimeType:"image/png",data:await blobToB64(b)}:null}catch{return null}}
+};
+
+// ---------- deck themes ----------
+// image styles: built-in + imported from packs (kept in kv "imgstyles"); a deck or slide may override its theme's image style
+const ImgStyles={user:[],
+ all(){return[...IMG_STYLES,...ImgStyles.user]},
+ get(id){return id?ImgStyles.all().find(x=>x.id==id):null},
+ async load(){ImgStyles.user=(await Store.get("kv","imgstyles"))||[]},
+ norm(x){return{id:String(x.id||uid("sty")),name_fa:String(x.name_fa||x.name||"سبک من"),group:String(x.group||"🎁 بسته‌ها"),en:String(x.en||x.img_en||x.prompt||"")}},
+ async add(arr){let n=0;for(const x of arr||[]){if(!x||typeof x!="object")continue;const o=ImgStyles.norm(x);if(!o.en)continue;if(IMG_STYLES.some(b=>b.id==o.id))o.id+="-u";
+   ImgStyles.user=ImgStyles.user.filter(u=>u.id!=o.id);ImgStyles.user.push(o);n++}await Store.set("kv",ImgStyles.user,"imgstyles");return n},
+ async del(id){ImgStyles.user=ImgStyles.user.filter(u=>u.id!=id);await Store.set("kv",ImgStyles.user,"imgstyles")},
+ en(d,s){const st=ImgStyles.get(s&&s.istyle)||ImgStyles.get(d&&d.istyle);return st?st.en:Themes.get(d.theme).img_en},
+ options(sel,first){const g={};for(const x of ImgStyles.all())(g[x.group]=g[x.group]||[]).push(x);
+  return`<option value="">${esc(first)}</option>`+Object.keys(g).map(k=>`<optgroup label="${esc(k)}">${g[k].map(x=>`<option value="${esc(x.id)}" ${x.id==sel?"selected":""}>${esc(x.name_fa)}</option>`).join("")}</optgroup>`).join("")}
+};
+const Themes={user:[],
+ all(){return[...BUILTIN,...Themes.user]},
+ get(id){return Themes.all().find(t=>t.id==id)||BUILTIN[0]},
+ isUser(id){return Themes.user.some(t=>t.id==id)},
+ async load(){Themes.user=(await Store.list("themes")).sort((a,b)=>(a.created||0)-(b.created||0))},
+ norm(t){const b=BUILTIN[0],o={...b,...t};o.id=String(t.id||uid("theme"));o.name_fa=String(t.name_fa||t.name||"تم من");o.group=String(t.group||"🎨 تم‌های من");
+  for(const k of["bg","surf","line","text","muted","acc","acc2"])o[k]=String(o[k]||b[k]);o.ft=FONTS[o.ft]?o.ft:"vazir";o.fb=FONTS[o.fb]?o.fb:"vazir";o.r=Math.max(0,Math.min(60,+o.r||0));o.dark=o.dark?1:0;return o},
+ vars(t,s,d){const bgS=firstColor(t.bg),ft=Fonts.fam(s&&s.fT||d&&d.fT||t.ft),fb=Fonts.fam(s&&s.fB||d&&d.fB||t.fb);
+  const ftk=s&&s.fT||d&&d.fT||t.ft,fbk=s&&s.fB||d&&d.fB||t.fb,lt=Fonts.TALL[ftk],lb=Fonts.TALL[fbk];
+  return`--lht:${lt||1.35};--lhb:${lb?Math.max(1.7,lb):1.7};--bg:${t.bg};--bgS:${bgS};--surf:${t.surf};--line:${t.line};--tx:${t.text};--mu:${t.muted};--ac:${t.acc};--ac2:${t.acc2};--acA:${rgba(t.acc,.35)};--onac:${lum(t.acc)>.45?"#111111":"#ffffff"};--ft:${ft};--fb:${fb};--r:${t.r}px`},
+ svg(s){return`url('data:image/svg+xml,${encodeURIComponent(s).replace(/'/g,"%27")}')`},
+ decor(t){const a=t.acc,b=t.acc2,A=rgba(a,.3),B=rgba(b,.25),T=rgba(t.text,.07),S=Themes.svg.bind(this);
+  switch(t.decor){
+   case"orbs":return`background:radial-gradient(700px 700px at 92% 8%,${A},transparent 70%),radial-gradient(600px 600px at 4% 96%,${B},transparent 70%)`;
+   case"grid":return`background:linear-gradient(${T} 2px,transparent 2px) 0 0/80px 80px,linear-gradient(90deg,${T} 2px,transparent 2px) 0 0/80px 80px`;
+   case"blueprint":return`background:linear-gradient(${rgba(a,.16)} 2px,transparent 2px) 0 0/200px 200px,linear-gradient(90deg,${rgba(a,.16)} 2px,transparent 2px) 0 0/200px 200px,linear-gradient(${rgba(a,.07)} 1px,transparent 1px) 0 0/40px 40px,linear-gradient(90deg,${rgba(a,.07)} 1px,transparent 1px) 0 0/40px 40px`;
+   case"dots":return`background:radial-gradient(circle,${rgba(t.text,.13)} 3px,transparent 4px) 0 0/52px 52px`;
+   case"lines":return`background:linear-gradient(90deg,${a},${b}) top/100% 14px no-repeat,linear-gradient(90deg,${b},${a}) bottom/100% 14px no-repeat`;
+   case"frame":return`inset:34px;border:5px double ${rgba(a,.75)};border-radius:${t.r}px`;
+   case"girih":return`background:${S(`<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><g fill='none' stroke='${rgba(a,.22)}' stroke-width='3'><path d='M80 8l20 52 52 20-52 20-20 52-20-52-52-20 52-20z'/><path d='M80 40l12 28 28 12-28 12-12 28-12-28-28-12 28-12z'/><path d='M0 0l40 40M160 0l-40 40M0 160l40-40M160 160l-40-40'/></g></svg>`)} 0 0/160px 160px`;
+   case"waves":return`background:${S(`<svg xmlns='http://www.w3.org/2000/svg' width='1920' height='300' viewBox='0 0 1920 300' preserveAspectRatio='none'><path d='M0 140 C320 60 640 220 960 140 S1600 60 1920 140 V300 H0Z' fill='${rgba(a,.18)}'/><path d='M0 200 C320 130 640 280 960 200 S1600 130 1920 200 V300 H0Z' fill='${rgba(b,.22)}'/></svg>`)} bottom/100% 300px no-repeat`;
+   case"paper":return`background:radial-gradient(1400px 900px at 50% 50%,transparent 60%,${rgba(t.text,.10)}),repeating-linear-gradient(0deg,${rgba(t.text,.025)} 0 2px,transparent 2px 6px)`;
+   case"corner":return`background:linear-gradient(225deg,${a} 0,${a} 150px,transparent 151px),linear-gradient(45deg,${B} 0,${B} 260px,transparent 261px)`;
+   case"stripe":return`background:linear-gradient(115deg,transparent 0 68%,${A} 68% 73%,transparent 73% 77%,${B} 77% 80%,transparent 80%)`;
+   case"notebook":return`background:linear-gradient(90deg,transparent 0 1752px,rgba(232,70,58,.55) 1752px 1756px,transparent 1756px)`;
+   case"confetti":return`background:${S(`<svg xmlns='http://www.w3.org/2000/svg' width='640' height='420'><g opacity='.5'><circle cx='40' cy='60' r='12' fill='${a}'/><circle cx='300' cy='30' r='8' fill='${b}'/><rect x='520' y='80' width='22' height='22' rx='4' fill='${a}' transform='rotate(25 531 91)'/><circle cx='180' cy='300' r='10' fill='${b}'/><rect x='420' y='330' width='18' height='18' rx='3' fill='${b}' transform='rotate(-20 429 339)'/><circle cx='600' cy='250' r='7' fill='${a}'/></g></svg>`)} 0 0/640px 420px`;
+   case"bauhaus":return`background:${S(`<svg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'><circle cx='120' cy='1000' r='260' fill='${rgba(a,.9)}'/><path d='M1920 0 V420 L1500 0Z' fill='${rgba(b,.9)}'/><rect x='1700' y='860' width='140' height='140' fill='${rgba(t.text,.85)}'/></svg>`)} 0 0/100% 100% no-repeat`;
+   case"leaves":return`background:${S(`<svg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080'><g fill='${rgba(a,.22)}'><path d='M0 1080 C120 860 300 820 420 900 C300 960 200 1040 160 1080Z'/><path d='M0 940 C80 800 220 760 300 800 C200 840 100 900 40 1000Z'/><path d='M1920 0 C1800 200 1640 240 1520 170 C1640 120 1740 60 1780 0Z'/></g></svg>`)} 0 0/100% 100% no-repeat`;
+   case"sun":return`background:radial-gradient(760px 760px at 18% 112%,${rgba(a,.55)},transparent 70%)`;
+   case"doodle":return`background:${S(`<svg xmlns='http://www.w3.org/2000/svg' width='480' height='360'><g fill='none' stroke='${rgba(a,.35)}' stroke-width='5' stroke-linecap='round'><path d='M30 60 q20 -30 40 0 t40 0 t40 0'/><path d='M330 260 l18 -36 18 36 -36 -22 h40z'/><circle cx='380' cy='70' r='18'/></g></svg>`)} 0 0/480px 360px`;
+   default:return""}}
+};
+
+
+// =====================================================================
+// کاروسل‌ساز صبا — Instagram carousel maker (on the Slide Studio engine)
+// =====================================================================
+const CTYPES={tips:["💡","نکته‌های آموزشی","educational tips: each content slide teaches ONE practical, specific tip with a short explanation"],
+ list:["📋","فهرست","a numbered list post (e.g. top N tools/ideas): each content slide is ONE list item with why it matters"],
+ story:["📖","داستان","a short storytelling carousel: hook, situation, problem, turning point, result, lesson (one beat per slide)"],
+ ba:["🔄","قبل و بعد","before/after transformation: alternate or contrast the BEFORE state and the AFTER state and what changed between them"],
+ myth:["❌","افسانه و واقعیت","myth vs fact: each content slide puts a common myth in the title and the correcting fact in the body"],
+ steps:["🪜","گام‌به‌گام","step-by-step tutorial: each content slide is ONE clear, actionable step, in order"]};
+const CTONES={friendly:["صمیمی","warm, friendly and conversational"],pro:["حرفه‌ای","professional, confident and credible"],fun:["شوخ","playful, witty and light"],inspire:["الهام‌بخش","inspiring and energetic"],edu:["آموزشی","clear and educational, simple words"]};
+const RATIOS={"1:1":["مربع ۱۰۸۰×۱۰۸۰",1080,1080],"4:5":["عمودی ۱۰۸۰×۱۳۵۰",1080,1350]};
+const IMGMODES={all:"همه‌ی اسلایدها",cover:"فقط کاور",none:"بدون تصویر (طرح متنی)"};
+const CEXAMPLES=["۵ اشتباه رایج در عکاسی با موبایل","افسانه‌های رایج درباره‌ی هوش مصنوعی","گام‌به‌گام ساخت اپ رایگان با جمینی","۷ عادت صبحگاهی برای تمرکز بیشتر","قبل و بعد از نظم دادن به پیج اینستاگرام"];
+const C0={topic:"",notes:"",aud:"",handle:"",tone:"friendly",type:"tips",cnt:7,ratio:"1:1",imgs:"all",theme:"neon-purple",fT:"",fB:"",istyle:""};
+const S={uitheme:"بنفش",persisted:false};
+function applyUI(n){const t=UITHEMES.find(t=>t[0]==n)||UITHEMES[1],r=document.documentElement.style;["--bg","--card","--neon","--neon2","--btxt"].forEach((k,i)=>r.setProperty(k,t[i+1]));S.uitheme=t[0]}
+
+const slug=s=>String(s||"carousel").replace(/[^\p{L}\p{N}]+/gu,"-").replace(/^-+|-+$/g,"").slice(0,40)||"carousel";
+const pad2=n=>fa(String(n).padStart(2,"0"));
+// copy to clipboard (Canvas iframes often block navigator.clipboard → textarea fallback)
+async function copyText(t,what){let ok=false;try{if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(t);ok=true}}catch{}
+ if(!ok){try{const a=document.createElement("textarea");a.value=t;a.setAttribute("readonly","");a.style.cssText="position:fixed;top:-1000px;opacity:0";document.body.append(a);a.select();ok=document.execCommand&&document.execCommand("copy");a.remove()}catch{}}
+ toast(ok?`✅ ${what} کپی شد`:"کپی خودکار ممکن نشد؛ متن را انتخاب کن و Ctrl+C بزن");return ok}
+
+// ---------- slide model ----------
+function normCSlide(o,kind){o=o||{};const T=v=>faNum(String(v??"").trim());
+ const k=["cover","content","cta"].includes(o.kind)?o.kind:(kind||"content");
+ const s={id:o.id||uid("s"),kind:k,label:T(o.label).slice(0,40),title:T(o.title),body:T(o.body??o.text),pts:(Array.isArray(o.points||o.pts)?(o.points||o.pts):[]).map(T).filter(Boolean).slice(0,5),idea:String(o.image_idea??o.idea??"").trim()};
+ if(o.img instanceof Blob)s.img=o.img;
+ if(!s.title)s.title=k=="cta"?"اگر مفید بود ذخیره کن":k=="cover"?"عنوان کاروسل":"عنوان اسلاید";
+ return s}
+function normTags(a){const out=[];for(let t of(Array.isArray(a)?a:String(a||"").split(/[\s,،]+/))){t=String(t||"").trim().replace(/^#+/,"").replace(/\s+/g,"_").replace(/[#.,،!?؟:;()"'«»]/g,"");if(!t)continue;t="#"+t;if(!out.some(x=>x.toLowerCase()==t.toLowerCase()))out.push(t)}return out.slice(0,30)}
+function normPlan(j,cnt){const raw=Array.isArray(j&&j.slides)?j.slides.filter(x=>x&&typeof x=="object"):[];if(raw.length<2)throw new Error("مدل طرح کاروسل را کامل برنگرداند؛ دوباره امتحان کن");
+ let arr=raw.slice();if(arr.length>cnt){const last=arr[arr.length-1];arr=arr.slice(0,cnt-1).concat([last])}
+ const slides=arr.map((x,i)=>normCSlide(x,i==0?"cover":i==arr.length-1?"cta":"content"));slides[0].kind="cover";slides[slides.length-1].kind="cta";for(let i=1;i<slides.length-1;i++)slides[i].kind="content";
+ return{title:faNum(String(j.title||"").trim()),slides,caption:String(j.caption||"").trim(),tags:normTags(j.hashtags||j.tags)}}
+
+// ---------- canvas renderer (1080 wide, 1080 or 1350 tall) ----------
+const Car={IM:new WeakMap(),
+ size(p){const r=RATIOS[p&&p.ratio]||RATIOS["1:1"];return[r[1],r[2]]},
+ theme(p){return Themes.get(p.theme)},
+ fam(k,t,which){return Fonts.fam(k||(which=="t"?t.ft:t.fb))+",Vazirmatn,Tahoma,sans-serif"},
+ lh(k){return Fonts.TALL[k]?Math.max(1.6,Fonts.TALL[k]):1.55},
+ async fonts(p){const t=Car.theme(p),ks=[p.fT||t.ft,p.fB||t.fb];ks.forEach(k=>Fonts.ensure(k));if(!document.fonts||!document.fonts.load)return;
+  const go=Promise.all(ks.map(k=>{const f=Fonts.get(k);return f?Promise.all([document.fonts.load(`700 60px '${f.family}'`,"ابپ ۱۲۳"),document.fonts.load(`400 40px '${f.family}'`,"ابپ ۱۲۳")]).catch(()=>{}):0}));
+  await Promise.race([go,sleep(4000)])},
+ async img(b){if(!b)return null;if(Car.IM.has(b))return Car.IM.get(b);const d=await drawable(b);if(d)Car.IM.set(b,d);return d},
+ wrap(x,text,maxW){const lines=[];for(const para of String(text||"").split(/\n+/)){const w=para.trim().split(/\s+/).filter(Boolean);let cur="";
+   for(const word of w){const t=cur?cur+" "+word:word;if(cur&&x.measureText(t).width>maxW){lines.push(cur);cur=word}else cur=t}if(cur)lines.push(cur)}return lines},
+ // biggest font size (from max down to min) whose wrapped lines fit maxLines
+ fit(x,text,font,max,min,maxW,maxLines){let s=max,lines=[];for(;s>=min;s-=2){x.font=font(s);lines=Car.wrap(x,text,maxW);if(lines.length<=maxLines)break}if(s<min){s=min;x.font=font(s);lines=Car.wrap(x,text,maxW).slice(0,maxLines)}return{s,lines}},
+ rr(x,X,Y,w,h,r){r=Math.max(0,Math.min(r,w/2,h/2));x.beginPath();x.moveTo(X+r,Y);x.lineTo(X+w-r,Y);x.quadraticCurveTo(X+w,Y,X+w,Y+r);x.lineTo(X+w,Y+h-r);x.quadraticCurveTo(X+w,Y+h,X+w-r,Y+h);x.lineTo(X+r,Y+h);x.quadraticCurveTo(X,Y+h,X,Y+h-r);x.lineTo(X,Y+r);x.quadraticCurveTo(X,Y,X+r,Y);x.closePath()},
+ bgColor(t){return firstColor(t.bg)},
+ decor(x,t,W,H){const a=t.acc,b=t.acc2,rad=(cx,cy,r,c,al)=>{const g=x.createRadialGradient(cx,cy,0,cx,cy,r);g.addColorStop(0,rgba(c,al));g.addColorStop(1,rgba(c,0));x.fillStyle=g;x.fillRect(0,0,W,H)};
+  switch(t.decor){
+   case"grid":case"blueprint":x.strokeStyle=rgba(t.decor=="grid"?t.text:a,.08);x.lineWidth=2;for(let i=0;i<=W;i+=72){x.beginPath();x.moveTo(i,0);x.lineTo(i,H);x.stroke()}for(let j=0;j<=H;j+=72){x.beginPath();x.moveTo(0,j);x.lineTo(W,j);x.stroke()}rad(W*.9,H*.05,W*.6,a,.18);break;
+   case"dots":x.fillStyle=rgba(t.text,.12);for(let i=26;i<W;i+=52)for(let j=26;j<H;j+=52){x.beginPath();x.arc(i,j,3,0,7);x.fill()}break;
+   case"lines":{const g=x.createLinearGradient(0,0,W,0);g.addColorStop(0,a);g.addColorStop(1,b);x.fillStyle=g;x.fillRect(0,0,W,12);x.fillRect(0,H-12,W,12);break}
+   case"frame":x.strokeStyle=rgba(a,.75);x.lineWidth=5;Car.rr(x,30,30,W-60,H-60,t.r||0);x.stroke();break;
+   case"waves":for(const[o,c,al]of[[.80,a,.18],[.87,b,.22]]){x.fillStyle=rgba(c,al);x.beginPath();x.moveTo(0,H*o);x.bezierCurveTo(W*.3,H*(o-.07),W*.6,H*(o+.07),W,H*o);x.lineTo(W,H);x.lineTo(0,H);x.closePath();x.fill()}break;
+   case"sun":rad(W*.15,H*1.05,W*.75,a,.5);break;
+   case"corner":x.fillStyle=a;x.beginPath();x.moveTo(W,0);x.lineTo(W-150,0);x.lineTo(W,150);x.closePath();x.fill();x.fillStyle=rgba(b,.25);x.beginPath();x.moveTo(0,H);x.lineTo(260,H);x.lineTo(0,H-260);x.closePath();x.fill();break;
+   case"bauhaus":x.fillStyle=rgba(a,.9);x.beginPath();x.arc(70,H-50,200,0,7);x.fill();x.fillStyle=rgba(b,.9);x.beginPath();x.moveTo(W,0);x.lineTo(W,300);x.lineTo(W-300,0);x.closePath();x.fill();break;
+   case"stripe":x.fillStyle=rgba(a,.3);x.beginPath();x.moveTo(W*.7,0);x.lineTo(W*.76,0);x.lineTo(W*.46,H);x.lineTo(W*.40,H);x.closePath();x.fill();break;
+   case"none":break;
+   case"paper":{const g=x.createRadialGradient(W/2,H/2,W*.35,W/2,H/2,W*.8);g.addColorStop(0,"rgba(0,0,0,0)");g.addColorStop(1,rgba(t.text,.10));x.fillStyle=g;x.fillRect(0,0,W,H);break}
+   default:rad(W*.92,H*.06,W*.75,a,.30);rad(W*.05,H*.96,W*.65,b,.25)}},
+ // icons for the CTA slide (simple vector shapes, no emoji fonts needed)
+ icon(x,kind,cx,cy,r,col){x.save();x.strokeStyle=col;x.fillStyle=col;x.lineWidth=r*.16;x.lineJoin="round";x.lineCap="round";x.beginPath();
+  if(kind=="save"){x.moveTo(cx-r*.42,cy-r*.55);x.lineTo(cx+r*.42,cy-r*.55);x.lineTo(cx+r*.42,cy+r*.6);x.lineTo(cx,cy+r*.25);x.lineTo(cx-r*.42,cy+r*.6);x.closePath();x.stroke()}
+  else if(kind=="share"){x.moveTo(cx-r*.6,cy-r*.05);x.lineTo(cx+r*.6,cy-r*.55);x.lineTo(cx+r*.15,cy+r*.6);x.lineTo(cx-r*.05,cy+r*.1);x.closePath();x.stroke();x.beginPath();x.moveTo(cx-r*.05,cy+r*.1);x.lineTo(cx+r*.6,cy-r*.55);x.stroke()}
+  else{x.moveTo(cx,cy-r*.55);x.lineTo(cx,cy+r*.55);x.moveTo(cx-r*.55,cy);x.lineTo(cx+r*.55,cy);x.stroke()}x.restore()},
+ // draw one slide; scale lets the same code draw thumbnails
+ async draw(cv,p,s,i,n,scale){const x=cv&&cv.getContext&&cv.getContext("2d");if(!x)return false;const[W,H]=Car.size(p),t=Car.theme(p);
+  const tW=Math.round(W*(scale||1)),tH=Math.round(H*(scale||1));if(cv.width!=tW)cv.width=tW;if(cv.height!=tH)cv.height=tH;
+  const d=s.img?await Car.img(s.img):null;
+  x.save();x.setTransform(scale||1,0,0,scale||1,0,0);x.clearRect(0,0,W,H);
+  const bgc=Car.bgColor(t),dark=!!t.dark,fT=p.fT||t.ft,fB=p.fB||t.fb,FT=Car.fam(fT,t,"t"),FB=Car.fam(fB,t,"b"),lhT=Fonts.TALL[fT]||1.35,lhB=Car.lh(fB);
+  x.fillStyle=bgc;x.fillRect(0,0,W,H);
+  if(d){const sc=Math.max(W/d.W,H/d.H),dw=d.W*sc,dh=d.H*sc;x.drawImage(d.i,(W-dw)/2,(H-dh)/2,dw,dh);
+   const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,rgba(bgc,.55));g.addColorStop(.35,rgba(bgc,.25));g.addColorStop(.65,rgba(bgc,.55));g.addColorStop(1,rgba(bgc,.92));x.fillStyle=g;x.fillRect(0,0,W,H)}
+  else Car.decor(x,t,W,H);
+  x.textBaseline="alphabetic";const P=84,R=W-P,maxW=W-2*P,txC=t.text,mu=t.muted,ac=t.acc,ac2=t.acc2,onac=lum(ac)>.45?"#111111":"#ffffff";
+  const shadow=on=>{if(on&&d){x.shadowColor=dark?"rgba(0,0,0,.55)":"rgba(255,255,255,.6)";x.shadowBlur=18}else{x.shadowColor="transparent";x.shadowBlur=0}};
+  // --- top row: label chip (right) + counter pill (left)
+  x.direction="rtl";x.textAlign="right";
+  const label=s.kind=="cover"?(s.label||CTYPES[p.type]&&CTYPES[p.type][1]||""):s.label;
+  if(label){x.font=`700 30px ${FB}`;const lw=x.measureText(label).width+48;x.fillStyle=ac;Car.rr(x,R-lw,P-8,lw,58,29);x.fill();x.fillStyle=onac;x.fillText(label,R-24,P+32)}
+  const cnt=`${fa(i+1)} / ${fa(n)}`;x.font=`600 28px ${FB}`;x.direction="ltr";x.textAlign="left";const cw=x.measureText(cnt).width+40;x.fillStyle=rgba(dark?"#000000":"#ffffff",.35);Car.rr(x,P,P-8,cw,58,29);x.fill();x.strokeStyle=rgba(ac,.6);x.lineWidth=2;x.stroke();x.fillStyle=txC;x.fillText(cnt,P+20,P+31);
+  // --- text block
+  x.direction="rtl";x.textAlign="right";const top=P+100,bottom=H-P-110,avail=bottom-top;
+  const titleFill=(X,Y,w,line,size)=>{if(t.tfx=="grad"){const g=x.createLinearGradient(X-w,0,X,0);g.addColorStop(0,ac2);g.addColorStop(1,dark?txC:ac);x.fillStyle=g}else if(t.tfx=="box"){shadow(false);x.fillStyle=ac;x.fillRect(X-w-24,Y-size*1.02,w+48,size*1.32);x.fillStyle=onac}else x.fillStyle=txC;
+   if(t.tfx=="shadow"&&!d){x.fillStyle=rgba(ac,.45);x.fillText(line,X+6,Y+6);x.fillStyle=txC}x.fillText(line,X,Y)};
+  if(s.kind=="cover"){
+   const tf=Car.fit(x,s.title,z=>`800 ${z}px ${FT}`,H>1100?112:100,56,maxW,5),tl=tf.s*lhT;
+   x.font=`400 40px ${FB}`;const bl=s.body?Car.wrap(x,s.body,maxW-40).slice(0,4):[],bh=bl.length*40*lhB;
+   const tot=tf.lines.length*tl+(bl.length?40+bh:0)+30;let y=top+Math.max(0,(avail-tot)/2)+tf.s*(1+Math.max(0,lhT-1.35)*.6);
+   x.font=`800 ${tf.s}px ${FT}`;shadow(true);for(const L of tf.lines){titleFill(R,y,x.measureText(L).width,L,tf.s);y+=tl}shadow(false);
+   y+=-tl+tf.s*.5;const g=x.createLinearGradient(R-220,0,R,0);g.addColorStop(0,ac2);g.addColorStop(1,ac);x.fillStyle=g;Car.rr(x,R-200,y,200,12,6);x.fill();y+=40;
+   if(bl.length){x.font=`400 40px ${FB}`;x.fillStyle=d?txC:mu;shadow(true);y+=40;for(const L of bl){x.fillText(L,R,y);y+=40*lhB}shadow(false)}
+  }else if(s.kind=="cta"){
+   x.textAlign="center";const cx=W/2,tf=Car.fit(x,s.title,z=>`800 ${z}px ${FT}`,84,50,maxW,3),tl=tf.s*lhT;x.font=`400 38px ${FB}`;const bl=s.body?Car.wrap(x,s.body,maxW).slice(0,3):[];
+   const tot=tf.lines.length*tl+bl.length*38*lhB+300;let y=top+Math.max(0,(avail-tot)/2)+tf.s;
+   x.font=`800 ${tf.s}px ${FT}`;shadow(true);for(const L of tf.lines){x.fillStyle=t.tfx=="grad"?ac:txC;x.fillText(L,cx,y);y+=tl}
+   x.font=`400 38px ${FB}`;x.fillStyle=d?txC:mu;y+=10;for(const L of bl){x.fillText(L,cx,y);y+=38*lhB}shadow(false);
+   const acts=[["save","ذخیره کن"],["share","بفرست برای دوستت"],["follow","دنبال کن"]],gap=W/3.4;y+=40;
+   acts.forEach((a,k)=>{const ax=cx+(1-k)*gap;x.fillStyle=rgba(ac,.18);x.beginPath();x.arc(ax,y+60,62,0,7);x.fill();x.strokeStyle=ac;x.lineWidth=4;x.stroke();Car.icon(x,a[0],ax,y+60,52,ac);x.fillStyle=txC;x.font=`700 30px ${FB}`;shadow(true);x.fillText(a[1],ax,y+170);shadow(false)});
+   if(p.handle){x.direction="ltr";x.font=`800 46px ${FB}`;x.fillStyle=ac;x.fillText(p.handle,cx,Math.min(bottom+20,y+260));x.direction="rtl"}
+   x.textAlign="right";
+  }else{
+   const num=fa(i);x.font=`800 150px ${FT}`;x.fillStyle=rgba(ac,d?.55:.22);x.fillText(num,R,top+120);
+   const tf=Car.fit(x,s.title,z=>`800 ${z}px ${FT}`,72,44,maxW,4),tl=tf.s*lhT;
+   const bs=s.body.length>140||s.pts.length>3?34:38;x.font=`400 ${bs}px ${FB}`;const bl=s.body?Car.wrap(x,s.body,maxW).slice(0,7):[];
+   const pl=s.pts.map(q=>Car.wrap(x,q,maxW-56).slice(0,3));const ph=pl.reduce((a,l)=>a+l.length*bs*lhB+14,0);
+   const tot=tf.lines.length*tl+(bl.length?24+bl.length*bs*lhB:0)+(pl.length?24+ph:0);
+   let y=d?Math.max(top+150,bottom-tot)+tf.s:top+150+Math.max(0,(avail-150-tot)/2)+tf.s;
+   if(d){x.fillStyle=rgba(bgc,dark?.72:.80);Car.rr(x,P-30,y-tf.s-34,maxW+60,tot+60,t.r||24);x.fill()}
+   x.font=`800 ${tf.s}px ${FT}`;shadow(true);for(const L of tf.lines){titleFill(R,y,x.measureText(L).width,L,tf.s);y+=tl}shadow(false);
+   let last=y-tl,gapS=tf.s*.45;x.font=`400 ${bs}px ${FB}`;
+   if(bl.length){y=last+gapS+24+bs;x.fillStyle=d?txC:mu;for(const L of bl){x.fillText(L,R,y);last=y;y+=bs*lhB}gapS=bs*.45}
+   if(pl.length){y=last+gapS+24+bs;for(const lines of pl){x.fillStyle=ac;x.beginPath();x.arc(R-14,y-bs*.33,11,0,7);x.fill();x.fillStyle=txC;for(const L of lines){x.fillText(L,R-56,y);y+=bs*lhB}y+=14}}
+  }
+  // --- bottom row: handle (right), progress dots (center), swipe hint (left)
+  const by=H-P+10;shadow(!!d);
+  if(p.handle&&s.kind!="cta"){x.direction="ltr";x.textAlign="right";x.font=`700 30px ${FB}`;x.fillStyle=txC;x.fillText(p.handle,R,by);const hw=x.measureText(p.handle).width;x.fillStyle=ac;x.beginPath();x.arc(R-hw-26,by-10,10,0,7);x.fill()}
+  shadow(false);const dw=Math.min(22,360/n);for(let k=0;k<n;k++){x.fillStyle=k==i?ac:rgba(txC,.3);const dx=W/2+(n/2-k-.5)*dw*1.6;Car.rr(x,dx-(k==i?dw*.8:dw*.35),by-18,k==i?dw*1.6:dw*.7,dw*.7,dw*.35);x.fill()}
+  if(i<n-1){x.direction="rtl";x.textAlign="left";x.font=`700 30px ${FB}`;x.fillStyle=ac;const sw="ورق بزن";x.fillText(sw,P+70,by);x.strokeStyle=ac;x.lineWidth=5;x.lineCap="round";x.beginPath();x.moveTo(P+50,by-11);x.lineTo(P,by-11);x.moveTo(P+18,by-29);x.lineTo(P,by-11);x.lineTo(P+18,by+7);x.stroke()}
+  x.restore();return true},
+ async blob(p,i){const c=document.createElement("canvas");await Car.fonts(p);const ok=await Car.draw(c,p,p.slides[i],i,p.slides.length,1);if(!ok)throw new Error("مرورگر رسم روی بوم (canvas) را پشتیبانی نمی‌کند");const b=await cBlob(c,"image/png");if(!b)throw new Error("ساخت PNG ممکن نشد");return b}
+};
+
+// ---------- projects (store "decks") ----------
+const Projects={list:[],tm:{},
+ async load(){Projects.list=(await Store.list("decks")).sort((a,b)=>(b.updated||0)-(a.updated||0))},
+ get(id){return Projects.list.find(p=>p.id==id)},
+ async save(p,now){p.updated=Date.now();if(!Projects.get(p.id))Projects.list.unshift(p);clearTimeout(Projects.tm[p.id]);
+  const go=()=>Store.set("decks",p).catch(e=>toast("⚠️ ذخیره نشد: "+e.message));if(now)return go();Projects.tm[p.id]=setTimeout(go,400)},
+ async del(id){const p=Projects.get(id);if(!p||!await ask(`کاروسل «${p.title}» حذف شود؟`))return;await Store.delete("decks",id);Projects.list=Projects.list.filter(x=>x.id!=id);if(Ed.p&&Ed.p.id==id)Ed.close();Hist.render()},
+ async dup(id){const p=Projects.get(id);if(!p)return;const c=dcopy(p);c.id=uid("car");c.title=p.title+" (کپی)";c.created=Date.now();c.slides.forEach(s=>s.id=uid("s"));await Projects.save(c,true);Hist.render();toast("کپی ساخته شد")}
+};
+const Hist={async render(){const b=$("#hist");if(!b)return;if(!Projects.list.length){b.innerHTML=`<p class="mut">هنوز کاروسلی نساخته‌ای.</p>`;return}
+ b.innerHTML=Projects.list.map(p=>`<div class="dk"><canvas data-h="${esc(p.id)}" width="216" height="216"></canvas><div class="b"><b>${esc(p.title)}</b><div class="mut">${fa(p.slides.length)} اسلاید · ${esc((RATIOS[p.ratio]||RATIOS["1:1"])[0])} · ${fdate(p.updated)}</div><div class="row" style="margin-top:8px"><button class="btn sm pri" data-a="openP" data-id="${esc(p.id)}">✏️ باز کردن</button><button class="btn sm" data-a="dupP" data-id="${esc(p.id)}">📄 کپی</button><button class="btn sm danger" data-a="delP" data-id="${esc(p.id)}">🗑️</button></div></div></div>`).join("");
+ for(const c of $$("canvas[data-h]",b)){const p=Projects.get(c.dataset.h);if(p&&p.slides[0]){await Car.fonts(p);await Car.draw(c,p,p.slides[0],0,p.slides.length,.2)}}}};
+
+// ---------- make tab ----------
+const Draft={d:{...C0},async load(){Draft.d={...C0,...(await Store.get("kv","draft")||{})}},save(){clearTimeout(Draft.t);Draft.t=setTimeout(()=>Store.set("kv",Draft.d,"draft").catch(()=>{}),300)}};
+const Make={
+ themeOpts(sel){const g={};for(const t of Themes.all())(g[t.group]=g[t.group]||[]).push(t);return Object.keys(g).map(k=>`<optgroup label="${esc(k)}">${g[k].map(t=>`<option value="${esc(t.id)}" ${t.id==sel?"selected":""}>${esc(t.name_fa)}</option>`).join("")}</optgroup>`).join("")},
+ seg(id,obj,key,lab){$("#"+id).innerHTML=Object.keys(obj).map(k=>`<button class="${Draft.d[key]==k?"on":""}" data-a="opt" data-k="${key}" data-v="${k}">${esc(lab(obj[k]))}</button>`).join("")},
+ init(){const D=new Proxy({},{get:(o,k)=>Draft.d[k],set:(o,k,v)=>{Draft.d[k]=v;return true}});$("#ex").innerHTML=CEXAMPLES.map(e=>`<button class="chip" data-a="ex" data-v="${esc(e)}">${esc(e)}</button>`).join("");
+  $("#cnt").innerHTML=[5,6,7,8,9,10].map(n=>`<option value="${n}">${fa(n)} اسلاید</option>`).join("");
+  for(const[id,k]of[["topic","topic"],["notes","notes"],["aud","aud"],["handle","handle"]])$("#"+id).oninput=e=>{D[k]=e.target.value;Draft.save();if(k=="handle")Make.preview()};
+  $("#cnt").onchange=e=>{D.cnt=+e.target.value;Draft.save()};
+  $("#mTheme").onchange=e=>{D.theme=e.target.value;const t=Themes.get(D.theme);D.fT="";D.fB="";Make.fontSel();Draft.save();Make.preview()};
+  $("#mFT").onchange=e=>{D.fT=e.target.value;Draft.save();Make.preview()};$("#mFB").onchange=e=>{D.fB=e.target.value;Draft.save();Make.preview()};
+  $("#mSty").onchange=e=>{D.istyle=e.target.value;Draft.save()}},
+ fontSel(){const D=Draft.d,t=Themes.get(D.theme);$("#mFT").innerHTML=Fonts.options(D.fT,"فونت تم ("+Fonts.name(t.ft)+")");$("#mFB").innerHTML=Fonts.options(D.fB,"فونت تم ("+Fonts.name(t.fb)+")")},
+ sync(){const D=Draft.d;$("#topic").value=D.topic;$("#notes").value=D.notes;$("#aud").value=D.aud;$("#handle").value=D.handle;$("#cnt").value=String(D.cnt);
+  Make.seg("tone",CTONES,"tone",v=>v[0]);Make.seg("ratio",RATIOS,"ratio",v=>v[0]);Make.seg("imgs",IMGMODES,"imgs",v=>v);
+  $("#ctype").innerHTML=Object.keys(CTYPES).map(k=>`<div class="tp ${D.type==k?"on":""}" data-a="opt" data-k="type" data-v="${k}" role="button" tabindex="0"><b>${CTYPES[k][0]}</b><span>${esc(CTYPES[k][1])}</span></div>`).join("");
+  $("#mTheme").innerHTML=Make.themeOpts(D.theme);Make.fontSel();$("#mSty").innerHTML=ImgStyles.options(D.istyle,"سبک تم (پیش‌فرض)");Make.preview()},
+ opt(k,v){Draft.d[k]=v;Draft.save();Make.sync()},
+ sample(){const D=Draft.d;return{theme:D.theme,fT:D.fT,fB:D.fB,ratio:D.ratio,handle:D.handle.trim(),type:D.type,slides:[normCSlide({kind:"cover",title:D.topic||"عنوان جذاب کاروسل تو اینجاست",body:"پیش‌نمایش تم و فونت انتخاب‌شده"},"cover")]}},
+ async preview(){const c=$("#mPrev");if(!c)return;const p=Make.sample();try{await Car.fonts(p);await Car.draw(c,p,p.slides[0],0,Draft.d.cnt,.5)}catch(e){console.warn(e)}},
+ prompt(D){const T=CTYPES[D.type]||CTYPES.tips,n=D.cnt;return`You are an expert Persian Instagram content strategist and copywriter. Plan ONE Instagram carousel post written in Persian (Farsi).
+Topic: ${D.topic}
+${D.notes?"Creator's notes (must be reflected): "+D.notes+"\n":""}${D.aud?"Target audience: "+D.aud+"\n":""}Tone: ${(CTONES[D.tone]||CTONES.friendly)[1]}
+Carousel type: ${T[2]}
+${D.handle?"Brand handle: "+D.handle+"\n":""}Exactly ${n} slides:
+- slide 1 kind "cover": a scroll-stopping HOOK title (max 9 words, curiosity or a bold promise) and a short teaser line in "body".
+- slides 2 to ${n-1} kind "content": the value of the post, one idea per slide, building on each other.
+- slide ${n} kind "cta": call to action that asks people to SAVE this post, SHARE it with a friend and FOLLOW${D.handle?" "+D.handle:""} for more; short and warm.
+Writing rules: mobile-first and very short. title max ~10 words; body max ~30 words; "points" optional, at most 4 items, each max ~8 words (use either body or points or both briefly). Standard modern Persian with correct half-spaces (ZWNJ) and Persian digits. No emojis and no hashtags on the slides.
+Each slide has "label": a 1-3 word tag shown as a chip (e.g. «نکته ۱», «افسانه», «واقعیت», «گام ۲», «قبل», «بعد»; for the cover a short category, for the CTA «ذخیره کن»).
+Each slide has "image_idea": a short ENGLISH description of a background visual for that slide (a scene or object, nothing written in it).
+Also write "caption": an engaging Persian Instagram caption: hook first line, 3-6 short paragraphs with value, and a closing CTA (save/share/follow); emojis allowed, no hashtags inside the caption.
+And "hashtags": 15 to 25 relevant hashtags without spaces (use _ inside), a MIX of Persian and English, from broad to niche, each starting with #.
+Return ONLY JSON: {"title":"short project title in Persian","slides":[{"kind":"cover|content|cta","label":"","title":"","body":"","points":[],"image_idea":""}],"caption":"","hashtags":["#..."]}`},
+ async build(){const D=Draft.d;D.topic=$("#topic").value.trim();if(!D.topic){toast("اول موضوع کاروسل را بنویس");$("#topic").focus();return}
+  const btn=$("#buildBtn"),msg=$("#buildMsg");btn.disabled=true;const old=btn.textContent;btn.textContent="⏳ در حال نوشتن متن اسلایدها…";
+  try{const j=await genText(Make.prompt(D),[],{onStatus:m=>msg.textContent=m});const pl=normPlan(j,D.cnt);const t=Themes.get(D.theme);
+   const p={id:uid("car"),title:pl.title||D.topic,created:Date.now(),updated:Date.now(),topic:D.topic,notes:D.notes,aud:D.aud,tone:D.tone,type:D.type,handle:D.handle.trim(),ratio:D.ratio,imgs:D.imgs,theme:t.id,fT:D.fT,fB:D.fB,istyle:D.istyle,caption:pl.caption,tags:pl.tags,slides:pl.slides};
+   await Projects.save(p,true);Ed.open(p.id);UI.tab("ed");msg.textContent="✅ کاروسل ساخته شد"+(pl.tags.length<15?` (فقط ${fa(pl.tags.length)} هشتگ برگشت؛ می‌توانی اضافه کنی)`:"");
+   const ids=D.imgs=="all"?p.slides.map(s=>s.id):D.imgs=="cover"?[p.slides[0].id]:[];if(ids.length)Jobs.images(p,ids)}
+  catch(e){if(e.name!="AbortError"){msg.textContent="⚠️ "+e.message;toast("⚠️ "+e.message,7000)}}
+  finally{btn.disabled=false;btn.textContent=old}}
+};
+
+// ---------- background image jobs ----------
+const Jobs={q:[],busy:new Set(),ac:null,run:false,done:0,total:0,
+ prompt(p,s){const t=Car.theme(p),st=ImgStyles.en(p,s)||t.img_en,[W,H]=Car.size(p),i=p.slides.indexOf(s),where=s.kind=="cta"?"the center":s.kind=="cover"?"the middle and lower half":"the lower two thirds";
+  return`Background artwork for slide ${i+1} of ${p.slides.length} of an Instagram carousel about «${p.topic||p.title}» (${p.ratio=="4:5"?"portrait 4:5":"square 1:1"}, ${W}×${H}).
+Scene: ${s.idea||s.title}.${s.kind=="cover"?" This is the cover: a bold, eye-catching hero visual.":""}
+Visual style: ${st}. Color palette built around ${t.acc}, ${t.acc2} and ${Car.bgColor(t)}${t.dark?" (dark mood)":" (light mood)"}.
+Composition: Persian headline text will be placed over the image by the app, so keep ${where} calm, simple and low-detail (soft gradients, empty space, gentle depth of field); place the main subject toward the top or one side. Keep the same visual style as the rest of the series.
+IMPORTANT: absolutely no text, letters, words, numbers, captions, logos, UI elements or watermarks anywhere in the image.`},
+ images(p,ids){for(const id of ids)if(!Jobs.q.some(j=>j.id==id)&&!Jobs.busy.has(id)){Jobs.q.push({pid:p.id,id});Jobs.total++}Jobs.ui();Ed.renderStrip();if(!Jobs.run)Jobs.loop()},
+ async loop(){Jobs.run=true;Jobs.ac=new AbortController();
+  while(Jobs.q.length){const j=Jobs.q.shift(),p=Projects.get(j.pid),s=p&&p.slides.find(x=>x.id==j.id);if(!s)continue;Jobs.busy.add(s.id);Jobs.ui();Ed.renderStrip();
+   try{const b=await genImage(Jobs.prompt(p,s),[],Jobs.ac.signal,m=>Jobs.ui(m),p.ratio=="4:5"?"4:5":"1:1");s.img=b;await Projects.save(p,true)}
+   catch(e){if(e.name=="AbortError")break;toast(`⚠️ تصویر اسلاید ${fa(p.slides.indexOf(s)+1)}: ${e.message}`,7000)}
+   finally{Jobs.busy.delete(s.id);Jobs.done++;if(Ed.p&&Ed.p.id==p.id)Ed.render();Jobs.ui()}}
+  Jobs.q=[];Jobs.busy.clear();Jobs.run=false;Jobs.done=Jobs.total=0;Jobs.ui();Ed.renderStrip()},
+ cancel(){Jobs.q=[];Jobs.ac&&Jobs.ac.abort();toast("ساخت تصویرها متوقف شد")},
+ ui(m){const on=Jobs.run&&(Jobs.busy.size||Jobs.q.length);const el=$("#jobMsg");if(el)el.textContent=on?(m||`🖼️ ساخت تصویر ${fa(Math.min(Jobs.done+1,Jobs.total))} از ${fa(Jobs.total)} · مدل ${IMAGE_MODEL}`):"";
+  $("#jobX")&&$("#jobX").classList.toggle("hide",!on);const bar=$("#jobBar");if(bar){bar.classList.toggle("hide",!on);const i=$("i",bar);if(i)i.style.width=(Jobs.total?Math.round(Jobs.done/Jobs.total*100):0)+"%"}}
+};
+
+// ---------- editor ----------
+const Ed={p:null,i:0,t:0,
+ open(id){const p=Projects.get(id);if(!p)return;Ed.p=p;Ed.i=0;$("#edEmpty").classList.add("hide");$("#edBox").classList.remove("hide");
+  $("#pTitle").value=p.title;$("#pTheme").innerHTML=Make.themeOpts(p.theme);Ed.fontSel();$("#pSty").innerHTML=ImgStyles.options(p.istyle||"","سبک تم (پیش‌فرض)");Ed.ratioSeg();
+  $("#cap").value=p.caption||"";$("#tags").value=(p.tags||[]).join(" ");Ed.capInfo();Ed.render()},
+ close(){Ed.p=null;$("#edBox").classList.add("hide");$("#edEmpty").classList.remove("hide")},
+ fontSel(){const p=Ed.p,t=Themes.get(p.theme);$("#pFT").innerHTML=Fonts.options(p.fT||"","تیتر: فونت تم ("+Fonts.name(t.ft)+")");$("#pFB").innerHTML=Fonts.options(p.fB||"","متن: فونت تم ("+Fonts.name(t.fb)+")")},
+ ratioSeg(){$("#pRatio").innerHTML=Object.keys(RATIOS).map(k=>`<button class="${Ed.p.ratio==k?"on":""}" data-a="ratio" data-v="${k}">${k=="1:1"?"مربع ۱:۱":"عمودی ۴:۵"}</button>`).join("")},
+ get s(){return Ed.p&&Ed.p.slides[Ed.i]},
+ changed(all){Projects.save(Ed.p);clearTimeout(Ed.t);Ed.t=setTimeout(()=>all?Ed.render():Ed.redraw(),120)},
+ async render(){if(!Ed.p)return;Ed.i=Math.max(0,Math.min(Ed.i,Ed.p.slides.length-1));Ed.renderStrip();Ed.props();await Ed.redraw(true)},
+ async redraw(all){const p=Ed.p;if(!p)return;await Car.fonts(p);const n=p.slides.length;await Car.draw($("#big"),p,p.slides[Ed.i],Ed.i,n,1);$("#pos").textContent=`اسلاید ${fa(Ed.i+1)} از ${fa(n)}`;
+  const cs=$$("#strip canvas");for(let k=0;k<cs.length;k++)if(all||k==Ed.i)await Car.draw(cs[k],p,p.slides[k],k,n,.125)},
+ renderStrip(){const p=Ed.p,b=$("#strip");if(!p||!b)return;const[W,H]=Car.size(p);
+  const have=$$(".tb",b);if(have.length==p.slides.length&&have.every((e,k)=>e.dataset.id==p.slides[k].id)){have.forEach((e,k)=>{e.classList.toggle("on",k==Ed.i);const bz=$(".busy",e);bz&&bz.classList.toggle("hide",!Jobs.busy.has(p.slides[k].id)&&!Jobs.q.some(j=>j.id==p.slides[k].id))});return}
+  b.innerHTML=p.slides.map((s,k)=>`<div class="tb ${k==Ed.i?"on":""}" draggable="true" data-a="goto" data-i="${k}" data-id="${esc(s.id)}"><canvas width="${W/8}" height="${H/8}"></canvas><span class="n">${fa(k+1)}</span><div class="busy ${Jobs.busy.has(s.id)||Jobs.q.some(j=>j.id==s.id)?"":"hide"}">⏳ تصویر…</div></div>`).join("");Ed.redraw(true)},
+ props(){const s=Ed.s,b=$("#props");if(!s||!b)return;const K={cover:"🪝 کاور (قلاب)",content:"📄 اسلاید محتوا",cta:"📣 اسلاید دعوت به اقدام"},n=Ed.p.slides.length;
+  b.innerHTML=`<h4>${K[s.kind]} <span class="mut">(اسلاید ${fa(Ed.i+1)} از ${fa(n)})</span></h4>
+  <label>نوع اسلاید</label><select data-f="kind">${Object.keys(K).map(k=>`<option value="${k}" ${s.kind==k?"selected":""}>${K[k]}</option>`).join("")}</select>
+  <label>برچسب بالای اسلاید</label><input data-f="label" value="${esc(s.label)}">
+  <label>تیتر</label><textarea data-f="title" style="min-height:70px">${esc(s.title)}</textarea>
+  <label>متن</label><textarea data-f="body">${esc(s.body)}</textarea>
+  ${s.kind=="content"?`<label>نکته‌ها (هر خط یک نکته)</label><textarea data-f="pts">${esc(s.pts.join("\n"))}</textarea>`:""}
+  <label>ایده‌ی تصویر پس‌زمینه</label><input data-f="idea" dir="auto" value="${esc(s.idea)}" placeholder="مثلاً a phone camera on a desk, soft light">
+  <div class="row"><button class="btn sm pri" data-a="genImg">🖼️ ${s.img?"ساخت دوباره‌ی تصویر":"ساخت تصویر"}</button><button class="btn sm" data-a="upImg">📁 تصویر خودم</button>${s.img?`<button class="btn sm danger" data-a="rmImg">🗑️ بدون تصویر</button>`:""}</div>
+  <div class="row"><button class="btn sm" data-a="mv" data-v="-1" ${Ed.i==0?"disabled":""} title="جابه‌جایی به قبل">→ قبل</button><button class="btn sm" data-a="mv" data-v="1" ${Ed.i==n-1?"disabled":""} title="جابه‌جایی به بعد">بعد ←</button><button class="btn sm" data-a="dupS">📄 تکرار</button><button class="btn sm danger" data-a="delS">❌ حذف</button></div>
+  <div class="row"><button class="btn sm" data-a="xPng">⬇️ PNG همین اسلاید (۱۰۸۰)</button></div>
+  <p class="mut">ترتیب را با کشیدن اسلایدها در نوار بالا هم می‌توانی عوض کنی.</p>`},
+ input(el){const s=Ed.s,f=el.dataset.f;if(!s)return;if(f=="pts")s.pts=el.value.split("\n").map(x=>x.trim()).filter(Boolean).slice(0,5);else if(f=="kind"){s.kind=el.value;Ed.changed(true);return}else s[f]=el.value;Ed.changed()},
+ go(i){if(!Ed.p)return;Ed.i=Math.max(0,Math.min(i,Ed.p.slides.length-1));Ed.render()},
+ move(d){const a=Ed.p.slides,j=Ed.i+d;if(j<0||j>=a.length)return;[a[Ed.i],a[j]]=[a[j],a[Ed.i]];Ed.i=j;Ed.changed(true)},
+ drop(from,to){const a=Ed.p.slides;if(from==to||from<0||to<0||from>=a.length||to>=a.length)return;const[s]=a.splice(from,1);a.splice(to,0,s);Ed.i=to;Ed.changed(true)},
+ dup(){const a=Ed.p.slides;if(a.length>=10)return toast("اینستاگرام حداکثر ۲۰ اسلاید می‌پذیرد؛ این برنامه تا ۱۰ اسلاید را پشتیبانی می‌کند");const c=dcopy(a[Ed.i]);c.id=uid("s");a.splice(Ed.i+1,0,c);Ed.i++;Ed.changed(true)},
+ add(){const a=Ed.p.slides;if(a.length>=10)return toast("حداکثر ۱۰ اسلاید");const at=a.length&&a[a.length-1].kind=="cta"?a.length-1:a.length;a.splice(at,0,normCSlide({kind:"content",label:"نکته",title:"تیتر اسلاید جدید",body:"متن این اسلاید را اینجا بنویس."}));Ed.i=at;Ed.changed(true)},
+ async del(){const a=Ed.p.slides;if(a.length<=2)return toast("کاروسل حداقل ۲ اسلاید لازم دارد");if(!await ask(`اسلاید ${fa(Ed.i+1)} حذف شود؟`))return;a.splice(Ed.i,1);Ed.changed(true)},
+ async upImg(){const f=await pick("image/*");if(!f)return;const b=await convert(f,"image/jpeg",1600)||f;Ed.s.img=b;Ed.changed(true)},
+ capInfo(){const p=Ed.p;if(!p)return;const c=($("#cap").value||"").length,t=normTags($("#tags").value).length;$("#capInfo").textContent=`کپشن: ${fa(c)} از ${fa(2200)} نویسه · هشتگ: ${fa(t)} (پیشنهاد ۱۵ تا ۲۵، حداکثر ۳۰)`},
+ capText(){return $("#cap").value.trim()},tagText(){return normTags($("#tags").value).join(" ")}
+};
+
+// ---------- export ----------
+const Exp={
+ name(p,i){return`${slug(p.title)}-${String(i+1).padStart(2,"0")}.png`},
+ async png(){const p=Ed.p;if(!p)return;try{dl(await Car.blob(p,Ed.i),Exp.name(p,Ed.i));toast("PNG دانلود شد")}catch(e){toast("⚠️ "+e.message)}},
+ async zip(){const p=Ed.p;if(!p)return;toast("⏳ در حال ساخت فایل ZIP…",2500);try{const Z=await Backup.jz(),z=new Z(),dir=slug(p.title);
+   for(let i=0;i<p.slides.length;i++)z.file(`${dir}/${Exp.name(p,i)}`,await Car.blob(p,i));
+   z.file(`${dir}/caption.txt`,Ed.capText()+"\n\n"+Ed.tagText()+"\n");dl(await z.generateAsync({type:"blob"}),dir+".zip");toast(`✅ ${fa(p.slides.length)} اسلاید و کپشن در ZIP دانلود شد`)}
+  catch(e){toast("⚠️ خطا در ساخت ZIP: "+e.message)}}
+};
+
+// ---------- UI shell ----------
+const C={fontsChanged(){Make.fontSel();if(Ed.p)Ed.fontSel()}};
+const UI={
+ tab(v){$$("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.v==v));["make","ed","hist"].forEach(t=>$("#t-"+t).classList.toggle("hide",t!=v));if(v=="hist")Hist.render();if(v=="ed"&&Ed.p)Ed.render();if(v=="make")Make.preview()},
+ status(){$("#tmpB").classList.toggle("hide",S.persisted||Bridge.st.on);const bb=$("#brB");if(bb){bb.className=(Bridge.st.checked?"":"hide ")+(Bridge.st.on&&!Bridge.st.err?"okb":"warn");bb.textContent=Bridge.st.on?(Bridge.st.err?"⚠️ ذخیره در اکستنشن ناموفق":"ذخیره‌ی دائمی با اکستنشن ✓"):"بدون اکستنشن: قبل از بستن پشتیبان زیپ بگیر";bb.title=Bridge.st.err||"وضعیت ذخیره‌ی دائمی"}UI.storage()},
+ about(){modal(`<h3>ℹ️ درباره‌ی سازنده</h3><p><b>سید صبا میری</b></p><p>🌐 وب‌سایت: <a href="https://viroai.ir" target="_blank" rel="noopener">viroai.ir</a></p><p>📸 اینستاگرام: <a href="https://instagram.com/viromedia404" target="_blank" rel="noopener" dir="ltr">viromedia404</a></p><p>📞 تلفن: <a href="tel:+989120349893" dir="ltr">۰۹۱۲۰۳۴۹۸۹۳</a></p><p>✈️ تلگرام: به‌زودی…</p><p class="mut">کاروسل‌ساز صبا · نسخه‌ی ${fa(APP_VER)}</p>`)},
+ settings(){modal(`<h3>⚙️ تنظیمات</h3><h4>رنگ برنامه</h4><div class="themes">${UITHEMES.map(t=>`<button class="th ${t[0]==S.uitheme?"on":""}" data-a="uitheme" data-v="${t[0]}" style="background:${t[1]};border-color:${t[3]}"><i style="background:linear-gradient(90deg,${t[3]},${t[4]})"></i>${t[0]}</button>`).join("")}</div>
+  ${KeyCfg.html()}<h4>فونت شخصی</h4><p class="mut">فونت فارسی خودت را اضافه کن تا در فهرست فونت‌ها بیاید.</p><div class="row"><button class="btn sm pri" data-a="addFont">➕ افزودن فونت (TTF، OTF، WOFF، WOFF2)</button>${Fonts.user.map(u=>`<button class="btn sm danger" data-a="delFont" data-id="${esc(u.id)}">🗑️ ${esc(u.name)}</button>`).join("")}</div>
+  <h4>ذخیره‌سازی</h4><div id="sto"></div><h4>پاک کردن</h4><button class="btn danger" data-a="wipe">🗑️ پاک کردن همه‌ی داده‌ها</button>
+  <p class="mut">نسخه‌ی ${fa(APP_VER)} · تصویر: ${IMAGE_MODEL} · متن: ${TEXT_MODEL} · ${fa(BUILTIN.length)} تم و ${fa(Object.keys(FONTS).length)} فونت داخلی</p><p class="mut">ساخته‌ی سید صبا میری · viroai.ir · اینستاگرام viromedia404 · ۰۹۱۲۰۳۴۹۸۹۳</p>`);UI.storage()},
+ async storage(){const b=$("#sto");if(!b)return;const e=await Store.estimate(),B=Bridge.st,tf=t=>t?new Date(t).toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit",second:"2-digit"}):"هنوز نه";
+  b.innerHTML=`<div class="sbox"><b>🧩 ذخیره‌ی دائمی با اکستنشن</b>${B.on?`<div class="mut">✅ وصل است (اکستنشن نسخه‌ی ${fa(B.ver||"؟")}) — هر تغییر خودکار در اکستنشن ذخیره می‌شود و با بستن Canvas پاک نمی‌شود</div><div class="mut">آخرین ذخیره: ${tf(B.last)} · در صف: ${fa(B.pending)}${B.restored?` · ${fa(B.restored)} مورد هنگام باز شدن بازیابی شد`:""}</div>${B.err?`<div class="mut" style="color:#ff8a8a">⚠️ ${esc(B.err)}</div>`:""}<div class="row" style="margin-top:8px"><button class="btn sm pri" data-a="bsync">🔄 همگام‌سازی کامل الان</button></div>`:`<div class="mut">${B.err?"⚠️ "+esc(B.err):"اکستنشن پیدا نشد؛ داده‌ها فقط تا بستن Canvas می‌مانند. قبل از بستن «دانلود پشتیبان کامل» را بزن، یا برنامه را از آیکون اکستنشن «کاروسل‌ساز صبا» یا جعبه‌ابزار باز کن تا همه‌چیز خودکار و دائمی ذخیره شود."}</div>`}</div>
+  <div class="sbox"><b>🌐 مرورگر (IndexedDB)</b><div class="mut">${S.persisted?"✅ ذخیره‌ی دائمی فعال است":"⚠️ ذخیره‌ی موقت — مرورگر ممکن است داده‌ها را پاک کند"}</div><div class="mut">فضا: ${e?fmtB(e.usage||0)+" از "+fmtB(e.quota||0):"نامشخص"}</div></div>
+  <div class="sbox"><b>🗂️ پشتیبان فایل</b><div class="row" style="margin-top:8px"><button class="btn sm" data-a="zipOut">⬇️ دانلود پشتیبان کامل</button><button class="btn sm" data-a="zipIn">♻️ بازگردانی از پشتیبان</button></div></div>`},
+ async wipe(){if(!await ask("همه‌ی کاروسل‌ها، فونت‌های شخصی و تنظیمات پاک شود؟ این کار برگشت‌پذیر نیست."))return;Jobs.cancel();await Store.clear();Ed.close();await App.reload();$$(".modal").forEach(m=>m.remove());toast("همه‌ی داده‌ها پاک شد")}
+};
+
+// ---------- actions (event delegation) ----------
+const A={
+ tab:e=>UI.tab(e.dataset.v),settings:()=>UI.settings(),about:()=>UI.about(),close:e=>e.closest(".modal").remove(),
+ uitheme:e=>{applyUI(e.dataset.v);Store.set("kv",S.uitheme,"uitheme");$$(".th").forEach(b=>b.classList.toggle("on",b.dataset.v==S.uitheme))},
+ opt:e=>Make.opt(e.dataset.k,e.dataset.v),ex:e=>{$("#topic").value=e.dataset.v;Draft.d.topic=e.dataset.v;Draft.save();Make.preview()},build:()=>Make.build(),
+ goto:e=>Ed.go(+e.dataset.i),go:e=>Ed.go(Ed.i+ +e.dataset.v),mv:e=>Ed.move(+e.dataset.v),dupS:()=>Ed.dup(),delS:()=>Ed.del(),addSlide:()=>Ed.add(),
+ genImg:()=>{const s=Ed.s;if(!s)return;Jobs.images(Ed.p,[s.id]);toast("🖼️ تصویر این اسلاید در حال ساخت است…",2500)},upImg:()=>Ed.upImg(),rmImg:()=>{delete Ed.s.img;Ed.changed(true)},
+ allImgs:()=>{const ids=Ed.p.slides.filter(s=>!s.img).map(s=>s.id);if(!ids.length)return toast("همه‌ی اسلایدها تصویر دارند؛ برای یکی، «ساخت دوباره‌ی تصویر» را بزن");Jobs.images(Ed.p,ids)},
+ cancelJobs:()=>Jobs.cancel(),
+ ratio:e=>{const p=Ed.p;if(p.ratio==e.dataset.v)return;p.ratio=e.dataset.v;Ed.ratioSeg();$("#strip").innerHTML="";Ed.changed(true);if(p.slides.some(s=>s.img))toast("تصویرهای قبلی برش می‌خورند؛ برای بهترین نتیجه تصویرها را دوباره بساز",6000)},
+ xPng:()=>Exp.png(),xZip:()=>Exp.zip(),
+ cpCap:()=>copyText(Ed.capText(),"کپشن"),cpTags:()=>copyText(Ed.tagText(),"هشتگ‌ها"),cpAll:()=>copyText(Ed.capText()+"\n.\n.\n"+Ed.tagText(),"کپشن و هشتگ‌ها"),
+ openP:e=>{Ed.open(e.dataset.id);UI.tab("ed")},dupP:e=>Projects.dup(e.dataset.id),delP:e=>Projects.del(e.dataset.id),
+ addFont:async()=>{await Fonts.add();$$(".modal").forEach(m=>m.remove());UI.settings()},delFont:async e=>{await Fonts.del(e.dataset.id);$$(".modal").forEach(m=>m.remove());UI.settings()},
+ zipOut:()=>Backup.zipOut(),zipIn:()=>Backup.zipIn(),bsync:async e=>{e.disabled=true;e.textContent="در حال همگام‌سازی…";await Bridge.full(true);UI.storage()},
+ wipe:()=>UI.wipe(),banX:()=>$("#banner").classList.add("hide")
+};
+document.addEventListener("click",e=>{const el=e.target.closest("[data-a]");if(!el||el.disabled||!A[el.dataset.a])return;if(el.tagName!="A")e.preventDefault();e.stopPropagation();Promise.resolve(A[el.dataset.a](el,e)).catch(err=>toast("⚠️ "+err.message))});
+document.addEventListener("keydown",e=>{const el=e.target;if((e.key=="Enter"||e.key==" ")&&el.classList&&el.classList.contains("tp")){e.preventDefault();el.click();return}
+ if(/INPUT|TEXTAREA|SELECT/.test(el.tagName)||el.isContentEditable||$("#t-ed").classList.contains("hide")||!Ed.p)return;
+ if(e.key=="ArrowLeft"){e.preventDefault();Ed.go(Ed.i+1)}else if(e.key=="ArrowRight"){e.preventDefault();Ed.go(Ed.i-1)}});
+document.addEventListener("input",e=>{const el=e.target;if(el.dataset&&el.dataset.f&&el.closest("#props"))Ed.input(el)});
+document.addEventListener("change",e=>{const el=e.target;if(el.dataset&&el.dataset.f=="kind"&&el.closest("#props"))Ed.input(el)});
+// drag & drop order in the slide strip
+let dragI=-1;
+document.addEventListener("dragstart",e=>{const t=e.target.closest&&e.target.closest(".tb");if(t){dragI=+t.dataset.i;t.classList.add("drag")}});
+document.addEventListener("dragover",e=>{const t=e.target.closest&&e.target.closest(".tb");if(t&&dragI>=0){e.preventDefault();$$(".tb.over").forEach(x=>x.classList.remove("over"));t.classList.add("over")}});
+document.addEventListener("drop",e=>{const t=e.target.closest&&e.target.closest(".tb");if(t&&dragI>=0){e.preventDefault();$("#strip").innerHTML="";Ed.drop(dragI,+t.dataset.i)}dragI=-1;$$(".tb").forEach(x=>x.classList.remove("over","drag"))});
+document.addEventListener("dragend",()=>{dragI=-1;$$(".tb").forEach(x=>x.classList.remove("over","drag"))});
+
+// ---------- app ----------
+const App={
+ async reload(){const th=await Store.get("kv","uitheme");applyUI(th||Store.fastTheme()||"بنفش");
+  await Draft.load();await Fonts.load();await Themes.load();await ImgStyles.load();await Projects.load();Make.sync();Hist.render();
+  $("#pTitle").onchange=e=>{if(!Ed.p)return;Ed.p.title=e.target.value.trim()||"کاروسل";Projects.save(Ed.p)};
+  $("#pTheme").onchange=e=>{if(!Ed.p)return;Ed.p.theme=Themes.get(e.target.value).id;Ed.p.fT="";Ed.p.fB="";Ed.fontSel();Ed.changed(true)};
+  $("#pFT").onchange=e=>{Ed.p.fT=e.target.value;Ed.changed(true)};$("#pFB").onchange=e=>{Ed.p.fB=e.target.value;Ed.changed(true)};
+  $("#pSty").onchange=e=>{Ed.p.istyle=e.target.value;Projects.save(Ed.p);toast("سبک تصویر برای تصویرهای بعدی اعمال می‌شود")};
+  $("#cap").oninput=e=>{if(!Ed.p)return;Ed.p.caption=e.target.value;Ed.capInfo();Projects.save(Ed.p)};
+  $("#tags").oninput=e=>{if(!Ed.p)return;Ed.p.tags=normTags(e.target.value);Ed.capInfo();Projects.save(Ed.p)}},
+ async init(){window.__booted=true;applyUI(Store.fastTheme()||"بنفش");Make.init();
+  try{await Bridge.init()}catch(e){console.warn(e)}
+  const lost=!Bridge.st.restored&&!(await Store.get("kv","meta"))&&Store.lastSaveLS();await App.reload();
+  S.persisted=await Store.persist();UI.status();if(lost)$("#banner").classList.remove("hide");window.__ready=true}
+};
+App.init().catch(e=>toast("⚠️ خطا در شروع برنامه: "+e.message,9000));
+
+</script>
+</body>
+</html>
