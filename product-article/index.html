@@ -1,0 +1,883 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مقاله‌نویس محصول صبا · v1.0.0</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+<style>
+
+:root{--bg:#07051a;--card:#110c27;--neon:#a874ff;--neon2:#7d6aff;--btxt:#100426;--line:color-mix(in srgb,var(--neon) 26%,transparent);--soft:color-mix(in srgb,var(--neon) 12%,transparent);--txt:color-mix(in srgb,var(--neon) 8%,#f4f2fb);--mut:color-mix(in srgb,var(--neon) 18%,#9a96ad)}
+*{box-sizing:border-box}
+body{margin:0;font-family:Vazirmatn,Tahoma,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;background-image:radial-gradient(900px 600px at 85% -10%,color-mix(in srgb,var(--neon) 22%,transparent),transparent 70%),radial-gradient(700px 500px at 0% 110%,color-mix(in srgb,var(--neon2) 14%,transparent),transparent 70%);background-attachment:fixed}
+button,input,select,textarea{font:inherit;color:inherit}
+h3{margin:0 0 8px}h4{margin:16px 0 8px}
+.card{background:color-mix(in srgb,var(--card) 82%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 0 32px color-mix(in srgb,var(--neon) 10%,transparent);margin-bottom:16px}
+.btn{min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line);background:var(--soft);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;text-decoration:none}
+.btn:hover{border-color:var(--neon)}.btn:disabled{opacity:.5;cursor:wait}
+.pri{background:linear-gradient(135deg,var(--neon),var(--neon2));color:var(--btxt);border:0;font-weight:700;box-shadow:0 0 18px color-mix(in srgb,var(--neon) 40%,transparent)}
+.big{min-height:56px;font-size:1.1rem;width:100%}
+.sm{padding:0 12px;font-size:.82rem;min-height:38px}
+.danger{border-color:#ff5a6c;color:#ff8a9a}
+input,select,textarea{width:100%;min-height:44px;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;padding:10px 14px;outline:0}
+textarea{min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--neon)}
+input[type=checkbox]{width:auto;min-height:0;vertical-align:middle;accent-color:var(--neon)}
+label{display:block;margin:12px 0 6px;color:var(--mut);font-size:.9rem}
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:10px 16px;flex-wrap:wrap;background:color-mix(in srgb,var(--bg) 75%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.logo{font-weight:800;font-size:1.15rem;background:linear-gradient(90deg,var(--neon),var(--neon2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.seg{display:inline-flex;gap:4px;padding:4px;border-radius:999px;border:1px solid var(--line);background:rgba(0,0,0,.3);flex-wrap:wrap}
+.seg button{min-height:40px;padding:0 14px;border-radius:999px;border:0;background:none;cursor:pointer}
+.seg .on{background:linear-gradient(135deg,var(--neon),var(--neon2));color:var(--btxt);font-weight:700}
+.sp{flex:1}
+main{max-width:1240px;margin:auto;padding:16px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:800px){.g2,.g3{grid-template-columns:1fr}.top{padding:8px}}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.chip{min-height:38px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(0,0,0,.25);cursor:pointer;font-size:.85rem}
+.chip.on{background:var(--neon);color:var(--btxt);font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:10px}
+.sc{position:relative;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:rgba(0,0,0,.3);cursor:pointer}
+.sc.on{border-color:var(--neon);box-shadow:0 0 0 2px var(--neon),0 0 20px color-mix(in srgb,var(--neon) 40%,transparent)}
+.sw{aspect-ratio:4/3;display:flex;align-items:flex-end;justify-content:flex-start;padding:8px;gap:4px;flex-wrap:wrap}
+.sw img{width:100%;height:100%;object-fit:cover;display:block}.sw:has(img){padding:0}
+.sw i{font-style:normal;font-size:.7rem;background:rgba(0,0,0,.55);color:#fff;border-radius:999px;padding:2px 8px}
+.sc .b{padding:8px 10px}.sc h4{margin:0;font-size:.95rem}.sc p{margin:4px 0 0;font-size:.78rem;color:var(--mut)}
+.star{position:absolute;top:6px;left:6px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#f6c94e;font-size:1.1rem;cursor:pointer}
+.badge{position:absolute;top:8px;right:8px;background:var(--neon);color:var(--btxt);border-radius:999px;padding:2px 10px;font-size:.75rem;font-weight:700}
+.sug{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin:8px 0}
+.sgi{border:1px dashed var(--neon);border-radius:16px;padding:10px;cursor:pointer;background:var(--soft)}.sgi.on{border-style:solid;box-shadow:0 0 0 2px var(--neon)}
+.sgi b{display:block}.sgi span{font-size:.8rem;color:var(--mut)}
+.ol{display:grid;gap:10px}
+.olt{font-size:1.3rem;font-weight:800}.ols{color:var(--mut)}
+.sec{border:1px solid var(--line);border-radius:16px;padding:10px 12px;position:relative;background:rgba(0,0,0,.2)}
+.sec h4{margin:0 0 6px}.sec ul{margin:0;padding-inline-start:20px}.sec .st{display:inline-block;margin-top:6px;background:var(--soft);border-radius:999px;padding:2px 10px;font-weight:700}
+.sec .ic{font-size:.75rem;color:var(--mut);direction:ltr;text-align:left}
+.sec .x2{position:absolute;top:6px;left:6px;width:32px;height:32px;border-radius:50%;border:0;background:rgba(0,0,0,.4);color:#ff9aa8;cursor:pointer}
+[contenteditable]{outline:0;border-radius:6px}[contenteditable]:focus{background:rgba(255,255,255,.06);box-shadow:0 0 0 1px var(--neon)}
+.srcs a{color:var(--neon);overflow-wrap:anywhere}.srcs li{margin:4px 0}
+.res{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.tile{position:relative;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:rgba(0,0,0,.3)}
+.im{display:flex;align-items:center;justify-content:center;text-align:center;font-size:.85rem;color:var(--mut);padding:0 10px;min-height:160px}
+.im img{width:100%;height:100%;object-fit:contain;display:block;cursor:zoom-in;background:#000}.im:has(img){padding:0}
+.sk{background:linear-gradient(90deg,rgba(255,255,255,.04),rgba(255,255,255,.12),rgba(255,255,255,.04));background-size:200% 100%;animation:sh 1.4s infinite}
+@keyframes sh{to{background-position:-200% 0}}
+@media(prefers-reduced-motion:reduce){.sk{animation:none}}
+.err{color:#ff9aa8;padding:12px;font-size:.85rem;overflow-wrap:anywhere}
+.acts{display:flex;flex-wrap:wrap;gap:6px;padding:8px}
+.cap{padding:6px 10px 0;font-size:.8rem;color:var(--mut)}
+.ck{margin:6px 10px 0;font-size:.8rem;border-radius:12px;padding:6px 10px;background:rgba(0,0,0,.3)}
+.ck.ok{background:#12391f;color:#b7f5c9}.ck.bad{background:#3e2a05;color:#ffe08a}.ck.er{background:#3a0d18;color:#ffb3bf}
+.kind{position:absolute;top:8px;right:8px;z-index:2;background:var(--neon);color:var(--btxt);border-radius:999px;padding:2px 10px;font-size:.72rem;font-weight:700}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:12px}
+.modal>.card{width:min(940px,100%);max-height:94vh;overflow:auto;margin:0;position:relative}
+.x{position:absolute;top:10px;left:10px;width:44px;padding:0}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:70;background:var(--card);border:1px solid var(--neon);border-radius:16px;padding:12px 18px;max-width:92vw;box-shadow:0 0 24px color-mix(in srgb,var(--neon) 40%,transparent)}
+.okb{background:#1f6f43;color:#eafff2;border-radius:999px;padding:0 14px;font-size:.82rem;font-weight:700;cursor:pointer;border:0;min-height:36px}
+#brB{max-width:46vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.warn{background:#f6c94e;color:#231a02;border-radius:999px;padding:0 14px;font-size:.82rem;font-weight:700;cursor:pointer;border:0;min-height:36px}
+.banner{background:#3a0d18;border:1px solid #ff5a6c;border-radius:18px;padding:12px;margin-bottom:14px}
+.mut{color:var(--mut);font-size:.85rem}
+.cre{display:flex;flex-wrap:wrap;gap:6px 10px;justify-content:center;align-items:center;padding:18px 14px 26px;margin-top:10px;border-top:1px solid var(--line);color:var(--mut);font-size:.85rem}.cre b{color:var(--txt)}.cre a{color:var(--neon);text-decoration:none}.cre a:hover{text-decoration:underline}
+.hide{display:none!important}
+pre{white-space:pre-wrap;direction:ltr;text-align:left;font-size:.78rem;background:rgba(0,0,0,.4);padding:12px;border-radius:14px;max-height:300px;overflow:auto}
+summary{cursor:pointer;min-height:44px;display:flex;align-items:center;color:var(--mut)}
+.themes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.th{min-height:64px;border-radius:16px;border:2px solid;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#fff}
+.th i{width:36px;height:12px;border-radius:9px}.th.on{outline:3px solid #fff}
+.sbox{border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}
+.big-img{width:100%;max-height:70vh;object-fit:contain;border-radius:14px;background:#000;display:block}
+.iss{margin:6px 0;padding-inline-start:18px;font-size:.85rem}
+.step{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--neon),var(--neon2));color:var(--btxt);font-weight:800;margin-inline-end:6px}
+.phs{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.ph{position:relative;width:120px;height:120px;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:rgba(0,0,0,.3)}
+.ph img{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
+.ph.add{cursor:pointer;color:var(--mut);font-size:.85rem;border-style:dashed;line-height:1.7}
+.ph .x2{position:absolute;top:4px;left:4px;width:30px;height:30px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#ff9aa8;cursor:pointer}
+.ph .badge{top:auto;bottom:6px;right:6px}
+.logo-box{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.logo-box img{width:64px;height:64px;object-fit:contain;border-radius:12px;background:repeating-conic-gradient(#ddd 0 25%,#fff 0 50%) 50%/12px 12px}
+.specs{display:flex;gap:8px;flex-wrap:wrap}.specs .st{position:relative;padding-left:30px}
+.x3{position:absolute;left:4px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;border:0;background:rgba(0,0,0,.4);color:#ff9aa8;cursor:pointer;font-size:.7rem}
+details.brand>summary{font-weight:700}
+
+/* ---- article writer ---- */
+.stages{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:6px}
+.stages li{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:8px 12px;background:rgba(0,0,0,.22);font-size:.9rem}
+.stages li i{font-style:normal;width:24px;text-align:center}
+.stages li.run{border-color:var(--neon);box-shadow:0 0 14px color-mix(in srgb,var(--neon) 30%,transparent)}
+.stages li.done{color:#b7f5c9}.stages li.err{color:#ffb3bf;border-color:#ff5a6c}.stages li.skip{opacity:.55}
+.stages small{color:var(--mut);margin-inline-start:auto;font-size:.78rem}
+.prodph{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.prodph .ph{width:150px;height:150px}
+.art{background:#fbfaff;color:#1b1630;border-radius:18px;padding:22px 26px;line-height:2.05;font-size:1rem;max-height:none}
+.art h1{font-size:1.55rem;line-height:1.6;margin:0 0 12px;color:#2a1460}.art h2{font-size:1.25rem;margin:22px 0 8px;color:#3b1d86}.art h3{font-size:1.05rem;margin:16px 0 6px;color:#4b2a9e}
+.art p{margin:0 0 12px}.art ul,.art ol{margin:0 0 12px;padding-inline-start:24px}.art a{color:#6a3df0}
+.art table{border-collapse:collapse;width:100%;margin:8px 0 14px}.art td,.art th{border:1px solid #d9d2f3;padding:6px 10px;text-align:right}.art th{background:#efe9ff}
+.art figure{margin:10px 0 16px}.art figure img{width:100%;border-radius:14px;display:block;background:#ddd;min-height:60px}.art figcaption{font-size:.82rem;color:#6b6585;text-align:center;margin-top:4px}
+.art .cta{background:#efe9ff;border-radius:14px;padding:10px 14px;font-weight:700}
+.art .pc{display:grid;grid-template-columns:1fr 1fr;gap:12px}.art .pc>div{border-radius:14px;padding:8px 12px}.art .pc .pro{background:#e7f8ee}.art .pc .con{background:#fdecef}
+@media(max-width:700px){.art{padding:16px}.art .pc{grid-template-columns:1fr}}
+.wc{font-weight:800}.wc.ok{color:#7ef0a6}.wc.bad{color:#ffd36b}
+.seo{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:4px 14px;padding:0;list-style:none;margin:8px 0}
+.seo li{font-size:.85rem}.seo li.ok::before{content:"✅ "}.seo li.no::before{content:"⚠️ "}
+.score{display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;font-weight:900;font-size:1.2rem;border:3px solid var(--neon);box-shadow:0 0 18px color-mix(in srgb,var(--neon) 40%,transparent)}
+.cnt{font-size:.78rem;color:var(--mut)}.cnt.over{color:#ff9aa8}
+.imgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.sc .num{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.6);color:#fff;border-radius:999px;padding:2px 9px;font-size:.75rem;font-weight:800}
+.sc .own{display:inline-block;margin-top:4px;background:#f6c94e;color:#231a02;border-radius:999px;padding:1px 8px;font-size:.7rem;font-weight:800}
+.sc .en{direction:ltr;text-align:left;font-size:.72rem;color:var(--mut);margin-top:2px}
+.sc .tg{display:inline-block;margin-top:4px;font-size:.7rem;border:1px solid var(--line);border-radius:999px;padding:1px 8px}
+.sw .ttl{font-weight:900;font-size:1.05rem;color:#fff;text-shadow:0 2px 0 #000,0 0 12px rgba(0,0,0,.6)}
+.soc{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.soc textarea{min-height:180px}
+canvas#edc{width:100%;height:auto;border-radius:14px;background:#000;touch-action:none;display:block}
+.fo .g2{gap:8px}.pg{display:grid;grid-template-columns:repeat(3,44px);gap:4px}.pg .chip{min-height:36px;padding:0}
+.kw{display:inline-block;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:1px 10px;margin:2px;font-size:.8rem}
+.selsty{display:flex;gap:10px;align-items:center;flex-wrap:wrap;border:1px dashed var(--neon);border-radius:16px;padding:8px 12px;background:var(--soft)}
+</style>
+</head>
+<body>
+<header class="top">
+ <span class="logo">📝 مقاله‌نویس محصول صبا</span>
+ <nav class="seg" id="tabs"><button class="on" data-a="tab" data-v="art">✍️ مقاله</button><button data-a="tab" data-v="sty">🎨 استایل‌ها</button><button data-a="tab" data-v="soc">📣 شبکه‌های اجتماعی</button><button data-a="tab" data-v="his">🗂️ پروژه‌های من</button></nav>
+ <span class="sp"></span>
+ <button class="warn hide" id="brB" data-a="settings" title="وضعیت ذخیره‌ی دائمی"></button>
+ <button class="warn hide" id="tmpB" data-a="settings" title="داده‌ها ممکن است پاک شوند">ذخیره موقت</button>
+ <button class="btn" data-a="newProj" title="پروژه‌ی تازه">➕ جدید</button>
+ <button class="btn" data-a="about" aria-label="درباره‌ی سازنده" title="درباره‌ی سازنده" style="width:44px;padding:0">ℹ️</button>
+ <button class="btn" data-a="settings" aria-label="تنظیمات" style="width:44px;padding:0">⚙️</button>
+</header>
+<main>
+<div class="banner hide" id="banner"><b>داده‌ها پاک شده‌اند؛ از پشتیبان زیپ بازگردانی کن</b><div class="row" style="margin-top:8px"><button class="btn sm" data-a="zipIn">♻️ بازگردانی از پشتیبان</button><button class="btn sm" data-a="banX">بستن</button></div></div>
+
+<section id="t-art">
+ <div class="card">
+  <h3><span class="step">۱</span>محصول</h3>
+  <p class="mut">عکس محصول را بگذار (راه اصلی) — جمینی خودش محصول را می‌شناسد، در وب تحقیق می‌کند و مقاله می‌نویسد. می‌توانی عکس را بکشی و رها کنی یا Ctrl+V بزنی.</p>
+  <div class="prodph" id="phs"></div>
+  <div class="g2">
+   <div><label for="pname">نام محصول (اختیاری)</label><input id="pname" placeholder="خالی بماند، از روی عکس شناخته می‌شود"></div>
+   <div><label for="kw">کلمه‌ی کلیدی هدف (اختیاری)</label><input id="kw" placeholder="مثلاً «خرید هدفون بی‌سیم سونی»"></div>
+  </div>
+  <label for="pfeat">ویژگی‌ها و اطلاعات محصول (اختیاری)</label>
+  <textarea id="pfeat" placeholder="هر چیزی که خودت می‌دانی: ویژگی، جنس، ضمانت، قیمت… اطلاعات تو بر جستجو مقدم است"></textarea>
+  <label for="notes">نکته‌های اضافه برای نویسنده (اختیاری)</label>
+  <textarea id="notes" style="min-height:60px" placeholder="مثلاً روی مناسب بودن برای دانشجوها تأکید کن"></textarea>
+  <div class="g3">
+   <div><label for="link">لینک خرید / صفحه‌ی محصول (اختیاری)</label><input id="link" dir="ltr" placeholder="https://myshop.ir/product"></div>
+   <div><label for="shop">نام فروشگاه (اختیاری)</label><input id="shop" placeholder="مثلاً فروشگاه صبا"></div>
+   <div><label for="handle">آیدی / سایت روی تصویر (اختیاری)</label><input id="handle" dir="ltr" placeholder="@myshop"></div>
+  </div>
+  <div class="g2">
+   <div><label>لحن</label><div class="seg" id="tone"></div></div>
+   <div><label>طول مقاله (حداقل کلمه)</label><div class="seg" id="len"></div></div>
+  </div>
+  <label>استایل تصویرها</label>
+  <div class="selsty" id="selSty"></div>
+  <label style="margin-top:12px"><input type="checkbox" id="brandOn"> نام فروشگاه/آیدی گوشه‌ی تصویرها بنشیند</label>
+  <button class="btn pri big" id="goBtn" data-a="go" style="margin-top:14px">🔎 تحقیق و نوشتن مقاله</button>
+  <div class="row" style="margin-top:8px"><span class="mut" id="goMsg"></span><span class="sp"></span><button class="btn danger sm hide" id="cancel" data-a="cancel">⏹ لغو</button></div>
+  <ol class="stages hide" id="stages"></ol>
+ </div>
+
+ <div id="result" class="hide">
+  <div class="card">
+   <div class="row"><h3><span class="step">۲</span>سئو</h3><span class="sp"></span><span class="score" id="score">۰</span></div>
+   <div class="g2">
+    <div><label for="f_title">عنوان سئو <span class="cnt" id="c_title"></span></label><input id="f_title" data-f="seo_title"></div>
+    <div><label for="f_slug">نامک (slug) <span class="cnt" id="c_slug"></span></label><input id="f_slug" data-f="slug" dir="ltr"></div>
+   </div>
+   <label for="f_meta">توضیحات متا (حداکثر ۱۶۰ کاراکتر) <span class="cnt" id="c_meta"></span></label><textarea id="f_meta" data-f="meta_description" style="min-height:60px"></textarea>
+   <div class="g2">
+    <div><label for="f_kw">کلمه‌ی کلیدی اصلی</label><input id="f_kw" data-f="focus_keyword"></div>
+    <div><label for="f_rk">کلمه‌های کلیدی مرتبط (با ، جدا کن)</label><input id="f_rk" data-f="related_keywords"></div>
+    <div><label for="f_alt1">متن جایگزین (alt) تصویر شاخص</label><input id="f_alt1" data-f="alt_hero"></div>
+    <div><label for="f_alt2">متن جایگزین (alt) تصویر داخل متن</label><input id="f_alt2" data-f="alt_inline"></div>
+   </div>
+   <p>تعداد کلمه‌ها: <span class="wc" id="wc">۰</span> <span class="mut" id="wcMin"></span></p>
+   <ul class="seo" id="seo"></ul>
+  </div>
+
+  <div class="card">
+   <div class="row"><h3><span class="step">۳</span>تصویرها</h3><span class="sp"></span><button class="btn sm" data-a="regenImgs">🔄 ساخت دوباره‌ی هر دو تصویر</button></div>
+   <p class="mut">تصویرها بدون نوشته ساخته می‌شوند و عنوان به‌صورت لایه‌ی متن قابل ویرایش رویشان می‌نشیند (فونت، سه‌بعدی، دورخط، درخشش، گرادیان، سایه، برچسب). «✏️ ویرایش متن» را بزن.</p>
+   <div class="imgs" id="imgs"></div>
+  </div>
+
+  <div class="card">
+   <div class="row"><h3><span class="step">۴</span>مقاله</h3><span class="mut">روی متن بزن و مستقیم ویرایش کن</span><span class="sp"></span><button class="btn sm" data-a="expand">➕ طولانی‌تر کن</button><button class="btn sm" data-a="rebuild">↩️ بازسازی از نسخه‌ی هوش مصنوعی</button></div>
+   <div class="row" style="margin:10px 0">
+    <button class="btn sm" data-a="copyText">📋 کپی متن</button><button class="btn sm" data-a="copyHtml">🧩 کپی HTML</button>
+    <button class="btn sm" data-a="dlHtml">⬇️ فایل HTML (با عکس)</button><button class="btn sm" data-a="dlDoc">⬇️ فایل Word</button><button class="btn sm" data-a="dlMd">⬇️ Markdown</button>
+   </div>
+   <article class="art" id="art" contenteditable="true" spellcheck="false"></article>
+  </div>
+ </div>
+</section>
+
+<section id="t-sty" class="hide">
+ <div class="card">
+  <div class="row"><h3>🎨 استایل تصویرها</h3><span class="mut" id="styCnt"></span><span class="sp"></span><button class="btn sm" data-a="styImp">📥 وارد کردن</button><button class="btn sm" data-a="styExp">📤 خروجی استایل‌های من</button></div>
+  <p class="mut">استایل انتخابی روی تصویر شاخص، تصویر داخل متن و تصویرهای شبکه‌های اجتماعی اعمال می‌شود. استایل ۱ پیشنهاد اصلی برند است.</p>
+  <input id="sq" placeholder="🔎 جستجوی استایل…"><div class="chips" id="sChips"></div><div class="grid" id="picker"></div>
+ </div>
+ <div class="card" id="myStyle">
+  <h3>🎨 استایل اختصاصی من</h3>
+  <p class="mut">استایلی که در ذهن داری را توصیف کن (و اگر خواستی یک عکس نمونه بگذار)؛ هوش مصنوعی آن را به یک کارت استایل تبدیل می‌کند و ذخیره می‌شود.</p>
+  <label for="cDesc">توصیف استایل</label><textarea id="cDesc" placeholder="مثلاً: مینیمال با رنگ‌های کرم و سبز زیتونی، نور نرم صبح، حس طبیعی و آرام، کمی بافت کاغذ"></textarea>
+  <div class="row" style="margin-top:8px"><div class="prodph" id="cRef"></div></div>
+  <button class="btn pri" data-a="cMake" id="cBtn" style="margin-top:10px">✨ ساخت کارت استایل با هوش مصنوعی</button> <span class="mut" id="cMsg"></span>
+ </div>
+</section>
+
+<section id="t-soc" class="hide">
+ <div class="card">
+  <div class="row"><h3>📣 شبکه‌های اجتماعی</h3><span class="sp"></span><button class="btn sm" data-a="socText">✍️ نوشتن دوباره‌ی متن‌ها</button><button class="btn sm pri" data-a="socImgs">🖼️ ساخت هر سه تصویر</button></div>
+  <p class="mut" id="socNote">اول مقاله را بساز؛ متن‌های تلگرام، اینستاگرام و استوری خودکار نوشته می‌شوند.</p>
+  <div class="row"><span class="mut">اندازه‌ی تصویر تلگرام:</span><div class="seg" id="tgAr"></div></div>
+  <div class="soc" id="soc" style="margin-top:12px"></div>
+ </div>
+</section>
+
+<section id="t-his" class="hide"><div class="card">
+ <div class="row"><h3>🗂️ پروژه‌های من</h3><span class="mut" id="hisCnt"></span><span class="sp"></span><button class="btn sm" data-a="zipOut">⬇️ پشتیبان زیپ</button><button class="btn sm" data-a="zipIn">♻️ بازگردانی</button></div>
+ <input id="hq" placeholder="🔎 جستجو در پروژه‌ها…" style="margin-top:10px"><div class="res" id="his" style="margin-top:12px"></div>
+</div></section>
+</main>
+<footer class="cre" id="cre"><b>ساخته‌ی سید صبا میری</b><span>·</span><a href="https://viroai.ir" target="_blank" rel="noopener">🌐 viroai.ir</a><span>·</span><a href="https://instagram.com/viromedia404" target="_blank" rel="noopener">📸 اینستاگرام viromedia404</a><span>·</span><a href="tel:+989120349893" dir="ltr">📞 ۰۹۱۲۰۳۴۹۸۹۳</a><span>·</span><span>✈️ تلگرام: به‌زودی</span></footer>
+<script>
+// ---- AI models (gemini-canvas-app-build v2) ----
+const CANVAS_MODELS={image:"gemini-3.1-flash-image",text:"gemini-2.5-flash",tts:"gemini-2.5-flash-preview-tts"};
+const IMAGE_MODELS=["gemini-3.1-flash-image","gemini-2.5-flash-image-preview"];
+const KEY_TEXT_MODELS=["gemini-3.5-flash-lite","gemini-3.5-flash","gemini-3.8-flash"];
+const apiKey="";
+let IMAGE_MODEL=CANVAS_MODELS.image,TEXT_MODEL=CANVAS_MODELS.text;
+// optional personal key: stays in this browser (localStorage sabaKey.*), sent only to Google
+const KeyCfg=(()=>{const L=k=>{try{return localStorage.getItem("sabaKey."+k)||""}catch(e){return""}};
+ return{key:L("key"),text:L("text")||KEY_TEXT_MODELS[0],
+ save(k,v){this[k]=String(v||"").trim();try{this[k]?localStorage.setItem("sabaKey."+k,this[k]):localStorage.removeItem("sabaKey."+k)}catch(e){}KeyCfg.apply();const n=document.getElementById("keyNote");if(n)n.textContent=KeyCfg.note()},
+ apply(){TEXT_MODEL=this.key?this.text:CANVAS_MODELS.text},
+ note(){return this.key?`✅ کلید شخصی فعال است · مدل متن: ${TEXT_MODEL}`:"بدون کلید: مدل‌های رایگان Canvas استفاده می‌شوند"},
+ html(){const o=(a,v)=>a.map(m=>`<option ${m==v?"selected":""}>${m}</option>`).join("");return`<h4>🔑 کلید API شخصی (اختیاری)</h4><p class="mut">اگر کلید Gemini API خودت را بزنی، مدل‌های جدیدتر متن باز می‌شوند (هزینه‌اش با حساب خودت است). کلید فقط در همین مرورگر می‌ماند و جایی فرستاده نمی‌شود جز گوگل. خالی بگذاری، برنامه رایگان با Canvas کار می‌کند.</p><input id="keyIn" type="password" dir="ltr" placeholder="AIza..." value="${this.key.replace(/"/g,"&quot;")}" oninput="KeyCfg.save('key',this.value)"><div class="row" style="margin-top:8px"><label class="mut" style="margin:0">مدل متن <select dir="ltr" onchange="KeyCfg.save('text',this.value)">${o(KEY_TEXT_MODELS,this.text)}</select></label></div><p class="mut" id="keyNote">${this.note()}</p>`}}})();
+KeyCfg.apply();
+const APP_VER="1.0.0";
+const THEMES=[["زمرد","#040c09","#0a1813","#2ee59d","#14c4b0","#02170f"],["بنفش","#07051a","#110c27","#a874ff","#7d6aff","#100426"],["فیروزه‌ای","#030c11","#091921","#25d9f2","#2fd6a8","#021c24"],["آبی","#050a18","#0c142e","#5592ff","#7d6cff","#030b22"],["صورتی","#0f0517","#1b0b24","#ff57da","#b763ff","#2a0422"],["نارنجی","#100a04","#1e140a","#ffa83d","#ff7040","#271302"],["قرمز","#110508","#200c11","#ff5a6c","#ff8a4f","#2a0409"],["طلایی","#0d0b05","#1b170b","#f6c94e","#e9a23b","#231a02"]];
+// Saba's 20 visual styles (styles/saba-visual-styles.json + prompt fragments, merged by app/build.py)
+const VSTYLES={"format":"saba-visual-styles-v1","styles":[{"n":1,"own":true,"fa":"مجله‌ای تخت","en":"Flat 2D Editorial","tag":"پیشنهاد اصلی برند","desc":"تمیز، مدرن، قابل اعتماد و بدون شلوغی، مناسب ساخت هویت بصری منسجم و سازمانی.","cat":"برند و سازمانی","prompt_en":"clean flat 2D editorial vector illustration, modern minimal geometric shapes, a limited harmonious brand palette of solid color blocks, subtle paper grain, generous negative space, trustworthy corporate magazine look, uncluttered and consistent"},{"n":2,"own":true,"fa":"داستان‌های انسانی","en":"2D Character Animation","tag":"داستان‌های انسانی","desc":"شخصیت‌محور و احساسی با طراحی کاراکترهای دوستانه و خطوط متحرک انیمیشنی.","cat":"تصویرسازی و داستان","prompt_en":"2D character animation style illustration, friendly expressive cartoon characters happily interacting with the product, smooth clean outlines, soft cel-shaded colors, subtle motion lines, warm emotional storytelling mood"},{"n":3,"own":true,"fa":"توضیح فرآیندها","en":"Narrative Motion Graphics","tag":"توضیح فرآیندها","desc":"روایت داستان با نشانه‌ها، آیکون‌های شناور، خطوط نقطه‌چین و نمودارهای شکیل.","cat":"اینفوگرافیک و آموزشی","prompt_en":"narrative motion-graphics explainer frame, flat vector scene with floating icons and symbols orbiting the product, dotted connector lines, elegant abstract mini charts and arrows (no readable text or numbers), clean flat colors"},{"n":4,"own":true,"fa":"شبکه‌های اجتماعی و ترند","en":"Kinetic Typography & Rhythm","tag":"شبکه‌های اجتماعی و ترند","desc":"فرم‌های هندسی مورب، برش‌های گرافیکی پرانرژی و ترکیب ریتمیک متن و المان‌های برداری.","cat":"شبکه‌های اجتماعی","prompt_en":"kinetic social-media graphic style, bold diagonal geometric shapes and energetic graphic cut-outs, rhythmic vector stripes and bursts framing the product, punchy saturated colors, dynamic tilted composition, no letters"},{"n":5,"own":true,"fa":"حادثه، تعلیق و چالش","en":"Comic / Graphic Novel","tag":"حادثه، تعلیق و چالش","desc":"خطوط پررنگ جوهری، هاشورهای سایه‌زن دستی و قاب‌بندی‌های دراماتیک داستانی.","cat":"تصویرسازی و داستان","prompt_en":"comic book / graphic novel illustration, bold black ink outlines, hand-drawn hatching shadows, dramatic panel-like framing with action lines and halftone accents, high-contrast suspenseful colors"},{"n":6,"own":true,"fa":"مدرن و تولید سریالی","en":"Digital Cutout Papercraft","tag":"مدرن و تولید سریالی","desc":"لایه‌های برجسته، مقوایی با سایه‌های ملایم عمق‌دار و عروسک‌های کاغذی تخت مدرن.","cat":"تصویرسازی و داستان","prompt_en":"digital cut-out papercraft style, layered paper and cardboard shapes with soft depth shadows, flat paper-doll elements, tactile handmade texture, modern clean paper colors, product presented as part of a layered paper diorama"},{"n":7,"own":true,"fa":"حس صمیمی و هنری","en":"Hand-drawn Editorial","tag":"حس صمیمی و هنری","desc":"بافت مدادرنگی و پاستل، خطوط نامنظم ارگانیک و فضایی گرم و هنرمندانه.","cat":"تصویرسازی و داستان","prompt_en":"hand-drawn editorial illustration, colored pencil and soft pastel texture, irregular organic lines, visible paper grain, gentle sketchy shading, warm cozy and artistic atmosphere"},{"n":8,"own":true,"fa":"محتوای آموزشی و آمار","en":"Infographic Storytelling","tag":"محتوای آموزشی و آمار","desc":"کادر مرکزی داستانی احاطه‌شده با آیکون‌های وکتوری درون دایره، نمودارها و باکس‌های آماری.","cat":"اینفوگرافیک و آموزشی","prompt_en":"infographic storytelling illustration, the product in a central story frame surrounded by clean vector icons inside circles, simple abstract charts and stat boxes as shapes only (no readable text or numbers), organized educational layout, crisp flat colors"},{"n":9,"own":true,"fa":"کمپین‌های خاص و خاص‌پسند","en":"Retro Poster / Risograph","tag":"کمپین‌های خاص و خاص‌پسند","desc":"پالت ۳ تا ۴ رنگ محدود، بافت نقطه‌ای ترام چاپ دستی و فرم‌های جسورانه رترو.","cat":"هنری و رترو","prompt_en":"retro risograph poster style, limited palette of 3 to 4 inks, halftone dot texture with slight misregistration, bold retro geometric forms, grainy hand-printed feel, distinctive campaign look"},{"n":10,"fa":"ترند استارتاپ و وب مدرن","en":"3D Minimal Claymorphism","tag":"ترند استارتاپ و وب مدرن","desc":"مدل‌های سه‌بعدی خمیری مات با گوشه‌های نرم و گرد، نورپردازی ملایم استودیویی و رنگ‌های پاستلی جذاب.","own":false,"cat":"سه‌بعدی و تکنولوژی","prompt_en":"3D minimal claymorphism render, matte soft clay-like shapes with rounded corners around the product, soft studio lighting with gentle shadows, appealing pastel colors, playful modern startup web aesthetic"},{"n":11,"fa":"تخصصی نرم‌افزار و شبکه","en":"Modern Tech Isometric Vector","tag":"تخصصی نرم‌افزار و شبکه","desc":"زاویه دید ۳۰ درجه ایزومتریک دقیق با سرورها، جریان داده، پلتفرم‌های ابری و عناصر دیجیتال فوق‌العاده شکیل.","own":false,"cat":"سه‌بعدی و تکنولوژی","prompt_en":"modern tech isometric vector illustration, precise 30-degree isometric view, sleek servers, data flows, cloud platforms and digital elements arranged around the product, crisp gradients, clean premium tech palette"},{"n":12,"fa":"محصولات دیجیتال و اپلیکیشن","en":"Glassmorphism & Modern UI","tag":"محصولات دیجیتال و اپلیکیشن","desc":"کارت‌های شیشه‌ای مات با افکت بلور پس‌زمینه، انعکاس نور نئونی و ویجت‌های معلق مدرن.","own":false,"cat":"سه‌بعدی و تکنولوژی","prompt_en":"glassmorphism modern UI aesthetic, frosted translucent glass cards with background blur floating around the product, subtle neon light reflections, floating abstract widgets without text, soft vibrant gradient backdrop"},{"n":13,"fa":"هوش مصنوعی پیشرفته","en":"Cyberpunk & Futuristic Neon","tag":"هوش مصنوعی پیشرفته","desc":"تم تیره با نورهای نئونی باریک فیروزه‌ای و ارغوانی، عناصر سایبری و آینده‌نگر با کنتراست بالا.","own":false,"cat":"سه‌بعدی و تکنولوژی","prompt_en":"cyberpunk futuristic neon scene, dark background with thin cyan and magenta neon light lines, high-contrast cyber elements, holographic glints and reflections, sleek sci-fi atmosphere"},{"n":14,"fa":"عکاسی مینیمال لوکس","en":"Photorealistic Studio Editorial","tag":"عکاسی مینیمال لوکس","desc":"نورپردازی ملایم سافت‌باکس، فوکوس دقیق، بوکه سینمایی و فضایی باکیفیت و بدون عناصر تصادفی.","own":false,"cat":"عکاسی","prompt_en":"photorealistic luxury studio product photography, soft softbox lighting, crisp precise focus on the product, cinematic shallow depth of field with creamy bokeh, minimal elegant set and surface, no random props"},{"n":15,"fa":"کاور یوتیوب ویروسی پرکلیک","en":"High-CTR Viral YouTube Thumbnail","tag":"یوتیوب ترند","desc":"سوژه با چهره اکسپرسیو در کانون توجه، نور ریم‌لایت درخشان، کادربندی دینامیک و کنتراست چشمگیر جذب کلیک.","own":false,"cat":"شبکه‌های اجتماعی","prompt_en":"high-CTR viral YouTube thumbnail look, the product as a bold hero in the spotlight, glowing rim light, dynamic angled framing, punchy saturated colors and striking contrast, energetic background, no text"},{"n":16,"fa":"ریلز و تیک‌تاک نئوگرادیان","en":"Neo-Gradient Kinetic Social","tag":"ریلز و استوری","desc":"گرادیان‌های داغ و پرانرژی مایع، اشکال انتزاعی متحرک، تایپوگرافی کشیده و وایب نسل Z.","own":false,"cat":"شبکه‌های اجتماعی","prompt_en":"neo-gradient kinetic social style, hot energetic liquid gradients, abstract flowing and stretched shapes around the product, bold Gen-Z vibe made for reels and stories"},{"n":17,"fa":"سینمایی نوآر و رازآلود","en":"Cinematic Dark Noir & Mood","tag":"سینمایی و ویدیویی","desc":"نورپردازی کیاروسکورو تاریک، سایه‌های عمیق، مه جوی، پالت رنگی دودی با حسی مرموز و جذاب.","own":false,"cat":"سینمایی و هنری","prompt_en":"cinematic dark noir mood, chiaroscuro lighting with deep shadows, atmospheric haze, smoky desaturated palette with one subtle accent color, mysterious and alluring film still"},{"n":18,"fa":"دارک سایبرتک و هوش مصنوعی","en":"Sleek Dark Cyber Tech","tag":"تکنولوژی ترند","desc":"پس‌زمینه عمیق ابسیدین با خطوط فیبر نوری هولوگرافیک، مدارهای کوانتومی درخشان و دیاگرام‌های هوشمند.","own":false,"cat":"سه‌بعدی و تکنولوژی","prompt_en":"sleek dark cyber-tech scene, deep obsidian background, holographic fiber-optic light lines, glowing quantum circuit patterns and smart abstract diagram shapes, premium high-tech feel"},{"n":19,"fa":"انیمه و مانگا مدرن","en":"Modern Anime & Webtoon Style","tag":"هنر و انیمه","desc":"طراحی خطوط تمیز شیک مانگا، سایه‌روشن سل‌شیدینگ، دراماتیک با چشم‌انداز شهری و المان‌های ماورایی.","own":false,"cat":"سینمایی و هنری","prompt_en":"modern anime and webtoon illustration, clean stylish manga line art, cel shading, dramatic composition with a city skyline backdrop and subtle magical elements, the product drawn faithfully"},{"n":20,"fa":"عکاسی خیابانی هایپررئال","en":"Hyperrealistic Candid Street & Portrait","tag":"عکاسی مستند","desc":"نور طبیعی محیطی طلایی، بافت واقعی پوست و اشیاء بدون ادیت مصنوعی، عمق میدان سینمایی لنز 85mm.","own":false,"cat":"عکاسی","prompt_en":"hyperrealistic candid street and portrait photography, natural golden-hour ambient light, real unretouched textures of skin and objects, cinematic shallow depth of field like an 85mm lens, documentary feel"}]};
+const TONES=[["pro","رسمی و تخصصی","professional, expert and trustworthy"],["friendly","صمیمی و دوستانه","warm, friendly and conversational"],["sales","فروشگاهی و ترغیب‌کننده","persuasive e-commerce sales copy that still stays honest"],["review","نقد و بررسی بی‌طرف","neutral, balanced expert review"]];
+const LENS=[1000,1500,2000];
+const AR_DIM={"16:9":[1280,720],"9:16":[1080,1920],"4:5":[1080,1350],"1:1":[1080,1080],"4:3":[1200,900]};
+
+// utils
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const fa=s=>String(s??"").replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+const faTxt=s=>String(s??"").replace(/\S+/g,t=>/[A-Za-z]/.test(t)?t:fa(t));
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid=p=>p+"-"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const clone=o=>JSON.parse(JSON.stringify(o));
+const U=new WeakMap(),url=b=>{if(!b)return"";let u=U.get(b);if(!u){u=URL.createObjectURL(b);U.set(b,u)}return u};
+const fmtB=n=>n>=1073741824?fa((n/1073741824).toFixed(1)).replace(".","٫")+" گیگ":fa(Math.max(0,Math.round(n/1048576)))+" مگ";
+const fdate=t=>{try{return new Date(t).toLocaleDateString("fa-IR")+" · "+new Date(t).toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit"})}catch{return fa(new Date(t).toISOString().slice(0,10))}};
+function toast(m,t=4000){const d=document.createElement("div");d.className="toast";d.textContent=m;document.body.append(d);setTimeout(()=>d.remove(),t)}
+function modal(html){const m=document.createElement("div");m.className="modal";m.innerHTML=`<div class="card"><button class="btn x" data-a="close" aria-label="بستن">✕</button>${html}</div>`;m.onclick=e=>{if(e.target===m)m.remove()};document.body.append(m);return m}
+function ask(msg){return new Promise(ok=>{const m=modal(`<h3>تأیید</h3><p>${esc(msg)}</p><div class="row"><button class="btn pri" id="cy">بله</button><button class="btn" id="cn">انصراف</button></div>`);$("#cy",m).onclick=()=>{m.remove();ok(true)};$("#cn",m).onclick=()=>{m.remove();ok(false)}})}
+function dl(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),5000)}
+const blobToB64=b=>new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(",")[1]);r.onerror=()=>no(r.error);r.readAsDataURL(b)});
+const b64ToBlob=(d,t)=>{const s=atob(d),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return new Blob([a],{type:t})};
+const loadImg=src=>new Promise((ok,no)=>{const i=new Image(),t=setTimeout(()=>no(new Error("timeout")),15000);i.onload=()=>{clearTimeout(t);ok(i)};i.onerror=()=>{clearTimeout(t);no(new Error("img"))};i.src=src});
+const abortErr=()=>{const e=new Error("لغو شد");e.name="AbortError";return e};
+const sleep=(ms,sig)=>new Promise((ok,no)=>{if(sig&&sig.aborted)return no(abortErr());const t=setTimeout(ok,ms);sig&&sig.addEventListener("abort",()=>{clearTimeout(t);no(abortErr())},{once:true})});
+const pick=accept=>new Promise(ok=>{const i=document.createElement("input");i.type="file";i.accept=accept;i.onchange=()=>ok(i.files[0]||null);i.click()});
+const cBlob=(c,type,q)=>new Promise(ok=>{try{c.toBlob(b=>ok(b),type,q)}catch{ok(null)}});
+const ctx2d=c=>{try{return c.getContext("2d")}catch{return null}};
+async function copyTxt(t){try{await navigator.clipboard.writeText(t);return true}catch{}try{const a=document.createElement("textarea");a.value=t;a.style.position="fixed";a.style.opacity="0";document.body.append(a);a.select();const ok=document.execCommand&&document.execCommand("copy");a.remove();return!!ok}catch{return false}}
+async function drawable(b){const u=URL.createObjectURL(b);try{const i=await loadImg(u);const W=i.naturalWidth||i.width,H=i.naturalHeight||i.height;return W&&H?{i,W,H}:null}catch{return null}finally{setTimeout(()=>URL.revokeObjectURL(u),1000)}}
+async function convert(b,type,maxSide){const d=await drawable(b);if(!d)return null;const s=maxSide?Math.min(1,maxSide/Math.max(d.W,d.H)):1,c=document.createElement("canvas");c.width=Math.round(d.W*s);c.height=Math.round(d.H*s);const x=ctx2d(c);if(!x)return null;if(type=="image/jpeg"){x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height)}x.drawImage(d.i,0,0,c.width,c.height);return cBlob(c,type,.92)}
+async function toRef(b){try{const j=await convert(b,"image/jpeg",1600);if(j)return{mimeType:"image/jpeg",data:await blobToB64(j)}}catch{}return{mimeType:b.type||"image/png",data:await blobToB64(b)}}
+function parseJ(t){t=String(t).replace(/```(?:json)?/gi,"").trim();try{return JSON.parse(t)}catch{}const a=t.search(/[\[{]/),z=Math.max(t.lastIndexOf("]"),t.lastIndexOf("}"));if(a<0||z<a)throw new Error("پاسخ مدل JSON معتبر نبود");return JSON.parse(t.slice(a,z+1))}
+const slugify=s=>String(s||"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,75);
+const words=t=>String(t||"").split(/\s+/).filter(w=>/[\p{L}\p{N}]/u.test(w)).length;
+
+// Store: the only module that touches IndexedDB / localStorage
+const Store=(()=>{const N="saba-product-article",SS=["kv","styles","projects"],QUIET=["meta"];let db,subs=[],tm;
+ const ls=(k,v)=>{try{k="sabaArt."+k;if(v===undefined)return localStorage.getItem(k);v===null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch{return null}};
+ const open=()=>db?Promise.resolve(db):new Promise((ok,no)=>{const r=indexedDB.open(N,1);r.onupgradeneeded=()=>SS.forEach(s=>r.result.objectStoreNames.contains(s)||r.result.createObjectStore(s,{keyPath:s=="kv"?"k":"id"}));r.onsuccess=()=>{db=r.result;ok(db)};r.onerror=()=>no(r.error)});
+ const run=(s,m,f)=>open().then(d=>new Promise((ok,no)=>{const t=d.transaction(s,m),q=f(t.objectStore(s));t.oncomplete=()=>ok(q&&q.result);t.onerror=t.onabort=()=>no(t.error)}));
+ const changed=(s,k)=>{if(s=="kv"&&QUIET.includes(k))return;clearTimeout(tm);tm=setTimeout(async()=>{const t=Date.now();await run("kv","readwrite",o=>o.put({k:"meta",v:{lastSave:t}}));ls("lastSave",t);subs.forEach(f=>f())},1000)};
+ return{SS,
+  get:async(s,k)=>{const r=await run(s,"readonly",o=>o.get(k));return s=="kv"?r&&r.v:r},
+  set:async(s,v,k)=>{if(s=="kv"&&k=="theme")ls("theme",v);await run(s,"readwrite",o=>o.put(s=="kv"?{k,v}:v));changed(s,k)},
+  list:s=>run(s,"readonly",o=>o.getAll()),
+  delete:async(s,k)=>{await run(s,"readwrite",o=>o.delete(k));changed(s,k)},
+  clear:async()=>{const d=await open();await new Promise(ok=>{const t=d.transaction(SS,"readwrite");SS.forEach(s=>t.objectStore(s).clear());t.oncomplete=ok});["theme","lastSave"].forEach(k=>ls(k,null))},
+  fastTheme:()=>ls("theme"),lastSaveLS:()=>ls("lastSave"),onChange:f=>subs.push(f),
+  persist:async()=>{try{const s=navigator.storage;if(!s||!s.persist)return false;return(s.persisted&&await s.persisted())||await s.persist()}catch{return false}},
+  estimate:async()=>{try{return await navigator.storage.estimate()}catch{return null}}
+ }})();
+
+// zip backup: kv.json + styles.json + projects.json + images/  (Blobs anywhere inside a record become {"__img":"images/…"})
+const EXT={"image/png":"png","image/jpeg":"jpg","image/webp":"webp"},MIME={png:"image/png",jpg:"image/jpeg",jpeg:"image/jpeg",webp:"image/webp"};
+const Backup={
+ async dump(){const f={};let n=0;
+  const enc=(v,tag)=>{if(v instanceof Blob){const p=`images/${tag}-${++n}.${EXT[v.type]||"png"}`;f[p]=v;return{__img:p}}if(Array.isArray(v))return v.map(x=>enc(x,tag));if(v&&typeof v=="object"&&Object.getPrototypeOf(v)===Object.prototype){const o={};for(const k in v)o[k]=enc(v[k],tag);return o}return v};
+  const kv={};for(const r of await Store.list("kv"))if(r.k!="meta")kv[r.k]=enc(r.v,"kv-"+String(r.k).replace(/[^\w-]/g,"_"));f["kv.json"]=JSON.stringify({format:"article-kv-v1",kv});
+  for(const s of["styles","projects"]){const out=(await Store.list(s)).map(r=>enc(r,s+"-"+String(r.id).replace(/[^\w-]/g,"_")));f[s+".json"]=JSON.stringify({format:`article-${s}-v1`,count:out.length,[s]:out})}
+  return f},
+ async load(get){let n=0;
+  const dec=async v=>{if(Array.isArray(v)){const a=[];for(const x of v)a.push(await dec(x));return a}if(v&&typeof v=="object"){if(typeof v.__img=="string"){const b=await get(v.__img);return b?new Blob([b],{type:MIME[v.__img.split(".").pop()]||"image/png"}):null}const o={};for(const k in v)o[k]=await dec(v[k]);return o}return v};
+  const kt=await get("kv.json");if(kt){const j=JSON.parse(kt);for(const k in j.kv||{}){await Store.set("kv",await dec(j.kv[k]),k);n++}}
+  for(const s of["styles","projects"]){const t=await get(s+".json");if(!t)continue;const j=JSON.parse(t);for(const o of j[s]||[]){if(!o||o.id==null)continue;await Store.set(s,await dec(o));n++}}
+  return n},
+ async jz(){if(window.JSZip)return JSZip;await new Promise((ok,no)=>{const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";s.onload=ok;s.onerror=()=>no(new Error("بارگیری JSZip ممکن نشد"));document.head.append(s)});return JSZip},
+ async zipOut(){try{const Z=await this.jz(),z=new Z(),f=await this.dump();for(const n in f)z.file(n,f[n]);dl(await z.generateAsync({type:"blob"}),"saba-article-backup-"+new Date().toISOString().slice(0,10)+".zip");toast("پشتیبان کامل دانلود شد")}catch(e){toast("خطا در ساخت پشتیبان: "+e.message)}},
+ async zipIn(){const file=await pick(".zip");if(!file)return;try{const Z=await this.jz(),z=await Z.loadAsync(file);const n=await this.load(async p=>{const e=z.file(p);return e?e.async(p.endsWith(".json")?"string":"blob"):null});await App.reload();$("#banner").classList.add("hide");toast(`${fa(n)} مورد از پشتیبان بازگردانی شد`)}catch(e){toast("فایل پشتیبان معتبر نیست: "+e.message)}}
+};
+
+// Bridge: optional storage in the Chrome extension (chrome.storage.local), which survives closing Gemini Canvas.
+// Protocol: window.postMessage({__sabaBridge:1,dir:"req",app:"saba-product-article",id,op,...}) answered by the extension's content script with dir:"res".
+// The bridge is the source of truth on load; every IndexedDB write is mirrored to it (debounced, batched).
+const Bridge=(()=>{const NS="__sabaBridge",APP="saba-product-article",SS=Store.SS,SKIP=["meta"],CH=8e6,P=new Map(),dirty=new Map();
+ let tm=0,busy=null,mute=0,seq=0,raw=null,lastToast=0,retry=0;
+ const st={on:false,checked:false,ver:"",last:0,pending:0,err:"",restored:0,synced:0};
+ window.addEventListener("message",e=>{const d=e.data;if(e.source!==window||!d||typeof d!="object"||d[NS]!==1||d.dir!=="res"||d.app!==APP)return;const p=P.get(d.id);if(!p)return;P.delete(d.id);clearTimeout(p.t);
+  d.ok?p.ok(d):p.no(Object.assign(new Error(d.error||"bridge error"),{quota:!!d.quota,invalidated:!!d.invalidated}))});
+ const call=(op,o={},ms=60000)=>new Promise((ok,no)=>{const id="b"+(++seq)+"-"+Date.now().toString(36);P.set(id,{ok,no,t:setTimeout(()=>{P.delete(id);no(Object.assign(new Error("timeout"),{timeout:true}))},ms)});
+  window.postMessage({[NS]:1,dir:"req",app:APP,id,op,...o},"*")});
+ const b64ToAB=d=>{const s=atob(d||""),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return a.buffer};
+ // JSON-safe encoding: Blob → {__sb:"blob"}, ArrayBuffer/TypedArray → {__sb:"ab"}; functions and class instances are dropped
+ async function enc(v){if(v==null||typeof v=="string"||typeof v=="boolean")return v;if(typeof v=="number")return isFinite(v)?v:null;if(typeof v!="object")return undefined;
+  if(v instanceof Blob)return{__sb:"blob",t:v.type||"",d:v.size?await blobToB64(v):""};
+  if(v instanceof ArrayBuffer||ArrayBuffer.isView(v)){const b=new Blob([v]);return{__sb:"ab",d:b.size?await blobToB64(b):""}}
+  if(Array.isArray(v)){const a=[];for(const x of v){const y=await enc(x);a.push(y===undefined?null:y)}return a}
+  const p=Object.getPrototypeOf(v);if(p!==Object.prototype&&p!==null)return undefined;
+  const o={};for(const k of Object.keys(v)){const y=await enc(v[k]);if(y!==undefined)o[k]=y}return o}
+ function dec(v){if(Array.isArray(v))return v.map(dec);if(!v||typeof v!="object")return v;if(v.__sb=="blob")return b64ToBlob(v.d||"",v.t||"");if(v.__sb=="ab")return b64ToAB(v.d);
+  const o={};for(const k of Object.keys(v))o[k]=dec(v[k]);return o}
+ function msg(e){return e.quota?"فضای ذخیره‌ی اکستنشن پر است؛ چند کار قدیمی را پاک کن و «همگام‌سازی کامل الان» را بزن، یا پشتیبان زیپ بگیر":
+  e.invalidated?"اکستنشن دوباره بارگذاری شده؛ این پنجره را ببند و برنامه را از آیکون اکستنشن دوباره باز کن":
+  e.timeout?"اکستنشن پاسخ نداد؛ تغییرات هنوز در اکستنشن ذخیره نشده‌اند":"خطا در ذخیره در اکستنشن: "+e.message}
+ function fail(e,silent){st.err=msg(e);if(!silent&&Date.now()-lastToast>20000){lastToast=Date.now();toast("⚠️ "+st.err,8000)}
+  if(!e.quota&&!e.invalidated&&dirty.size){clearTimeout(retry);retry=setTimeout(()=>flush(),15000)}refresh()}
+ const refresh=()=>{st.pending=dirty.size;try{UI.status()}catch{}};
+ function mark(s,k,op){if(!st.on||mute||k==null||(s=="kv"&&SKIP.includes(k)))return;dirty.set(JSON.stringify([s,k]),[s,k,op]);st.pending=dirty.size;clearTimeout(tm);tm=setTimeout(()=>flush(),500)}
+ async function sendAll(sets,dels,full){let a=[],size=0,n=0;const go=async()=>{if(!a.length)return;await call("batch",{sets:a,dels:[],full});n+=a.length;a=[];size=0};
+  for(const x of sets){a.push([x[0],x[1],x[2]]);size+=x[3];if(size>CH)await go()}await go();if(dels.length||full)await call("batch",{sets:[],dels,full});return n}
+ async function flush(){clearTimeout(tm);if(!st.on||!dirty.size)return;if(busy){await busy.catch(()=>{});return flush()}
+  busy=(async()=>{const items=[...dirty.values()];dirty.clear();const sets=[],dels=[];
+   try{for(const[s,k,op]of items){if(!op){dels.push([s,k]);continue}const v=await Store.get(s,k);if(v===undefined){dels.push([s,k]);continue}const e=await enc(v);if(e===undefined)continue;sets.push([s,k,e,JSON.stringify(e).length])}
+    await sendAll(sets,dels,false);st.last=Date.now();st.err=""}
+   catch(e){for(const[s,k,op]of items){const id=JSON.stringify([s,k]);dirty.has(id)||dirty.set(id,[s,k,op])}fail(e)}})();
+  try{await busy}finally{busy=null;refresh()}}
+ // the whole IndexedDB → extension (also removes extension entries that no longer exist here)
+ async function full(user){if(!st.on)return -1;clearTimeout(tm);if(busy)await busy.catch(()=>{});dirty.clear();
+  try{const sets=[],have=new Set();for(const s of SS)for(const r of await Store.list(s)){const k=s=="kv"?r.k:r.id;if(k==null||(s=="kv"&&SKIP.includes(k)))continue;const e=await enc(s=="kv"?r.v:r);if(e===undefined)continue;have.add(JSON.stringify([s,k]));sets.push([s,k,e,JSON.stringify(e).length])}
+   const ks=(await call("list",{},60000)).keys||[],dels=ks.filter(p=>!have.has(JSON.stringify(p)));
+   const n=await sendAll(sets,dels,true);st.last=st.synced=Date.now();st.err="";refresh();if(user)toast(`همگام‌سازی کامل شد: ${fa(n)} مورد در اکستنشن ذخیره شد`);return n}
+  catch(e){fail(e,!user);if(user)toast("⚠️ همگام‌سازی کامل ناموفق: "+st.err,8000);return -1}}
+ async function restore(){const r=await call("getAll",{},180000),items=(r.items||[]).filter(x=>Array.isArray(x)&&SS.includes(x[0]));if(!items.length)return 0;
+  mute++;
+  try{await raw.clear();for(const[s,k,v]of items){const x=dec(v);if(s=="kv")await raw.set("kv",x,k);else if(x&&typeof x=="object"&&x.id!=null)await raw.set(s,x)}}
+  finally{mute--}return items.length}
+ function patch(){if(raw)return;raw={set:Store.set,delete:Store.delete,clear:Store.clear};
+  Store.set=async(s,v,k)=>{await raw.set(s,v,k);mark(s,s=="kv"?k:v&&v.id,1)};
+  Store.delete=async(s,k)=>{await raw.delete(s,k);mark(s,k,0)};
+  Store.clear=async()=>{await raw.clear();if(!st.on||mute)return;clearTimeout(tm);dirty.clear();try{await call("clear");st.last=Date.now()}catch(e){fail(e)}}}
+ async function init(){for(let i=0;i<4&&!st.on;i++){try{const r=await call("ping",{},200);st.ver=r.version||"";st.on=true}catch{}}st.checked=true;if(!st.on)return false;patch();
+  try{st.restored=await restore();if(!st.restored)await full(false);st.last=Date.now()}
+  catch(e){st.on=false;st.err="بازیابی از اکستنشن ناموفق بود ("+msg(e)+")؛ داده‌های اکستنشن دست نخورده ماندند. صفحه را دوباره باز کن";toast("⚠️ "+st.err,9000)}
+  return st.on}
+ const save=()=>{if(dirty.size)flush()};window.addEventListener("pagehide",save);document.addEventListener("visibilitychange",()=>{if(document.visibilityState=="hidden")save()});
+ return{st,init,flush,full,call,enc,dec}})();
+
+// ---------- Persian text layers over generated images (from Thumbnail Studio v4, extended) ----------
+const GF=[["Vazirmatn","ساده و مدرن"],["Lalezar","ضخیم تیتر"],["Noto Kufi Arabic","کوفی هندسی"],["Reem Kufi","کوفی"],["Changa","مربعی مدرن"],["Rakkas","تزئینی ضخیم"],["Marhey","دست‌نویس بامزه"],["Lemonada","گرد و دوستانه"],["Katibeh","خوشنویسی فشرده"],["Aref Ruqaa","رقعه"],["Noto Nastaliq Urdu","نستعلیق"]];
+const FX=[["none","بدون"],["shadow","سایه"],["glow","درخشش (نئون)"],["3d","سه‌بعدی"],["long","سایه‌ی بلند"],["metal","فلزی طلایی"],["gradient","گرادیان"]];
+const BGS=[["none","بدون"],["pill","برچسب کپسولی"],["rect","برچسب مستطیل"]];
+const TSIZES=[28,30,36,40,44,48,56,64,72,84,96,110,120,150,180],SWS=[0,2,4,6,8,10,14,18],ARW=["↗","↑","↖","→","•","←","↘","↓","↙"];
+const POSEN=["top-right","top-center","top-left","middle-right","center","middle-left","bottom-right","bottom-center","bottom-left"];
+const PRE={"ضخیم وایرال":{font:"Lalezar",color:"#ffffff",stroke:"#000000",sw:10,fx:"shadow"},"سه‌بعدی":{font:"Lalezar",color:"#ffd400",stroke:"#8a2a00",sw:4,fx:"3d"},"نئونی":{font:"Vazirmatn",color:"#ffffff",stroke:"#ff2bd6",sw:3,fx:"glow"},
+ "فلزی":{font:"Lalezar",color:"#f6c94e",stroke:"#3a2500",sw:4,fx:"metal"},"گرادیان":{font:"Lalezar",color:"#ffe259",color2:"#ff4e9b",stroke:"#1a0033",sw:6,fx:"gradient"},"سایه‌ی بلند":{font:"Lalezar",color:"#ffffff",stroke:"#5b2bd6",sw:0,fx:"long"},
+ "دست‌نویس":{font:"Marhey",color:"#ffffff",stroke:"#000000",sw:4,fx:"shadow"},"نستعلیق":{font:"Noto Nastaliq Urdu",color:"#ffffff",stroke:"#1a1a1a",sw:3,fx:"shadow"},"کوفی":{font:"Reem Kufi",color:"#ffffff",stroke:"#0b3d5c",sw:5,fx:"none"},
+ "مینیمال":{font:"Vazirmatn",color:"#ffffff",stroke:"#000000",sw:0,fx:"shadow"},"کمیک":{font:"Lemonada",color:"#ffeb3b",stroke:"#000000",sw:8,fx:"3d"},"برچسب قرمز":{font:"Lalezar",color:"#ffffff",stroke:"#000000",sw:0,fx:"none",bg:"pill",bgc:"#e3262f"}};
+const newL=o=>({text:"",pos:4,font:"Lalezar",size:100,color:"#ffffff",color2:"#ffd400",stroke:"#000000",sw:8,fx:"shadow",bg:"none",bgc:"#e3262f",mw:86,preset:"",...o});
+const strip=L=>(L||[]).map(({_bb,...l})=>l);
+const posXY=l=>l.x!=null?[l.x,l.y]:[[92,50,8][l.pos%3],[14,50,86][~~(l.pos/3)]];
+const FontL={d:{},use(n){if(!n||n=="Vazirmatn"||!GF.some(g=>g[0]==n))return Promise.resolve();return this.d[n]||(this.d[n]=new Promise(ok=>{const l=document.createElement("link");l.rel="stylesheet";l.href="https://fonts.googleapis.com/css2?family="+n.replace(/ /g,"+")+"&display=swap";l.onload=l.onerror=ok;document.head.append(l);setTimeout(ok,4000)}).then(()=>document.fonts&&document.fonts.load(`700 40px "${n}"`)).catch(()=>{}))}};
+function rr(x,X,Y,w,h,r){x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+w,Y,X+w,Y+h,r);x.arcTo(X+w,Y+h,X,Y+h,r);x.arcTo(X,Y+h,X,Y,r);x.arcTo(X,Y,X+w,Y,r);x.closePath()}
+function wrapT(x,t,m){const w=t.split(/\s+/),L=[];let c="";for(const s of w){const n=c?c+" "+s:s;if(c&&x.measureText(n).width>m){L.push(c);c=s}else c=n}L.push(c);return L}
+// default layers for an image: title + optional brand line
+function defLayers(slot,title,brand){const ar=slot.ar,v=ar=="9:16"||ar=="4:5",sq=ar=="1:1",L=[];
+ L.push(newL({text:title,role:"title",...PRE["ضخیم وایرال"],preset:"ضخیم وایرال",size:v?120:sq?110:84,pos:v||sq?1:3,mw:v||sq?88:52,...(v||sq?{}:{x:92,y:56})}));
+ if(slot.sub)L.push(newL({text:slot.sub,role:"badge",...PRE["برچسب قرمز"],preset:"برچسب قرمز",size:v?64:44,pos:v?7:0,mw:70,...(v?{x:50,y:80}:{x:92,y:13})}));
+ if(brand)L.push(newL({text:brand,role:"brand",size:v?44:sq?40:30,mw:90,font:"Vazirmatn",color:"#ffffff",stroke:"#000000",sw:0,fx:"shadow",...(v||sq?{pos:7,x:50,y:94}:{pos:8,x:5,y:93})}));
+ return L}
+function paint(x,img,L,W,H){x.fillStyle="#111";x.fillRect(0,0,W,H);if(img){const a=img.naturalWidth||img.width,b=img.naturalHeight||img.height,s=Math.max(W/a,H/b);x.drawImage(img,(W-a*s)/2,(H-b*s)/2,a*s,b*s)}const k=Math.min(W/1280,H/720)*(H>W?1.5:1);
+ for(const l of L){if(!String(l.text||"").trim())continue;const sz=l.size*k,[px,py]=posXY(l),al=["right","center","left"][l.pos%3];x.save();x.font=`700 ${sz}px "${l.font}", Vazirmatn, Tahoma, sans-serif`;x.direction="rtl";x.textAlign=al;x.textBaseline="middle";
+  const ls=wrapT(x,faTxt(l.text).replace(/(^|\s)([@#])(?=[A-Za-z0-9_])/g,"$1\u200E$2"),W*(l.mw||86)/100),lh=sz*1.35,tw=Math.max(...ls.map(t=>x.measureText(t).width)),th=lh*ls.length,cx=px*W/100,cy=py*H/100,lf=al=="right"?cx-tw:al=="center"?cx-tw/2:cx,tp=Math.max(sz*.4,Math.min(H-th-sz*.4,cy-th/2)),p=sz*.3;
+  l._bb=[lf-p,tp-p,tw+2*p,th+2*p];if(l.bg&&l.bg!="none"){x.save();x.shadowColor="rgba(0,0,0,.45)";x.shadowBlur=sz*.2;x.fillStyle=l.bgc;rr(x,...l._bb,l.bg=="pill"?l._bb[3]/2:sz*.12);x.fill();x.restore()}
+  ls.forEach((t,i)=>{const y=tp+lh*(i+.5);x.save();
+   if(l.fx=="3d"){x.fillStyle=l.stroke;for(let d=Math.round(sz*.08);d>0;d--)x.fillText(t,cx+d,y+d)}
+   if(l.fx=="long"){x.fillStyle=l.stroke;for(let d=Math.round(sz*.3);d>0;d-=1)x.fillText(t,cx-d,y+d)}
+   if(l.fx=="shadow"){x.shadowColor="rgba(0,0,0,.75)";x.shadowBlur=sz*.15;x.shadowOffsetX=x.shadowOffsetY=sz*.05}
+   if(l.fx=="glow"){x.shadowColor=l.stroke=="#000000"?l.color:l.stroke;x.shadowBlur=sz*.5}
+   if(l.sw>0){x.lineJoin="round";x.lineWidth=l.sw*2*k;x.strokeStyle=l.stroke;x.strokeText(t,cx,y);if(l.fx!="glow")x.shadowColor="transparent"}
+   let f=l.color;if(l.fx=="metal"||l.fx=="gradient"){f=x.createLinearGradient(0,y-sz/2,0,y+sz/2);if(l.fx=="metal"){f.addColorStop(0,"#fffbe6");f.addColorStop(.5,l.color);f.addColorStop(1,"#6b4a00")}else{f.addColorStop(0,l.color);f.addColorStop(1,l.color2||"#ff4e9b")}}
+   x.fillStyle=f;x.fillText(t,cx,y);l.fx=="glow"&&x.fillText(t,cx,y);x.restore()});x.restore()}}
+// bake layers into a PNG (null when the browser cannot draw)
+async function compose(base,L,ar){const[W,H]=AR_DIM[ar]||AR_DIM["16:9"],c=document.createElement("canvas");c.width=W;c.height=H;const x=ctx2d(c);if(!x)return null;
+ try{await Promise.all(L.map(l=>FontL.use(l.font)));const u=URL.createObjectURL(base);let i;try{i=await loadImg(u)}finally{URL.revokeObjectURL(u)}paint(x,i,L,W,H);return await cBlob(c,"image/png")}catch{return null}}
+const selH=(a,k,f,o)=>`<select ${a} data-k="${k}">${o.map(([v,l])=>`<option value="${esc(v)}"${String(f[k])==String(v)?" selected":""}>${esc(l)}</option>`).join("")}</select>`;
+function foHTML(i,f){const a=`data-f="${i}"`,c=k=>`<input type="color" ${a} data-k="${k}" value="${esc(f[k]||"#ffffff")}">`;
+ return`<div class="fo"><label>متن</label><textarea ${a} data-k="text" style="min-height:60px">${esc(f.text||"")}</textarea>
+ <label>سبک آماده</label>${selH(a,"preset",f,[["","— انتخاب —"],...Object.keys(PRE).map(k=>[k,k])])}
+ <label>جایگاه</label><div class="pg">${ARW.map((r,n)=>`<button class="chip ${f.x==null&&f.pos==n?"on":""}" data-a="fpos" ${a} data-v="${n}" title="${POSEN[n]}">${r}</button>`).join("")}</div>
+ <div class="g2"><div><label>فونت</label>${selH(a,"font",f,GF.map(g=>[g[0],g[0]+" · "+g[1]]))}</div><div><label>اندازه</label>${selH(a,"size",f,[...new Set([...TSIZES,+f.size])].sort((p,q)=>p-q).map(n=>[n,fa(n)]))}</div>
+ <div><label>افکت</label>${selH(a,"fx",f,FX)}</div><div><label>عرض کادر متن</label>${selH(a,"mw",f,[40,50,60,70,86,95].map(n=>[n,fa(n)+"٪"]))}</div>
+ <div><label>رنگ متن</label>${c("color")}</div><div><label>رنگ دوم گرادیان</label>${c("color2")}</div><div><label>رنگ دورخط / عمق</label>${c("stroke")}</div><div><label>ضخامت دورخط</label>${selH(a,"sw",f,SWS.map(n=>[n,fa(n)]))}</div>
+ <div><label>برچسب پشت متن</label>${selH(a,"bg",f,BGS)}</div><div><label>رنگ برچسب</label>${c("bgc")}</div></div></div>`}
+// layer editor for one image slot of the current project
+const Ed={L:[],U:[],s:0,
+ async open(slot){const im=Cur.p&&Cur.p.images[slot];if(!im||!im.base)return;this.slot=slot;this.L=clone(strip(im.layers));this.U=[];this.s=0;[this.W,this.H]=AR_DIM[im.ar]||AR_DIM["16:9"];
+  const m=this.m=modal(`<h3>✏️ ویرایش متن روی تصویر · ${esc(SLOTS[slot].fa)}</h3><div class="g2"><div><canvas id="edc" width="${this.W}" height="${this.H}"></canvas><p class="mut">متن را روی تصویر بکش تا جابه‌جا شود · ${fa(this.W)}×${fa(this.H)}</p>
+  <div class="row"><button class="btn sm" data-a="eadd">➕ لایه‌ی متن</button><button class="btn sm" data-a="eundo">↩️ واگرد</button><button class="btn sm pri" data-a="esave">💾 ذخیره</button><button class="btn sm" data-a="epng">⬇️ PNG</button></div></div><div><div class="chips" id="edl"></div><div id="edo"></div></div></div>`);
+  this.c=$("#edc",m);this.x=ctx2d(this.c);try{this.img=await loadImg(url(im.base))}catch{this.img=null}this.panel();this.draw();Promise.all(this.L.map(l=>FontL.use(l.font))).then(()=>this.draw());
+  const c=this.c;c.onpointerdown=e=>{const p=this.pt(e),i=this.hit(p);if(i<0)return;this.snap();this.s=i;const l=this.L[i];this.dr={p,o:posXY(l)};l.x=this.dr.o[0];l.y=this.dr.o[1];try{c.setPointerCapture(e.pointerId)}catch{}this.panel();this.draw()};
+  c.onpointermove=e=>{if(!this.dr)return;const p=this.pt(e),l=this.L[this.s],q=v=>Math.max(0,Math.min(100,v));l.x=q(this.dr.o[0]+(p[0]-this.dr.p[0])/this.W*100);l.y=q(this.dr.o[1]+(p[1]-this.dr.p[1])/this.H*100);this.draw()};
+  c.onpointerup=c.onpointercancel=()=>{this.dr=null}},
+ pt(e){const b=this.c.getBoundingClientRect();return[(e.clientX-b.left)*this.W/(b.width||1),(e.clientY-b.top)*this.H/(b.height||1)]},
+ hit(p){for(let i=this.L.length-1;i>=0;i--){const b=this.L[i]._bb;if(b&&p[0]>=b[0]&&p[0]<=b[0]+b[2]&&p[1]>=b[1]&&p[1]<=b[1]+b[3])return i}return-1},
+ snap(t){const n=Date.now();if(t&&n-this.lt<800)return;this.lt=n;this.U.push(JSON.stringify(strip(this.L)));this.U.length>60&&this.U.shift()},
+ undo(){if(!this.U.length)return toast("چیزی برای واگرد نیست");this.L=JSON.parse(this.U.pop());this.s=Math.min(this.s,Math.max(0,this.L.length-1));this.panel();this.draw()},
+ draw(sel=1){if(!this.x)return;paint(this.x,this.img,this.L,this.W,this.H);const b=sel&&this.L[this.s]&&this.L[this.s]._bb;if(b){const x=this.x;x.save();x.setLineDash([12,8]);x.strokeStyle="#00e5ff";x.lineWidth=3;x.strokeRect(...b);x.restore()}},
+ panel(){if(!this.m)return;$("#edl",this.m).innerHTML=this.L.map((l,i)=>`<button class="chip ${i==this.s?"on":""}" data-a="esel" data-v="${i}">${esc(faTxt(l.text||"…").slice(0,24))}</button>`).join("")||'<p class="mut">هنوز لایه‌ای نیست؛ «لایه‌ی متن» را بزن.</p>';
+  const l=this.L[this.s];$("#edo",this.m).innerHTML=l?foHTML(this.s,l)+'<button class="btn sm danger" data-a="edel" style="margin-top:8px">🗑️ حذف لایه</button>':""},
+ add(){this.snap();this.L.push(newL({text:"متن جدید",pos:4,size:80}));this.s=this.L.length-1;this.panel();this.draw()},
+ del(){this.snap();this.L.splice(this.s,1);this.s=Math.max(0,this.s-1);this.panel();this.draw()},
+ onInput(e){const el=e.target,k=el.dataset&&el.dataset.k;if(!k||!this.m||!this.m.isConnected||!el.closest(".fo"))return;const l=this.L[+el.dataset.f];if(!l)return;this.snap(1);
+  let v=el.value;if(["size","sw","mw"].includes(k))v=+v;l[k]=v;if(e.type=="change"&&k=="preset"&&PRE[v]){Object.assign(l,PRE[v]);this.panel()}if(k=="text")$$("#edl .chip",this.m)[this.s].textContent=faTxt(v).slice(0,24)||"…";
+  this.draw();FontL.use(l.font).then(()=>this.draw())},
+ async out(){if(!this.x)return null;this.draw(0);try{return await cBlob(this.c,"image/png")}catch{return null}finally{this.draw()}},
+ async save(){const im=Cur.p.images[this.slot];im.layers=strip(this.L);const b=await this.out();im.blob=b||null;await Cur.save();Imgs.render();Social.render();toast(b?"متن‌ها ذخیره شد":"لایه‌ها ذخیره شد (پیش‌نمایش ترکیبی در این مرورگر ساخته نشد)")},
+ async png(){const b=await this.out();if(!b)return toast("⚠️ خروجی ممکن نشد");dl(b,fileName(this.slot)+".png")}
+};
+document.addEventListener("input",e=>Ed.onInput(e));document.addEventListener("change",e=>Ed.onInput(e));
+
+// ---------- Gemini API ----------
+async function callApi(model,body,sig,onStatus,tries=3){
+ for(let a=0;;a++){let r;
+  try{r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${KeyCfg.key||apiKey}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body),signal:sig})}
+  catch(e){if(e.name=="AbortError")throw abortErr();throw new Error("خطای شبکه: "+e.message)}
+  if(r.ok)return r.json();
+  let m="";try{const j=await r.json();m=j.error&&j.error.message||JSON.stringify(j)}catch{m=r.statusText||""}
+  if((r.status==429||r.status>=500)&&a<tries){onStatus&&onStatus(`خطای ${fa(r.status)} — تلاش دوباره ${fa(a+1)} از ${fa(tries)} تا ۱۵ ثانیه‌ی دیگر…`);await sleep(15000,sig);continue}
+  throw Object.assign(new Error(`خطای API (کد ${fa(r.status)}): ${m}`),{status:r.status})}}
+const parts=(prompt,refs=[])=>[{text:prompt},...refs.map(r=>({inlineData:{mimeType:r.mimeType,data:r.data}}))];
+// image fallback: on 429/403/404/5xx from 3.1 switch at once to 2.5-image-preview, stay there 10 minutes
+const ImgPick={i:0,since:0,start(){if(this.i&&Date.now()-this.since>10*60*1000)this.i=0;return this.i}};
+async function genImage(prompt,refs,sig,onStatus,ar="16:9"){
+ const body={contents:[{role:"user",parts:parts(prompt,refs)}],generationConfig:{responseModalities:["IMAGE"],imageConfig:{aspectRatio:ar}}};let j;
+ for(let i=ImgPick.start();i<IMAGE_MODELS.length;i++){const last=i==IMAGE_MODELS.length-1;
+  try{j=await callApi(IMAGE_MODELS[i],body,sig,onStatus,last?3:0);if(i!=ImgPick.i){ImgPick.i=i;ImgPick.since=Date.now()}IMAGE_MODEL=IMAGE_MODELS[i];break}
+  catch(e){if(last||!e.status||!(e.status==429||e.status==403||e.status==404||e.status>=500))throw e;
+   onStatus&&onStatus(`مدل ${IMAGE_MODELS[i]} به محدودیت خورد — ادامه با ${IMAGE_MODELS[i+1]}…`)}}
+ const c=j.candidates&&j.candidates[0],ps=c&&c.content&&c.content.parts||[],p=ps.find(p=>p.inlineData);
+ if(!p){const t=ps.map(p=>p.text).filter(Boolean).join(" ");throw new Error("مدل تصویری تصویر برنگرداند"+(c&&c.finishReason?` (دلیل: ${c.finishReason})`:"")+(j.promptFeedback&&j.promptFeedback.blockReason?` (مسدود شد: ${j.promptFeedback.blockReason})`:"")+(t?" — "+t:""))}
+ return b64ToBlob(p.inlineData.data,p.inlineData.mimeType||"image/png")}
+async function genText(prompt,refs=[],o={},sig){const json=o.json!==false,body={contents:[{role:"user",parts:parts(prompt,refs)}]};
+ if(o.search)body.tools=[{google_search:{}}];else if(json)body.generationConfig={responseMimeType:"application/json"};
+ const j=await callApi(TEXT_MODEL,body,sig,o.onStatus,o.tries),c=j.candidates&&j.candidates[0],t=(c&&c.content&&c.content.parts||[]).map(p=>p.text||"").join("");
+ if(!t)throw new Error("پاسخ مدل متنی خالی بود"+(c&&c.finishReason?` (${c.finishReason})`:""));
+ if(o.raw)return{text:t,meta:c.groundingMetadata||null};return json?parseJ(t):t}
+
+// ---------- state ----------
+const S={theme:"بنفش",persisted:false,photo:null,user:[]};
+const D0={name:"",feat:"",notes:"",kw:"",link:"",shop:"",handle:"",tone:"pro",len:1000,styleId:"s1",brandOn:true,tgAr:"1:1"};
+const D=clone(D0);
+const Draft={tm:0,save(){clearTimeout(this.tm);this.tm=setTimeout(()=>Store.set("kv",clone(D),"draft"),400)},
+ async load(){const d=await Store.get("kv","draft");Object.keys(D).forEach(k=>delete D[k]);Object.assign(D,clone(D0),d&&typeof d=="object"?d:{})}};
+function applyTheme(n){const t=THEMES.find(t=>t[0]==n)||THEMES[1],r=document.documentElement.style;["--bg","--card","--neon","--neon2","--btxt"].forEach((k,i)=>r.setProperty(k,t[i+1]));S.theme=t[0]}
+const SLOTS={hero:{fa:"تصویر شاخص",ar:"16:9",kind:"featured hero image for the top of a blog article",comp:"Place the product in the LEFT half of the frame; keep the RIGHT 45% calm, simple and uncluttered with low detail and good contrast, so a Persian headline can be overlaid there later."},
+ inline:{fa:"تصویر داخل متن",ar:"16:9",kind:"in-article illustration that shows the product in real use or context",comp:"Balanced composition showing the product being used in a realistic context; no empty headline area needed."},
+ tg:{fa:"تصویر پست تلگرام",ar:"1:1",kind:"Telegram channel post image",comp:"Product large and centered in the lower two-thirds; keep the TOP 30% calm and simple for a headline overlay."},
+ ig:{fa:"تصویر پست اینستاگرام",ar:"4:5",kind:"Instagram feed post image",comp:"Product large in the lower two-thirds; keep the TOP 28% calm and simple for a headline overlay; scroll-stopping and polished."},
+ story:{fa:"تصویر استوری اینستاگرام",ar:"9:16",kind:"vertical Instagram story image",comp:"Product in the middle of the frame; keep the TOP 25% and the BOTTOM 22% calm and simple for a headline and an interactive sticker."}};
+const fileName=slot=>{const P=Cur.p,s=(P&&P.a&&P.a.slug)||slugify(P&&P.product&&P.product.name_en)||"article";return s+"-"+({hero:"featured",inline:"inline",tg:"telegram",ig:"instagram",story:"story"}[slot]||slot)};
+
+// ---------- product photo ----------
+const Photo={
+ async set(f){if(!f||!/^image\//.test(f.type||""))return toast("فقط فایل تصویر");S.photo=new Blob([f],{type:f.type});await Store.set("kv",S.photo,"photo");this.render()},
+ async del(){S.photo=null;await Store.delete("kv","photo");this.render()},
+ render(){const b=$("#phs");if(!b)return;b.innerHTML=S.photo?`<div class="ph"><img src="${url(S.photo)}" alt="عکس محصول"><button class="x2" data-a="phDel" aria-label="حذف عکس">✕</button><span class="badge">عکس محصول</span></div><button class="btn sm" data-a="phAdd">🔁 عوض کردن عکس</button>`:`<button class="ph add" data-a="phAdd">📷<br>آپلود عکس محصول</button><span class="mut">بدون عکس هم می‌شود؛ فقط نام محصول را بنویس.</span>`}};
+
+// ---------- styles (20 built-in + «استایل اختصاصی من») ----------
+const MYCAT="🎨 استایل‌های من",OWNCAT="⭐ اختصاصی صبا";
+const Styles={
+ builtin(){return VSTYLES.styles.map(s=>({...s,id:"s"+s.n,builtin:true}))},
+ all(){return[...this.builtin(),...S.user]},
+ get(id){return this.all().find(s=>s.id==id)||this.builtin()[0]},
+ cats(){return["همه",OWNCAT,...new Set(VSTYLES.styles.map(s=>s.cat)),...(S.user.length?[MYCAT]:[])]},
+ norm(o){const s={id:String(o.id||uid("u")),fa:String(o.fa||o.name_fa||"").trim(),en:String(o.en||o.name_en||"").trim(),tag:String(o.tag||"").trim(),desc:String(o.desc||o.desc_fa||"").trim(),prompt_en:String(o.prompt_en||"").trim(),cat:MYCAT,user:true,created:+o.created||Date.now()};
+  if(!s.prompt_en)s.prompt_en=[s.en,s.desc].filter(Boolean).join(": ");if(!s.fa||!s.prompt_en)return null;if(/^s\d+$/.test(s.id))s.id="u-"+s.id;return s},
+ async load(){S.user=(await Store.list("styles")).map(o=>this.norm(o)).filter(Boolean).sort((a,b)=>a.created-b.created)},
+ async add(o){const s=this.norm(o);if(!s)return null;await Store.set("styles",s);S.user=S.user.filter(x=>x.id!=s.id).concat(s);return s},
+ async del(id){await Store.delete("styles",id);S.user=S.user.filter(s=>s.id!=id);if(D.styleId==id){D.styleId="s1";Draft.save()}Picker.render();Picker.sel()},
+ exportJSON(){return JSON.stringify({format:"saba-article-styles-v1",count:S.user.length,styles:S.user.map(({cat,user,...s})=>s)},null,1)},
+ async importText(t){let j;try{j=JSON.parse(t)}catch{throw new Error("فایل JSON معتبر نیست")}const arr=Array.isArray(j)?j:j.styles||[];let n=0,bad=0;
+  for(const o of arr){if(!o||typeof o!="object"){bad++;continue}const id=o.id||(o.n?"imp-"+o.n:uid("u"));if(await this.add({...o,id}))n++;else bad++}
+  Picker.render();return{added:n,bad,msg:`${fa(n)} استایل اضافه شد${bad?` · ${fa(bad)} مورد نامعتبر`:""}`}},
+ async make(desc,ref,sig){const j=await genText(`You design image styles for a Persian blog and social media app. Turn the user's style description (written in Persian)${ref?" and the attached reference image (analyze only its visual style: medium, lighting, palette, textures, composition, mood — never its specific subject or people)":""} into ONE reusable image style card.
+User description: «${desc||"(see the reference image)"}»
+Return JSON only: {"fa":"Persian style name, 2-4 words","en":"English style name","tag":"Persian short usage tag, 2-4 words","desc":"Persian description, one or two sentences","prompt_en":"English image-prompt fragment of 25-60 words describing medium, lighting, color palette, textures, composition and mood; it must work for any product; never ask for text or letters in the image"}`,ref?[ref]:[],{},sig);
+  return this.add({...j,id:uid("u")})}
+};
+const Picker={cat:"همه",
+ card(s){const h=(s.n||7)*47%360,on=D.styleId==s.id;return`<div class="sc ${on?"on":""}" data-a="pickSty" data-id="${s.id}" role="button" tabindex="0"><div class="sw" style="background:linear-gradient(135deg,hsl(${h} 70% 45%),hsl(${(h+80)%360} 70% 20%))"><span class="ttl">${esc(s.fa)}</span></div>
+  <span class="num">${s.builtin?fa(s.n):"★"}</span>${s.n==1?'<span class="badge">پیشنهاد اصلی برند</span>':""}
+  <div class="b"><h4>${esc(s.fa)}</h4><div class="en">${esc(s.en)}</div>${s.tag?`<span class="tg">${esc(s.tag)}</span>`:""}${s.own?' <span class="own">اختصاصی صبا</span>':""}<p>${esc(s.desc)}</p>${s.user?`<div class="row" style="margin-top:6px"><button class="btn sm" data-a="styEdit" data-id="${s.id}">✏️</button><button class="btn sm danger" data-a="styDel" data-id="${s.id}">🗑️</button></div>`:""}</div></div>`},
+ render(){const b=$("#picker");if(!b)return;const q=($("#sq").value||"").trim().toLowerCase(),c=this.cat;
+  const list=Styles.all().filter(s=>(c=="همه"||(c==OWNCAT?s.own:s.cat==c))&&(!q||[s.fa,s.en,s.tag,s.desc,s.cat].join(" ").toLowerCase().includes(q)));
+  $("#sChips").innerHTML=Styles.cats().map(k=>`<button class="chip ${k==c?"on":""}" data-a="styCat" data-v="${esc(k)}">${esc(k)}</button>`).join("");
+  b.innerHTML=list.map(s=>this.card(s)).join("")||'<p class="mut">استایلی پیدا نشد.</p>';$("#styCnt").textContent=`${fa(VSTYLES.styles.length)} استایل داخلی${S.user.length?` + ${fa(S.user.length)} استایل من`:""}`;this.sel()},
+ sel(){const s=Styles.get(D.styleId),b=$("#selSty");if(b)b.innerHTML=`<b>${s.builtin?fa(s.n)+". ":"★ "}${esc(s.fa)}</b><span class="mut" dir="ltr">${esc(s.en)}</span><span class="sp"></span><button class="btn sm" data-a="tab" data-v="sty">🎨 تغییر استایل</button>`},
+ pick(id){D.styleId=id;Draft.save();if(Cur.p){Cur.p.styleId=id;Cur.save()}$$("#picker .sc").forEach(e=>e.classList.toggle("on",e.dataset.id==id));this.sel();toast("استایل «"+Styles.get(id).fa+"» انتخاب شد",2000)}
+};
+
+// ---------- prompts ----------
+const toneEn=k=>(TONES.find(t=>t[0]==k)||TONES[0])[2];
+function prodLine(P){const p=P.product||{};return[p.name,p.name_en&&p.name_en!=p.name?`(${p.name_en})`:"",p.category?`— category: ${p.category}`:""].filter(Boolean).join(" ")}
+function identifyPrompt(d){return`Identify the product in the attached photo as precisely as possible: brand, model and variant. Read any brand or model text printed on it.${d.feat?"\nSeller notes: "+d.feat:""}
+Return JSON only: {"name":"the product name as Iranian buyers search it (brand + model; Persian words where natural, keep Latin brand/model names)","name_en":"English product name","brand":"","category":"short English category","visible_features":["short English notes of what is visible"],"search_query":"best English Google query to research this exact product"}`}
+function researchPrompt(d,P){const p=P.product||{};return`You are a meticulous product researcher. Use Google Search to research this exact product thoroughly for a long, accurate Persian SEO buying-guide article.
+Product: ${prodLine(P)}${p.search_query?"\nSuggested query: "+p.search_query:""}${P.photo?"\nThe attached photo shows the real product; make sure the facts match this exact model.":""}
+${d.feat?"Seller's own information (trust it first): "+d.feat+"\n":""}${d.kw?"The article's target keyword: "+d.kw+"\n":""}Collect and write detailed factual research notes as bullet points:
+- exact identity (brand, model, variants, release year if known)
+- official specifications with real values
+- key features and the concrete benefit of each
+- design, materials, build quality, what is in the box
+- real-world performance and user experience from reviews
+- pros and cons reported by reviewers and buyers
+- use cases and who it suits / who it does not suit
+- buying tips: what to check, originality, warranty, common fakes
+- comparison with 1-3 close alternatives
+- questions buyers often ask, with answers
+- price range in Iran (Toman) only if you find it
+Never invent facts or numbers; mark anything uncertain. Write the notes in English or Persian.`}
+function articleSchema(){return`{"seo_title":"","slug":"","meta_description":"","focus_keyword":"","related_keywords":[""],"intro":[""],"sections":[{"h2":"","paragraphs":[""],"bullets":[""],"h3":[{"title":"","paragraphs":[""]}]}],"specs":[{"label":"","value":""}],"pros":[""],"cons":[""],"faq":[{"q":"","a":""}],"conclusion":[""],"cta":"","alt_hero":"","alt_inline":"","inline_after":1,"image_title":"","image_badge":"","hero_scene":"","inline_scene":""}`}
+function articleRules(d,P,target){const shop=d.shop||"",link=d.link||"";return`Rules:
+- Language: fluent, natural, standard modern Persian (Farsi) with correct half-spaces (نیم‌فاصله، e.g. «می‌شود»، «ویژگی‌ها»); Persian digits (۰۱۲۳۴۵۶۷۸۹) in Persian text; keep Latin brand/model names as written.
+- Tone: ${toneEn(d.tone)}.
+- LENGTH: the whole article body must be AT LEAST ${target} Persian words — aim for about ${target+250}. Paragraphs of 60-120 words. Do not pad with repetition; add real, useful detail from the research.
+- focus_keyword: ${d.kw?`exactly «${d.kw}»`:"the main Persian search phrase buyers use for this product (2-5 words)"}. Use it naturally in seo_title (near the start), meta_description, the first intro paragraph, at least two H2 headings and a few times in the body (about 1% density).
+- related_keywords: 5-8 Persian LSI keywords.
+- seo_title: 45-65 characters. slug: short English kebab-case. meta_description: 130-155 characters (NEVER more than 160), persuasive, contains the focus keyword.
+- intro: 2 paragraphs that hook the reader and say what the article covers.
+- sections: 5-7 H2 sections, at least 3 of them with 2-4 H3 subsections. Cover: what the product is and who it is for; key features (one H3 per feature, with the concrete benefit); design and build quality; performance and real-world experience; use cases; a buying guide (what to check before buying, originality, warranty); comparison with alternatives when the research has them. Use bullets where they help.
+- specs: 6-12 real specification rows {label, value}; only verified values.
+- pros: 4-6 items. cons: 2-4 honest items.
+- faq: 6 real questions buyers ask, each answer 30-70 words.
+- conclusion: 2 paragraphs. cta: one persuasive sentence inviting the reader to buy${shop?` from «${shop}»`:""}${link?" (the app adds the link)":""}.
+- alt_hero / alt_inline: descriptive Persian alt texts containing the focus keyword.
+- inline_after: the 0-based index of the section after which the in-article image fits best.
+- image_title: a catchy 3-6 word Persian headline to print on the featured image. image_badge: 1-3 Persian words for a small badge (e.g. «بررسی کامل»).
+- hero_scene / inline_scene: ENGLISH descriptions of the two image scenes (hero: the product as an attractive hero shot; inline: the product in real use). No text in the images.
+- Facts must come from the research notes or the seller; never invent numbers or claims; do not state a price unless the seller gave one.`}
+function writePrompt(d,P,target){return`You are an expert Persian SEO content writer for an online shop blog. Write a complete, fully SEO-optimized Persian article about this product, based ONLY on the research notes and seller information below.
+Product: ${prodLine(P)}
+${d.feat?"Seller's information (trust it first): "+d.feat+"\n":""}${d.notes?"Extra instructions from the shop owner: "+d.notes+"\n":""}${articleRules(d,P,target)}
+Return ONLY this JSON (no markdown):
+${articleSchema()}
+
+RESEARCH NOTES:
+${P.notes||"(none)"}`}
+function expandPrompt(d,P,a,have,target){return`This Persian SEO article (JSON below) has only about ${have} words, but it must have AT LEAST ${target} words (aim for ${target+300}). EXPAND it: deepen every section with concrete, accurate details from the research notes, add more H3 subsections, and add 1-2 new useful H2 sections (for example care and maintenance tips, who should and should not buy it, or a comparison with alternatives). Keep every SEO field, keep the facts accurate and keep the same JSON schema and rules.
+${articleRules(d,P,target)}
+Return ONLY the full expanded JSON.
+
+ARTICLE JSON:
+${JSON.stringify(a)}
+
+RESEARCH NOTES:
+${P.notes||"(none)"}`}
+function imgPrompt(slot,P){const s=Styles.get(P.styleId||D.styleId),T=SLOTS[slot],a=P.a||{},p=P.product||{},ar=Imgs.ar(slot);
+ const scene=slot=="inline"?a.inline_scene:slot=="hero"?a.hero_scene:a.hero_scene;
+ return[`Create a high-quality ${T.kind} for a Persian online-shop article about this product: ${p.name_en||p.name||""}${p.category?" ("+p.category+")":""}. Aspect ratio ${ar}.`,
+  P.photo?"PRODUCT REFERENCE: the attached photo shows the REAL product. Reproduce this exact product faithfully as the visual hero: same shape, proportions, colors, materials, label and packaging design. Do not redesign, simplify or replace it. You may cut it out, relight it, rotate it slightly and place it in the scene.":"No product photo is attached: depict a realistic, accurate image of this exact product as the visual hero.",
+  scene?`SCENE: ${scene}`:"",`VISUAL STYLE: ${s.prompt_en}.`,`COMPOSITION: ${T.comp}`,
+  "ABSOLUTELY NO TEXT anywhere in the image: no letters, words, numbers, captions, labels, logos, watermarks or UI text (only text physically printed on the real product may stay). The headline is added later as a separate layer.",
+  slot=="story"||slot=="ig"||slot=="tg"?"Make it eye-catching for social media while staying clean and premium.":""].filter(Boolean).join("\n")}
+function socialPrompt(d,P){const a=P.a||{},link=d.link||"";return`You write Persian social media content for an online shop. Based on this product article, write:
+1) A Telegram channel post caption: 500-900 characters, engaging, with emoji, 4-6 short bullet lines of key benefits (each starting with an emoji), a call to action${link?` that includes this exact link: ${link}`:""}${d.shop?`, mention «${d.shop}»`:""}, and 5-8 hashtags at the end.
+2) An Instagram feed post caption: a strong hook first line, 4-7 short lines with emoji, a call to action (link in bio / send a DM), no URLs. Plus 15-20 hashtags (Persian and English) in a separate list.
+3) An Instagram story: a very short text (max 12 Persian words), an idea for an interactive sticker (poll, question, quiz, slider or link sticker) written in Persian with its exact wording, and a short CTA.
+4) Short catchy Persian headlines (2-5 words) to print on each image: telegram, instagram, story.
+Use natural modern Persian with half-spaces and Persian digits.
+Product: ${prodLine(P)}
+Article title: ${a.seo_title||""}
+Key points: ${(a.pros||[]).join(" | ")}
+Specs: ${(a.specs||[]).map(s=>s.label+": "+s.value).join(" | ")}
+Return JSON only: {"telegram":{"caption":""},"instagram":{"caption":"","hashtags":[""]},"story":{"text":"","sticker":"","cta":""},"titles":{"telegram":"","instagram":"","story":""}}`}
+
+// ---------- article model ----------
+const srcLabel=s=>{try{const h=new URL(s.url).hostname.replace(/^www\./,"");if(!/vertexaisearch|googleusercontent|google\.com$/.test(h))return h}catch{}return String(s.title||"").replace(/^www\./,"").slice(0,60)||s.url};
+const T_=s=>faTxt(String(s??"").replace(/\s+/g," ").trim()),E_=s=>String(s??"").replace(/\s+/g," ").trim();
+const arr=(v,f)=>(Array.isArray(v)?v:v?[v]:[]).map(f).filter(x=>x&&(typeof x!="object"||Object.values(x).some(Boolean)));
+function normArticle(j){if(!j||typeof j!="object")throw new Error("مقاله خالی برگشت");const a={
+ seo_title:T_(j.seo_title),slug:slugify(j.slug)||"",meta_description:T_(j.meta_description),focus_keyword:T_(j.focus_keyword),related_keywords:arr(j.related_keywords,T_),
+ intro:arr(j.intro,T_),sections:arr(j.sections,s=>s&&typeof s=="object"?{h2:T_(s.h2),paragraphs:arr(s.paragraphs,T_),bullets:arr(s.bullets,T_),h3:arr(s.h3,h=>h&&typeof h=="object"?{title:T_(h.title),paragraphs:arr(h.paragraphs,T_)}:null)}:null).filter(s=>s.h2),
+ specs:arr(j.specs,s=>s&&s.label&&s.value?{label:T_(s.label),value:T_(s.value)}:null),pros:arr(j.pros,T_),cons:arr(j.cons,T_),faq:arr(j.faq,f=>f&&f.q&&f.a?{q:T_(f.q),a:T_(f.a)}:null),
+ conclusion:arr(j.conclusion,T_),cta:T_(j.cta),alt_hero:T_(j.alt_hero),alt_inline:T_(j.alt_inline),inline_after:Math.max(0,parseInt(j.inline_after)||0),
+ image_title:T_(j.image_title),image_badge:T_(j.image_badge),hero_scene:E_(j.hero_scene),inline_scene:E_(j.inline_scene)};
+ if(!a.seo_title||!a.sections.length)throw new Error("مقاله ناقص برگشت؛ دوباره امتحان کن");
+ if(a.meta_description.length>160)a.meta_description=a.meta_description.slice(0,157).replace(/\s+\S*$/,"")+"…";
+ if(!a.image_title)a.image_title=a.seo_title.split(" ").slice(0,6).join(" ");return a}
+function articleWords(a){const t=[...a.intro,...a.sections.flatMap(s=>[s.h2,...s.paragraphs,...s.bullets,...s.h3.flatMap(h=>[h.title,...h.paragraphs])]),...a.specs.map(s=>s.label+" "+s.value),...a.pros,...a.cons,...a.faq.map(f=>f.q+" "+f.a),...a.conclusion,a.cta];return words(t.join(" "))}
+function toHTML(a,P){const e=esc,p=x=>x.map(t=>`<p>${e(t)}</p>`).join(""),name=(P.product&&P.product.name)||"",link=(P.input&&P.input.link)||"",shop=(P.input&&P.input.shop)||"",L=[];
+ L.push(`<h1>${e(a.seo_title)}</h1>`);L.push(`<figure data-fig="hero"><img data-img="hero" alt="${e(a.alt_hero)}"><figcaption>${e(a.alt_hero)}</figcaption></figure>`);L.push(p(a.intro));
+ const inl=Math.min(a.inline_after,a.sections.length-1);
+ a.sections.forEach((s,i)=>{L.push(`<h2>${e(s.h2)}</h2>`+p(s.paragraphs));if(s.bullets.length)L.push(`<ul>${s.bullets.map(b=>`<li>${e(b)}</li>`).join("")}</ul>`);
+  s.h3.forEach(h=>L.push(`<h3>${e(h.title)}</h3>`+p(h.paragraphs)));if(i==inl)L.push(`<figure data-fig="inline"><img data-img="inline" alt="${e(a.alt_inline)}"><figcaption>${e(a.alt_inline)}</figcaption></figure>`)});
+ if(a.specs.length)L.push(`<h2>مشخصات فنی ${e(name)}</h2><table><tbody>${a.specs.map(s=>`<tr><th>${e(s.label)}</th><td>${e(s.value)}</td></tr>`).join("")}</tbody></table>`);
+ if(a.pros.length||a.cons.length)L.push(`<h2>مزایا و معایب ${e(name)}</h2><div class="pc"><div class="pro"><h3>✅ مزایا</h3><ul>${a.pros.map(x=>`<li>${e(x)}</li>`).join("")}</ul></div><div class="con"><h3>⚠️ معایب</h3><ul>${a.cons.map(x=>`<li>${e(x)}</li>`).join("")}</ul></div></div>`);
+ if(a.faq.length)L.push(`<h2>سوالات متداول درباره‌ی ${e(name)}</h2>`+a.faq.map(f=>`<h3>${e(f.q)}</h3><p>${e(f.a)}</p>`).join(""));
+ L.push(`<h2>جمع‌بندی</h2>`+p(a.conclusion));
+ if(a.cta||link)L.push(`<p class="cta">${e(a.cta)}${link?` <a href="${e(link)}" target="_blank" rel="noopener">🛒 ${e(shop?"خرید از "+shop:"مشاهده و خرید")}</a>`:""}</p>`);
+ const src=P.sources||[];if(src.length)L.push(`<section data-sec="sources"><h2>منابع</h2><ol>${src.map(s=>`<li><a href="${e(s.url)}" target="_blank" rel="noopener nofollow">${e(srcLabel(s))}</a></li>`).join("")}</ol></section>`);
+ return L.join("\n")}
+const bodyText=h=>{const d=document.createElement("textarea");d.innerHTML=String(h).replace(/<section data-sec="sources"[\s\S]*?<\/section>/,"").replace(/<\/(p|h1|h2|h3|li|tr|th|td|figcaption|div)>/g," $&").replace(/<[^>]+>/g," ");return d.value};
+const countHTML=h=>words(bodyText(h));
+function textify(h){const d=document.createElement("textarea");d.innerHTML=String(h).replace(/<img[^>]*>/g,"").replace(/<\/(p|h1|h2|h3|li|tr|figcaption|table|ul|ol)>/g,"$&\n").replace(/<\/(th|td)>/g," | ").replace(/<li>/g,"• ").replace(/<br\s*\/?>/g,"\n").replace(/<[^>]+>/g,"");return d.value.replace(/[ \t]+\n/g,"\n").replace(/\n{3,}/g,"\n\n").trim()}
+const nk=s=>String(s||"").toLowerCase().replace(/[يى]/g,"ی").replace(/ك/g,"ک").replace(/[\u200c\u200f\u200e]/g," ").replace(/[^\p{L}\p{N}]+/gu," ").trim();
+function seoChecks(P){const a=P.a,kw=nk(a.focus_keyword),h=P.html||"",txt=nk(bodyText(h)),n=countHTML(h),min=(P.input&&P.input.len)||1000,has=s=>kw&&nk(s).includes(kw);
+ const h2=[...h.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)].map(m=>m[1]),fp=(h.match(/<p>([\s\S]*?)<\/p>/)||[])[1]||"",kwn=kw?kw.split(" ").length:1,occ=kw?(` ${txt} `.split(` ${kw} `).length-1):0,dens=n?occ*kwn/n*100:0,tl=a.seo_title.length,ml=a.meta_description.length;
+ return[[tl>=30&&tl<=65,`طول عنوان سئو مناسب است (${fa(tl)} کاراکتر؛ ۳۰ تا ۶۵)`],[has(a.seo_title),"کلمه‌ی کلیدی در عنوان سئو"],[ml>=110&&ml<=160,`توضیحات متا ${fa(ml)} کاراکتر (۱۱۰ تا ۱۶۰)`],[has(a.meta_description),"کلمه‌ی کلیدی در توضیحات متا"],
+  [/^[a-z0-9]+(-[a-z0-9]+)*$/.test(a.slug)&&a.slug.length<=75,"نامک انگلیسی کوتاه و تمیز"],[has(fp.replace(/<[^>]+>/g," ")),"کلمه‌ی کلیدی در پاراگراف اول"],[h2.some(x=>has(x.replace(/<[^>]+>/g," "))),"کلمه‌ی کلیدی در دست‌کم یک تیتر H2"],
+  [n>=min,`حداقل ${fa(min)} کلمه (${fa(n)} کلمه)`],[h2.length>=4,`ساختار تیترها: ${fa(h2.length)} تیتر H2`],[/<h3/.test(h),"تیترهای H3 برای زیربخش‌ها"],[a.faq.length>=5,`بخش سوالات متداول (${fa(a.faq.length)} سوال)`],
+  [dens>=.4&&dens<=3,`تراکم کلمه‌ی کلیدی ${fa(dens.toFixed(1))}٪ (۰٫۴ تا ۳)`],[a.related_keywords.length>=3,`کلمه‌های کلیدی مرتبط (${fa(a.related_keywords.length)})`],[!!(a.alt_hero&&a.alt_inline),"متن جایگزین (alt) برای تصویرها"],
+  [!!(P.images.hero&&P.images.hero.base),"تصویر شاخص"],[(P.sources||[]).length>=2,`منابع معتبر (${fa((P.sources||[]).length)})`],[/class="cta"/.test(h),"دعوت به خرید (CTA)"]]}
+
+// ---------- current project ----------
+const Cur={p:null,tm:0,
+ async save(){if(!this.p)return;this.p.updated=Date.now();await Store.set("projects",this.p);Hist.upsert(this.p)},
+ later(){clearTimeout(this.tm);this.tm=setTimeout(()=>this.save(),600)},
+ async open(id){const p=await Store.get("projects",id);if(!p)return;this.p=p;p.images=p.images||{};await Store.set("kv",id,"cur");Art.render();Imgs.render();Social.render();Stages.clear()}};
+const Stages={L:[["identify","شناسایی محصول از عکس"],["research","تحقیق در وب با جستجوی گوگل و جمع کردن منابع"],["write","نوشتن مقاله‌ی سئو"],["expand","بررسی طول مقاله و تکمیل"],["hero","ساخت تصویر شاخص"],["inline","ساخت تصویر داخل متن"],["social","نوشتن متن تلگرام، اینستاگرام و استوری"]],st:{},
+ start(){this.st={};$("#stages").classList.remove("hide");this.draw()},clear(){this.st={};$("#stages").classList.add("hide")},
+ set(k,s,note){this.st[k]={s,note:note||""};this.draw()},
+ draw(){const I={run:"⏳",done:"✅",err:"❌",skip:"➖"};$("#stages").innerHTML=this.L.map(([k,t],i)=>{const x=this.st[k]||{};return`<li class="${x.s||""}" data-st="${k}"><i>${I[x.s]||fa(i+1)}</i><span>${t}</span><small>${esc(x.note||"")}</small></li>`}).join("")}};
+
+// ---------- main flow ----------
+const Run={busy:false,ac:null,
+ lock(on){this.busy=on;$("#goBtn").disabled=on;$("#cancel").classList.toggle("hide",!on)},
+ msg(t){$("#goMsg").textContent=t||""},
+ cancel(){this.ac&&this.ac.abort()},
+ async go(){if(this.busy)return;Form.read();if(!S.photo&&!D.name.trim())return toast("عکس محصول یا نام محصول را بده");
+  const ac=this.ac=new AbortController(),sig=ac.signal,d=clone(D),st=t=>this.msg(t);this.lock(true);Stages.start();
+  const P={id:uid("p"),created:Date.now(),updated:Date.now(),input:d,styleId:d.styleId,photo:S.photo||null,product:{name:d.name.trim()},notes:"",sources:[],a:null,html:"",images:{},social:null};
+  Cur.p=P;await Store.set("kv",P.id,"cur");Art.render();Imgs.render();Social.render();let stage="identify";
+  try{const refs=S.photo?[await toRef(S.photo)]:[];
+   if(!d.name.trim()&&refs.length){Stages.set(stage,"run");st("⏳ جمینی در حال شناختن محصول از روی عکس است…");const j=await genText(identifyPrompt(d),refs,{onStatus:st},sig);
+    P.product={name:T_(j.name||j.name_en),name_en:E_(j.name_en),brand:E_(j.brand),category:E_(j.category),search_query:E_(j.search_query)};if(!P.product.name)throw new Error("محصول از روی عکس شناخته نشد؛ نام محصول را بنویس");Stages.set(stage,"done",P.product.name)}
+   else Stages.set(stage,"skip",d.name.trim()?"نام داده شده":"");
+   stage="research";Stages.set(stage,"run");st("⏳ تحقیق در وب با جستجوی گوگل…");
+   const r=await genText(researchPrompt(d,P),refs,{search:true,raw:true,onStatus:st},sig);P.notes=r.text;P.sources=Run.sources(r);Stages.set(stage,"done",fa(P.sources.length)+" منبع");P.name=P.product.name;await Cur.save();
+   stage="write";Stages.set(stage,"run");st("⏳ نوشتن مقاله‌ی کامل سئو…");let a=normArticle(await genText(writePrompt(d,P,d.len),[],{onStatus:st},sig));let n=articleWords(a);Stages.set(stage,"done",fa(n)+" کلمه");
+   stage="expand";Stages.set(stage,"run");for(let i=0;i<2&&n<d.len;i++){st(`⏳ مقاله ${fa(n)} کلمه است؛ در حال گسترش تا ${fa(d.len)} کلمه…`);Stages.set(stage,"run",`${fa(n)} → ${fa(d.len)}+`);
+    try{const b=normArticle(await genText(expandPrompt(d,P,a,n,d.len),[],{onStatus:st},sig)),m=articleWords(b);if(m>n){a=b;n=m}}catch(e){if(e.name=="AbortError")throw e}}
+   Stages.set(stage,n>=d.len?"done":"err",n>=d.len?`${fa(n)} کلمه ✓`:`${fa(n)} کلمه — «طولانی‌تر کن» را بزن`);
+   P.a=a;P.html=toHTML(a,P);await Cur.save();Art.render();
+   stage="images";Stages.set("hero","run");Stages.set("inline","run");st("⏳ ساخت تصویر شاخص و تصویر داخل متن…");
+   const res=await Promise.allSettled([Imgs.gen("hero",sig),Imgs.gen("inline",sig)]);if(sig.aborted)throw abortErr();
+   res.forEach((x,i)=>Stages.set(i?"inline":"hero",x.status=="fulfilled"?"done":"err",x.status=="fulfilled"?"":x.reason.message.slice(0,80)));
+   stage="social";Stages.set(stage,"run");st("⏳ نوشتن متن‌های شبکه‌های اجتماعی…");await Social.genText(sig);Stages.set(stage,"done");
+   st("✅ تمام شد: "+fa(countHTML(P.html))+" کلمه");toast("مقاله آماده است ✨")}
+  catch(e){const ab=e.name=="AbortError";if(Stages.st[stage]&&Stages.st[stage].s=="run"||stage=="images"){if(stage=="images"){Stages.set("hero","err");Stages.set("inline","err")}else Stages.set(stage,"err",ab?"لغو شد":"")}st(ab?"⏹ لغو شد":"⚠️ "+e.message);if(!ab)toast("⚠️ "+e.message,8000)}
+  finally{this.lock(false);this.ac=null;await Cur.save().catch(()=>{});Art.render()}},
+ sources(r){const out=[],seen=new Set(),add=(u,t)=>{u=String(u||"").trim().replace(/[.,،)\]]+$/,"");if(!/^https?:\/\//.test(u)||seen.has(u)||out.length>=12)return;seen.add(u);out.push({title:String(t||"").trim()||u,url:u})};
+  for(const c of(r.meta&&r.meta.groundingChunks)||[])if(c&&c.web)add(c.web.uri,c.web.title);for(const m of String(r.text).matchAll(/https?:\/\/[^\s)\]>"'«»]+/g))add(m[0]);return out},
+ async expand(){const P=Cur.p;if(!P||!P.a||this.busy)return;const d=P.input,have=countHTML(P.html),target=Math.max(d.len,have+400);
+  if(P.edited&&!await ask("ویرایش‌های دستی متن با نسخه‌ی طولانی‌تر جایگزین می‌شود. ادامه؟"))return;
+  const ac=this.ac=new AbortController();this.lock(true);this.msg(`⏳ گسترش مقاله تا ${fa(target)} کلمه…`);
+  try{const b=normArticle(await genText(expandPrompt(d,P,P.a,have,target),[],{onStatus:t=>this.msg(t)},ac.signal));P.a=b;P.html=toHTML(b,P);P.edited=false;await Cur.save();Art.render();this.msg("✅ "+fa(countHTML(P.html))+" کلمه")}
+  catch(e){this.msg(e.name=="AbortError"?"⏹ لغو شد":"⚠️ "+e.message)}finally{this.lock(false);this.ac=null}}
+};
+
+// ---------- article view + SEO ----------
+const Art={tm:0,
+ render(){const P=Cur.p,ok=!!(P&&P.a);$("#result").classList.toggle("hide",!ok);if(!ok)return;const a=P.a;
+  $$("#result [data-f]").forEach(i=>{const v=a[i.dataset.f];if(document.activeElement!==i)i.value=Array.isArray(v)?v.join("، "):v||""});
+  const art=$("#art");if(document.activeElement!==art){art.innerHTML=P.html;this.imgs()}this.stats()},
+ imgs(){$$("#art img[data-img]").forEach(i=>{const im=Cur.p&&Cur.p.images[i.dataset.img],b=im&&(im.blob||im.base);if(b)i.src=url(b);else i.removeAttribute("src")})},
+ clean(){const c=$("#art").cloneNode(true);$$("img[data-img]",c).forEach(i=>i.removeAttribute("src"));return c.innerHTML},
+ edited(){const P=Cur.p;if(!P)return;clearTimeout(this.tm);this.tm=setTimeout(()=>{P.html=this.clean();P.edited=true;Cur.later();this.stats()},500)},
+ field(el){const P=Cur.p;if(!P||!P.a)return;const k=el.dataset.f;let v=el.value;if(k=="related_keywords")v=v.split(/[،,]/).map(s=>s.trim()).filter(Boolean);if(k=="slug")v=slugify(v)||v.trim();P.a[k]=v;
+  if(k=="alt_hero"||k=="alt_inline"){const i=$(`#art img[data-img="${k=="alt_hero"?"hero":"inline"}"]`);if(i){i.alt=v;P.html=this.clean()}}Cur.later();this.stats()},
+ stats(){const P=Cur.p;if(!P||!P.a)return;const a=P.a,n=countHTML(P.html),min=P.input.len||1000,cs=seoChecks(P),ok=cs.filter(c=>c[0]).length,sc=Math.round(ok/cs.length*100);
+  $("#wc").textContent=fa(n);$("#wc").className="wc "+(n>=min?"ok":"bad");$("#wcMin").textContent=`(حداقل ${fa(min)})`;
+  const cnt=(id,l,max)=>{const e=$(id);e.textContent=`${fa(l)}${max?" / "+fa(max):""}`;e.classList.toggle("over",!!max&&l>max)};cnt("#c_title",a.seo_title.length,65);cnt("#c_slug",a.slug.length,75);cnt("#c_meta",a.meta_description.length,160);
+  $("#seo").innerHTML=cs.map(c=>`<li class="${c[0]?"ok":"no"}">${c[1]}</li>`).join("");$("#score").textContent=fa(sc);P.score=sc}};
+
+// ---------- images ----------
+const Imgs={
+ ar(slot){return slot=="tg"?(Cur.p&&Cur.p.input&&Cur.p.input.tgAr)||D.tgAr||"1:1":SLOTS[slot].ar},
+ title(slot){const P=Cur.p,a=P.a||{},t=P.social&&P.social.titles||{};return slot=="hero"?a.image_title:slot=="tg"?t.telegram||a.image_title:slot=="ig"?t.instagram||a.image_title:slot=="story"?t.story||a.image_title:""},
+ brand(){const d=Cur.p.input||D;return d.brandOn?[d.shop,d.handle].map(s=>String(s||"").trim()).filter(Boolean).join(" · "):""},
+ async gen(slot,sig){const P=Cur.p;if(!P)throw new Error("پروژه‌ای باز نیست");const ar=this.ar(slot),im=P.images[slot]=P.images[slot]||{ar,layers:null};im.ar=ar;im.run=true;im.err="";this.render();Social.render();
+  try{const refs=P.photo?[await toRef(P.photo)]:[];const b=await genImage(imgPrompt(slot,P),refs,sig,t=>this.status(slot,t),ar);
+   im.base=b;im.model=IMAGE_MODEL;if(!Array.isArray(im.layers))im.layers=slot=="inline"?[]:defLayers({ar,sub:slot=="hero"?(P.a&&P.a.image_badge):slot=="story"?(P.social&&P.social.story&&P.social.story.cta):""},this.title(slot)||"",this.brand());
+   im.blob=im.layers.length?await compose(b,im.layers,ar):null;return im}
+  catch(e){im.err=e.name=="AbortError"?"لغو شد":e.message;throw e}
+  finally{im.run=false;await Cur.save();this.render();Social.render();Art.imgs();Art.stats()}},
+ status(slot,t){$$(`[data-ims="${slot}"]`).forEach(e=>e.textContent=t)},
+ tile(slot){const P=Cur.p,im=P&&P.images[slot],T=SLOTS[slot],b=im&&(im.blob||im.base);
+  return`<div class="tile" data-slot="${slot}"><span class="kind">${T.fa} · ${fa(this.ar(slot))}</span><div class="im ${im&&im.run?"sk":""}" style="aspect-ratio:${this.ar(slot).replace(":","/")}">${b&&!im.run?`<img src="${url(b)}" alt="${esc(T.fa)}" data-a="zoom" data-slot="${slot}">`:im&&im.run?`<span data-ims="${slot}">⏳ در حال ساخت…</span>`:im&&im.err?`<div class="err">⚠️ ${esc(im.err)}</div>`:'<span>هنوز ساخته نشده</span>'}</div>
+  <div class="acts">${b&&!(im&&im.run)?`<button class="btn sm" data-a="edText" data-slot="${slot}">✏️ ویرایش متن</button><button class="btn sm" data-a="dlImg" data-slot="${slot}">⬇️ PNG</button><button class="btn sm" data-a="dlBase" data-slot="${slot}" title="بدون نوشته">⬇️ بدون متن</button>`:""}<button class="btn sm" data-a="genImg" data-slot="${slot}" ${im&&im.run?"disabled":""}>${b?"🔄 ساخت دوباره":"🖼️ ساخت"}</button></div></div>`},
+ render(){const b=$("#imgs");if(b)b.innerHTML=Cur.p?["hero","inline"].map(s=>this.tile(s)).join(""):""},
+ async one(slot){try{await this.gen(slot)}catch(e){if(e.name!="AbortError")toast("⚠️ "+e.message,7000)}},
+ async dl(slot,base){const im=Cur.p&&Cur.p.images[slot];if(!im)return;let b=base?im.base:im.blob||(im.layers&&im.layers.length?await compose(im.base,im.layers,im.ar):null)||im.base;if(!b)return;
+  if(!base&&!im.blob&&im.layers&&im.layers.length)toast("ترکیب متن در این مرورگر ممکن نشد؛ تصویر بدون متن دانلود شد");dl(b,fileName(slot)+(base?"-clean":"")+"."+(EXT[b.type]||"png"))},
+ zoom(slot){const im=Cur.p.images[slot],b=im&&(im.blob||im.base);if(b)modal(`<h3>${SLOTS[slot].fa}</h3><img class="big-img" src="${url(b)}" alt="">`)}
+};
+
+// ---------- social ----------
+const tagify=h=>{h=String(h||"").trim().replace(/^#+/,"").replace(/\s+/g,"_");return h?"#"+h:""};
+const Social={
+ async genText(sig){const P=Cur.p;if(!P||!P.a)throw new Error("اول مقاله را بساز");const j=await genText(socialPrompt(P.input,P),[],{},sig),link=P.input.link||"";
+  const s={telegram:{caption:T_ML(j.telegram&&j.telegram.caption)},instagram:{caption:T_ML(j.instagram&&j.instagram.caption),hashtags:arr(j.instagram&&j.instagram.hashtags,tagify)},story:{text:T_(j.story&&j.story.text),sticker:T_(j.story&&j.story.sticker),cta:T_(j.story&&j.story.cta)},titles:{telegram:T_(j.titles&&j.titles.telegram),instagram:T_(j.titles&&j.titles.instagram),story:T_(j.titles&&j.titles.story)}};
+  if(link&&!s.telegram.caption.includes(link))s.telegram.caption+=`\n\n🛒 ${link}`;P.social=s;
+  for(const k of["tg","ig","story"]){const im=P.images[k];if(im&&Array.isArray(im.layers)&&im.layers[0]&&im.layers[0].role=="title"){im.layers[0].text=Imgs.title(k);if(im.base)im.blob=await compose(im.base,im.layers,im.ar)}}
+  await Cur.save();this.render();return s},
+ async text(){try{$("#socNote").textContent="⏳ نوشتن متن‌ها…";await this.genText();$("#socNote").textContent="✅ متن‌ها آماده است"}catch(e){$("#socNote").textContent="⚠️ "+e.message}},
+ async imgs(){const P=Cur.p;if(!P||!P.a)return toast("اول مقاله را بساز");if(!P.social)await this.text();const r=await Promise.allSettled(["tg","ig","story"].map(k=>Imgs.gen(k)));const bad=r.filter(x=>x.status=="rejected");bad.length?toast(`⚠️ ${fa(bad.length)} تصویر ساخته نشد: `+bad[0].reason.message,7000):toast("تصویرهای شبکه‌های اجتماعی آماده است")},
+ full(k){const s=Cur.p&&Cur.p.social;if(!s)return"";if(k=="tg")return s.telegram.caption;if(k=="ig")return[s.instagram.caption,s.instagram.hashtags.join(" ")].filter(Boolean).join("\n\n");return[s.story.text,s.story.sticker&&"🔘 استیکر: "+s.story.sticker,s.story.cta&&"👉 "+s.story.cta].filter(Boolean).join("\n")},
+ edit(el){const s=Cur.p&&Cur.p.social;if(!s)return;const k=el.dataset.sk,v=el.value;if(k=="tg")s.telegram.caption=v;else if(k=="igc")s.instagram.caption=v;else if(k=="igh")s.instagram.hashtags=v.split(/\s+/).map(tagify).filter(Boolean);else if(k=="st")s.story.text=v;else if(k=="sk")s.story.sticker=v;else if(k=="cta")s.story.cta=v;Cur.later()},
+ render(){const b=$("#soc");if(!b)return;$("#tgAr").innerHTML=[["1:1","مربع ۱:۱"],["16:9","افقی ۱۶:۹"]].map(([v,l])=>`<button class="${(Cur.p&&Cur.p.input?Cur.p.input.tgAr:D.tgAr)==v?"on":""}" data-a="tgAr" data-v="${v}">${l}</button>`).join("");
+  const P=Cur.p,s=P&&P.social;if(!P||!P.a){b.innerHTML="";return}if(!s){b.innerHTML='<p class="mut">متن‌ها هنوز نوشته نشده؛ «نوشتن دوباره‌ی متن‌ها» را بزن.</p>';return}$("#socNote").textContent="متن‌ها را می‌توانی ویرایش کنی؛ تغییرها ذخیره می‌شود.";
+  const ta=(k,v,h)=>`<textarea data-sk="${k}" ${h?`style="min-height:${h}px"`:""}>${esc(v)}</textarea>`;
+  b.innerHTML=`<div class="card" style="margin:0"><h3>✈️ پست تلگرام</h3>${Imgs.tile("tg")}<label>کپشن</label>${ta("tg",s.telegram.caption)}<div class="row" style="margin-top:6px"><button class="btn sm" data-a="copySoc" data-k="tg">📋 کپی کپشن</button></div></div>
+  <div class="card" style="margin:0"><h3>📸 پست اینستاگرام</h3>${Imgs.tile("ig")}<label>کپشن</label>${ta("igc",s.instagram.caption)}<label>هشتگ‌ها</label>${ta("igh",s.instagram.hashtags.join(" "),70)}<div class="row" style="margin-top:6px"><button class="btn sm" data-a="copySoc" data-k="ig">📋 کپی کپشن + هشتگ</button></div></div>
+  <div class="card" style="margin:0"><h3>📱 استوری اینستاگرام</h3>${Imgs.tile("story")}<label>متن استوری</label>${ta("st",s.story.text,60)}<label>ایده‌ی استیکر تعاملی</label>${ta("sk",s.story.sticker,60)}<label>دعوت به اقدام</label>${ta("cta",s.story.cta,50)}<div class="row" style="margin-top:6px"><button class="btn sm" data-a="copySoc" data-k="story">📋 کپی متن استوری</button></div></div>`}
+};
+function T_ML(s){return String(s??"").split("\n").map(l=>faTxt(l.replace(/[ \t]+/g," ").trim())).join("\n").replace(/\n{3,}/g,"\n\n").trim()}
+
+// ---------- export ----------
+const Exp={
+ async dataUrl(b){return b?`data:${b.type||"image/png"};base64,${await blobToB64(b)}`:""},
+ img(slot){const im=Cur.p.images[slot];return im&&(im.blob||im.base)||null},
+ async html(mode){const P=Cur.p,d=document.createElement("div");d.innerHTML=P.html;
+  for(const i of $$("img[data-img]",d)){const s=i.dataset.img,b=this.img(s);if(!b){i.closest("figure")?i.closest("figure").remove():i.remove();continue}
+   i.setAttribute("src",mode=="data"?await this.dataUrl(b):mode=="doc"?`file:///C:/saba/${s}.png`:`${fileName(s)}.png`);i.removeAttribute("data-img")}
+  $$("[data-fig]",d).forEach(f=>f.removeAttribute("data-fig"));return d.innerHTML},
+ head(P,extra){const a=P.a;return`<meta charset="utf-8"><title>${esc(a.seo_title)}</title><meta name="description" content="${esc(a.meta_description)}"><meta name="keywords" content="${esc([a.focus_keyword,...a.related_keywords].join("، "))}">${extra||""}
+<style>body{font-family:Vazirmatn,Tahoma,sans-serif;direction:rtl;text-align:right;max-width:860px;margin:auto;padding:24px;line-height:2;color:#1b1630}img{max-width:100%;height:auto;border-radius:12px}table{border-collapse:collapse;width:100%}td,th{border:1px solid #ccc;padding:6px 10px;text-align:right}th{background:#f1ecff}.cta{background:#f1ecff;padding:10px 14px;border-radius:12px;font-weight:bold}figcaption{font-size:.85em;color:#666;text-align:center}</style>`},
+ async dlHtml(){const P=Cur.p,body=await this.html("data");dl(new Blob([`<!doctype html>\n<html lang="fa" dir="rtl"><head>${this.head(P,'<meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">')}</head><body><article>\n${body}\n</article></body></html>`],{type:"text/html"}),(P.a.slug||"article")+".html");toast("فایل HTML با عکس‌ها دانلود شد")},
+ async dlDoc(){const P=Cur.p,B="----=_SabaArticle",body=(await this.html("doc")).replace(/<p>/g,'<p dir="rtl">').replace(/<h([123])>/g,'<h$1 dir="rtl">');
+  const html=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40" dir="rtl"><head>${this.head(P,"<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View></w:WordDocument></xml><![endif]-->")}</head><body dir="rtl" lang="FA"><div dir="rtl">${body}</div></body></html>`;
+  const chunk=s=>s.replace(/(.{76})/g,"$1\r\n"),out=[`MIME-Version: 1.0\r\nContent-Type: multipart/related; boundary="${B}"; type="text/html"\r\n\r\n--${B}\r\nContent-Type: text/html; charset="utf-8"\r\nContent-Transfer-Encoding: base64\r\nContent-Location: file:///C:/saba/article.htm\r\n\r\n${chunk(await blobToB64(new Blob([html])))}\r\n`];
+  for(const s of["hero","inline"]){const b=this.img(s);if(b&&html.includes(`file:///C:/saba/${s}.png`))out.push(`--${B}\r\nContent-Type: ${b.type||"image/png"}\r\nContent-Transfer-Encoding: base64\r\nContent-Location: file:///C:/saba/${s}.png\r\n\r\n${chunk(await blobToB64(b))}\r\n`)}
+  out.push(`--${B}--\r\n`);dl(new Blob(out,{type:"application/msword"}),(P.a.slug||"article")+".doc");toast("فایل Word دانلود شد")},
+ md(){const P=Cur.p,d=document.createElement("div");d.innerHTML=P.html;const T=n=>n.textContent.replace(/\s+/g," ").trim(),L=[];
+  const inl=n=>[...n.childNodes].map(c=>c.nodeType==3?c.textContent:c.tagName=="A"?`[${T(c)}](${c.getAttribute("href")})`:c.tagName=="STRONG"||c.tagName=="B"?`**${T(c)}**`:inl(c)).join("").replace(/\s+/g," ").trim();
+  const walk=n=>{for(const c of n.children){const t=c.tagName;if(t=="H1")L.push("# "+T(c));else if(t=="H2")L.push("## "+T(c));else if(t=="H3")L.push("### "+T(c));else if(t=="P")L.push(inl(c));
+   else if(t=="UL"||t=="OL")L.push([...c.children].map((li,i)=>(t=="UL"?"- ":`${i+1}. `)+inl(li)).join("\n"));else if(t=="TABLE"){const rows=[...c.querySelectorAll("tr")].map(r=>[...r.children].map(T));if(rows.length)L.push(["| مشخصه | مقدار |","|---|---|",...rows.map(r=>"| "+r.join(" | ")+" |")].join("\n"))}
+   else if(t=="FIGURE"){const i=c.querySelector("img");if(i)L.push(`![${i.getAttribute("alt")||""}](${fileName(i.dataset.img)}.png)`)}else walk(c)}};walk(d);
+  return`---\ntitle: "${P.a.seo_title.replace(/"/g,"'")}"\nslug: ${P.a.slug}\ndescription: "${P.a.meta_description.replace(/"/g,"'")}"\nkeywords: [${[P.a.focus_keyword,...P.a.related_keywords].map(k=>JSON.stringify(k)).join(", ")}]\n---\n\n`+L.filter(Boolean).join("\n\n")+"\n"},
+ dlMd(){dl(new Blob([this.md()],{type:"text/markdown"}),(Cur.p.a.slug||"article")+".md")},
+ async copyText(){const P=Cur.p;const ok=await copyTxt(textify(P.html));toast(ok?"متن مقاله کپی شد":"کپی ممکن نشد")},
+ async copyHtml(){const ok=await copyTxt(await this.html("files"));toast(ok?"کد HTML کپی شد (عکس‌ها را جدا دانلود و با همین نام آپلود کن)":"کپی ممکن نشد")}
+};
+
+// ---------- input form ----------
+const Form={
+ init(){for(const id of["pname","pfeat","notes","kw","link","shop","handle"])$("#"+id).addEventListener("input",()=>{this.read();Draft.save()});
+  $("#brandOn").addEventListener("change",()=>{this.read();Draft.save()});
+  $("#art").addEventListener("input",()=>Art.edited());
+  $$("#result [data-f]").forEach(i=>i.addEventListener("input",()=>Art.field(i)));
+  $("#soc").addEventListener("input",e=>{if(e.target.dataset.sk)Social.edit(e.target)});
+  $("#sq").addEventListener("input",()=>Picker.render());$("#hq").addEventListener("input",()=>Hist.render());
+  document.addEventListener("paste",e=>{const f=[...(e.clipboardData&&e.clipboardData.files||[])].find(f=>/^image\//.test(f.type));if(f&&!$("#t-art").classList.contains("hide")){e.preventDefault();Photo.set(f)}});
+  document.addEventListener("dragover",e=>e.preventDefault());document.addEventListener("drop",e=>{const f=[...(e.dataTransfer&&e.dataTransfer.files||[])].find(f=>/^image\//.test(f.type));if(f){e.preventDefault();Photo.set(f)}})},
+ read(){D.name=$("#pname").value;D.feat=$("#pfeat").value;D.notes=$("#notes").value;D.kw=$("#kw").value.trim();D.link=$("#link").value.trim();D.shop=$("#shop").value.trim();D.handle=$("#handle").value.trim();D.brandOn=$("#brandOn").checked},
+ sync(){$("#pname").value=D.name;$("#pfeat").value=D.feat;$("#notes").value=D.notes;$("#kw").value=D.kw;$("#link").value=D.link;$("#shop").value=D.shop;$("#handle").value=D.handle;$("#brandOn").checked=!!D.brandOn;
+  $("#tone").innerHTML=TONES.map(t=>`<button class="${D.tone==t[0]?"on":""}" data-a="opt" data-k="tone" data-v="${t[0]}">${t[1]}</button>`).join("");
+  $("#len").innerHTML=LENS.map(n=>`<button class="${D.len==n?"on":""}" data-a="opt" data-k="len" data-v="${n}">${fa(n)}${n==2000?"+":""}</button>`).join("");Photo.render();Picker.sel()},
+ opt(k,v){D[k]=k=="len"?+v:v;Draft.save();this.sync()},
+ async fresh(){if(Run.busy)return toast("صبر کن کار فعلی تمام شود");const old=await Store.get("kv","draft");Object.keys(D).forEach(k=>delete D[k]);Object.assign(D,clone(D0));if(old){D.shop=old.shop||"";D.handle=old.handle||"";D.link="";D.styleId=old.styleId||"s1";D.tone=old.tone||"pro";D.len=old.len||1000;D.brandOn=old.brandOn!==false}
+  await Store.set("kv",clone(D),"draft");await Photo.del();Cur.p=null;await Store.delete("kv","cur");Stages.clear();this.sync();Art.render();Imgs.render();Social.render();UI.tab("art");Run.msg("")}
+};
+
+// ---------- my projects ----------
+const Hist={items:[],
+ async load(){this.items=(await Store.list("projects")).filter(p=>p&&p.id).sort((a,b)=>b.updated-a.updated);this.render()},
+ upsert(p){this.items=[p,...this.items.filter(x=>x.id!=p.id)];this.render()},
+ async del(id){this.items=this.items.filter(x=>x.id!=id);await Store.delete("projects",id);if(Cur.p&&Cur.p.id==id)await Form.fresh();this.render()},
+ render(){const b=$("#his");if(!b)return;const q=($("#hq").value||"").trim(),L=this.items.filter(p=>!q||[p.name,p.a&&p.a.seo_title,p.a&&p.a.focus_keyword].join(" ").includes(q));$("#hisCnt").textContent=fa(this.items.length)+" پروژه";
+  b.innerHTML=L.map(p=>{const im=p.images&&p.images.hero,bb=im&&(im.blob||im.base)||p.photo;return`<div class="tile" data-p="${p.id}"><div class="im" style="aspect-ratio:16/9">${bb?`<img src="${url(bb)}" alt="" data-a="hOpen" data-id="${p.id}">`:"📝"}</div><div class="cap"><b>${esc(p.a?p.a.seo_title:p.name||"بی‌نام")}</b><br>${esc(fdate(p.updated))}${p.html?" · "+fa(countHTML(p.html))+" کلمه":" · ناتمام"}${p.score!=null?" · سئو "+fa(p.score):""}</div><div class="acts"><button class="btn sm pri" data-a="hOpen" data-id="${p.id}">📂 باز کردن</button><button class="btn sm danger" data-a="hDel" data-id="${p.id}">🗑️</button></div></div>`}).join("")||'<p class="mut">هنوز پروژه‌ای نساخته‌ای.</p>'}};
+
+// ---------- custom style maker ----------
+const Custom={ref:null,
+ render(){const b=$("#cRef");if(b)b.innerHTML=this.ref?`<div class="ph"><img src="${url(this.ref)}" alt="عکس نمونه"><button class="x2" data-a="cRefDel" aria-label="حذف">✕</button></div>`:`<button class="ph add" data-a="cRefAdd">🖼️<br>عکس نمونه (اختیاری)</button>`},
+ async make(){const desc=$("#cDesc").value.trim();if(!desc&&!this.ref)return toast("استایل را توصیف کن یا یک عکس نمونه بگذار");const btn=$("#cBtn");btn.disabled=true;$("#cMsg").textContent="⏳ در حال طراحی کارت استایل…";
+  try{const s=await Styles.make(desc,this.ref?await toRef(this.ref):null);if(!s)throw new Error("کارت استایل ناقص بود");Picker.cat=MYCAT;Picker.pick(s.id);Picker.render();$("#cDesc").value="";this.ref=null;this.render();$("#cMsg").textContent=`✅ «${s.fa}» ساخته و انتخاب شد`}
+  catch(e){$("#cMsg").textContent="⚠️ "+e.message}finally{btn.disabled=false}},
+ edit(id){const s=S.user.find(x=>x.id==id);if(!s)return;const m=modal(`<h3>✏️ ویرایش استایل</h3><label>نام فارسی</label><input id="e_fa" value="${esc(s.fa)}"><label>نام انگلیسی</label><input id="e_en" dir="ltr" value="${esc(s.en)}"><label>برچسب</label><input id="e_tag" value="${esc(s.tag)}"><label>توضیح</label><textarea id="e_desc">${esc(s.desc)}</textarea><label>پرامپت انگلیسی</label><textarea id="e_pr" dir="ltr">${esc(s.prompt_en)}</textarea><button class="btn pri" data-a="styEditSave" data-id="${s.id}" style="margin-top:10px">💾 ذخیره</button>`)},
+ async save(id,m){const s=S.user.find(x=>x.id==id);if(!s)return;const n=await Styles.add({...s,fa:$("#e_fa",m).value,en:$("#e_en",m).value,tag:$("#e_tag",m).value,desc:$("#e_desc",m).value,prompt_en:$("#e_pr",m).value});if(!n)return toast("نام و پرامپت لازم است");m.remove();Picker.render();toast("ذخیره شد")}};
+
+// ---------- settings / about ----------
+const UI={
+ tab(v){$$("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.v==v));["art","sty","soc","his"].forEach(t=>$("#t-"+t).classList.toggle("hide",t!=v))},
+ status(){$("#tmpB").classList.toggle("hide",S.persisted||Bridge.st.on);const bb=$("#brB");if(bb){bb.className=(Bridge.st.checked?"":"hide ")+(Bridge.st.on&&!Bridge.st.err?"okb":"warn");bb.textContent=Bridge.st.on?(Bridge.st.err?"⚠️ ذخیره در اکستنشن ناموفق":"ذخیره‌ی دائمی با اکستنشن ✓"):"بدون اکستنشن: قبل از بستن پشتیبان زیپ بگیر";bb.title=Bridge.st.err||"وضعیت ذخیره‌ی دائمی"}this.storage()},
+ about(){modal(`<h3>ℹ️ درباره‌ی سازنده</h3><p><b>ساخته‌ی سید صبا میری</b></p><p>🌐 وب‌سایت: <a href="https://viroai.ir" target="_blank" rel="noopener">viroai.ir</a></p><p>📸 اینستاگرام: <a href="https://instagram.com/viromedia404" target="_blank" rel="noopener" dir="ltr">viromedia404</a></p><p>📞 تلفن: <a href="tel:+989120349893" dir="ltr">۰۹۱۲۰۳۴۹۸۹۳</a></p><p>✈️ تلگرام: به‌زودی…</p><p class="mut">مقاله‌نویس محصول صبا · نسخه‌ی ${fa(APP_VER)} · ${fa(VSTYLES.styles.length)} استایل تصویر</p>`)},
+ settings(){modal(`<h3>⚙️ تنظیمات</h3><h4>تم</h4><div class="themes">${THEMES.map(t=>`<button class="th ${t[0]==S.theme?"on":""}" data-a="theme" data-v="${t[0]}" style="background:${t[1]};border-color:${t[3]}"><i style="background:linear-gradient(90deg,${t[3]},${t[4]})"></i>${t[0]}</button>`).join("")}</div>
+  ${KeyCfg.html()}
+  <h4>ذخیره‌سازی</h4><div id="sto"></div><h4>پاک کردن</h4><button class="btn danger" data-a="wipe">🗑️ پاک کردن همه‌ی داده‌ها</button><p class="mut">نسخه‌ی ${fa(APP_VER)} · مدل تصویر: ${IMAGE_MODEL} · مدل متن: ${TEXT_MODEL} · ${fa(VSTYLES.styles.length)} استایل داخلی</p><p class="mut">ساخته‌ی سید صبا میری · <a href="https://viroai.ir" target="_blank" rel="noopener">viroai.ir</a> · <a href="https://instagram.com/viromedia404" target="_blank" rel="noopener">اینستاگرام viromedia404</a> · <a href="tel:+989120349893">۰۹۱۲۰۳۴۹۸۹۳</a> · تلگرام: به‌زودی</p>`);this.storage()},
+ async storage(){const b=$("#sto");if(!b)return;const e=await Store.estimate(),B=Bridge.st,tf=t=>t?new Date(t).toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit",second:"2-digit"}):"هنوز نه";
+  b.innerHTML=`<div class="sbox" id="brBox"><b>🧩 ذخیره‌ی دائمی با اکستنشن</b>${B.on?`<div class="mut">✅ وصل است (اکستنشن نسخه‌ی ${fa(B.ver||"؟")}) — هر تغییر خودکار در اکستنشن ذخیره می‌شود و با بستن Canvas پاک نمی‌شود</div><div class="mut">آخرین ذخیره: ${tf(B.last)} · در صف: ${fa(B.pending)}${B.restored?` · ${fa(B.restored)} مورد هنگام باز شدن بازیابی شد`:""}</div>${B.err?`<div class="mut" style="color:#ff8a8a">⚠️ ${esc(B.err)}</div>`:""}<div class="row" style="margin-top:8px"><button class="btn sm pri" data-a="bsync">🔄 همگام‌سازی کامل الان</button></div>`:`<div class="mut">${B.err?"⚠️ "+esc(B.err):"اکستنشن پیدا نشد؛ داده‌ها فقط تا بستن Canvas می‌مانند. قبل از بستن «دانلود پشتیبان کامل» را بزن، یا برنامه را از اکستنشن باز کن تا همه‌چیز خودکار و دائمی ذخیره شود."}</div>`}</div>
+  <div class="sbox"><b>🌐 مرورگر (IndexedDB)</b><div class="mut">${S.persisted?"✅ ذخیره‌ی دائمی فعال است":"⚠️ ذخیره‌ی موقت — مرورگر ممکن است داده‌ها را پاک کند"}</div><div class="mut">فضا: ${e?fmtB(e.usage||0)+" از "+fmtB(e.quota||0):"نامشخص"}</div></div>
+  <div class="sbox"><b>🗂️ پشتیبان فایل</b><div class="row" style="margin-top:8px"><button class="btn sm" data-a="zipOut">⬇️ دانلود پشتیبان کامل</button><button class="btn sm" data-a="zipIn">♻️ بازگردانی از پشتیبان</button></div></div>`},
+ async wipe(){if(!await ask("همه‌ی پروژه‌ها، عکس‌ها، استایل‌های من و تنظیمات پاک شود؟ این کار برگشت‌پذیر نیست."))return;await Store.clear();Cur.p=null;await App.reload();$$(".modal").forEach(m=>m.remove());toast("همه‌ی داده‌ها پاک شد")}
+};
+
+// ---------- actions (event delegation) ----------
+const need=f=>(...a)=>Cur.p&&Cur.p.a?f(...a):toast("اول مقاله را بساز");
+const A={
+ tab:e=>UI.tab(e.dataset.v),settings:()=>UI.settings(),about:()=>UI.about(),close:e=>e.closest(".modal").remove(),
+ theme:e=>{applyTheme(e.dataset.v);Store.set("kv",S.theme,"theme");$$(".th").forEach(b=>b.classList.toggle("on",b.dataset.v==S.theme))},
+ opt:e=>Form.opt(e.dataset.k,e.dataset.v),newProj:()=>Form.fresh(),
+ phAdd:async()=>{const f=await pick("image/*");if(f)Photo.set(f)},phDel:()=>Photo.del(),
+ go:()=>Run.go(),cancel:()=>Run.cancel(),expand:need(()=>Run.expand()),
+ rebuild:need(async()=>{if(!await ask("ویرایش‌های دستی متن پاک شود و مقاله از نسخه‌ی هوش مصنوعی دوباره ساخته شود؟"))return;Cur.p.html=toHTML(Cur.p.a,Cur.p);Cur.p.edited=false;await Cur.save();Art.render()}),
+ genImg:e=>Imgs.one(e.dataset.slot),regenImgs:need(()=>Promise.all([Imgs.one("hero"),Imgs.one("inline")])),edText:e=>Ed.open(e.dataset.slot),dlImg:e=>Imgs.dl(e.dataset.slot),dlBase:e=>Imgs.dl(e.dataset.slot,1),zoom:e=>Imgs.zoom(e.dataset.slot),
+ eadd:()=>Ed.add(),eundo:()=>Ed.undo(),esave:()=>Ed.save(),epng:()=>Ed.png(),edel:()=>Ed.del(),esel:e=>{Ed.s=+e.dataset.v;Ed.panel();Ed.draw()},
+ fpos:e=>{const l=Ed.L[+e.dataset.f];if(!l)return;Ed.snap();delete l.x;delete l.y;l.pos=+e.dataset.v;Ed.panel();Ed.draw()},
+ copyText:need(()=>Exp.copyText()),copyHtml:need(()=>Exp.copyHtml()),dlHtml:need(()=>Exp.dlHtml()),dlDoc:need(()=>Exp.dlDoc()),dlMd:need(()=>Exp.dlMd()),
+ socText:need(()=>Social.text()),socImgs:need(()=>Social.imgs()),copySoc:async e=>{const ok=await copyTxt(Social.full(e.dataset.k));toast(ok?"کپی شد":"کپی ممکن نشد")},
+ tgAr:async e=>{D.tgAr=e.dataset.v;Draft.save();if(Cur.p&&Cur.p.input){Cur.p.input.tgAr=e.dataset.v;const im=Cur.p.images.tg;if(im&&im.ar!=e.dataset.v){delete Cur.p.images.tg}await Cur.save()}Social.render()},
+ pickSty:(e,ev)=>{if(ev&&ev.target.closest("button"))return;Picker.pick(e.dataset.id)},styCat:e=>{Picker.cat=e.dataset.v;Picker.render()},
+ styDel:async e=>{const s=S.user.find(x=>x.id==e.dataset.id);if(s&&await ask(`استایل «${s.fa}» حذف شود؟`))await Styles.del(s.id)},styEdit:e=>Custom.edit(e.dataset.id),styEditSave:e=>Custom.save(e.dataset.id,e.closest(".modal")),
+ styExp:()=>{if(!S.user.length)return toast("هنوز استایل اختصاصی نساخته‌ای");dl(new Blob([Styles.exportJSON()],{type:"application/json"}),"saba-article-styles.json")},
+ styImp:async()=>{const f=await pick(".json,application/json");if(!f)return;try{const r=await Styles.importText(await f.text());toast(r.msg)}catch(err){toast("⚠️ "+err.message)}},
+ cMake:()=>Custom.make(),cRefAdd:async()=>{const f=await pick("image/*");if(f){Custom.ref=new Blob([f],{type:f.type});Custom.render()}},cRefDel:()=>{Custom.ref=null;Custom.render()},
+ hOpen:async e=>{await Cur.open(e.dataset.id);const P=Cur.p;if(P&&P.input){Object.assign(D,clone(D0),P.input);if(P.photo)S.photo=P.photo;Form.sync()}UI.tab("art")},
+ hDel:async e=>{if(await ask("این پروژه حذف شود؟"))await Hist.del(e.dataset.id)},
+ zipOut:()=>Backup.zipOut(),zipIn:()=>Backup.zipIn(),bsync:async e=>{e.disabled=true;e.textContent="در حال همگام‌سازی…";await Bridge.full(true);UI.storage()},
+ wipe:()=>UI.wipe(),banX:()=>$("#banner").classList.add("hide")
+};
+document.addEventListener("click",e=>{const el=e.target.closest("[data-a]");if(!el||el.disabled||!A[el.dataset.a])return;if(el.tagName!="A")e.preventDefault();e.stopPropagation();Promise.resolve(A[el.dataset.a](el,e)).catch(err=>toast("⚠️ "+err.message))});
+
+// ---------- app ----------
+const App={
+ async reload(){const th=await Store.get("kv","theme");applyTheme(th||Store.fastTheme()||"بنفش");
+  const ph=await Store.get("kv","photo");S.photo=ph instanceof Blob?ph:null;await Draft.load();await Styles.load();await Hist.load();
+  const cur=await Store.get("kv","cur");Cur.p=null;if(cur){const p=await Store.get("projects",cur);if(p){p.images=p.images||{};Cur.p=p}}
+  Form.sync();Picker.render();Custom.render();Art.render();Imgs.render();Social.render()},
+ async init(){applyTheme(Store.fastTheme()||"بنفش");Form.init();Form.sync();Picker.render();Custom.render();
+  try{await Bridge.init()}catch(e){console.warn(e)}
+  const lost=!Bridge.st.restored&&!(await Store.get("kv","meta"))&&Store.lastSaveLS();await this.reload();
+  S.persisted=await Store.persist();UI.status();if(lost)$("#banner").classList.remove("hide");window.__ready=true}
+};
+App.init().catch(e=>toast("⚠️ خطا در شروع برنامه: "+e.message,9000));
+
+</script>
+</body>
+</html>
