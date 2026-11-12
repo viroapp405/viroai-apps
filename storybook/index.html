@@ -284,10 +284,10 @@ window.addEventListener("load",function(){setTimeout(function(){if(!window.__rea
 // ---------- fixed AI models (one model per job, no fallback chain) ----------
 const IMAGE_MODEL="gemini-3.1-flash-image";
 const TEXT_MODEL="gemini-2.5-flash";
-const TTS_MODEL="gemini-3.8-flash-tts";
+const TTS_MODEL="gemini-2.5-flash-preview-tts";
 const TTS_CHUNK=6000; // narration chars per TTS request; a children's book fits in ONE request (Gemini allows only a few TTS requests a day)
 const apiKey="";
-const APP_VER="1.0.1";
+const APP_VER="1.0.2";
 const UITHEMES=[["بنفش","#07051a","#110c27","#a874ff","#7d6aff","#100426"],["زمرد","#040c09","#0a1813","#2ee59d","#14c4b0","#02170f"],["فیروزه‌ای","#030c11","#091921","#25d9f2","#2fd6a8","#021c24"],["آبی","#050a18","#0c142e","#5592ff","#7d6cff","#030b22"],["صورتی","#0f0517","#1b0b24","#ff57da","#b763ff","#2a0422"],["نارنجی","#100a04","#1e140a","#ffa83d","#ff7040","#271302"],["قرمز","#110508","#200c11","#ff5a6c","#ff8a4f","#2a0409"],["طلایی","#0d0b05","#1b170b","#f6c94e","#e9a23b","#231a02"]];
 // age groups: story length + vocabulary
 const AGES={
