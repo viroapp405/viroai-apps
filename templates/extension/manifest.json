@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "__APP_NAME__",
+  "short_name": "__SHORT_NAME__",
+  "version": "1.0.0",
+  "description": "__DESCRIPTION__",
+  "action": {
+    "default_title": "__APP_NAME__"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_page": "options.html",
+  "permissions": [
+    "storage",
+    "unlimitedStorage",
+    "proxy"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://gemini.google.com/*",
+        "*://share.gemini.google/*",
+        "*://*.usercontent.goog/*",
+        "*://*.googleusercontent.com/*"
+      ],
+      "js": [
+        "bridge.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true,
+      "match_about_blank": true,
+      "match_origin_as_fallback": true
+    }
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "__SHORTCUT__"
+      },
+      "description": "Open __APP_NAME__"
+    }
+  }
+}

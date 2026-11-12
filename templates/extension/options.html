@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>تنظیمات پروکسی</title>
+<style>
+  body { font-family: Tahoma, sans-serif; max-width: 460px; margin: 32px auto; color: #222; }
+  h1 { font-size: 18px; }
+  label { display: block; margin: 14px 0 6px; font-size: 14px; }
+  input, select { width: 100%; padding: 8px; box-sizing: border-box; font-size: 14px; direction: ltr; }
+  .row { display: flex; gap: 8px; align-items: center; }
+  .row input { width: auto; }
+  button { margin-top: 18px; padding: 10px 18px; background: #4267f4; color: #fff; border: 0; border-radius: 8px; cursor: pointer; font-size: 14px; }
+  p.hint { font-size: 12px; color: #666; line-height: 1.8; }
+  #status { margin-right: 10px; color: #1a8f3a; font-size: 13px; }
+</style>
+</head>
+<body>
+  <h1>پروکسی برای سرویس‌های گوگل</h1>
+  <p class="hint">فقط ترافیک گوگل (جمینای، AI Studio، فلو و ورود به حساب) از این پروکسی رد می‌شه و بقیه‌ی سایت‌ها مستقیم می‌مونن.</p>
+  <div class="row"><input type="checkbox" id="enabled"><span>پروکسی فعال باشه</span></div>
+  <label>نوع</label>
+  <select id="type"><option value="SOCKS5">SOCKS5</option><option value="HTTP">HTTP</option></select>
+  <label>آدرس (Host)</label>
+  <input id="host" placeholder="127.0.0.1">
+  <label>پورت</label>
+  <input id="port" placeholder="12334">
+  <p class="hint">برای Hiddify یا v2rayN، برنامه رو روشن کن و پورت محلی‌اش رو اینجا بزن (Host همون 127.0.0.1). پورت رو از تنظیمات خود برنامه ببین.</p>
+  <button id="save">ذخیره</button><span id="status"></span>
+  <script src="options.js"></script>
+</body>
+</html>
