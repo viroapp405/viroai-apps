@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>اینفوگرافیک محصول صبا</title>
+<style>body{margin:0;background:#07051a;color:#f4f2fb;font:15px/2 Tahoma,sans-serif;display:grid;place-items:center;min-height:100vh;text-align:center}#m{padding:20px}</style>
+</head>
+<body>
+<div id="m">⏳ در حال بارگذاری اینفوگرافیک محصول صبا…<br><small>ساخته‌ی سید صبا میری · viroai.ir</small></div>
+<script>
+const APP_SOURCES=["https://raw.githubusercontent.com/viroapp405/viroai-apps/main/product-info/index.html","https://cdn.jsdelivr.net/gh/viroapp405/viroai-apps@main/product-info/index.html"];
+const CACHE_KEY="sabaLoader.saba-product-info";
+(async()=>{let html=null;
+ for(const u of APP_SOURCES){try{const r=await fetch(u+"?t="+Date.now(),{cache:"no-store"});if(r.ok){const t=await r.text();if(t.includes("</html>")){html=t;break}}}catch(e){}}
+ if(html){try{localStorage.setItem(CACHE_KEY,html)}catch(e){}}else{try{html=localStorage.getItem(CACHE_KEY)}catch(e){}}
+ if(!html){document.getElementById("m").textContent="⚠️ دریافت برنامه ممکن نشد. اینترنت را بررسی کن و صفحه را تازه کن.";return}
+ const doc=new DOMParser().parseFromString(html,"text/html");
+ document.title=doc.title||document.title;
+ document.documentElement.lang=doc.documentElement.lang||"fa";document.documentElement.dir=doc.documentElement.dir||"rtl";
+ document.querySelectorAll("style").forEach(s=>s.remove());
+ for(const n of [...doc.head.children]){if(n.tagName==="SCRIPT"||n.tagName==="TITLE")continue;document.head.appendChild(document.importNode(n,true))}
+ const scripts=[...doc.body.querySelectorAll("script")];scripts.forEach(s=>s.remove());
+ document.body.innerHTML=doc.body.innerHTML;
+ for(const s of scripts){const e=document.createElement("script");for(const a of s.attributes)e.setAttribute(a.name,a.value);
+  if(s.src){await new Promise(ok=>{e.onload=e.onerror=ok;document.body.appendChild(e)})}else{e.textContent=s.textContent;document.body.appendChild(e)}}
+})();
+</script>
+</body>
+</html>

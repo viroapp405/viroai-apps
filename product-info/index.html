@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>اینفوگرافیک محصول صبا · v1.0.0</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
+<style>
+:root{--bg:#07051a;--card:#110c27;--neon:#a874ff;--neon2:#7d6aff;--btxt:#100426;--line:color-mix(in srgb,var(--neon) 26%,transparent);--soft:color-mix(in srgb,var(--neon) 12%,transparent);--txt:color-mix(in srgb,var(--neon) 8%,#f4f2fb);--mut:color-mix(in srgb,var(--neon) 18%,#9a96ad)}
+*{box-sizing:border-box}
+body{margin:0;font-family:Vazirmatn,Tahoma,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;background-image:radial-gradient(900px 600px at 85% -10%,color-mix(in srgb,var(--neon) 22%,transparent),transparent 70%),radial-gradient(700px 500px at 0% 110%,color-mix(in srgb,var(--neon2) 14%,transparent),transparent 70%);background-attachment:fixed}
+button,input,select,textarea{font:inherit;color:inherit}
+h3{margin:0 0 8px}h4{margin:16px 0 8px}
+.card{background:color-mix(in srgb,var(--card) 82%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 0 32px color-mix(in srgb,var(--neon) 10%,transparent);margin-bottom:16px}
+.btn{min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line);background:var(--soft);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;text-decoration:none}
+.btn:hover{border-color:var(--neon)}.btn:disabled{opacity:.5;cursor:wait}
+.pri{background:linear-gradient(135deg,var(--neon),var(--neon2));color:var(--btxt);border:0;font-weight:700;box-shadow:0 0 18px color-mix(in srgb,var(--neon) 40%,transparent)}
+.big{min-height:56px;font-size:1.1rem;width:100%}
+.sm{padding:0 12px;font-size:.82rem;min-height:38px}
+.danger{border-color:#ff5a6c;color:#ff8a9a}
+input,select,textarea{width:100%;min-height:44px;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;padding:10px 14px;outline:0}
+textarea{min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--neon)}
+input[type=checkbox]{width:auto;min-height:0;vertical-align:middle;accent-color:var(--neon)}
+label{display:block;margin:12px 0 6px;color:var(--mut);font-size:.9rem}
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:10px 16px;flex-wrap:wrap;background:color-mix(in srgb,var(--bg) 75%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.logo{font-weight:800;font-size:1.15rem;background:linear-gradient(90deg,var(--neon),var(--neon2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.seg{display:inline-flex;gap:4px;padding:4px;border-radius:999px;border:1px solid var(--line);background:rgba(0,0,0,.3);flex-wrap:wrap}
+.seg button{min-height:40px;padding:0 14px;border-radius:999px;border:0;background:none;cursor:pointer}
+.seg .on{background:linear-gradient(135deg,var(--neon),var(--neon2));color:var(--btxt);font-weight:700}
+.sp{flex:1}
+main{max-width:1240px;margin:auto;padding:16px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:800px){.g2,.g3{grid-template-columns:1fr}.top{padding:8px}}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.chip{min-height:38px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(0,0,0,.25);cursor:pointer;font-size:.85rem}
+.chip.on{background:var(--neon);color:var(--btxt);font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:10px}
+.sc{position:relative;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:rgba(0,0,0,.3);cursor:pointer}
+.sc.on{border-color:var(--neon);box-shadow:0 0 0 2px var(--neon),0 0 20px color-mix(in srgb,var(--neon) 40%,transparent)}
+.sw{aspect-ratio:4/3;display:flex;align-items:flex-end;justify-content:flex-start;padding:8px;gap:4px;flex-wrap:wrap}
+.sw img{width:100%;height:100%;object-fit:cover;display:block}.sw:has(img){padding:0}
+.sw i{font-style:normal;font-size:.7rem;background:rgba(0,0,0,.55);color:#fff;border-radius:999px;padding:2px 8px}
+.sc .b{padding:8px 10px}.sc h4{margin:0;font-size:.95rem}.sc p{margin:4px 0 0;font-size:.78rem;color:var(--mut)}
+.star{position:absolute;top:6px;left:6px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#f6c94e;font-size:1.1rem;cursor:pointer}
+.badge{position:absolute;top:8px;right:8px;background:var(--neon);color:var(--btxt);border-radius:999px;padding:2px 10px;font-size:.75rem;font-weight:700}
+.sug{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin:8px 0}
+.sgi{border:1px dashed var(--neon);border-radius:16px;padding:10px;cursor:pointer;background:var(--soft)}.sgi.on{border-style:solid;box-shadow:0 0 0 2px var(--neon)}
+.sgi b{display:block}.sgi span{font-size:.8rem;color:var(--mut)}
+.ol{display:grid;gap:10px}
+.olt{font-size:1.3rem;font-weight:800}.ols{color:var(--mut)}
+.sec{border:1px solid var(--line);border-radius:16px;padding:10px 12px;position:relative;background:rgba(0,0,0,.2)}
+.sec h4{margin:0 0 6px}.sec ul{margin:0;padding-inline-start:20px}.sec .st{display:inline-block;margin-top:6px;background:var(--soft);border-radius:999px;padding:2px 10px;font-weight:700}
+.sec .ic{font-size:.75rem;color:var(--mut);direction:ltr;text-align:left}
+.sec .x2{position:absolute;top:6px;left:6px;width:32px;height:32px;border-radius:50%;border:0;background:rgba(0,0,0,.4);color:#ff9aa8;cursor:pointer}
+[contenteditable]{outline:0;border-radius:6px}[contenteditable]:focus{background:rgba(255,255,255,.06);box-shadow:0 0 0 1px var(--neon)}
+.srcs a{color:var(--neon);overflow-wrap:anywhere}.srcs li{margin:4px 0}
+.res{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.tile{position:relative;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:rgba(0,0,0,.3)}
+.im{display:flex;align-items:center;justify-content:center;text-align:center;font-size:.85rem;color:var(--mut);padding:0 10px;min-height:160px}
+.im img{width:100%;height:100%;object-fit:contain;display:block;cursor:zoom-in;background:#000}.im:has(img){padding:0}
+.sk{background:linear-gradient(90deg,rgba(255,255,255,.04),rgba(255,255,255,.12),rgba(255,255,255,.04));background-size:200% 100%;animation:sh 1.4s infinite}
+@keyframes sh{to{background-position:-200% 0}}
+@media(prefers-reduced-motion:reduce){.sk{animation:none}}
+.err{color:#ff9aa8;padding:12px;font-size:.85rem;overflow-wrap:anywhere}
+.acts{display:flex;flex-wrap:wrap;gap:6px;padding:8px}
+.cap{padding:6px 10px 0;font-size:.8rem;color:var(--mut)}
+.ck{margin:6px 10px 0;font-size:.8rem;border-radius:12px;padding:6px 10px;background:rgba(0,0,0,.3)}
+.ck.ok{background:#12391f;color:#b7f5c9}.ck.bad{background:#3e2a05;color:#ffe08a}.ck.er{background:#3a0d18;color:#ffb3bf}
+.kind{position:absolute;top:8px;right:8px;z-index:2;background:var(--neon);color:var(--btxt);border-radius:999px;padding:2px 10px;font-size:.72rem;font-weight:700}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:12px}
+.modal>.card{width:min(940px,100%);max-height:94vh;overflow:auto;margin:0;position:relative}
+.x{position:absolute;top:10px;left:10px;width:44px;padding:0}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:70;background:var(--card);border:1px solid var(--neon);border-radius:16px;padding:12px 18px;max-width:92vw;box-shadow:0 0 24px color-mix(in srgb,var(--neon) 40%,transparent)}
+.okb{background:#1f6f43;color:#eafff2;border-radius:999px;padding:0 14px;font-size:.82rem;font-weight:700;cursor:pointer;border:0;min-height:36px}
+#brB{max-width:46vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.warn{background:#f6c94e;color:#231a02;border-radius:999px;padding:0 14px;font-size:.82rem;font-weight:700;cursor:pointer;border:0;min-height:36px}
+.banner{background:#3a0d18;border:1px solid #ff5a6c;border-radius:18px;padding:12px;margin-bottom:14px}
+.mut{color:var(--mut);font-size:.85rem}
+.cre{display:flex;flex-wrap:wrap;gap:6px 10px;justify-content:center;align-items:center;padding:18px 14px 26px;margin-top:10px;border-top:1px solid var(--line);color:var(--mut);font-size:.85rem}.cre b{color:var(--txt)}.cre a{color:var(--neon);text-decoration:none}.cre a:hover{text-decoration:underline}
+.hide{display:none!important}
+pre{white-space:pre-wrap;direction:ltr;text-align:left;font-size:.78rem;background:rgba(0,0,0,.4);padding:12px;border-radius:14px;max-height:300px;overflow:auto}
+summary{cursor:pointer;min-height:44px;display:flex;align-items:center;color:var(--mut)}
+.themes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.th{min-height:64px;border-radius:16px;border:2px solid;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#fff}
+.th i{width:36px;height:12px;border-radius:9px}.th.on{outline:3px solid #fff}
+.sbox{border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}
+.big-img{width:100%;max-height:70vh;object-fit:contain;border-radius:14px;background:#000;display:block}
+.iss{margin:6px 0;padding-inline-start:18px;font-size:.85rem}
+.step{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--neon),var(--neon2));color:var(--btxt);font-weight:800;margin-inline-end:6px}
+.phs{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.ph{position:relative;width:120px;height:120px;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:rgba(0,0,0,.3)}
+.ph img{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
+.ph.add{cursor:pointer;color:var(--mut);font-size:.85rem;border-style:dashed;line-height:1.7}
+.ph .x2{position:absolute;top:4px;left:4px;width:30px;height:30px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#ff9aa8;cursor:pointer}
+.ph .badge{top:auto;bottom:6px;right:6px}
+.logo-box{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.logo-box img{width:64px;height:64px;object-fit:contain;border-radius:12px;background:repeating-conic-gradient(#ddd 0 25%,#fff 0 50%) 50%/12px 12px}
+.specs{display:flex;gap:8px;flex-wrap:wrap}.specs .st{position:relative;padding-left:30px}
+.x3{position:absolute;left:4px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;border:0;background:rgba(0,0,0,.4);color:#ff9aa8;cursor:pointer;font-size:.7rem}
+details.brand>summary{font-weight:700}
+</style>
+</head>
+<body>
+<header class="top">
+ <span class="logo">🛍️ اینفوگرافیک محصول صبا</span>
+ <nav class="seg" id="tabs"><button class="on" data-a="tab" data-v="make">ساخت اینفوگرافیک</button><button data-a="tab" data-v="sty">استایل‌ها</button><button data-a="tab" data-v="his">کارهای من</button></nav>
+ <span class="sp"></span>
+ <button class="warn hide" id="brB" data-a="settings" title="وضعیت ذخیره‌ی دائمی"></button>
+ <button class="warn hide" id="tmpB" data-a="settings" title="داده‌ها ممکن است پاک شوند">ذخیره موقت</button>
+ <button class="btn" data-a="about" aria-label="درباره‌ی سازنده" title="درباره‌ی سازنده" style="width:44px;padding:0">ℹ️</button>
+ <button class="btn" data-a="settings" aria-label="تنظیمات" style="width:44px;padding:0">⚙️</button>
+</header>
+<main>
+<div class="banner hide" id="banner"><b>داده‌ها پاک شده‌اند؛ از پشتیبان زیپ بازگردانی کن</b><div class="row" style="margin-top:8px"><button class="btn sm" data-a="zipIn">♻️ بازگردانی از پشتیبان</button><button class="btn sm" data-a="banX">بستن</button></div></div>
+
+<section id="t-make">
+ <div class="card">
+  <h3><span class="step">۱</span>محصول</h3>
+  <p class="mut">عکس واقعی محصول را بگذار (تا ۳ عکس؛ اولی عکس اصلی است). می‌توانی عکس را بکشی و رها کنی یا Ctrl+V بزنی.</p>
+  <div class="phs" id="phs"></div>
+  <label for="pname">نام محصول</label>
+  <input id="pname" placeholder="مثلاً «هدفون بی‌سیم سونی WH-1000XM5» — اگر عکس داری، خالی هم بماند جمینی سعی می‌کند بشناسد">
+  <div class="chips" id="ex"></div>
+  <label for="pinfo">اطلاعات محصول (اختیاری)</label>
+  <textarea id="pinfo" placeholder="هر چیزی که خودت می‌دانی: ویژگی‌ها، جنس، وزن، ضمانت، مزیت‌ها… اطلاعات تو بر جستجو مقدم است"></textarea>
+  <div class="g3">
+   <div><label>زبان متن</label><div class="seg" id="lang"></div></div>
+   <div><label>تعداد ویژگی‌ها</label><div class="seg" id="nf"></div></div>
+   <div><label for="ar">اندازه</label><select id="ar"></select></div>
+   <div><label for="price">قیمت (اختیاری)</label><input id="price" placeholder="مثلاً ۴٬۹۰۰٬۰۰۰ تومان"></div>
+   <div><label for="ctaT"><input type="checkbox" id="ctaOn"> دکمه‌ی دعوت به خرید</label><input id="ctaT" placeholder="همین حالا سفارش دهید"></div>
+  </div>
+  <details class="brand" style="margin-top:14px"><summary>🏷️ برند من (اسم فروشگاه، آیدی، لوگو) · <span class="mut" id="bSum"></span></summary>
+   <p class="mut">یک‌بار پر کن؛ ذخیره می‌شود و گوشه‌ی همه‌ی تصویرها می‌نشیند.</p>
+   <label style="margin:0"><input type="checkbox" id="bOn"> نشان دادن برند روی تصویر</label>
+   <div class="g3">
+    <div><label for="bShop">اسم فروشگاه یا برند</label><input id="bShop" placeholder="مثلاً فروشگاه صبا"></div>
+    <div><label for="bHandle">آیدی اینستاگرام</label><input id="bHandle" dir="ltr" placeholder="@myshop"></div>
+    <div><label for="bContact">تلفن یا سایت (اختیاری)</label><input id="bContact" dir="ltr" placeholder="myshop.ir"></div>
+   </div>
+   <label>لوگو (بهتر است PNG بدون پس‌زمینه)</label><div class="logo-box" id="bLogo"></div>
+  </details>
+  <div class="row" style="margin-top:14px"><button class="btn pri" id="resBtn" data-a="research">🔎 تحقیق و ساخت طرح</button><button class="btn" id="autoBtn" data-a="auto">✨ همه‌اش را خودت بساز</button><span class="mut" id="resMsg"></span></div>
+ </div>
+
+ <div class="card hide" id="olCard">
+  <div class="row"><h3><span class="step">۲</span>طرح محتوا</h3><span class="sp"></span><button class="btn sm" data-a="research">🔄 تحقیق دوباره</button><button class="btn sm" data-a="shorten">✂️ کوتاه‌تر کن</button></div>
+  <p class="mut">جمینی این متن‌ها را با جستجوی گوگل جمع کرده و دقیقاً همین‌ها روی تصویر نوشته می‌شوند. روی هر متن بزن و اصلاحش کن (اختیاری).</p>
+  <div class="ol" id="ol"></div>
+  <details><summary>📚 منابع</summary><ol class="srcs" id="srcs"></ol></details>
+ </div>
+
+ <div class="card">
+  <div class="row"><h3><span class="step">۳</span>استایل</h3><span class="mut" id="selInfo"></span><span class="sp"></span><button class="btn sm" data-a="clrSel">پاک کردن انتخاب</button></div>
+  <div id="sugBox" class="hide"><b>💡 پیشنهاد هوش مصنوعی برای این محصول</b><div class="sug" id="sug"></div></div>
+  <input id="pq" placeholder="🔎 جستجوی استایل…"><div class="chips" id="pChips"></div><div class="grid" id="picker"></div>
+ </div>
+
+ <div class="card">
+  <h3><span class="step">۴</span>ساخت</h3>
+  <label>تعداد نسخه</label><div class="seg" id="cnt"></div>
+  <p class="mut">یک استایل = چند نسخه‌ی متفاوت از همان استایل · چند استایل = یک تصویر برای هر استایل</p>
+  <button class="btn pri big" data-a="gen" style="margin-top:8px">🚀 ساخت اینفوگرافیک محصول</button>
+  <details><summary>نمایش پرامپت نهایی</summary><pre id="pp"></pre></details>
+ </div>
+
+ <div class="card" id="resCard">
+  <div class="row"><h3>نتیجه‌ها</h3><span class="mut" id="resCnt"></span><span class="sp"></span><button class="btn danger hide" id="cancel" data-a="cancel">⏹ لغو</button></div>
+  <div class="res" id="res"><p class="mut">نتیجه‌ها اینجا نشان داده می‌شوند. بعد از ساخت، متن فارسی هر تصویر خودکار بررسی می‌شود.</p></div>
+ </div>
+</section>
+
+<section id="t-sty" class="hide"><div class="card">
+ <div class="row"><h3>کتابخانه‌ی استایل‌ها</h3><span class="mut" id="libCnt"></span><span class="sp"></span>
+  <button class="btn" data-a="imp">📥 وارد کردن بسته‌ی استایل</button><button class="btn" data-a="exp">📤 خروجی استایل‌ها</button><button class="btn" data-a="newSty">➕ استایل جدید</button></div>
+ <p class="mut">۳۰ استایل رایگان داخل برنامه است. بسته‌های ۲۰تایی استایل بیشتر (مناسبتی، مد و جواهرات، گجت، هنری، صنایع‌دستی…) را از سازنده بگیر و با «وارد کردن بسته‌ی استایل» اضافه کن.</p>
+ <input id="lq" placeholder="🔎 جستجوی استایل…" style="margin-top:10px"><div class="chips" id="lChips"></div><div class="grid" id="lib"></div>
+</div></section>
+
+<section id="t-his" class="hide"><div class="card">
+ <div class="row"><h3>کارهای من</h3><span class="mut" id="hisCnt"></span><span class="sp"></span><button class="btn sm" data-a="zipOut">⬇️ پشتیبان زیپ</button></div>
+ <input id="hq" placeholder="🔎 جستجو در محصول‌ها…" style="margin-top:10px"><div class="res" id="his" style="margin-top:12px"></div>
+</div></section>
+</main>
+<footer class="cre" id="cre"><b>ساخته‌ی سید صبا میری</b><span>·</span><a href="https://viroai.ir" target="_blank" rel="noopener">🌐 viroai.ir</a><span>·</span><a href="https://instagram.com/viromedia404" target="_blank" rel="noopener">📸 اینستاگرام viromedia404</a><span>·</span><a href="tel:+989120349893" dir="ltr">📞 ۰۹۱۲۰۳۴۹۸۹۳</a><span>·</span><span>✈️ تلگرام: به‌زودی</span></footer>
+<script>
+// ---- AI models (gemini-canvas-app-build v2) ----
+const CANVAS_MODELS={image:"gemini-3.1-flash-image",text:"gemini-2.5-flash"};
+const IMAGE_MODELS=["gemini-3.1-flash-image","gemini-2.5-flash-image-preview"];
+const KEY_TEXT_MODELS=["gemini-3.5-flash-lite","gemini-3.5-flash","gemini-3.8-flash"];
+const apiKey="";
+let IMAGE_MODEL=CANVAS_MODELS.image,TEXT_MODEL=CANVAS_MODELS.text;
+// optional personal key: stays in this browser (localStorage sabaKey.*), sent only to Google
+const KeyCfg=(()=>{const L=k=>{try{return localStorage.getItem("sabaKey."+k)||""}catch(e){return""}};
+ return{key:L("key"),text:L("text")||KEY_TEXT_MODELS[0],
+ save(k,v){this[k]=String(v||"").trim();try{this[k]?localStorage.setItem("sabaKey."+k,this[k]):localStorage.removeItem("sabaKey."+k)}catch(e){}KeyCfg.apply();const n=document.getElementById("keyNote");if(n)n.textContent=KeyCfg.note()},
+ apply(){TEXT_MODEL=this.key?this.text:CANVAS_MODELS.text},
+ note(){return this.key?`✅ کلید شخصی فعال است · مدل متن: ${TEXT_MODEL}`:"بدون کلید: مدل‌های رایگان Canvas استفاده می‌شوند"},
+ html(){const o=(a,v)=>a.map(m=>`<option ${m==v?"selected":""}>${m}</option>`).join("");return`<h4>🔑 کلید API شخصی (اختیاری)</h4><p class="mut">اگر کلید Gemini API خودت را بزنی، مدل‌های جدیدتر متن باز می‌شوند (هزینه‌اش با حساب خودت است). کلید فقط در همین مرورگر می‌ماند و جایی فرستاده نمی‌شود جز گوگل. خالی بگذاری، برنامه رایگان با Canvas کار می‌کند.</p><input id="keyIn" type="password" dir="ltr" placeholder="AIza..." value="${this.key.replace(/"/g,"&quot;")}" oninput="KeyCfg.save('key',this.value)"><div class="row" style="margin-top:8px"><label class="mut" style="margin:0">مدل متن <select dir="ltr" onchange="KeyCfg.save('text',this.value)">${o(KEY_TEXT_MODELS,this.text)}</select></label></div><p class="mut" id="keyNote">${this.note()}</p>`}}})();
+KeyCfg.apply();
+const APP_VER="1.0.0";
+const THEMES=[["زمرد","#040c09","#0a1813","#2ee59d","#14c4b0","#02170f"],["بنفش","#07051a","#110c27","#a874ff","#7d6aff","#100426"],["فیروزه‌ای","#030c11","#091921","#25d9f2","#2fd6a8","#021c24"],["آبی","#050a18","#0c142e","#5592ff","#7d6cff","#030b22"],["صورتی","#0f0517","#1b0b24","#ff57da","#b763ff","#2a0422"],["نارنجی","#100a04","#1e140a","#ffa83d","#ff7040","#271302"],["قرمز","#110508","#200c11","#ff5a6c","#ff8a4f","#2a0409"],["طلایی","#0d0b05","#1b170b","#f6c94e","#e9a23b","#231a02"]];
+// built-in style library (generated by styles/gen_styles.py, format product-styles-v1)
+const LIB={"fonts":{"lalezar":{"name_fa":"لاله‌زار","desc_en":"Lalezar: an ultra-heavy Persian display face, fat rounded strokes, short ascenders, playful poster lettering like old Tehran cinema signs"},"vazirmatn":{"name_fa":"وزیرمتن","desc_en":"Vazirmatn: a clean modern Persian sans-serif, even stroke weight, open shapes, highly legible UI-style letters"},"estedad":{"name_fa":"استعداد","desc_en":"Estedad: a geometric modern Persian sans, slightly wide, circular bowls and flat terminals, crisp and contemporary"},"peyda":{"name_fa":"پیدا","desc_en":"Peyda: a contemporary geometric Persian sans with soft rounded corners, friendly and modern, medium-wide proportions"},"morabba":{"name_fa":"مربا","desc_en":"Morabba: a bold square-shaped Persian display face, blocky geometric letters with sharp right angles, compact and punchy"},"dana":{"name_fa":"دانا","desc_en":"Dana: a friendly humanist Persian sans, open counters, slightly rounded joints, warm and readable"},"shabnam":{"name_fa":"شبنم","desc_en":"Shabnam: a light, airy Persian sans, thin even strokes, calm and elegant body text"},"sahel":{"name_fa":"ساحل","desc_en":"Sahel: a neutral Persian sans with slightly tall letters and generous spacing, newspaper-like clarity"},"mikhak":{"name_fa":"میخک","desc_en":"Mikhak: a soft round Persian display face, bubbly rounded terminals, cheerful and childlike"},"kalameh":{"name_fa":"کلمه","desc_en":"Kalameh: a modern Persian sans with a subtle calligraphic hint, smooth tapered curves, refined"},"nastaliq":{"name_fa":"نستعلیق","desc_en":"Nastaliq: traditional Persian Nastaliq calligraphy, flowing letters slanting down to the left on a hanging baseline, elegant reed-pen contrast"},"kufi":{"name_fa":"کوفی","desc_en":"Kufic: angular geometric Kufic lettering, straight strokes, square forms and right angles like brick-pattern script"},"thuluth":{"name_fa":"ثلث","desc_en":"Thuluth: majestic Thuluth calligraphy, tall vertical strokes, sweeping ornate curves, monumental and decorative"},"naskh":{"name_fa":"نسخ","desc_en":"Naskh: classic book Naskh script, balanced traditional letterforms with gentle stroke contrast, very readable"},"ruqaa":{"name_fa":"رقعه","desc_en":"Ruqaa: quick handwritten Ruqaa style, short compact strokes, casual pen-written look"},"marker":{"name_fa":"دست‌نویس ماژیکی","desc_en":"hand-lettered Persian with a thick marker pen, slightly irregular friendly strokes, like notes on a whiteboard"}},"layouts":{"hero-callouts":{"name_fa":"محصول وسط + برچسب‌ها","desc_en":"the real product photo large in the center, 4-8 feature callouts placed around it, each with a small icon and a thin leader line pointing to the relevant part of the product"},"split":{"name_fa":"دوستونه","desc_en":"the product large on one side, a neat vertical list of features with icons on the other side"},"hero-grid":{"name_fa":"محصول بالا + کارت‌ها","desc_en":"the product large in the upper half, a tidy grid of feature cards with icons below it"},"specs":{"name_fa":"جدول مشخصات","desc_en":"the product prominent with a clean specification table and big key numbers beside or below it"},"compare":{"name_fa":"مقایسه","desc_en":"a two-column comparison: this product versus an ordinary alternative (or before/after), with check and cross marks, this product clearly winning"},"lifestyle":{"name_fa":"صحنه‌ی واقعی","desc_en":"the product shown in a realistic everyday usage scene, with floating feature labels over the scene"}},"styles":[{"id":"ecom-white","group":"🛍️ فروشگاهی","name_fa":"فروشگاهی سفید","desc_fa":"پس‌زمینه‌ی سفید تمیز مثل فروشگاه‌های اینترنتی","prompt_en":"Clean e-commerce product infographic on a pure white seamless background, crisp soft shadow under the product, thin dark-grey leader lines, small flat line icons in one accent color, marketplace listing look like Amazon or Digikala, very tidy and trustworthy","layout":"hero-callouts","palette":["#ffffff","#1f2937","#ef394e","#6b7280","#f3f4f6"],"title_font":"estedad","body_font":"vazirmatn"},{"id":"ecom-callout","group":"🛍️ فروشگاهی","name_fa":"برچسب خطی","desc_fa":"برچسب‌های گرد با خط اشاره به قسمت‌های محصول","prompt_en":"Product feature callout infographic, light grey gradient background, round numbered badges connected by elegant thin lines to exact parts of the product, small rounded label cards, modern tech-catalog look","layout":"hero-callouts","palette":["#f5f7fa","#0f172a","#2563eb","#94a3b8","#ffffff"],"title_font":"peyda","body_font":"vazirmatn"},{"id":"ecom-badges","group":"🛍️ فروشگاهی","name_fa":"نشان‌های مزیت","desc_fa":"آیکون‌های دایره‌ای مزیت مثل ضمانت و ارسال","prompt_en":"Product benefits infographic with circular benefit badges (quality, guarantee, fast delivery style), soft colored circles with bold icons, product on a clean light backdrop, friendly online-shop banner style","layout":"hero-grid","palette":["#fefefe","#16a34a","#f59e0b","#0f172a","#e8f5e9"],"title_font":"morabba","body_font":"dana"},{"id":"ecom-compare","group":"🛍️ فروشگاهی","name_fa":"مقایسه و قبل/بعد","desc_fa":"مقایسه‌ی محصول با نمونه‌ی معمولی","prompt_en":"Comparison product infographic, two clear columns, this product on a bright highlighted side with green check marks, an ordinary generic alternative on a muted grey side with red crosses, clean marketplace style","layout":"compare","palette":["#ffffff","#22c55e","#ef4444","#111827","#f1f5f9"],"title_font":"morabba","body_font":"vazirmatn"},{"id":"studio-soft","group":"📸 استودیو","name_fa":"استودیو نور نرم","desc_fa":"نور نرم استودیویی و سایه‌ی ملایم","prompt_en":"High-end studio product photography infographic, soft diffused key light, gentle gradient backdrop, subtle reflection, minimal elegant callouts in thin lines, premium catalog feel","layout":"hero-callouts","palette":["#eceae6","#2b2b2b","#c8a97e","#ffffff","#8a8580"],"title_font":"kalameh","body_font":"shabnam"},{"id":"studio-dark","group":"📸 استودیو","name_fa":"استودیو تیره","desc_fa":"پس‌زمینه‌ی تیره با نور لبه","prompt_en":"Dramatic dark studio product infographic, deep charcoal background, sharp rim light outlining the product, glowing accent lines and small white labels, cinematic premium mood","layout":"hero-callouts","palette":["#0d0d0f","#f5f5f5","#3b82f6","#1f2937","#9ca3af"],"title_font":"estedad","body_font":"vazirmatn"},{"id":"studio-podium","group":"📸 استودیو","name_fa":"سکو و پادیوم","desc_fa":"محصول روی سکو با اشکال هندسی","prompt_en":"Product standing on a 3D pastel podium with floating geometric shapes (spheres, arches, cylinders), soft studio light, modern trendy display scene, feature labels on small floating cards","layout":"hero-callouts","palette":["#f7d6e0","#b8e0d2","#eac4d5","#2d2d2d","#ffffff"],"title_font":"peyda","body_font":"dana"},{"id":"studio-color","group":"📸 استودیو","name_fa":"تک‌رنگ هماهنگ","desc_fa":"پس‌زمینه‌ی تک‌رنگ هم‌رنگ محصول","prompt_en":"Monochrome color-matched product infographic, the whole background in one bold color taken from the product itself, tone-on-tone shapes, bold white typography, punchy modern brand poster","layout":"split","palette":["#ff6b35","#ffffff","#1a1a1a","#ffd6c4","#c2410c"],"title_font":"morabba","body_font":"estedad"},{"id":"lux-gold","group":"💎 لوکس","name_fa":"مشکی و طلایی","desc_fa":"مشکی مات با جزئیات طلایی","prompt_en":"Luxury product infographic, matte black background, fine gold foil lines and thin gold frames, elegant serif-like Persian lettering, spotlight on the product, exclusive high-end brand look","layout":"hero-callouts","palette":["#0a0a0a","#d4af37","#f5e6b8","#3a3a3a","#ffffff"],"title_font":"kalameh","body_font":"shabnam"},{"id":"lux-marble","group":"💎 لوکس","name_fa":"مرمر و نور گرم","desc_fa":"سطح مرمر سفید با نور گرم","prompt_en":"Luxury product infographic on a white marble surface with warm golden-hour light and soft shadows, a few elegant props, refined thin typography, boutique catalog style","layout":"split","palette":["#f4f1ec","#b08d57","#3e3a36","#ffffff","#d9cfc1"],"title_font":"kalameh","body_font":"sahel"},{"id":"lux-silk","group":"💎 لوکس","name_fa":"مینیمال لوکس","desc_fa":"پارچه‌ی ابریشمی و فضای خالی زیاد","prompt_en":"Minimal luxury product infographic, flowing silk fabric backdrop in a soft champagne tone, lots of empty space, very few delicate labels, quiet sophisticated perfume-ad mood","layout":"hero-callouts","palette":["#efe4d6","#7a5c43","#ffffff","#c9b49a","#2b211a"],"title_font":"kalameh","body_font":"shabnam"},{"id":"insta-sale","group":"📱 اینستاگرامی","name_fa":"فروش ویژه","desc_fa":"رنگ‌های پرانرژی و حس تخفیف","prompt_en":"Energetic Instagram sale post product infographic, vivid red and yellow, bold diagonal shapes, burst stickers and badges, dynamic composition, eye-catching promotional ad","layout":"hero-callouts","palette":["#e11d48","#facc15","#ffffff","#111827","#fb923c"],"title_font":"lalezar","body_font":"estedad"},{"id":"insta-gradient","group":"📱 اینستاگرامی","name_fa":"گرادیان مدرن","desc_fa":"گرادیان رنگی و کارت‌های شیشه‌ای","prompt_en":"Modern Instagram product post, vibrant purple-pink-orange gradient background, frosted glass feature cards, soft glow around the product, trendy social media design","layout":"hero-grid","palette":["#7c3aed","#ec4899","#f97316","#ffffff","#1e1b4b"],"title_font":"peyda","body_font":"vazirmatn"},{"id":"insta-typo","group":"📱 اینستاگرامی","name_fa":"تایپوگرافی درشت","desc_fa":"نام محصول با حروف بسیار درشت","prompt_en":"Bold typographic product poster, the product name in huge Persian letters filling the background, the product overlapping the letters, clean feature list, editorial streetwear-ad look","layout":"split","palette":["#111111","#f5f5f0","#ff3d00","#bdbdbd","#ffffff"],"title_font":"morabba","body_font":"estedad"},{"id":"insta-splash","group":"📱 اینستاگرامی","name_fa":"پاشش و حرکت","desc_fa":"پاشش آب یا رنگ دور محصول","prompt_en":"Dynamic product ad infographic, the product with a frozen splash of water or color around it, flying droplets, high-speed photography look, energetic labels","layout":"hero-callouts","palette":["#00b4d8","#0077b6","#ffffff","#caf0f8","#03045e"],"title_font":"lalezar","body_font":"dana"},{"id":"insta-lifestyle","group":"📱 اینستاگرامی","name_fa":"صحنه‌ی واقعی","desc_fa":"محصول در دست یا محیط واقعی استفاده","prompt_en":"Lifestyle product infographic, the product in a real cozy everyday scene (home, desk or hands using it), natural light, warm authentic photo look, small clean floating labels","layout":"lifestyle","palette":["#f2e8dc","#4a4038","#d97706","#ffffff","#8b7d6b"],"title_font":"peyda","body_font":"dana"},{"id":"tech-specs","group":"⚙️ فنی","name_fa":"جدول مشخصات","desc_fa":"جدول مشخصات تیره و عددهای درشت","prompt_en":"Technical specification product infographic, dark navy background, the product with subtle reflection, a clean spec table and big key numbers in bright cyan, gadget review style","layout":"specs","palette":["#0b1220","#22d3ee","#e2e8f0","#1e293b","#64748b"],"title_font":"estedad","body_font":"sahel"},{"id":"tech-exploded","group":"⚙️ فنی","name_fa":"نمای انفجاری","desc_fa":"قطعات محصول جدا شده در هوا","prompt_en":"Exploded-view product infographic, the product's main parts floating apart in order along an axis, precise labels with leader lines, engineering showcase, light technical background","layout":"hero-callouts","palette":["#f8fafc","#0f172a","#f97316","#94a3b8","#e2e8f0"],"title_font":"estedad","body_font":"vazirmatn"},{"id":"tech-blueprint","group":"⚙️ فنی","name_fa":"بلوپرینت","desc_fa":"نقشه‌ی فنی آبی با خطوط سفید","prompt_en":"Blueprint style product infographic, deep blueprint blue with a white technical grid, the product with white dimension lines and measurements, handwritten-engineering labels","layout":"hero-callouts","palette":["#0a3d7a","#ffffff","#7fb3ff","#0d2b52","#cfe3ff"],"title_font":"estedad","body_font":"sahel"},{"id":"tech-neon","group":"⚙️ فنی","name_fa":"نئون آینده","desc_fa":"نورهای نئونی بنفش و فیروزه‌ای","prompt_en":"Futuristic neon product infographic, dark background with purple and cyan neon glows, holographic HUD rings around the product, glowing data labels, sci-fi gadget launch","layout":"specs","palette":["#07051a","#a874ff","#22d3ee","#ff57da","#ffffff"],"title_font":"morabba","body_font":"vazirmatn"},{"id":"beauty-pastel","group":"💄 آرایشی","name_fa":"پاستلی صورتی","desc_fa":"صورتی ملایم و حس لطیف","prompt_en":"Soft pink beauty product infographic, pastel blush background, gentle shadows, delicate rounded feature labels, petals and soft shapes, cosmetics brand style","layout":"hero-callouts","palette":["#fde2e4","#e5989b","#6d4c5a","#ffffff","#fad2e1"],"title_font":"kalameh","body_font":"shabnam"},{"id":"beauty-ingredients","group":"💄 آرایشی","name_fa":"مواد تشکیل‌دهنده","desc_fa":"گیاهان و قطره‌ها دور محصول","prompt_en":"Skincare ingredients infographic, the product surrounded by its natural ingredients (leaves, flowers, fruit slices, droplets), each ingredient labeled with its benefit, fresh clean beauty style","layout":"hero-callouts","palette":["#f1f8f1","#4f772d","#90a955","#ffffff","#31572c"],"title_font":"kalameh","body_font":"dana"},{"id":"beauty-clean","group":"💄 آرایشی","name_fa":"پوست و آب","desc_fa":"آب زلال و حس شادابی","prompt_en":"Clean skincare product infographic, clear water ripples and bubbles, cool aqua tones, dewy fresh look, minimal labels, hydration mood","layout":"split","palette":["#e0f7fa","#00838f","#ffffff","#80deea","#004d55"],"title_font":"peyda","body_font":"shabnam"},{"id":"food-fresh","group":"🍔 خوراکی","name_fa":"مواد تازه‌ی پرنده","desc_fa":"مواد اولیه‌ی تازه در هوا دور بسته","prompt_en":"Appetizing food packaging infographic, the package with fresh ingredients flying around it, vivid natural colors, crisp lighting, labels for taste and benefits, supermarket ad style","layout":"hero-callouts","palette":["#fff7e6","#e63946","#2a9d8f","#f4a261","#264653"],"title_font":"lalezar","body_font":"dana"},{"id":"food-nutrition","group":"🍔 خوراکی","name_fa":"ارزش غذایی","desc_fa":"جدول ارزش غذایی و نشان‌های سلامت","prompt_en":"Nutrition facts product infographic, the food product with a clear nutrition table, big calorie and protein numbers, healthy badges (natural, no preservatives style), clean light design","layout":"specs","palette":["#ffffff","#2b9348","#f77f00","#1d3557","#eef7ee"],"title_font":"estedad","body_font":"vazirmatn"},{"id":"food-rustic","group":"🍔 خوراکی","name_fa":"آشپزخانه‌ی گرم","desc_fa":"میز چوبی و نور گرم خانگی","prompt_en":"Warm rustic food product infographic, wooden kitchen table, natural props, warm homemade light, hand-drawn style labels, traditional cozy feel","layout":"lifestyle","palette":["#5c3d2e","#e0c097","#b85c38","#fff8ee","#2d2424"],"title_font":"lalezar","body_font":"marker"},{"id":"organic-kraft","group":"🌿🧸 ویژه","name_fa":"ارگانیک کرافت","desc_fa":"کاغذ کرافت، برگ و حس طبیعی","prompt_en":"Organic eco product infographic on brown kraft paper, green leaves, stamp-like icons, hand-drawn natural labels, eco-friendly handmade brand style","layout":"hero-grid","palette":["#c8a97e","#3a5a40","#fefae0","#588157","#2b2118"],"title_font":"lalezar","body_font":"marker"},{"id":"clay-3d","group":"🌿🧸 ویژه","name_fa":"سه‌بعدی خمیری","desc_fa":"آیکون‌های سه‌بعدی بامزه و رنگی","prompt_en":"Playful 3D clay product infographic, soft rounded claymorphism icons and shapes around the real product, cheerful candy colors, cute modern 3D render style","layout":"hero-grid","palette":["#ffd166","#06d6a0","#ef476f","#118ab2","#fff8f0"],"title_font":"lalezar","body_font":"peyda"},{"id":"kids-toy","group":"🌿🧸 ویژه","name_fa":"کودک و اسباب‌بازی","desc_fa":"شاد و رنگی برای محصولات کودک","prompt_en":"Cheerful kids product infographic, bright primary colors, confetti, stars and cartoon doodles, rounded bubbly labels, fun toy-store style","layout":"hero-callouts","palette":["#ffcf00","#00a6ed","#ff3e6c","#7fb800","#ffffff"],"title_font":"mikhak","body_font":"mikhak"},{"id":"persian-modern","group":"🌿🧸 ویژه","name_fa":"ایرانی مدرن","desc_fa":"نقوش کاشی ایرانی با طراحی امروزی","prompt_en":"Modern Persian product infographic, turquoise and lapis Persian tile patterns and arches framing the product, gold accents, elegant contemporary Iranian design, great for saffron, handicrafts and local brands","layout":"hero-callouts","palette":["#0e4c6d","#1fa2b4","#d4a017","#fdf6e3","#8b1e3f"],"title_font":"nastaliq","body_font":"vazirmatn"}]};
+const FONTS=LIB.fonts,LAYOUTS=LIB.layouts,BUILTIN=LIB.styles;
+const LANGS={fa:"فارسی",en:"انگلیسی",both:"دوزبانه"};
+const NFEAT={4:"۴",6:"۶",8:"۸"};
+const SIZES=[["1:1","مربع اینستاگرام (۱:۱)"],["4:5","پست اینستاگرام (۴:۵)"],["9:16","استوری و ریلز (۹:۱۶)"],["3:4","عمودی فروشگاه (۳:۴)"],["16:9","بنر افقی (۱۶:۹)"]];
+const EXAMPLES=["هدفون بی‌سیم سونی WH-1000XM5","زعفران سرگل ۴ گرمی","کرم ضدآفتاب SPF50 سینره","گوشی سامسونگ گلکسی S24","قهوه‌ساز دلونگی EC685","عسل طبیعی کنار"];
+const EDIT_CHIPS=["پس‌زمینه ساده‌تر شود","محصول بزرگ‌تر دیده شود","رنگ‌ها گرم‌تر شود","متن‌ها درشت‌تر و خواناتر شود","فضای خالی بیشتر شود","حس لوکس‌تر شود"];
+const VARS=["","Variation B: a clearly different composition and camera angle of the scene around the product, same style, palette and texts; the product itself stays identical.","Variation C: a different arrangement of the feature callouts and a different icon set, same palette and texts; the product itself stays identical.","Variation D: a bolder, larger product with more whitespace, same palette and texts; the product itself stays identical."];
+
+// utils
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const fa=s=>String(s??"").replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid=p=>p+"-"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const clone=o=>JSON.parse(JSON.stringify(o));
+const U=new WeakMap(),url=b=>{if(!b)return"";let u=U.get(b);if(!u){u=URL.createObjectURL(b);U.set(b,u)}return u};
+const fmtB=n=>n>=1073741824?fa((n/1073741824).toFixed(1)).replace(".","٫")+" گیگ":fa(Math.max(0,Math.round(n/1048576)))+" مگ";
+const fdate=t=>{try{return new Date(t).toLocaleDateString("fa-IR")+" · "+new Date(t).toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit"})}catch{return fa(new Date(t).toISOString().slice(0,10))}};
+function toast(m,t=4000){const d=document.createElement("div");d.className="toast";d.textContent=m;document.body.append(d);setTimeout(()=>d.remove(),t)}
+function modal(html){const m=document.createElement("div");m.className="modal";m.innerHTML=`<div class="card"><button class="btn x" data-a="close" aria-label="بستن">✕</button>${html}</div>`;m.onclick=e=>{if(e.target===m)m.remove()};document.body.append(m);return m}
+function ask(msg){return new Promise(ok=>{const m=modal(`<h3>تأیید</h3><p>${esc(msg)}</p><div class="row"><button class="btn pri" id="cy">بله</button><button class="btn" id="cn">انصراف</button></div>`);$("#cy",m).onclick=()=>{m.remove();ok(true)};$("#cn",m).onclick=()=>{m.remove();ok(false)}})}
+function dl(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),5000)}
+const blobToB64=b=>new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(",")[1]);r.onerror=()=>no(r.error);r.readAsDataURL(b)});
+const b64ToBlob=(d,t)=>{const s=atob(d),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return new Blob([a],{type:t})};
+const loadImg=src=>new Promise((ok,no)=>{const i=new Image(),t=setTimeout(()=>no(new Error("timeout")),15000);i.onload=()=>{clearTimeout(t);ok(i)};i.onerror=()=>{clearTimeout(t);no(new Error("img"))};i.src=src});
+const abortErr=()=>{const e=new Error("لغو شد");e.name="AbortError";return e};
+const sleep=(ms,sig)=>new Promise((ok,no)=>{if(sig&&sig.aborted)return no(abortErr());const t=setTimeout(ok,ms);sig&&sig.addEventListener("abort",()=>{clearTimeout(t);no(abortErr())},{once:true})});
+const pick=accept=>new Promise(ok=>{const i=document.createElement("input");i.type="file";i.accept=accept;i.onchange=()=>ok(i.files[0]||null);i.click()});
+const cBlob=(c,type,q)=>new Promise(ok=>{try{c.toBlob(b=>ok(b),type,q)}catch{ok(null)}});
+// image → canvas helpers (return null when the browser cannot draw, e.g. in tests)
+async function drawable(b){const u=URL.createObjectURL(b);try{const i=await loadImg(u);const W=i.naturalWidth||i.width,H=i.naturalHeight||i.height;return W&&H?{i,W,H}:null}catch{return null}finally{setTimeout(()=>URL.revokeObjectURL(u),1000)}}
+async function convert(b,type,maxSide){const d=await drawable(b);if(!d)return null;const s=maxSide?Math.min(1,maxSide/Math.max(d.W,d.H)):1,c=document.createElement("canvas");c.width=Math.round(d.W*s);c.height=Math.round(d.H*s);const x=c.getContext&&c.getContext("2d");if(!x)return null;if(type=="image/jpeg"){x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height)}x.drawImage(d.i,0,0,c.width,c.height);return cBlob(c,type,.92)}
+async function toRef(b){try{const j=await convert(b,"image/jpeg",1600);if(j)return{mimeType:"image/jpeg",data:await blobToB64(j)}}catch{}return{mimeType:b.type||"image/png",data:await blobToB64(b)}}
+async function toPngRef(b){try{const p=await convert(b,"image/png",800);if(p)return{mimeType:"image/png",data:await blobToB64(p)}}catch{}return{mimeType:b.type||"image/png",data:await blobToB64(b)}}
+function parseJ(t){t=String(t).replace(/```(?:json)?/gi,"").trim();try{return JSON.parse(t)}catch{}const a=t.search(/[\[{]/),z=Math.max(t.lastIndexOf("]"),t.lastIndexOf("}"));if(a<0||z<a)throw new Error("پاسخ مدل JSON معتبر نبود");return JSON.parse(t.slice(a,z+1))}
+const fontDesc=(k,o)=>o||(FONTS[k]?FONTS[k].desc_en:`${k}: Persian lettering in the style of ${k}`);
+const fontName=k=>FONTS[k]?FONTS[k].name_fa:String(k||"");
+const layName=k=>LAYOUTS[k]?LAYOUTS[k].name_fa:String(k||"");
+
+// Store: the only module that touches IndexedDB / localStorage
+const Store=(()=>{const N="saba-product-info",SS=["kv","styles","history","samples"],QUIET=["meta"];let db,subs=[],tm;
+ const ls=(k,v)=>{try{k="sabaProd."+k;if(v===undefined)return localStorage.getItem(k);v===null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch{return null}};
+ const open=()=>db?Promise.resolve(db):new Promise((ok,no)=>{const r=indexedDB.open(N,1);r.onupgradeneeded=()=>SS.forEach(s=>r.result.objectStoreNames.contains(s)||r.result.createObjectStore(s,{keyPath:s=="kv"?"k":"id"}));r.onsuccess=()=>{db=r.result;ok(db)};r.onerror=()=>no(r.error)});
+ const run=(s,m,f)=>open().then(d=>new Promise((ok,no)=>{const t=d.transaction(s,m),q=f(t.objectStore(s));t.oncomplete=()=>ok(q&&q.result);t.onerror=t.onabort=()=>no(t.error)}));
+ const changed=(s,k)=>{if(s=="kv"&&QUIET.includes(k))return;clearTimeout(tm);tm=setTimeout(async()=>{const t=Date.now();await run("kv","readwrite",o=>o.put({k:"meta",v:{lastSave:t}}));ls("lastSave",t);subs.forEach(f=>f())},1000)};
+ return{SS,
+  get:async(s,k)=>{const r=await run(s,"readonly",o=>o.get(k));return s=="kv"?r&&r.v:r},
+  set:async(s,v,k)=>{if(s=="kv"&&k=="theme")ls("theme",v);await run(s,"readwrite",o=>o.put(s=="kv"?{k,v}:v));changed(s,k)},
+  list:s=>run(s,"readonly",o=>o.getAll()),
+  delete:async(s,k)=>{await run(s,"readwrite",o=>o.delete(k));changed(s,k)},
+  clear:async()=>{const d=await open();await new Promise(ok=>{const t=d.transaction(SS,"readwrite");SS.forEach(s=>t.objectStore(s).clear());t.oncomplete=ok});["theme","lastSave"].forEach(k=>ls(k,null))},
+  fastTheme:()=>ls("theme"),lastSaveLS:()=>ls("lastSave"),onChange:f=>subs.push(f),
+  persist:async()=>{try{const s=navigator.storage;if(!s||!s.persist)return false;return(s.persisted&&await s.persisted())||await s.persist()}catch{return false}},
+  estimate:async()=>{try{return await navigator.storage.estimate()}catch{return null}}
+ }})();
+
+// zip backup: kv.json + styles.json + history.json + samples.json + images/
+const EXT={"image/png":"png","image/jpeg":"jpg","image/webp":"webp"},MIME={png:"image/png",jpg:"image/jpeg",jpeg:"image/jpeg",webp:"image/webp"};
+const Backup={
+ async dump(){const f={},kv={};let n=0;const put=(s,id,k,b)=>{const p=`images/${s}-${String(id).replace(/[^\w-]/g,"_")}-${k}-${++n}.${EXT[b.type]||"png"}`;f[p]=b;return p};
+  const kb=(k,v)=>v instanceof Blob?put("kv",k,"b",v):Array.isArray(v)?v.map(x=>kb(k,x)):v&&typeof v=="object"&&Object.getPrototypeOf(v)===Object.prototype?Object.fromEntries(Object.entries(v).map(([a,x])=>[a,kb(k,x)])):v;
+  for(const r of await Store.list("kv"))if(r.k!="meta")kv[r.k]=kb(r.k,r.v);f["kv.json"]=JSON.stringify({format:"product-kv-v1",kv});
+  for(const s of["styles","history","samples"]){const out=[];for(const r of await Store.list(s)){const o={};for(const k in r){const v=r[k];if(v instanceof Blob)o[k]=put(s,r.id,k,v);else if(Array.isArray(v)&&v.length&&v.every(x=>x instanceof Blob))o[k]=v.map((b,i)=>put(s,r.id,k+i,b));else o[k]=v}out.push(o)}
+   f[s+".json"]=JSON.stringify(s=="styles"?{format:"product-styles-v1",count:out.length,styles:out}:{format:`product-${s}-v1`,count:out.length,[s]:out})}
+  return f},
+ async load(get){let n=0;const blob=async v=>{if(typeof v!="string"||!/^images\//.test(v))return v;const b=await get(v);return b?new Blob([b],{type:MIME[v.split(".").pop()]||"image/png"}):undefined};
+  const kd=async v=>{if(typeof v=="string")return/^images\/kv-/.test(v)?((await blob(v))??null):v;if(Array.isArray(v)){const a=[];for(const x of v){const y=await kd(x);y!=null&&a.push(y)}return a}if(v&&typeof v=="object"){const o={};for(const k in v)o[k]=await kd(v[k]);return o}return v};
+  const kt=await get("kv.json");if(kt){const j=JSON.parse(kt);for(const k in j.kv||{}){await Store.set("kv",await kd(j.kv[k]),k);n++}}
+  for(const s of["styles","history","samples"]){const t=await get(s+".json");if(!t)continue;const j=JSON.parse(t);for(const o of j.styles||j[s]||[]){if(!o||o.id==null)continue;for(const k in o){if(Array.isArray(o[k])&&o[k].length&&o[k].every(x=>typeof x=="string"&&/^images\//.test(x))){const a=[];for(const p of o[k]){const b=await blob(p);b&&a.push(b)}o[k]=a}else{const b=await blob(o[k]);if(b===undefined)delete o[k];else o[k]=b}}await Store.set(s,o);n++}}
+  return n},
+ async jz(){if(window.JSZip)return JSZip;await new Promise((ok,no)=>{const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";s.onload=ok;s.onerror=()=>no(new Error("بارگیری JSZip ممکن نشد"));document.head.append(s)});return JSZip},
+ async zipOut(){try{const Z=await this.jz(),z=new Z(),f=await this.dump();for(const n in f)z.file(n,f[n]);dl(await z.generateAsync({type:"blob"}),"saba-product-backup-"+new Date().toISOString().slice(0,10)+".zip");toast("پشتیبان کامل دانلود شد")}catch(e){toast("خطا در ساخت پشتیبان: "+e.message)}},
+ async zipIn(){const file=await pick(".zip");if(!file)return;try{const Z=await this.jz(),z=await Z.loadAsync(file);const n=await this.load(async p=>{const e=z.file(p);return e?e.async(p.endsWith(".json")?"string":"blob"):null});await App.reload();$("#banner").classList.add("hide");toast(`${fa(n)} مورد از پشتیبان بازگردانی شد`)}catch(e){toast("فایل پشتیبان معتبر نیست: "+e.message)}}
+};
+
+// Bridge: optional storage in the Chrome extension (chrome.storage.local), which survives closing Gemini Canvas.
+// Protocol: window.postMessage({__sabaBridge:1,dir:"req",app:"saba-product-info",id,op,...}) answered by the extension's content script with dir:"res".
+// The bridge is the source of truth on load; every IndexedDB write is mirrored to it (debounced, batched).
+const Bridge=(()=>{const NS="__sabaBridge",APP="saba-product-info",SS=Store.SS,SKIP=["meta"],CH=8e6,P=new Map(),dirty=new Map();
+ let tm=0,busy=null,mute=0,seq=0,raw=null,lastToast=0,retry=0;
+ const st={on:false,checked:false,ver:"",last:0,pending:0,err:"",restored:0,synced:0};
+ window.addEventListener("message",e=>{const d=e.data;if(e.source!==window||!d||typeof d!="object"||d[NS]!==1||d.dir!=="res"||d.app!==APP)return;const p=P.get(d.id);if(!p)return;P.delete(d.id);clearTimeout(p.t);
+  d.ok?p.ok(d):p.no(Object.assign(new Error(d.error||"bridge error"),{quota:!!d.quota,invalidated:!!d.invalidated}))});
+ const call=(op,o={},ms=60000)=>new Promise((ok,no)=>{const id="b"+(++seq)+"-"+Date.now().toString(36);P.set(id,{ok,no,t:setTimeout(()=>{P.delete(id);no(Object.assign(new Error("timeout"),{timeout:true}))},ms)});
+  window.postMessage({[NS]:1,dir:"req",app:APP,id,op,...o},"*")});
+ const b64ToAB=d=>{const s=atob(d||""),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return a.buffer};
+ // JSON-safe encoding: Blob → {__sb:"blob"}, ArrayBuffer/TypedArray → {__sb:"ab"}; functions and class instances are dropped
+ async function enc(v){if(v==null||typeof v=="string"||typeof v=="boolean")return v;if(typeof v=="number")return isFinite(v)?v:null;if(typeof v!="object")return undefined;
+  if(v instanceof Blob)return{__sb:"blob",t:v.type||"",d:v.size?await blobToB64(v):""};
+  if(v instanceof ArrayBuffer||ArrayBuffer.isView(v)){const b=new Blob([v]);return{__sb:"ab",d:b.size?await blobToB64(b):""}}
+  if(Array.isArray(v)){const a=[];for(const x of v){const y=await enc(x);a.push(y===undefined?null:y)}return a}
+  const p=Object.getPrototypeOf(v);if(p!==Object.prototype&&p!==null)return undefined;
+  const o={};for(const k of Object.keys(v)){const y=await enc(v[k]);if(y!==undefined)o[k]=y}return o}
+ function dec(v){if(Array.isArray(v))return v.map(dec);if(!v||typeof v!="object")return v;if(v.__sb=="blob")return b64ToBlob(v.d||"",v.t||"");if(v.__sb=="ab")return b64ToAB(v.d);
+  const o={};for(const k of Object.keys(v))o[k]=dec(v[k]);return o}
+ function msg(e){return e.quota?"فضای ذخیره‌ی اکستنشن پر است؛ چند کار قدیمی را پاک کن و «همگام‌سازی کامل الان» را بزن، یا پشتیبان زیپ بگیر":
+  e.invalidated?"اکستنشن دوباره بارگذاری شده؛ این پنجره را ببند و برنامه را از آیکون اکستنشن دوباره باز کن":
+  e.timeout?"اکستنشن پاسخ نداد؛ تغییرات هنوز در اکستنشن ذخیره نشده‌اند":"خطا در ذخیره در اکستنشن: "+e.message}
+ function fail(e,silent){st.err=msg(e);if(!silent&&Date.now()-lastToast>20000){lastToast=Date.now();toast("⚠️ "+st.err,8000)}
+  if(!e.quota&&!e.invalidated&&dirty.size){clearTimeout(retry);retry=setTimeout(()=>flush(),15000)}refresh()}
+ const refresh=()=>{st.pending=dirty.size;try{UI.status()}catch{}};
+ function mark(s,k,op){if(!st.on||mute||k==null||(s=="kv"&&SKIP.includes(k)))return;dirty.set(JSON.stringify([s,k]),[s,k,op]);st.pending=dirty.size;clearTimeout(tm);tm=setTimeout(()=>flush(),500)}
+ async function sendAll(sets,dels,full){let a=[],size=0,n=0;const go=async()=>{if(!a.length)return;await call("batch",{sets:a,dels:[],full});n+=a.length;a=[];size=0};
+  for(const x of sets){a.push([x[0],x[1],x[2]]);size+=x[3];if(size>CH)await go()}await go();if(dels.length||full)await call("batch",{sets:[],dels,full});return n}
+ async function flush(){clearTimeout(tm);if(!st.on||!dirty.size)return;if(busy){await busy.catch(()=>{});return flush()}
+  busy=(async()=>{const items=[...dirty.values()];dirty.clear();const sets=[],dels=[];
+   try{for(const[s,k,op]of items){if(!op){dels.push([s,k]);continue}const v=await Store.get(s,k);if(v===undefined){dels.push([s,k]);continue}const e=await enc(v);if(e===undefined)continue;sets.push([s,k,e,JSON.stringify(e).length])}
+    await sendAll(sets,dels,false);st.last=Date.now();st.err=""}
+   catch(e){for(const[s,k,op]of items){const id=JSON.stringify([s,k]);dirty.has(id)||dirty.set(id,[s,k,op])}fail(e)}})();
+  try{await busy}finally{busy=null;refresh()}}
+ // the whole IndexedDB → extension (also removes extension entries that no longer exist here)
+ async function full(user){if(!st.on)return -1;clearTimeout(tm);if(busy)await busy.catch(()=>{});dirty.clear();
+  try{const sets=[],have=new Set();for(const s of SS)for(const r of await Store.list(s)){const k=s=="kv"?r.k:r.id;if(k==null||(s=="kv"&&SKIP.includes(k)))continue;const e=await enc(s=="kv"?r.v:r);if(e===undefined)continue;have.add(JSON.stringify([s,k]));sets.push([s,k,e,JSON.stringify(e).length])}
+   const ks=(await call("list",{},60000)).keys||[],dels=ks.filter(p=>!have.has(JSON.stringify(p)));
+   const n=await sendAll(sets,dels,true);st.last=st.synced=Date.now();st.err="";refresh();if(user)toast(`همگام‌سازی کامل شد: ${fa(n)} مورد در اکستنشن ذخیره شد`);return n}
+  catch(e){fail(e,!user);if(user)toast("⚠️ همگام‌سازی کامل ناموفق: "+st.err,8000);return -1}}
+ async function restore(){const r=await call("getAll",{},180000),items=(r.items||[]).filter(x=>Array.isArray(x)&&SS.includes(x[0]));if(!items.length)return 0;
+  mute++;
+  try{await raw.clear();for(const[s,k,v]of items){const x=dec(v);if(s=="kv")await raw.set("kv",x,k);else if(x&&typeof x=="object"&&x.id!=null)await raw.set(s,x)}}
+  finally{mute--}return items.length}
+ function patch(){if(raw)return;raw={set:Store.set,delete:Store.delete,clear:Store.clear};
+  Store.set=async(s,v,k)=>{await raw.set(s,v,k);mark(s,s=="kv"?k:v&&v.id,1)};
+  Store.delete=async(s,k)=>{await raw.delete(s,k);mark(s,k,0)};
+  Store.clear=async()=>{await raw.clear();if(!st.on||mute)return;clearTimeout(tm);dirty.clear();try{await call("clear");st.last=Date.now()}catch(e){fail(e)}}}
+ async function init(){for(let i=0;i<4&&!st.on;i++){try{const r=await call("ping",{},200);st.ver=r.version||"";st.on=true}catch{}}st.checked=true;if(!st.on)return false;patch();
+  try{st.restored=await restore();if(!st.restored)await full(false);st.last=Date.now()}
+  catch(e){st.on=false;st.err="بازیابی از اکستنشن ناموفق بود ("+msg(e)+")؛ داده‌های اکستنشن دست نخورده ماندند. صفحه را دوباره باز کن";toast("⚠️ "+st.err,9000)}
+  return st.on}
+ const save=()=>{if(dirty.size)flush()};window.addEventListener("pagehide",save);document.addEventListener("visibilitychange",()=>{if(document.visibilityState=="hidden")save()});
+ return{st,init,flush,full,call,enc,dec}})();
+
+// ---------- Gemini API ----------
+async function callApi(model,body,sig,onStatus,tries=3){
+ for(let a=0;;a++){let r;
+  try{r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${KeyCfg.key||apiKey}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body),signal:sig})}
+  catch(e){if(e.name=="AbortError")throw abortErr();throw new Error("خطای شبکه: "+e.message)}
+  if(r.ok)return r.json();
+  let m="";try{const j=await r.json();m=j.error&&j.error.message||JSON.stringify(j)}catch{m=r.statusText||""}
+  if((r.status==429||r.status>=500)&&a<tries){onStatus&&onStatus(`خطای ${fa(r.status)} — تلاش دوباره ${fa(a+1)} از ${fa(tries)} تا ۱۵ ثانیه‌ی دیگر…`);await sleep(15000,sig);continue}
+  throw Object.assign(new Error(`خطای API (کد ${fa(r.status)}): ${m}`),{status:r.status})}}
+const parts=(prompt,refs=[])=>[{text:prompt},...refs.map(r=>({inlineData:{mimeType:r.mimeType,data:r.data}}))];
+// image fallback: on 429/403/404/5xx from 3.1 switch at once to 2.5-image-preview, stay there 10 minutes
+const ImgPick={i:0,since:0,start(){if(this.i&&Date.now()-this.since>10*60*1000)this.i=0;return this.i}};
+async function genImage(prompt,refs,sig,onStatus,ar="1:1"){
+ const body={contents:[{role:"user",parts:parts(prompt,refs)}],generationConfig:{responseModalities:["IMAGE"],imageConfig:{aspectRatio:ar}}};let j;
+ for(let i=ImgPick.start();i<IMAGE_MODELS.length;i++){const last=i==IMAGE_MODELS.length-1;
+  try{j=await callApi(IMAGE_MODELS[i],body,sig,onStatus,last?3:0);if(i!=ImgPick.i){ImgPick.i=i;ImgPick.since=Date.now()}IMAGE_MODEL=IMAGE_MODELS[i];break}
+  catch(e){if(last||!e.status||!(e.status==429||e.status==403||e.status==404||e.status>=500))throw e;
+   onStatus&&onStatus(`مدل ${IMAGE_MODELS[i]} به محدودیت خورد — ادامه با ${IMAGE_MODELS[i+1]}…`)}}
+ const c=j.candidates&&j.candidates[0],ps=c&&c.content&&c.content.parts||[],p=ps.find(p=>p.inlineData);
+ if(!p){const t=ps.map(p=>p.text).filter(Boolean).join(" ");throw new Error("مدل تصویری تصویر برنگرداند"+(c&&c.finishReason?` (دلیل: ${c.finishReason})`:"")+(j.promptFeedback&&j.promptFeedback.blockReason?` (مسدود شد: ${j.promptFeedback.blockReason})`:"")+(t?" — "+t:""))}
+ return b64ToBlob(p.inlineData.data,p.inlineData.mimeType||"image/png")}
+async function genText(prompt,refs=[],o={},sig){const json=o.json!==false,body={contents:[{role:"user",parts:parts(prompt,refs)}]};
+ if(o.search)body.tools=[{google_search:{}}];else if(json)body.generationConfig={responseMimeType:"application/json"};
+ const j=await callApi(TEXT_MODEL,body,sig,o.onStatus,o.tries),c=j.candidates&&j.candidates[0],t=(c&&c.content&&c.content.parts||[]).map(p=>p.text||"").join("");
+ if(!t)throw new Error("پاسخ مدل متنی خالی بود"+(c&&c.finishReason?` (${c.finishReason})`:""));
+ if(o.raw)return{text:t,meta:c.groundingMetadata||null};return json?parseJ(t):t}
+
+// ---------- state ----------
+const S={theme:"بنفش",settings:{autoCheck:true},persisted:false,photos:[],brand:{on:true,shop:"",handle:"",contact:"",logo:null}};
+const D0={name:"",info:"",lang:"fa",ar:"1:1",nf:6,price:"",cta:true,ctaText:"همین حالا سفارش دهید",outline:null,sug:[],sel:[],count:2};
+const D=clone(D0);
+const Draft={tm:0,save(){clearTimeout(this.tm);this.tm=setTimeout(()=>Store.set("kv",clone(D),"draft"),500)},
+ async load(){const d=await Store.get("kv","draft");Object.keys(D).forEach(k=>delete D[k]);Object.assign(D,clone(D0),d&&typeof d=="object"?d:{})}};
+function applyTheme(n){const t=THEMES.find(t=>t[0]==n)||THEMES[1],r=document.documentElement.style;["--bg","--card","--neon","--neon2","--btxt"].forEach((k,i)=>r.setProperty(k,t[i+1]));S.theme=t[0]}
+
+// ---------- product photos + brand (saved in kv) ----------
+const Photos={max:3,
+ async add(files){for(const f of files){if(!f||!/^image\//.test(f.type||""))continue;if(S.photos.length>=this.max){toast(`حداکثر ${fa(this.max)} عکس`);break}S.photos.push(new Blob([f],{type:f.type}))}await this.save()},
+ async del(i){S.photos.splice(i,1);await this.save()},
+ async save(){await Store.set("kv",S.photos.slice(),"photos");this.render();Make.preview()},
+ render(){const b=$("#phs");if(!b)return;b.innerHTML=S.photos.map((p,i)=>`<div class="ph"><img src="${url(p)}" alt="عکس محصول ${fa(i+1)}"><button class="x2" data-a="phDel" data-i="${i}" aria-label="حذف عکس">✕</button>${i==0?'<span class="badge">اصلی</span>':""}</div>`).join("")+(S.photos.length<this.max?`<button class="ph add" data-a="phAdd">📷<br>افزودن عکس محصول</button>`:"")},
+ refs(){return Promise.all(S.photos.map(p=>toRef(p)))}};
+const Brand={tm:0,
+ has(b=S.brand){return!!(b&&b.on&&(b.shop||b.handle||b.contact||b.logo))},
+ save(){clearTimeout(this.tm);this.tm=setTimeout(async()=>{await Store.set("kv",{...S.brand},"brand");Make.preview()},400)},
+ sync(){const b=S.brand;$("#bOn").checked=!!b.on;$("#bShop").value=b.shop||"";$("#bHandle").value=b.handle||"";$("#bContact").value=b.contact||"";
+  $("#bLogo").innerHTML=b.logo?`<img src="${url(b.logo)}" alt="لوگو"><button class="btn sm" data-a="logoDel">حذف لوگو</button>`:`<button class="btn sm" data-a="logoAdd">🖼️ انتخاب لوگو</button>`;
+  $("#bSum").textContent=this.has()?"✓ "+([b.shop,b.handle].filter(Boolean).join(" · ")||"لوگو"):"اختیاری"},
+ texts(b=S.brand){if(!this.has(b))return[];return[b.shop,b.handle,b.contact].map(x=>String(x||"").trim()).filter(Boolean)}};
+
+// ---------- outline (research result) ----------
+// Persian digits, but brand/model tokens with Latin letters (WH-1000XM5, SPF50) keep their digits
+const faTxt=s=>String(s??"").replace(/\S+/g,t=>/[A-Za-z]/.test(t)?t:fa(t));
+const srcLabel=s=>{try{const h=new URL(s.url).hostname.replace(/^www\./,"");if(!/vertexaisearch|googleusercontent|google\.com$/.test(h))return h}catch{}return String(s.title||"").replace(/^www\./,"").slice(0,40)};
+const Outline={
+ norm(j,lang,keepSrc){if(!j||typeof j!="object")throw new Error("طرح محتوا خالی بود");const T=s=>{s=String(s??"").replace(/\s+/g," ").trim();return lang=="en"?s:faTxt(s)},E=s=>String(s??"").replace(/\s+/g," ").trim();
+  const o={name:T(j.name||j.product_name),tagline:T(j.tagline),category:E(j.category),layout_suggestion:LAYOUTS[j.layout_suggestion]?j.layout_suggestion:"hero-callouts",badge:T(j.badge),features:[],specs:[],sources:[]};
+  if(lang=="both"){o.name_en=E(j.name_en);o.tagline_en=E(j.tagline_en)}
+  for(const f of(Array.isArray(j.features)?j.features:[]).slice(0,8)){if(!f||typeof f!="object")continue;const x={title:T(f.title),desc:T(f.desc),icon_idea:E(f.icon_idea)};if(lang=="both")x.title_en=E(f.title_en);if(x.title||x.desc)o.features.push(x)}
+  for(const s of(Array.isArray(j.specs)?j.specs:[]).slice(0,4)){if(!s||typeof s!="object")continue;const x={label:T(s.label),value:T(s.value)};if(x.label&&x.value)o.specs.push(x)}
+  const seen=new Set();for(const s of[...(keepSrc||[]),...(Array.isArray(j.sources)?j.sources:[])]){const u=s&&String(s.url||s.uri||"").trim();if(!/^https?:\/\//.test(u)||seen.has(u))continue;seen.add(u);o.sources.push({title:E(s.title)||u,url:u})}
+  if(!o.name||!o.features.length)throw new Error("طرح محتوا ناقص بود؛ «تحقیق دوباره» را بزن");return o},
+ texts(o,opt){const a=[o.name,o.tagline];if(opt.lang=="both")a.push(o.name_en,o.tagline_en);
+  for(const f of o.features){a.push(f.title);if(opt.lang=="both")a.push(f.title_en);a.push(f.desc)}
+  for(const s of o.specs)a.push(s.label+": "+s.value);a.push(o.badge,opt.price,opt.cta?opt.ctaText:"",...Brand.texts(opt.brand));return a.filter(Boolean)}
+};
+const Research={
+ lang(l){return l=="en"?"English":l=="both"?"Persian (Farsi), plus short English translations in name_en, tagline_en and title_en":"Persian (Farsi)"},
+ schema(l){const b=l=="both";return`{"name":"",${b?'"name_en":"",':""}"tagline":"",${b?'"tagline_en":"",':""}"category":"","layout_suggestion":"hero-callouts|split|hero-grid|specs|compare|lifestyle","features":[{"title":"",${b?'"title_en":"",':""}"desc":"","icon_idea":""}],"specs":[{"label":"","value":""}],"badge":"","sources":[{"title":"","url":""}]}`},
+ rules(d){const fa_=d.lang!="en";return`Rules (the texts will be drawn inside an image by an image model, so keep every text SHORT and catchy for buyers):
+- name: the product name as buyers know it (brand + model), max 6 words
+- tagline: one persuasive line, max 9 words
+- exactly ${d.nf} features: title max 3 words, desc max 7 words, each a concrete selling point or benefit (not vague)
+- specs: 0 to 4 key specifications or numbers as {label, value}, each max 3 words; only real verified values
+- badge: optional short trust badge such as an original/warranty/natural claim ONLY if true, max 3 words, else ""
+- category: one English word or two (e.g. "headphones", "skincare", "saffron", "smartphone")
+${fa_?"- Persian texts use standard modern Persian spelling and Persian digits (۰۱۲۳۴۵۶۷۸۹); keep brand and model names as they are written on the product\n":""}- icon_idea: a short ENGLISH description of a small icon for that feature
+- layout_suggestion: the layout that fits this product best
+- every fact must be accurate for THIS exact product; never invent numbers; do NOT write any price`},
+ async run(d,refs,onStatus){const prompt=`You are a careful product researcher and e-commerce copywriter. ${refs.length?"The attached photo shows the real product. Identify it exactly (brand, model, variant) from the photo and the details below. ":""}Use Google Search to collect accurate, current specifications, features and benefits of this exact product, then write the content of ONE product infographic for an Instagram post or an online shop.
+Product name: ${d.name||"(not given — identify it from the photo)"}
+${d.info?"Details from the seller (trust these first): "+d.info+"\n":""}Language of all texts: ${this.lang(d.lang)}
+${this.rules(d)}
+- sources: 2 to 6 real web pages you used, as {"title","url"}
+Return ONLY this JSON, nothing else:
+${this.schema(d.lang)}`;
+  onStatus&&onStatus("⏳ جمینی در حال شناختن محصول و جستجو در گوگل است…");
+  const r=await genText(prompt,refs.slice(0,1),{search:true,raw:true,onStatus});
+  const g=((r.meta&&r.meta.groundingChunks)||[]).map(c=>c&&c.web).filter(Boolean).map(w=>({title:w.title,url:w.uri}));
+  let j;try{j=parseJ(r.text)}catch{onStatus&&onStatus("⏳ در حال مرتب کردن نتیجه‌ی تحقیق…");j=await genText(`Turn these research notes into the JSON below. Keep facts, keep the language rules.\n${this.rules(d)}\nJSON shape:\n${this.schema(d.lang)}\n\nNotes:\n${r.text}`)}
+  const o=Outline.norm(j,d.lang);for(const s of g)if(!o.sources.some(x=>x.url==s.url)&&o.sources.length<8)o.sources.push({title:String(s.title||s.url),url:s.url});return o},
+ async shorten(o,d){const j=await genText(`Make every text of this product infographic noticeably SHORTER and punchier for an image model to render (name max 4 words, tagline max 6 words, feature title max 2 words, feature desc max 5 words, spec label/value max 2 words). Keep the meaning, the facts, the language and the same JSON structure. ${d.lang!="en"?"Use Persian digits.":""}\n${JSON.stringify({...o,sources:undefined})}`);return Outline.norm(j,d.lang,o.sources)}
+};
+
+// ---------- prompts ----------
+function langRule(opt){return opt.lang=="en"?"All text is English, in clean Latin letters styled to echo the described lettering.":"All Persian (Farsi) text is written right-to-left with every letter correctly joined in its proper initial, medial or final form; no isolated, mirrored or reversed letters and no invented words. Numbers use Persian digits (۰۱۲۳۴۵۶۷۸۹). Latin brand or model names stay in Latin letters exactly as given."+(opt.lang=="both"?" The small English lines use clean Latin letters under their Persian counterparts.":"")}
+function textBlock(o,opt){const q=s=>`«${s}»`,en=opt.lang=="both",L=[],b=opt.brand;
+ L.push(`PRODUCT NAME (biggest text): ${q(o.name)}`+(en&&o.name_en?` + small English line «${o.name_en}»`:""));
+ if(o.tagline)L.push(`TAGLINE: ${q(o.tagline)}`+(en&&o.tagline_en?` + small English line «${o.tagline_en}»`:""));
+ o.features.forEach((f,i)=>{let l=`FEATURE ${i+1} — title: ${q(f.title)}`;if(en&&f.title_en)l+=` + small English «${f.title_en}»`;if(f.desc)l+=` | short line: ${q(f.desc)}`;if(f.icon_idea)l+=` | icon: ${f.icon_idea}`;L.push(l)});
+ if(o.specs.length)L.push("KEY SPECS (compact strip or table): "+o.specs.map(s=>q(s.label+": "+s.value)).join(" / "));
+ if(o.badge)L.push(`TRUST BADGE (small seal): ${q(o.badge)}`);
+ if(opt.price)L.push(`PRICE TAG (eye-catching badge): ${q(opt.price)}`);
+ if(opt.cta&&opt.ctaText)L.push(`CALL-TO-ACTION BUTTON: ${q(opt.ctaText)}`);
+ if(Brand.has(b)){const t=Brand.texts(b);if(t.length)L.push(`SHOP SIGNATURE (small, neat, in a corner or the bottom strip): ${t.map(q).join(" · ")}`)}
+ return L.join("\n")}
+// refs order: product photos first, then the shop logo (when used)
+function refNote(n,logo){const L=[];if(n)L.push(`PRODUCT REFERENCE: the first ${n>1?fa(n)+" attached images show":"attached image shows"} the REAL product. Reproduce this exact product faithfully as the visual hero: same shape, proportions, colors, materials, label and packaging design, and its printed logo and text. Do not redesign, restyle, simplify or replace it. You may cut it out, relight it, rotate it slightly and place it in the scene.`);else L.push("No product photo is attached: draw a realistic, accurate product shot of this exact product as the visual hero.");
+ if(logo)L.push("SHOP LOGO: the LAST attached image is the shop's logo. Place it small and clean in a corner (near the shop signature), unchanged, never distorted or redrawn.");return L.join("\n")}
+function buildPrompt(s,o,opt,variation,nPhotos,logo){const L=[],lay=LAYOUTS[s.layout]||LAYOUTS["hero-callouts"],sug=o.layout_suggestion&&o.layout_suggestion!=s.layout&&LAYOUTS[o.layout_suggestion];
+ L.push(`Design a finished, professional product infographic for ${opt.ar=="16:9"?"an online-shop banner":"an Instagram post and an online-shop product page"}. Aspect ratio ${opt.ar}.`);
+ L.push(refNote(nPhotos,logo));
+ L.push(`VISUAL STYLE: ${s.prompt_en}.`);
+ L.push(`LAYOUT: ${lay.desc_en}${sug?`; this product also suits ${sug.desc_en}, blend that in only if it helps`:""}. Keep a safe margin so nothing important touches the edges.`);
+ L.push(`COLOR PALETTE: ${s.palette.join(", ")} — harmonize the accents with the product's own colors.`);
+ L.push("TYPOGRAPHY — you render every text yourself, inside the image:");
+ L.push(`- Product name lettering: ${fontDesc(s.title_font,s.title_font_desc)}.`);
+ L.push(`- Feature titles and short lines: ${fontDesc(s.body_font,s.body_font_desc)}.`);
+ L.push("- "+langRule(opt));
+ L.push("- Clear hierarchy: big product name, medium feature titles, short lines smaller but very legible, strong contrast, generous spacing.");
+ L.push("TEXT TO RENDER — copy each string exactly, character for character; do not translate, add or drop any word:");
+ L.push(textBlock(o,opt));
+ L.push("Apart from the text printed on the product itself, do not add any other text: no extra labels, lorem ipsum, watermarks, fake logos or signatures. Icons carry the visual explanation.");
+ if(variation)L.push(variation);return L.join("\n")}
+function fixPrompt(r,its){return`The FIRST attached image is a product infographic whose lettering has mistakes. Recreate the SAME infographic: identical layout, product, illustrations, icons, colors, style, background and aspect ratio ${r.ar}. Change only the text so that every word is perfectly correct.${r.photos&&r.photos.length?" The following attached image(s) show the real product for reference; keep the product identical.":""}
+${langRule(r.opt)}
+The correct texts, exactly as they must appear:
+${textBlock(r.outline,r.opt)}
+${its.length?"Errors found in the current image:\n"+its.map(x=>`- written «${x.found}» → must be «${x.expected}»`).join("\n"):"Check every word against the list above and fix any garbled, broken or reversed letters."}
+Apart from the text printed on the product itself, do not add any other text.`}
+function editPrompt(r,ins){return`Edit the FIRST attached product infographic. Requested change (written in Persian): «${ins}».
+Apply this change to the design while keeping the same product, the same content and aspect ratio ${r.ar}.${r.photos&&r.photos.length?" The following attached image(s) show the real product: it must stay exactly like them.":""}
+${langRule(r.opt)}
+Keep every text exactly as listed:
+${textBlock(r.outline,r.opt)}
+Apart from the text printed on the product itself, do not add any other text.`}
+function checkPrompt(exp){return`You are a strict proofreader of Persian product infographics. The attached image should contain exactly these texts (text printed on the product's own packaging does not count):
+${JSON.stringify(exp)}
+Read every visible text in the image carefully and compare it with the expected texts. Report every real problem: garbled or meaningless letters, wrong, missing or extra letters, disconnected or reversed Persian letters, wrong digits, an expected text that is missing, or extra invented text. Ignore tiny differences in punctuation, spacing or line breaks.
+Return JSON only: {"score": 0-100 (100 means every text is perfect), "ok": true or false, "issues": [{"expected": "the correct text", "found": "what is actually written", "problem_fa": "short Persian description"}], "summary_fa": "one short Persian sentence"}`}
+
+// ---------- styles ----------
+const LAYMAP={hero:"hero-callouts",grid:"hero-grid",comparison:"compare",stats:"specs",flow:"split",timeline:"split",cycle:"hero-callouts",mindmap:"hero-callouts",zigzag:"hero-grid",pyramid:"hero-grid"};
+function fkey(n){n=String(n||"").trim();if(!n)return"";if(FONTS[n])return n;const l=n.toLowerCase();for(const k in FONTS)if(k==l||FONTS[k].name_fa==n||FONTS[k].desc_en.toLowerCase().startsWith(l+":"))return k;return n}
+function normStyle(o,b){const pal=(Array.isArray(o.palette)?o.palette:String(o.palette||"").split(/[,\s،]+/)).map(x=>String(x).trim()).filter(x=>/^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.test(x)).map(x=>x[0]=="#"?x:"#"+x).slice(0,6);
+ const lay=LAYOUTS[o.layout]?o.layout:LAYMAP[o.layout]||"hero-callouts";
+ return{id:String(o.id).trim(),group:String(o.group||"🎨 سفارشی"),name_fa:String(o.name_fa||o.id),desc_fa:String(o.desc_fa||""),prompt_en:String(o.prompt_en||"").trim(),layout:lay,palette:pal.length?pal:["#222222","#ffffff","#a874ff"],title_font:fkey(o.title_font)||"morabba",body_font:fkey(o.body_font)||"vazirmatn",title_font_desc:o.title_font_desc?String(o.title_font_desc):"",body_font_desc:o.body_font_desc?String(o.body_font_desc):"",builtin:!!b}}
+const sameStyle=(a,b)=>{const k=x=>JSON.stringify({...x,builtin:0});return k(a)==k(b)};
+const Styles={all:[],user:[],favs:[],use:{},samples:{},
+ async load(){this.user=(await Store.list("styles")).filter(o=>o&&o.id&&o.prompt_en).map(o=>normStyle(o));const ids=new Set(this.user.map(s=>s.id));
+  this.all=[...BUILTIN.filter(b=>!ids.has(b.id)).map(b=>normStyle(b,1)),...this.user];this.favs=(await Store.get("kv","favs"))||[];this.use=(await Store.get("kv","use"))||{};
+  this.samples={};for(const r of await Store.list("samples"))if(r&&r.blob instanceof Blob)this.samples[r.id]=r.blob;Make.renderSug();Make.renderPicker();Lib.render()},
+ get(id){return this.all.find(s=>s.id==id)},
+ isBuiltin(id){return BUILTIN.some(b=>b.id==id)},
+ groups(){return[...new Set(this.all.map(s=>s.group))]},
+ filter(q,g){q=String(q||"").trim().toLowerCase();const f=this.favs;return this.all.filter(s=>(!g||(g=="★"?f.includes(s.id):s.group==g))&&(!q||[s.name_fa,s.desc_fa,s.prompt_en,s.group,fontName(s.title_font),fontName(s.body_font),layName(s.layout)].join(" ").toLowerCase().includes(q))).sort((x,y)=>(f.includes(y.id)-f.includes(x.id))||((this.use[y.id]||0)-(this.use[x.id]||0)))},
+ chips(g,t){const gs=this.groups(),c=(v,l)=>`<button class="chip ${g==v?"on":""}" data-a="grp" data-t="${t}" data-v="${esc(v)}">${esc(l)}</button>`;return[c("",`همه (${fa(this.all.length)})`),c("★","★ برگزیده‌ها"),...gs.map(x=>c(x,`${x} (${fa(this.all.filter(s=>s.group==x).length)})`))].join("")},
+ swatch(s){const sm=this.samples[s.id];return sm?`<div class="sw"><img src="${url(sm)}" alt="نمونه‌ی ${esc(s.name_fa)}"></div>`:`<div class="sw" style="background:linear-gradient(135deg,${s.palette.slice(0,4).join(",")})"><i>${esc(layName(s.layout))}</i><i>${esc(fontName(s.title_font))} + ${esc(fontName(s.body_font))}</i></div>`},
+ async put(s){await Store.set("styles",s);await this.load()},
+ async del(id){await Store.delete("styles",id);if(!this.isBuiltin(id)){await Store.delete("samples",id);D.sel=D.sel.filter(x=>x!=id);Draft.save()}await this.load()},
+ async fav(id){const i=this.favs.indexOf(id);i>=0?this.favs.splice(i,1):this.favs.push(id);await Store.set("kv",this.favs,"favs");Make.renderPicker();Lib.render()},
+ async used(ids){ids.forEach(id=>this.use[id]=(this.use[id]||0)+1);await Store.set("kv",this.use,"use")},
+ exportJSON(){return JSON.stringify({format:"product-styles-v1",version:1,count:this.all.length,fonts:FONTS,layouts:LAYOUTS,styles:this.all.map(({builtin,...s})=>{if(!s.title_font_desc)delete s.title_font_desc;if(!s.body_font_desc)delete s.body_font_desc;return s})},null,1)},
+ // accepts product-styles-v1 packs, infographic-styles-v1 files and plain arrays
+ async importText(t){let j;try{j=JSON.parse(t)}catch{throw new Error("فایل JSON معتبر نیست")}const arr=Array.isArray(j)?j:j&&j.styles;if(!Array.isArray(arr))throw new Error("قالب فایل شناخته نشد؛ فایل باید بسته‌ی استایل (product-styles-v1) باشد");
+  let n=0,same=0,bad=0;for(const o of arr){if(!o||!o.id||!o.prompt_en){bad++;continue}const s=normStyle(o),b=BUILTIN.find(x=>x.id==s.id);if(b&&sameStyle(normStyle(b,1),s)){same++;continue}await Store.set("styles",s);n++}
+  await this.load();return{added:n,same,bad,total:this.all.length,msg:`${j&&j.pack_name?"«"+j.pack_name+"»: ":""}${fa(n)} استایل وارد شد${same?` · ${fa(same)} تکراری`:""}${bad?` · ${fa(bad)} نامعتبر`:""} · مجموع ${fa(this.all.length)}`}}
+};
+const CATS=[[/کرم|سرم|آرایش|پوست|ضدآفتاب|رژ|شامپو|ماسک|لوسیون|skin|beauty|cosmetic|cream|serum/i,/آرایشی/],[/زعفران|عسل|قهوه|چای|شکلات|بیسکویت|نوشیدنی|خوراک|غذا|ادویه|پسته|خرما|food|snack|coffee|tea|honey|saffron/i,/خوراکی/],[/گوشی|هدفون|لپ.?تاپ|هندزفری|ساعت هوشمند|شارژر|کیبورد|ماوس|دوربین|اسپیکر|تبلت|phone|headphone|laptop|camera|speaker|gadget|watch/i,/فنی/],[/عطر|ادکلن|طلا|جواهر|انگشتر|گردنبند|perfume|jewel|luxury/i,/لوکس/],[/کودک|بچه|اسباب.?بازی|عروسک|toy|kid|baby/i,/ویژه/],[/ایرانی|صنایع.?دستی|فرش|زعفران|سفال|handicraft/i,/ویژه/]];
+const Suggest={
+ heur(o,d){const t=[d.name,d.info,o.name,o.category,...o.features.map(f=>f.title)].join(" "),gs=CATS.filter(c=>c[0].test(t)).map(c=>c[1]);
+  const sc=s=>{let v=0;if(s.layout==o.layout_suggestion)v+=2;for(const g of gs)if(g.test(s.group))v+=4;if(/فروشگاهی|استودیو/.test(s.group))v+=1;if(/ایرانی|زعفران|صنایع/.test(t)&&s.id=="persian-modern")v+=5;if(/کودک|اسباب/.test(t)&&s.id=="kids-toy")v+=5;if(/ارگانیک|طبیعی|گیاهی/.test(t)&&s.id=="organic-kraft")v+=4;return v};
+  return this.uniq(Styles.all.slice().sort((a,b)=>sc(b)-sc(a))).slice(0,3).map(s=>({id:s.id,reason:`مناسب ${o.category?"«"+o.category+"» و ":""}چیدمان «${layName(s.layout)}»`}))},
+ uniq(a){const out=[],gs=new Set();for(const s of a){if(gs.has(s.group))continue;gs.add(s.group);out.push(s)}return out},
+ async run(o,d){try{const j=await genText(`You pick visual styles for a product infographic (Instagram post / online shop).
+Product: ${o.name} (${o.category||"product"})
+Tagline: ${o.tagline}
+Features: ${o.features.map(f=>f.title).join(" | ")}
+Choose the 3 best and clearly different styles from this list for selling THIS product (id | group | name | layout | look):
+${Styles.all.map(s=>`${s.id} | ${s.group} | ${s.name_fa} | ${s.layout} | ${s.prompt_en.slice(0,80)}`).join("\n")}
+Return JSON only: {"picks":[{"id":"style id from the list","reason_fa":"one short Persian sentence why it fits"}]}`,[],{tries:1});
+   const p=(Array.isArray(j.picks)?j.picks:[]).filter(x=>x&&Styles.get(x.id)).slice(0,3).map(x=>({id:x.id,reason:fa(String(x.reason_fa||"")).slice(0,160)}));
+   for(const h of this.heur(o,d))if(p.length<3&&!p.some(x=>x.id==h.id))p.push(h);return p}catch(e){console.warn(e);return this.heur(o,d)}}
+};
+
+// ---------- make tab ----------
+const Make={grp:"",busy:false,
+ init(){$("#ex").innerHTML=EXAMPLES.map(t=>`<button class="chip" data-a="ex" data-v="${esc(t)}">${esc(t)}</button>`).join("");
+  $("#ar").innerHTML=SIZES.map(([v,l])=>`<option value="${v}">${esc(l)}</option>`).join("");
+  $("#pname").addEventListener("input",e=>{D.name=e.target.value;Draft.save()});$("#pinfo").addEventListener("input",e=>{D.info=e.target.value;Draft.save()});
+  $("#price").addEventListener("input",e=>{D.price=e.target.value.trim();Draft.save();this.preview()});
+  $("#ctaOn").addEventListener("change",e=>{D.cta=e.target.checked;Draft.save();this.preview()});$("#ctaT").addEventListener("input",e=>{D.ctaText=e.target.value.trim();Draft.save();this.preview()});
+  $("#ar").addEventListener("change",e=>this.opt("ar",e.target.value));
+  $("#bOn").addEventListener("change",e=>{S.brand.on=e.target.checked;Brand.save();Brand.sync()});
+  [["bShop","shop"],["bHandle","handle"],["bContact","contact"]].forEach(([id,k])=>$("#"+id).addEventListener("input",e=>{S.brand[k]=e.target.value.trim();Brand.save();Brand.sync()}));
+  $("#pq").addEventListener("input",()=>this.renderPicker());
+  document.addEventListener("paste",e=>{const fs=[...(e.clipboardData&&e.clipboardData.files||[])].filter(f=>/^image\//.test(f.type));if(fs.length&&!$("#t-make").classList.contains("hide")){e.preventDefault();Photos.add(fs)}});
+  const dz=$("#phs");dz.addEventListener("dragover",e=>e.preventDefault());dz.addEventListener("drop",e=>{e.preventDefault();Photos.add([...(e.dataTransfer&&e.dataTransfer.files||[])])});
+  $("#ol").addEventListener("input",e=>{const el=e.target.closest("[data-p]");if(!el||!D.outline)return;const v=el.textContent.replace(/\s+/g," ").trim(),p=el.dataset.p.split("."),o=D.outline;
+   if(p[0]=="f"){const f=o.features[+p[1]];if(f)f[p[2]]=v}else if(p[0]=="s"){const s=o.specs[+p[1]];if(s)s[p[2]]=v}else o[p[0]]=v;this.preview();Draft.save()})},
+ seg(id,items,cur,k){$("#"+id).innerHTML=items.map(([v,l])=>`<button class="${String(v)==String(cur)?"on":""}" data-a="opt" data-k="${k}" data-v="${v}">${esc(l)}</button>`).join("")},
+ sync(){$("#pname").value=D.name||"";$("#pinfo").value=D.info||"";$("#ar").value=D.ar;$("#price").value=D.price||"";$("#ctaOn").checked=!!D.cta;$("#ctaT").value=D.ctaText||"";
+  this.seg("lang",Object.entries(LANGS),D.lang,"lang");this.seg("nf",Object.entries(NFEAT),D.nf,"nf");this.seg("cnt",[1,2,3,4].map(n=>[n,fa(n)]),D.count,"count");
+  Photos.render();Brand.sync();this.renderOutline();this.renderSug();this.renderPicker()},
+ opt(k,v){if(k=="nf"||k=="count")v=+v;const ch=D[k]!==v;D[k]=v;Draft.save();this.sync();if(ch&&D.outline&&["lang","nf"].includes(k))toast("برای اعمال این تغییر در متن‌ها، «تحقیق دوباره» را بزن",5000)},
+ renderOutline(){const o=D.outline;$("#olCard").classList.toggle("hide",!o);if(!o){$("#ol").innerHTML="";$("#srcs").innerHTML="";return}
+  const ce=p=>`contenteditable="true" data-p="${p}"`,b=D.lang=="both";
+  $("#ol").innerHTML=`<div><div class="olt" ${ce("name")}>${esc(o.name)}</div>${b?`<div class="mut" dir="ltr" ${ce("name_en")}>${esc(o.name_en||"")}</div>`:""}<div class="ols" ${ce("tagline")}>${esc(o.tagline)}</div><div class="mut">${o.category?esc(o.category)+" · ":""}چیدمان پیشنهادی: ${esc(layName(o.layout_suggestion))} · ${fa(o.features.length)} ویژگی${o.badge?` · نشان: <span ${ce("badge")}>${esc(o.badge)}</span>`:""}</div></div>
+  <div class="g2">${o.features.map((f,i)=>`<div class="sec"><button class="x2" data-a="rmF" data-i="${i}" aria-label="حذف ویژگی">✕</button><h4 ${ce(`f.${i}.title`)}>${esc(f.title)}</h4>${b?`<div class="mut" dir="ltr" ${ce(`f.${i}.title_en`)}>${esc(f.title_en||"")}</div>`:""}<div ${ce(`f.${i}.desc`)}>${esc(f.desc)}</div>${f.icon_idea?`<div class="ic">🎨 ${esc(f.icon_idea)}</div>`:""}</div>`).join("")}</div>
+  ${o.specs.length?`<div class="specs">${o.specs.map((s,i)=>`<span class="st"><b ${ce(`s.${i}.label`)}>${esc(s.label)}</b>: <span ${ce(`s.${i}.value`)}>${esc(s.value)}</span><button class="x3" data-a="rmS" data-i="${i}" aria-label="حذف مشخصه">✕</button></span>`).join("")}</div>`:""}`;
+  $("#srcs").innerHTML=o.sources.length?o.sources.map(s=>`<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title||s.url)}</a></li>`).join(""):'<li class="mut">منبعی برنگشت</li>';this.preview()},
+ renderSug(){$("#sugBox").classList.toggle("hide",!D.sug.length);$("#sug").innerHTML=D.sug.map(p=>{const s=Styles.get(p.id);return s?`<div class="sgi ${D.sel.includes(s.id)?"on":""}" data-a="pick" data-id="${esc(s.id)}"><b>${D.sel.includes(s.id)?"✓ ":""}${esc(s.name_fa)}</b><span>${esc(p.reason||s.desc_fa)}</span><div class="mut">${esc(s.group)} · ${esc(layName(s.layout))}</div></div>`:""}).join("")},
+ renderPicker(){D.sel=D.sel.filter(id=>Styles.get(id));const list=Styles.filter($("#pq").value,this.grp);$("#pChips").innerHTML=Styles.chips(this.grp,"p");
+  $("#picker").innerHTML=list.map(s=>{const i=D.sel.indexOf(s.id);return`<div class="sc ${i>=0?"on":""}" data-a="pick" data-id="${esc(s.id)}">${Styles.swatch(s)}<button class="star" data-a="fav" data-id="${esc(s.id)}" aria-label="برگزیده">${Styles.favs.includes(s.id)?"★":"☆"}</button>${i>=0?`<span class="badge">${fa(i+1)} ✓</span>`:D.sug.some(p=>p.id==s.id)?'<span class="badge">💡 پیشنهادی</span>':""}<div class="b"><h4>${esc(s.name_fa)}</h4><p>${esc(s.desc_fa)}</p></div></div>`}).join("")||'<p class="mut">استایلی پیدا نشد.</p>';
+  $("#selInfo").textContent=D.sel.length?`${fa(D.sel.length)} از ۴ انتخاب شده`:"۱ تا ۴ استایل انتخاب کن";this.preview()},
+ toggle(id){const i=D.sel.indexOf(id);if(i>=0)D.sel.splice(i,1);else{if(D.sel.length>=4)return toast("حداکثر ۴ استایل");D.sel.push(id)}Draft.save();this.renderSug();this.renderPicker()},
+ snap(){const b=S.brand;return{lang:D.lang,ar:D.ar,price:D.price||"",cta:!!D.cta,ctaText:D.ctaText||"",brand:{on:!!b.on,shop:b.shop||"",handle:b.handle||"",contact:b.contact||"",logo:!!(b.on&&b.logo)}}},
+ useLogo(){return!!(S.brand.on&&S.brand.logo)},
+ promptsFor(){const o=D.outline;if(!o)return[];const st=D.sel.map(id=>Styles.get(id)).filter(Boolean),opt=this.snap(),n=S.photos.length,lg=this.useLogo();if(!st.length)return[];
+  return st.length>1?st.map(s=>({s,v:0,opt,prompt:buildPrompt(s,o,opt,"",n,lg),multi:false})):Array.from({length:D.count},(_,i)=>({s:st[0],v:i,opt,prompt:buildPrompt(st[0],o,opt,VARS[i%VARS.length]||"",n,lg),multi:D.count>1}))},
+ preview(){const pp=$("#pp");if(!pp)return;const t=this.promptsFor();pp.textContent=t.length?t.map(x=>x.prompt).join("\n\n— — — — —\n\n"):(D.outline?"یک استایل انتخاب کن.":"اول «تحقیق و ساخت طرح» را بزن.")},
+ lock(on){this.busy=on;["#resBtn","#autoBtn"].forEach(s=>$(s).disabled=on);$$('#olCard [data-a="research"],#olCard [data-a="shorten"]').forEach(b=>b.disabled=on)},
+ async research(){if(this.busy)return false;const nm=$("#pname").value.trim();D.name=nm;D.info=$("#pinfo").value.trim();
+  if(!nm&&!S.photos.length){toast("عکس محصول یا نام آن را بده");$("#pname").focus();return false}
+  if(!nm&&!D.info)toast("نام محصول را ننوشتی؛ جمینی سعی می‌کند از روی عکس بشناسدش",5000);
+  this.lock(true);const m=$("#resMsg"),st=x=>m.textContent=x;
+  try{const o=await Research.run(D,await Photos.refs(),st);D.outline=o;this.renderOutline();st("💡 در حال انتخاب استایل‌های مناسب…");D.sug=await Suggest.run(o,D);D.sel=D.sug[0]?[D.sug[0].id]:[];
+   Draft.save();this.renderSug();this.renderPicker();st("");toast("طرح محتوا آماده شد؛ استایل پیشنهادی انتخاب شد");const c=$("#olCard");c.scrollIntoView&&c.scrollIntoView({behavior:"smooth",block:"start"});return true}
+  catch(e){st("");toast("⚠️ "+e.message,9000);return false}finally{this.lock(false)}},
+ async shorten(){if(!D.outline||this.busy)return;this.lock(true);$("#resMsg").textContent="✂️ در حال کوتاه کردن متن‌ها…";
+  try{D.outline=await Research.shorten(D.outline,D);Draft.save();this.renderOutline();toast("متن‌ها کوتاه‌تر شد")}catch(e){toast("⚠️ "+e.message,8000)}finally{$("#resMsg").textContent="";this.lock(false)}},
+ async gen(){if(!D.outline)return toast("اول «تحقیق و ساخت طرح» را بزن");if(!D.sel.length){if(D.sug[0]){D.sel=[D.sug[0].id];this.renderPicker()}else return toast("یک استایل انتخاب کن")}
+  if(!S.photos.length)toast("بدون عکس محصول، مدل خودش محصول را می‌کشد؛ برای دقت بیشتر عکس بگذار",5000);
+  const photos=S.photos.slice(),logo=this.useLogo()?S.brand.logo:null,refs=[...await Photos.refs(),...(logo?[await toPngRef(logo)]:[])],o=D.outline;
+  const ts=this.promptsFor().map(x=>({kind:"gen",name:D.name||o.name,styleId:x.s.id,label:x.s.name_fa+(x.multi?" · نسخه‌ی "+fa(x.v+1):""),ar:x.opt.ar,opt:x.opt,outline:clone(o),photos,logo,prompt:x.prompt,refs}));
+  await Styles.used(D.sel);Jobs.add(ts)},
+ async auto(){if(await this.research())await this.gen()},
+ async reuse(r){Object.assign(D,{name:r.name||"",outline:clone(r.outline),sel:r.styleId&&Styles.get(r.styleId)?[r.styleId]:D.sel},r.opt?{lang:r.opt.lang,ar:r.opt.ar,price:r.opt.price,cta:r.opt.cta,ctaText:r.opt.ctaText}:{});
+  if(r.photos&&r.photos.length){S.photos=r.photos.slice();await Store.set("kv",S.photos.slice(),"photos")}Draft.save();this.sync();UI.tab("make");toast("طرح و عکس‌های این کار برگشت؛ می‌توانی دوباره بسازی")}
+};
+
+// ---------- generation jobs ----------
+const KIND={gen:"",var:"نسخه‌ی دیگر",fix:"🔧 اصلاح‌شده",edit:"✏️ ویرایش‌شده"};
+const Jobs={map:{},queue:[],active:0,total:0,ok:0,bad:0,ac:null,
+ add(ts){if(!ts.length)return;if(!this.ac){this.ac=new AbortController();this.total=this.ok=this.bad=0}const box=$("#res");if(!box.querySelector(".tile"))box.innerHTML="";
+  for(const t of ts){t.id=uid("r");this.map[t.id]=t;t.el=document.createElement("div");t.el.className="tile";t.el.dataset.t=t.id;
+   t.el.innerHTML=`${KIND[t.kind]?`<span class="kind">${KIND[t.kind]}</span>`:""}<div class="im sk" style="aspect-ratio:${t.ar.replace(":","/")}">در صف ساخت…</div><div class="cap">${esc(t.label)} · ${fa(t.ar)}</div><div class="acts"></div>`;
+   box.prepend(t.el);this.queue.push(t);this.total++}
+  $("#cancel").classList.remove("hide");this.count();this.pump();UI.tab("make");const c=$("#resCard");c.scrollIntoView&&c.scrollIntoView({behavior:"smooth",block:"start"})},
+ count(){$("#resCnt").textContent=this.total?`${fa(this.ok)} از ${fa(this.total)} آماده شد`+(this.bad?` · ${fa(this.bad)} ناموفق`:""):""},
+ pump(){while(this.active<2&&this.queue.length){const t=this.queue.shift();this.active++;this.exec(t).finally(()=>{this.active--;this.count();if(!this.active&&!this.queue.length){$("#cancel").classList.add("hide");this.ac=null}else this.pump()})}},
+ async exec(t){const im=$(".im",t.el),sig=this.ac.signal;
+  try{im.textContent="در حال ساخت…";const blob=await genImage(t.prompt,t.refs||[],sig,m=>im.textContent=m,t.ar);
+   const r={id:t.id,created:Date.now(),kind:t.kind,parent:t.parent||null,name:t.name,styleId:t.styleId,styleName:t.label,ar:t.ar,opt:t.opt,outline:t.outline,photos:t.photos||[],logo:t.logo||null,blob,prompt:t.prompt,fav:false,check:null};
+   await History.add(r);this.ok++;t.el.outerHTML=tileHTML(r,false);t.el=$(`[data-r="${r.id}"].tile`);if(S.settings.autoCheck!==false)Check.run(r.id)}
+  catch(e){this.bad++;im.className="im";im.innerHTML=`<div class="err">${e.name=="AbortError"?"⏹ لغو شد":"⚠️ "+esc(e.message)}</div>`;$(".acts",t.el).innerHTML=`<button class="btn sm" data-a="retry" data-r="${t.id}">🔄 تلاش دوباره</button>`}},
+ cancel(){if(this.ac)this.ac.abort();for(const t of this.queue){this.bad++;const im=$(".im",t.el);im.className="im";im.innerHTML='<div class="err">⏹ لغو شد</div>'}this.queue=[];this.count();$("#cancel").classList.add("hide")},
+ retry(id){const t=this.map[id];if(!t)return;t.el.remove();const{id:_,el,...rest}=t;this.add([rest])},
+ base(r){return{name:r.name,styleId:r.styleId,ar:r.ar,opt:r.opt,outline:clone(r.outline),photos:r.photos||[],logo:r.logo||null,parent:r.id}},
+ async prodRefs(r){const a=[];for(const p of r.photos||[])a.push(await toRef(p));return a},
+ async fix(id){const r=History.get(id);if(!r)return;const its=r.check&&r.check.issues||[];
+  this.add([{...this.base(r),kind:"fix",label:"اصلاح متن · "+r.styleName,prompt:fixPrompt(r,its),refs:[await toRef(r.blob),...await this.prodRefs(r)]}])},
+ async edit(id,ins){const r=History.get(id);if(!r||!ins)return;
+  this.add([{...this.base(r),kind:"edit",label:"ویرایش: "+ins.slice(0,40),prompt:editPrompt(r,ins),refs:[await toRef(r.blob),...await this.prodRefs(r)]}])},
+ async variant(id){const r=History.get(id);if(!r)return;const s=Styles.get(r.styleId);if(!s)return toast("استایل این کار دیگر وجود ندارد");const v=1+Math.floor(Math.random()*(VARS.length-1)),opt=r.opt||Make.snap();
+  const refs=[...await this.prodRefs(r),...(r.logo?[await toPngRef(r.logo)]:[])];
+  this.add([{...this.base(r),kind:"var",label:s.name_fa+" · نسخه‌ی دیگر",prompt:buildPrompt(s,r.outline,opt,VARS[v],(r.photos||[]).length,!!r.logo),refs}])}
+};
+
+// ---------- automatic Persian text check ----------
+const Check={
+ async run(id){const r=History.get(id);if(!r)return;r.check={status:"run"};this.paint(r);
+  try{const j=await genText(checkPrompt(Outline.texts(r.outline,r.opt||{})),[await toRef(r.blob)],{tries:1});
+   const issues=(Array.isArray(j.issues)?j.issues:[]).filter(x=>x&&(x.expected||x.found)).map(x=>({expected:String(x.expected||""),found:String(x.found||""),problem:String(x.problem_fa||"")}));
+   const sc=Number(j.score),score=isFinite(sc)?Math.max(0,Math.min(100,Math.round(sc))):(issues.length?60:100);
+   r.check={status:issues.length?"bad":"ok",score,issues,summary:String(j.summary_fa||""),at:Date.now()}}
+  catch(e){r.check={status:"er",err:e.name=="AbortError"?"لغو شد":e.message}}
+  this.paint(r);await Store.set("history",r)},
+ paint(r){$$(`[data-ck="${r.id}"]`).forEach(el=>{el.className="ck "+ckCls(r);el.innerHTML=ckHTML(r)});$$(`[data-acts="${r.id}"]`).forEach(el=>el.innerHTML=actsHTML(r,el.dataset.h=="1"))}
+};
+const ckCls=r=>!r.check?"hide":r.check.status=="ok"?"ok":r.check.status=="bad"?"bad":r.check.status=="er"?"er":"";
+function ckHTML(r){const c=r.check;if(!c)return"";if(c.status=="run")return"🔍 در حال بررسی متن فارسی…";if(c.status=="ok")return`✅ متن‌ها سالم است (امتیاز ${fa(c.score)} از ۱۰۰)`;if(c.status=="er")return"⚠️ بررسی متن ناموفق: "+esc(c.err||"");
+ return`⚠️ ${fa(c.issues.length)} مشکل در متن (امتیاز ${fa(c.score)}):<ul class="iss">${c.issues.slice(0,4).map(x=>`<li>«${esc(x.found)}» ← باید «${esc(x.expected)}» باشد</li>`).join("")}</ul>${c.issues.length>4?`<span>و ${fa(c.issues.length-4)} مورد دیگر</span>`:""}`}
+function actsHTML(r,h){const bad=r.check&&r.check.status=="bad";return`<button class="btn sm" data-a="png" data-r="${r.id}">⬇️ PNG</button><button class="btn sm" data-a="jpg" data-r="${r.id}">⬇️ JPG</button><button class="btn sm ${bad?"pri":""}" data-a="fix" data-r="${r.id}">🔧 اصلاح متن</button><button class="btn sm" data-a="aied" data-r="${r.id}">✏️ ویرایش با هوش مصنوعی</button><button class="btn sm" data-a="vari" data-r="${r.id}">🔁 نسخه‌ی دیگر</button><button class="btn sm" data-a="chk" data-r="${r.id}">🔍 بررسی متن</button><button class="btn sm" data-a="star" data-r="${r.id}" aria-label="برگزیده">${r.fav?"★":"☆"}</button>${h?`<button class="btn sm danger" data-a="hdel" data-r="${r.id}">🗑️</button>`:""}`}
+function tileHTML(r,h){return`<div class="tile" data-r="${r.id}">${KIND[r.kind]?`<span class="kind">${KIND[r.kind]}</span>`:""}<div class="im" style="aspect-ratio:${String(r.ar||"1:1").replace(":","/")}"><img src="${url(r.blob)}" alt="${esc(r.outline&&r.outline.name||"")}" data-a="open" data-r="${r.id}"></div><div class="cap">${esc(r.styleName||"")} · ${fa(r.ar)}${h?` · ${esc(fdate(r.created))}`:""}</div><div class="ck ${ckCls(r)}" data-ck="${r.id}">${ckHTML(r)}</div><div class="acts" data-acts="${r.id}" data-h="${h?1:0}">${actsHTML(r,h)}</div></div>`}
+
+// ---------- history ----------
+const History={items:[],
+ async load(){this.items=(await Store.list("history")).filter(r=>r&&r.blob instanceof Blob).sort((a,b)=>b.created-a.created);this.render()},
+ get(id){return this.items.find(x=>x.id==id)},
+ async add(r){this.items.unshift(r);await Store.set("history",r);this.render()},
+ async del(id){this.items=this.items.filter(x=>x.id!=id);await Store.delete("history",id);$$(`.tile[data-r="${id}"]`).forEach(e=>e.remove());this.render()},
+ render(){const q=($("#hq")&&$("#hq").value||"").trim(),list=this.items.filter(r=>!q||[r.name,r.styleName,r.outline&&r.outline.name].join(" ").includes(q));
+  $("#hisCnt").textContent=fa(this.items.length)+" کار";$("#his").innerHTML=list.map(r=>tileHTML(r,true)).join("")||'<p class="mut">هنوز کاری نساخته‌ای.</p>'}
+};
+function openRec(id){const r=History.get(id);if(!r)return;const o=r.outline||{},c=r.check;
+ modal(`<h3>${esc(o.name||r.name||"")}</h3><p class="mut">${esc(o.tagline||"")} · ${esc(r.styleName||"")} · ${fa(r.ar)} · ${esc(fdate(r.created))}</p><img class="big-img" src="${url(r.blob)}" alt="">
+ <div class="ck ${ckCls(r)}" data-ck="${r.id}">${ckHTML(r)}</div>${c&&c.summary?`<p class="mut">${esc(c.summary)}</p>`:""}
+ <div class="acts" data-acts="${r.id}" data-h="1">${actsHTML(r,true)}</div><div class="row"><button class="btn" data-a="reuse" data-r="${r.id}">♻️ استفاده دوباره از این طرح</button></div>
+ <details><summary>پرامپت</summary><pre>${esc(r.prompt||"")}</pre></details>`)}
+function editBox(id){const r=History.get(id);if(!r)return;const m=modal(`<h3>✏️ ویرایش با هوش مصنوعی</h3><p class="mut">بنویس چه چیزی عوض شود؛ محصول و متن‌ها همان می‌ماند.</p><textarea id="ein" placeholder="مثلاً پس‌زمینه ساده‌تر و محصول بزرگ‌تر شود"></textarea><div class="chips">${EDIT_CHIPS.map(t=>`<button class="chip" data-a="echip" data-v="${esc(t)}">${esc(t)}</button>`).join("")}</div><button class="btn pri big" data-a="edo" data-r="${r.id}">✨ اعمال ویرایش</button>`);$("#ein",m).focus&&$("#ein",m).focus()}
+async function dlImg(id,fmt){const r=History.get(id);if(!r)return;const type=fmt=="jpg"?"image/jpeg":"image/png";let b=r.blob;
+ if(b.type!=type){const c=await convert(b,type);if(c)b=c;else toast("تبدیل قالب ممکن نشد؛ فایل اصلی دانلود شد")}
+ dl(b,`product-${String(r.name||"saba").replace(/[^\p{L}\p{N}]+/gu,"-").slice(0,40)}-${r.id.slice(-4)}.${EXT[b.type]||"png"}`)}
+
+// ---------- styles library tab ----------
+const DEMO={name:"بطری آب ورزشی",tagline:"همیشه خنک، همیشه همراه",category:"water bottle",layout_suggestion:"hero-callouts",badge:"",sources:[],specs:[{label:"حجم",value:"۷۵۰ میلی‌لیتر"}],features:[{title:"دوجداره",desc:"۲۴ ساعت آب را خنک نگه می‌دارد",icon_idea:"snowflake"},{title:"ضدنشت",desc:"درب محکم و قفل‌دار",icon_idea:"lock"},{title:"سبک",desc:"مناسب باشگاه و سفر",icon_idea:"feather"}]};
+const Lib={grp:"",cur:null,
+ init(){$("#lq").addEventListener("input",()=>this.render());$("#hq").addEventListener("input",()=>History.render())},
+ render(){if(!$("#lib"))return;const list=Styles.filter($("#lq").value,this.grp);$("#lChips").innerHTML=Styles.chips(this.grp,"l");$("#libCnt").textContent=fa(Styles.all.length)+" استایل";
+  $("#lib").innerHTML=list.map(s=>{const ov=!s.builtin&&Styles.isBuiltin(s.id);return`<div class="sc">${Styles.swatch(s)}<button class="star" data-a="fav" data-id="${esc(s.id)}" aria-label="برگزیده">${Styles.favs.includes(s.id)?"★":"☆"}</button>${!s.builtin?`<span class="badge">${ov?"ویرایش‌شده":"بسته / شخصی"}</span>`:""}<div class="b"><h4>${esc(s.name_fa)}</h4><p>${esc(s.desc_fa)}</p><p>🔤 تیتر: ${esc(fontName(s.title_font))} · متن: ${esc(fontName(s.body_font))}</p><p>${esc(s.group)} · ${esc(layName(s.layout))}</p>
+   <div class="row" style="margin-top:6px"><button class="btn sm" data-a="sample" data-id="${esc(s.id)}">🖼️ نمونه</button><button class="btn sm" data-a="sedit" data-id="${esc(s.id)}">✏️ ویرایش</button>${ov?`<button class="btn sm" data-a="sdel" data-id="${esc(s.id)}">↩️ اصلی</button>`:!s.builtin?`<button class="btn sm danger" data-a="sdel" data-id="${esc(s.id)}">🗑️</button>`:""}</div></div></div>`}).join("")||'<p class="mut">استایلی پیدا نشد.</p>'},
+ async sample(id,btn){const s=Styles.get(id);if(!s)return;if(btn){btn.disabled=true;btn.textContent="⏳ در حال ساخت…"}
+  try{const b=await genImage(buildPrompt(s,DEMO,{lang:"fa",ar:"1:1",price:"",cta:false,ctaText:"",brand:{on:false}},"",0,false),[],null,null,"1:1");await Store.set("samples",{id,blob:b});Styles.samples[id]=b;Make.renderPicker();this.render();toast("نمونه‌ی «"+s.name_fa+"» ساخته شد")}
+  catch(e){toast("⚠️ "+e.message,8000);if(btn){btn.disabled=false;btn.textContent="🖼️ نمونه"}}},
+ edit(s,isNew){this.cur={s,isNew};const fo=(k)=>Object.keys(FONTS).map(f=>`<option value="${f}" ${f==s[k]?"selected":""}>${esc(FONTS[f].name_fa)}</option>`).join("")+(FONTS[s[k]]?"":`<option value="${esc(s[k])}" selected>${esc(s[k])}</option>`);
+  modal(`<h3>${isNew?"➕ استایل جدید":"✏️ ویرایش استایل"}</h3><div class="g2"><div><label>نام فارسی</label><input id="e_name" value="${esc(s.name_fa)}"></div><div><label>گروه</label><input id="e_group" value="${esc(s.group)}"></div></div>
+  <label>توضیح کوتاه</label><input id="e_desc" value="${esc(s.desc_fa)}"><label>پرامپت استایل (انگلیسی)</label><textarea id="e_prompt" dir="ltr">${esc(s.prompt_en)}</textarea>
+  <div class="g2"><div><label>چیدمان</label><select id="e_layout">${Object.keys(LAYOUTS).map(k=>`<option value="${k}" ${k==s.layout?"selected":""}>${esc(LAYOUTS[k].name_fa)}</option>`).join("")}</select></div><div><label>پالت رنگ (کد رنگ‌ها با ویرگول)</label><input id="e_pal" dir="ltr" value="${esc(s.palette.join(", "))}"></div>
+  <div><label>فونت تیتر</label><select id="e_tf">${fo("title_font")}</select></div><div><label>فونت متن</label><select id="e_bf">${fo("body_font")}</select></div></div>
+  <div class="row" style="margin-top:14px"><button class="btn pri" data-a="ssave">💾 ذخیره</button></div>`)},
+ async save(){const c=this.cur;if(!c)return;const v=k=>$("#e_"+k).value.trim(),prompt=v("prompt");if(!prompt)return toast("پرامپت استایل خالی است");
+  const s=normStyle({...c.s,name_fa:v("name")||c.s.name_fa,group:v("group"),desc_fa:v("desc"),prompt_en:prompt,layout:v("layout"),palette:v("pal"),title_font:v("tf"),body_font:v("bf")});
+  await Styles.put(s);$$(".modal").forEach(m=>m.remove());toast("استایل ذخیره شد")},
+ async imp(){const f=await pick(".json,application/json");if(!f)return;try{const r=await Styles.importText(await f.text());toast(r.msg,6000)}catch(e){toast("⚠️ "+e.message,7000)}}
+};
+
+// ---------- settings / storage UI ----------
+const UI={
+ tab(v){$$("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.v==v));["make","sty","his"].forEach(t=>$("#t-"+t).classList.toggle("hide",t!=v))},
+ status(){$("#tmpB").classList.toggle("hide",S.persisted||Bridge.st.on);const bb=$("#brB");if(bb){bb.className=(Bridge.st.checked?"":"hide ")+(Bridge.st.on&&!Bridge.st.err?"okb":"warn");bb.textContent=Bridge.st.on?(Bridge.st.err?"⚠️ ذخیره در اکستنشن ناموفق":"ذخیره‌ی دائمی با اکستنشن ✓"):"بدون اکستنشن: قبل از بستن پشتیبان زیپ بگیر";bb.title=Bridge.st.err||"وضعیت ذخیره‌ی دائمی"}this.storage()},
+ about(){modal(`<h3>ℹ️ درباره‌ی سازنده</h3><p><b>سید صبا میری</b></p><p>🌐 وب‌سایت: <a href="https://viroai.ir" target="_blank" rel="noopener">viroai.ir</a></p><p>📸 اینستاگرام: <a href="https://instagram.com/viromedia404" target="_blank" rel="noopener" dir="ltr">viromedia404</a></p><p>📞 تلفن: <a href="tel:+989120349893" dir="ltr">۰۹۱۲۰۳۴۹۸۹۳</a></p><p>✈️ تلگرام: به‌زودی…</p><p class="mut">اینفوگرافیک محصول صبا · نسخه‌ی ${fa(APP_VER)} · ${fa(BUILTIN.length)} استایل رایگان؛ بسته‌های استایل بیشتر از طریق سازنده</p>`)},
+ settings(){modal(`<h3>⚙️ تنظیمات</h3><h4>تم</h4><div class="themes">${THEMES.map(t=>`<button class="th ${t[0]==S.theme?"on":""}" data-a="theme" data-v="${t[0]}" style="background:${t[1]};border-color:${t[3]}"><i style="background:linear-gradient(90deg,${t[3]},${t[4]})"></i>${t[0]}</button>`).join("")}</div>
+  <h4>بررسی متن</h4><label style="margin:0"><input type="checkbox" id="acOn" ${S.settings.autoCheck!==false?"checked":""}> بعد از هر ساخت، متن فارسی خودکار بررسی شود</label>
+  ${KeyCfg.html()}
+  <h4>ذخیره‌سازی</h4><div id="sto"></div><h4>پاک کردن</h4><button class="btn danger" data-a="wipe">🗑️ پاک کردن همه‌ی داده‌ها</button><p class="mut">نسخه‌ی ${fa(APP_VER)} · مدل تصویر: ${IMAGE_MODEL} · مدل متن: ${TEXT_MODEL} · ${fa(BUILTIN.length)} استایل داخلی</p><p class="mut">ساخته‌ی سید صبا میری · viroai.ir · اینستاگرام viromedia404 · ۰۹۱۲۰۳۴۹۸۹۳ · تلگرام: به‌زودی</p>`);
+  $("#acOn").onchange=e=>{S.settings.autoCheck=e.target.checked;Store.set("kv",S.settings,"settings")};this.storage()},
+ async storage(){const b=$("#sto");if(!b)return;const e=await Store.estimate(),B=Bridge.st,tf=t=>t?new Date(t).toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit",second:"2-digit"}):"هنوز نه";
+  b.innerHTML=`<div class="sbox" id="brBox"><b>🧩 ذخیره‌ی دائمی با اکستنشن</b>${B.on?`<div class="mut">✅ وصل است (اکستنشن نسخه‌ی ${fa(B.ver||"؟")}) — هر تغییر خودکار در اکستنشن ذخیره می‌شود و با بستن Canvas پاک نمی‌شود</div><div class="mut">آخرین ذخیره: ${tf(B.last)} · در صف: ${fa(B.pending)}${B.restored?` · ${fa(B.restored)} مورد هنگام باز شدن بازیابی شد`:""}</div>${B.err?`<div class="mut" style="color:#ff8a8a">⚠️ ${esc(B.err)}</div>`:""}<div class="row" style="margin-top:8px"><button class="btn sm pri" data-a="bsync">🔄 همگام‌سازی کامل الان</button></div>`:`<div class="mut">${B.err?"⚠️ "+esc(B.err):"اکستنشن پیدا نشد؛ داده‌ها فقط تا بستن Canvas می‌مانند. قبل از بستن «دانلود پشتیبان کامل» را بزن، یا برنامه را از اکستنشن باز کن تا همه‌چیز خودکار و دائمی ذخیره شود."}</div>`}</div>
+  <div class="sbox"><b>🌐 مرورگر (IndexedDB)</b><div class="mut">${S.persisted?"✅ ذخیره‌ی دائمی فعال است":"⚠️ ذخیره‌ی موقت — مرورگر ممکن است داده‌ها را پاک کند"}</div><div class="mut">فضا: ${e?fmtB(e.usage||0)+" از "+fmtB(e.quota||0):"نامشخص"}</div></div>
+  <div class="sbox"><b>🗂️ پشتیبان فایل</b><div class="row" style="margin-top:8px"><button class="btn sm" data-a="zipOut">⬇️ دانلود پشتیبان کامل</button><button class="btn sm" data-a="zipIn">♻️ بازگردانی از پشتیبان</button></div></div>`},
+ async wipe(){if(!await ask("همه‌ی کارها، عکس‌ها، برند، استایل‌های وارد شده و تنظیمات پاک شود؟ این کار برگشت‌پذیر نیست."))return;await Store.clear();$("#res").innerHTML='<p class="mut">نتیجه‌ها اینجا نشان داده می‌شوند.</p>';await App.reload();$$(".modal").forEach(m=>m.remove());toast("همه‌ی داده‌ها پاک شد")}
+};
+
+// ---------- actions (event delegation) ----------
+const A={
+ tab:e=>UI.tab(e.dataset.v),settings:()=>UI.settings(),about:()=>UI.about(),close:e=>e.closest(".modal").remove(),
+ theme:e=>{applyTheme(e.dataset.v);Store.set("kv",S.theme,"theme");$$(".th").forEach(b=>b.classList.toggle("on",b.dataset.v==S.theme))},
+ opt:e=>Make.opt(e.dataset.k,e.dataset.v),ex:e=>{$("#pname").value=e.dataset.v;D.name=e.dataset.v;Draft.save()},
+ phAdd:async()=>{const f=await pick("image/*");if(f)Photos.add([f])},phDel:e=>Photos.del(+e.dataset.i),
+ logoAdd:async()=>{const f=await pick("image/*");if(!f)return;S.brand.logo=new Blob([f],{type:f.type||"image/png"});S.brand.on=true;Brand.save();Brand.sync()},
+ logoDel:()=>{S.brand.logo=null;Brand.save();Brand.sync()},
+ research:()=>Make.research(),auto:()=>Make.auto(),shorten:()=>Make.shorten(),
+ rmF:e=>{if(!D.outline||D.outline.features.length<2)return toast("حداقل یک ویژگی لازم است");D.outline.features.splice(+e.dataset.i,1);Draft.save();Make.renderOutline()},
+ rmS:e=>{if(!D.outline)return;D.outline.specs.splice(+e.dataset.i,1);Draft.save();Make.renderOutline()},
+ pick:e=>Make.toggle(e.dataset.id),clrSel:()=>{D.sel=[];Draft.save();Make.renderSug();Make.renderPicker()},fav:e=>Styles.fav(e.dataset.id),
+ grp:e=>{if(e.dataset.t=="p"){Make.grp=e.dataset.v;Make.renderPicker()}else{Lib.grp=e.dataset.v;Lib.render()}},
+ gen:()=>Make.gen(),cancel:()=>Jobs.cancel(),retry:e=>Jobs.retry(e.dataset.r),
+ png:e=>dlImg(e.dataset.r,"png"),jpg:e=>dlImg(e.dataset.r,"jpg"),
+ fix:e=>Jobs.fix(e.dataset.r),vari:e=>Jobs.variant(e.dataset.r),chk:e=>Check.run(e.dataset.r),aied:e=>editBox(e.dataset.r),
+ echip:e=>{const t=$("#ein");t.value=(t.value.trim()?t.value.trim()+"، ":"")+e.dataset.v},
+ edo:e=>{const v=$("#ein").value.trim();if(!v)return toast("بنویس چه تغییری می‌خواهی");e.closest(".modal").remove();return Jobs.edit(e.dataset.r,v)},
+ open:e=>openRec(e.dataset.r),reuse:e=>{const r=History.get(e.dataset.r);if(r){$$(".modal").forEach(m=>m.remove());return Make.reuse(r)}},
+ star:async e=>{const r=History.get(e.dataset.r);if(!r)return;r.fav=!r.fav;await Store.set("history",r);$$(`[data-a=star][data-r="${r.id}"]`).forEach(b=>b.textContent=r.fav?"★":"☆")},
+ hdel:async e=>{if(await ask("این کار حذف شود؟")){$$(".modal").forEach(m=>m.remove());History.del(e.dataset.r)}},
+ imp:()=>Lib.imp(),exp:()=>dl(new Blob([Styles.exportJSON()],{type:"application/json"}),"product-styles.json"),
+ newSty:()=>Lib.edit(normStyle({id:uid("style"),group:"🎨 سفارشی",prompt_en:""}),true),
+ sedit:e=>{const s=Styles.get(e.dataset.id);s&&Lib.edit({...s},false)},ssave:()=>Lib.save(),
+ sdel:async e=>{const s=Styles.get(e.dataset.id);if(s&&await ask(Styles.isBuiltin(s.id)?`استایل «${s.name_fa}» به حالت اصلی برگردد؟`:`استایل «${s.name_fa}» حذف شود؟`))await Styles.del(s.id)},
+ sample:e=>Lib.sample(e.dataset.id,e),
+ zipOut:()=>Backup.zipOut(),zipIn:()=>Backup.zipIn(),bsync:async e=>{e.disabled=true;e.textContent="در حال همگام‌سازی…";await Bridge.full(true);UI.storage()},
+ wipe:()=>UI.wipe(),banX:()=>$("#banner").classList.add("hide")
+};
+document.addEventListener("click",e=>{const el=e.target.closest("[data-a]");if(!el||el.disabled||!A[el.dataset.a])return;if(el.tagName!="A")e.preventDefault();e.stopPropagation();Promise.resolve(A[el.dataset.a](el,e)).catch(err=>toast("⚠️ "+err.message))});
+
+// ---------- app ----------
+const App={
+ async reload(){const th=await Store.get("kv","theme");applyTheme(th||Store.fastTheme()||"بنفش");S.settings={autoCheck:true,...(await Store.get("kv","settings")||{})};
+  const ph=await Store.get("kv","photos");S.photos=Array.isArray(ph)?ph.filter(b=>b instanceof Blob):[];
+  const br=await Store.get("kv","brand");S.brand={on:true,shop:"",handle:"",contact:"",logo:null,...(br&&typeof br=="object"?br:{})};if(!(S.brand.logo instanceof Blob))S.brand.logo=null;
+  await Draft.load();await Styles.load();await History.load();Make.sync()},
+ async init(){applyTheme(Store.fastTheme()||"بنفش");Make.init();Lib.init();Make.sync();
+  try{await Bridge.init()}catch(e){console.warn(e)}
+  const lost=!Bridge.st.restored&&!(await Store.get("kv","meta"))&&Store.lastSaveLS();await this.reload();
+  S.persisted=await Store.persist();UI.status();if(lost)$("#banner").classList.remove("hide");window.__ready=true}
+};
+App.init().catch(e=>toast("⚠️ خطا در شروع برنامه: "+e.message,9000));
+
+</script>
+</body>
+</html>
