@@ -282,12 +282,20 @@ window.addEventListener("load",function(){setTimeout(function(){if(!window.__rea
 <audio id="aud1" class="hide"></audio>
 <script>
 // ---------- fixed AI models (one model per job, no fallback chain) ----------
-const IMAGE_MODEL="gemini-3.1-flash-image";
-const TEXT_MODEL="gemini-2.5-flash";
-const TTS_MODEL="gemini-2.5-flash-preview-tts";
+// Canvas (free, no key) allows only these models. With the user's own API key, newer models unlock.
+const CANVAS_MODELS={image:"gemini-3.1-flash-image",text:"gemini-2.5-flash",tts:"gemini-2.5-flash-preview-tts"};
+const KEY_TEXT_MODELS=["gemini-3.5-flash-lite","gemini-3.5-flash","gemini-3.8-flash"];
+const KEY_TTS_MODELS=["gemini-3.8-flash-tts","gemini-3.8-flash-lite-tts"];
+const KeyCfg=(()=>{const L=k=>{try{return localStorage.getItem("sabaKey."+k)||""}catch(e){return""}};
+ return{key:L("key"),text:L("text")||KEY_TEXT_MODELS[0],tts:L("tts")||KEY_TTS_MODELS[0],
+ save(k,v){this[k]=String(v||"").trim();try{this[k]?localStorage.setItem("sabaKey."+k,this[k]):localStorage.removeItem("sabaKey."+k)}catch(e){}KeyCfg.apply();const n=document.getElementById("keyNote");if(n)n.textContent=KeyCfg.note()},
+ apply(){IMAGE_MODEL=CANVAS_MODELS.image;TEXT_MODEL=this.key?this.text:CANVAS_MODELS.text;TTS_MODEL=this.key?this.tts:CANVAS_MODELS.tts},
+ note(){return this.key?`✅ کلید شخصی فعال است · متن: ${TEXT_MODEL} · گویندگی: ${TTS_MODEL}`:"بدون کلید: مدل‌های رایگان Canvas استفاده می‌شوند"},
+ html(){const o=(a,v)=>a.map(m=>`<option ${m==v?"selected":""}>${m}</option>`).join("");return`<h4>🔑 کلید API شخصی (اختیاری)</h4><p class="mut">اگر کلید Gemini API خودت را بزنی، مدل‌های جدیدتر متن و صدای طبیعی‌تر 3.8 باز می‌شوند (هزینه‌اش با حساب خودت است). کلید فقط در همین مرورگر می‌ماند و جایی فرستاده نمی‌شود جز گوگل. خالی بگذاری، برنامه رایگان با Canvas کار می‌کند.</p><input type="password" dir="ltr" placeholder="AIza..." value="${this.key.replace(/"/g,"&quot;")}" oninput="KeyCfg.save('key',this.value)" style="width:100%;box-sizing:border-box;padding:8px;border-radius:10px"><div class="row" style="margin-top:8px;gap:8px;display:flex;flex-wrap:wrap"><label class="mut">متن <select dir="ltr" onchange="KeyCfg.save('text',this.value)">${o(KEY_TEXT_MODELS,this.text)}</select></label><label class="mut">گویندگی <select dir="ltr" onchange="KeyCfg.save('tts',this.value)">${o(KEY_TTS_MODELS,this.tts)}</select></label></div><p class="mut" id="keyNote">${this.note()}</p>`}}})();
+let IMAGE_MODEL,TEXT_MODEL,TTS_MODEL;KeyCfg.apply();
 const TTS_CHUNK=6000; // narration chars per TTS request; a children's book fits in ONE request (Gemini allows only a few TTS requests a day)
 const apiKey="";
-const APP_VER="1.0.2";
+const APP_VER="1.1";
 const UITHEMES=[["بنفش","#07051a","#110c27","#a874ff","#7d6aff","#100426"],["زمرد","#040c09","#0a1813","#2ee59d","#14c4b0","#02170f"],["فیروزه‌ای","#030c11","#091921","#25d9f2","#2fd6a8","#021c24"],["آبی","#050a18","#0c142e","#5592ff","#7d6cff","#030b22"],["صورتی","#0f0517","#1b0b24","#ff57da","#b763ff","#2a0422"],["نارنجی","#100a04","#1e140a","#ffa83d","#ff7040","#271302"],["قرمز","#110508","#200c11","#ff5a6c","#ff8a4f","#2a0409"],["طلایی","#0d0b05","#1b170b","#f6c94e","#e9a23b","#231a02"]];
 // age groups: story length + vocabulary
 const AGES={
@@ -496,7 +504,7 @@ const Bridge=(()=>{const NS="__sabaBridge",APP="saba-storybook",SS=Store.SS,SKIP
 // ---------- Gemini API (one model per job, no fallback chain) ----------
 async function callApi(model,body,sig,onStatus,tries=3){
  for(let a=0;;a++){let r;
-  try{r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body),signal:sig})}
+  try{r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${KeyCfg.key||apiKey}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body),signal:sig})}
   catch(e){if(e.name=="AbortError")throw abortErr();throw new Error("خطای شبکه: "+e.message)}
   if(r.ok)return r.json();
   let m="";try{const j=await r.json();m=j.error&&j.error.message||JSON.stringify(j)}catch{m=r.statusText||""}
@@ -983,7 +991,7 @@ const UI={
  status(){$("#tmpB").classList.toggle("hide",S.persisted||Bridge.st.on);const bb=$("#brB");if(bb){bb.className=(Bridge.st.checked?"":"hide ")+(Bridge.st.on&&!Bridge.st.err?"okb":"warn");bb.textContent=Bridge.st.on?(Bridge.st.err?"⚠️ ذخیره در اکستنشن ناموفق":"ذخیره‌ی دائمی با اکستنشن ✓"):"بدون اکستنشن: قبل از بستن پشتیبان زیپ بگیر";bb.title=Bridge.st.err||"وضعیت ذخیره‌ی دائمی"}UI.storage()},
  about(){modal(`<h3>ℹ️ درباره‌ی سازنده</h3><p><b>سید صبا میری</b></p><p>🌐 وب‌سایت: <a href="https://viroai.ir" target="_blank" rel="noopener">viroai.ir</a></p><p>📸 اینستاگرام: <a href="https://instagram.com/viromedia404" target="_blank" rel="noopener" dir="ltr">viromedia404</a></p><p>📞 تلفن: <a href="tel:+989120349893" dir="ltr">۰۹۱۲۰۳۴۹۸۹۳</a></p><p>✈️ تلگرام: به‌زودی…</p><p class="mut">کتاب‌ساز کودک صبا · نسخه‌ی ${fa(APP_VER)}</p>`)},
  settings(){modal(`<h3>⚙️ تنظیمات</h3><h4>رنگ برنامه</h4><div class="themes">${UITHEMES.map(t=>`<button class="th ${t[0]==S.uitheme?"on":""}" data-a="uitheme" data-v="${t[0]}" style="background:${t[1]};border-color:${t[3]}"><i style="background:linear-gradient(90deg,${t[3]},${t[4]})"></i>${t[0]}</button>`).join("")}</div>
-  <h4>ذخیره‌سازی</h4><div id="sto"></div><h4>پاک کردن</h4><button class="btn danger" data-a="wipe">🗑️ پاک کردن همه‌ی داده‌ها</button>
+  ${KeyCfg.html()}<h4>ذخیره‌سازی</h4><div id="sto"></div><h4>پاک کردن</h4><button class="btn danger" data-a="wipe">🗑️ پاک کردن همه‌ی داده‌ها</button>
   <p class="mut">نسخه‌ی ${fa(APP_VER)} · تصویر: ${IMAGE_MODEL} · متن: ${TEXT_MODEL} · گویندگی: ${TTS_MODEL} · ${fa(IMG_STYLES.length)} سبک داخلی</p><p class="mut">ساخته‌ی سید صبا میری · viroai.ir · اینستاگرام viromedia404 · ۰۹۱۲۰۳۴۹۸۹۳</p>`);UI.storage()},
  async storage(){const b=$("#sto");if(!b)return;const e=await Store.estimate(),B=Bridge.st,tf=t=>t?new Date(t).toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit",second:"2-digit"}):"هنوز نه";
   b.innerHTML=`<div class="sbox"><b>🧩 ذخیره‌ی دائمی با اکستنشن</b>${B.on?`<div class="mut">✅ وصل است (اکستنشن نسخه‌ی ${fa(B.ver||"؟")}) — هر تغییر خودکار در اکستنشن ذخیره می‌شود و با بستن Canvas پاک نمی‌شود</div><div class="mut">آخرین ذخیره: ${tf(B.last)} · در صف: ${fa(B.pending)}${B.restored?` · ${fa(B.restored)} مورد هنگام باز شدن بازیابی شد`:""}</div>${B.err?`<div class="mut" style="color:#ff8a8a">⚠️ ${esc(B.err)}</div>`:""}<div class="row" style="margin-top:8px"><button class="btn sm pri" data-a="bsync">🔄 همگام‌سازی کامل الان</button></div>`:`<div class="mut">${B.err?"⚠️ "+esc(B.err):"اکستنشن پیدا نشد؛ داده‌ها فقط تا بستن Canvas می‌مانند. قبل از بستن «دانلود پشتیبان کامل» را بزن، یا برنامه را از آیکون اکستنشن «کتاب‌ساز کودک صبا» یا جعبه‌ابزار باز کن تا همه‌چیز خودکار و دائمی ذخیره شود."}</div>`}</div>
