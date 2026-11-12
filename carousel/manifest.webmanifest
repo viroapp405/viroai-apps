@@ -1,0 +1,21 @@
+{
+  "id": "./",
+  "name": "کاروسل‌ساز صبا",
+  "short_name": "کاروسل‌ساز",
+  "description": "ساخت کاروسل اینستاگرام فارسی با هوش مصنوعی · ساخته‌ی سید صبا میری · viroai.ir",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "orientation": "any",
+  "background_color": "#07051a",
+  "theme_color": "#07051a",
+  "categories": ["productivity", "graphics", "social"],
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
