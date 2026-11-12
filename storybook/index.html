@@ -1,0 +1,1050 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>کتاب‌ساز کودک صبا · v1.0</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+<style>
+@font-face{font-family:PDigits;src:url(https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/fonts/webfonts/Vazirmatn-Regular.woff2) format("woff2");font-weight:100 500;unicode-range:U+0030-0039,U+0660-066C,U+06F0-06F9}
+@font-face{font-family:PDigits;src:url(https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/fonts/webfonts/Vazirmatn-Bold.woff2) format("woff2");font-weight:600 900;unicode-range:U+0030-0039,U+0660-066C,U+06F0-06F9}
+:root{--bg:#07051a;--card:#110c27;--neon:#a874ff;--neon2:#7d6aff;--btxt:#100426;--line:color-mix(in srgb,var(--neon) 26%,transparent);--soft:color-mix(in srgb,var(--neon) 12%,transparent);--txt:color-mix(in srgb,var(--neon) 8%,#f4f2fb);--mut:color-mix(in srgb,var(--neon) 18%,#9a96ad)}
+*{box-sizing:border-box}
+body{margin:0;font-family:Vazirmatn,Tahoma,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;background-image:radial-gradient(900px 600px at 85% -10%,color-mix(in srgb,var(--neon) 22%,transparent),transparent 70%),radial-gradient(700px 500px at 0% 110%,color-mix(in srgb,var(--neon2) 14%,transparent),transparent 70%);background-attachment:fixed}
+button,input,select,textarea{font:inherit;color:inherit}
+h3{margin:0 0 8px}h4{margin:16px 0 8px}
+.card{background:color-mix(in srgb,var(--card) 82%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 0 32px color-mix(in srgb,var(--neon) 10%,transparent);margin-bottom:16px}
+.btn{min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line);background:var(--soft);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;text-decoration:none}
+.btn:hover{border-color:var(--neon)}.btn:disabled{opacity:.5;cursor:wait}
+.pri{background:linear-gradient(135deg,var(--neon),var(--neon2));color:var(--btxt);border:0;font-weight:700;box-shadow:0 0 18px color-mix(in srgb,var(--neon) 40%,transparent)}
+.big{min-height:56px;font-size:1.1rem;width:100%}
+.sm{padding:0 12px;font-size:.82rem;min-height:38px}
+.ic{width:40px;padding:0;min-height:40px}
+.danger{border-color:#ff5a6c;color:#ff8a9a}
+input,select,textarea{width:100%;min-height:44px;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;padding:10px 14px;outline:0}
+select option{background:#15102b}
+textarea{min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--neon)}
+input[type=checkbox],input[type=range]{width:auto;min-height:0;vertical-align:middle;accent-color:var(--neon)}
+label{display:block;margin:12px 0 6px;color:var(--mut);font-size:.9rem}
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:10px 16px;flex-wrap:wrap;background:color-mix(in srgb,var(--bg) 75%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.logo{font-weight:800;font-size:1.15rem;background:linear-gradient(90deg,var(--neon),var(--neon2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.seg{display:inline-flex;gap:4px;padding:4px;border-radius:999px;border:1px solid var(--line);background:rgba(0,0,0,.3);flex-wrap:wrap}
+.seg button{min-height:40px;padding:0 14px;border-radius:999px;border:0;background:none;cursor:pointer}
+.seg .on{background:linear-gradient(135deg,var(--neon),var(--neon2));color:var(--btxt);font-weight:700}
+.sp{flex:1}
+main{max-width:1320px;margin:auto;padding:16px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:800px){.g2,.g3{grid-template-columns:1fr}.top{padding:8px}}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.chip{min-height:38px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(0,0,0,.25);cursor:pointer;font-size:.85rem}
+.chip.on{background:var(--neon);color:var(--btxt);font-weight:700}
+.mut{color:var(--mut);font-size:.85rem}
+.hide{display:none!important}
+.step{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--neon),var(--neon2));color:var(--btxt);font-weight:800;margin-inline-end:6px}
+.modal{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:12px}
+.modal>.card{width:min(980px,100%);max-height:94vh;overflow:auto;margin:0;position:relative}
+.x{position:absolute;top:10px;left:10px;width:44px;padding:0}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:90;background:var(--card);border:1px solid var(--neon);border-radius:16px;padding:12px 18px;max-width:92vw;box-shadow:0 0 24px color-mix(in srgb,var(--neon) 40%,transparent)}
+.okb{background:#1f6f43;color:#eafff2;border-radius:999px;padding:0 14px;font-size:.82rem;font-weight:700;cursor:pointer;border:0;min-height:36px}
+.warn{background:#f6c94e;color:#231a02;border-radius:999px;padding:0 14px;font-size:.82rem;font-weight:700;cursor:pointer;border:0;min-height:36px}
+#brB{max-width:42vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.banner{background:#3a0d18;border:1px solid #ff5a6c;border-radius:18px;padding:12px;margin-bottom:14px}
+.sbox{border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}
+.cre{display:flex;flex-wrap:wrap;gap:6px 10px;justify-content:center;align-items:center;padding:18px 14px 26px;margin-top:10px;border-top:1px solid var(--line);color:var(--mut);font-size:.85rem}.cre b{color:var(--txt)}.cre a{color:var(--neon);text-decoration:none}.cre a:hover{text-decoration:underline}
+pre{white-space:pre-wrap;direction:ltr;text-align:left;font-size:.78rem;background:rgba(0,0,0,.4);padding:12px;border-radius:14px;max-height:300px;overflow:auto}
+summary{cursor:pointer;min-height:44px;display:flex;align-items:center;color:var(--mut)}
+.themes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.th{min-height:64px;border-radius:16px;border:2px solid;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#fff}
+.th i{width:36px;height:12px;border-radius:9px}.th.on{outline:3px solid #fff}
+[contenteditable=true]{outline:0;cursor:text}[contenteditable=true]:hover{box-shadow:0 0 0 2px rgba(168,116,255,.35)}[contenteditable=true]:focus{box-shadow:0 0 0 3px #a874ff;background:rgba(168,116,255,.08)}
+/* voice input */
+.mic{position:relative}
+.mic.rec{background:#ff3b5c;color:#fff;border-color:#ff3b5c;animation:pulse 1.2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 10px rgba(255,59,92,.15)}}
+.voice{display:flex;gap:12px;align-items:center;flex-wrap:wrap;border:1px dashed var(--neon);border-radius:20px;padding:14px;background:var(--soft)}
+.voice .bigmic{width:72px;height:72px;border-radius:50%;font-size:2rem;padding:0}
+.lvl{height:8px;width:160px;border-radius:9px;background:rgba(0,0,0,.4);overflow:hidden}.lvl i{display:block;height:100%;width:0;background:linear-gradient(90deg,#2ee59d,#f6c94e,#ff5a6c)}
+.fld{position:relative}.fld .mic{position:absolute;bottom:8px;left:8px;min-height:36px;width:36px;padding:0}
+/* style cards */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;max-height:340px;overflow:auto;padding:4px}
+.stc{border:1px solid var(--line);border-radius:16px;padding:10px;cursor:pointer;background:rgba(0,0,0,.25);min-height:64px}
+.stc b{display:block;font-size:.92rem}.stc small{color:var(--mut);font-size:.72rem}
+.stc.on{border-color:var(--neon);box-shadow:0 0 0 2px var(--neon);background:var(--soft)}
+.photo{display:flex;gap:12px;align-items:center;flex-wrap:wrap;border:1px dashed var(--line);border-radius:18px;padding:12px}
+.photo .pv{width:96px;height:96px;border-radius:50%;background:rgba(0,0,0,.35) center/cover no-repeat;border:2px solid var(--neon);display:grid;place-items:center;font-size:2rem;flex:none}
+.privacy{font-size:.78rem;color:var(--mut)}
+/* page boxes (900 × 1200 logical, 3:4) */
+.sbx{position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;border-radius:6px;background:#fffaf0}
+.sbx>.pg{position:absolute;top:0;right:0;transform-origin:top right}
+/* editor */
+.ed{display:grid;grid-template-columns:150px minmax(0,1fr) 340px;gap:14px;align-items:start}
+@media(max-width:1100px){.ed{grid-template-columns:120px 1fr}.ed .props{grid-column:1/-1}}
+@media(max-width:700px){.ed{grid-template-columns:1fr}.thumbs{flex-direction:row!important;max-height:none!important}.thumbs .tb{width:90px;flex:none}}
+.thumbs{display:flex;flex-direction:column;gap:10px;max-height:80vh;overflow:auto;padding:4px}
+.tb{position:relative;cursor:pointer;border-radius:10px;border:2px solid transparent}
+.tb.on{border-color:var(--neon);box-shadow:0 0 14px color-mix(in srgb,var(--neon) 50%,transparent)}
+.tb .n{position:absolute;top:4px;right:6px;z-index:3;background:rgba(0,0,0,.65);color:#fff;border-radius:999px;font-size:.7rem;padding:0 8px}
+.tb .fl{position:absolute;bottom:4px;left:6px;z-index:3;font-size:.75rem;background:rgba(0,0,0,.6);border-radius:999px;padding:0 6px}
+.stage{width:100%;max-width:520px;margin:0 auto;position:sticky;top:84px}.stage .sbx{border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+.props .card{padding:14px}.props h4{margin:4px 0 8px}
+.etb{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:12px}.etb input{max-width:280px}
+.pbar{height:6px;border-radius:9px;background:rgba(255,255,255,.08);overflow:hidden;margin:6px 0}.pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--neon),var(--neon2));width:0;transition:width .3s}
+.books{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.bkc{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:rgba(0,0,0,.25)}.bkc .b{padding:10px}.bkc h4{margin:0 0 4px}
+.laygrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.lb{border:1px solid var(--line);border-radius:14px;padding:12px;cursor:pointer;background:rgba(0,0,0,.25);text-align:center}.lb:hover{border-color:var(--neon)}.lb b{display:block;font-size:1.6rem}
+audio{width:100%;height:40px}
+.sheet{width:100%;border-radius:14px;background:#fff center/contain no-repeat;aspect-ratio:16/9;border:1px solid var(--line);display:grid;place-items:center;color:#555}
+.sw{display:flex;gap:6px;flex-wrap:wrap}.sw button{width:34px;height:34px;border-radius:50%;border:2px solid transparent;cursor:pointer}.sw button.on{border-color:#fff;outline:2px solid var(--neon)}
+/* ===== reader (flipbook, right-to-left like a Persian book) ===== */
+#rd{position:fixed;inset:0;z-index:70;background:radial-gradient(1200px 700px at 50% 40%,#2a2140,#0b0816);display:flex;flex-direction:column;outline:0;user-select:none;-webkit-user-select:none}
+#rd .rbar{display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap;padding:8px}
+#rd .rbar .btn{min-height:40px}
+#rd .rpos{color:#cfc7e6;font-size:.85rem;min-width:110px;text-align:center}
+#rd .rst{flex:1;display:flex;align-items:center;justify-content:center;perspective:2600px;overflow:hidden;touch-action:pan-y}
+.bk{position:relative;transition:transform .8s ease}
+.bk.cf{transform:translateX(25%)}.bk.cb{transform:translateX(-25%)}
+.bk .half{position:absolute;top:0;width:50%;height:100%;background:#fffaf0}
+.bk .half.hr{right:0;box-shadow:inset 18px 0 30px -18px rgba(0,0,0,.35)}.bk .half.hl{left:0;box-shadow:inset -18px 0 30px -18px rgba(0,0,0,.35)}
+.bk .half.e{background:transparent;box-shadow:none}
+.bk .half .sbx,.leaf .sbx{border-radius:0;height:100%;width:100%;aspect-ratio:auto}
+.bk.single .half{width:100%}.bk.single .half.hl{display:none}
+.bk .spineL{position:absolute;top:0;bottom:0;left:50%;width:2px;margin-left:-1px;background:rgba(0,0,0,.25);z-index:5;pointer-events:none}.bk.single .spineL,.bk.cf .spineL,.bk.cb .spineL{display:none}
+.bk .shadow{position:absolute;inset:-14px;z-index:-1;border-radius:6px;box-shadow:0 30px 70px rgba(0,0,0,.6)}
+.leaf{position:absolute;top:0;width:50%;height:100%;z-index:10;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.45,.05,.35,1)}
+.bk.single .leaf{width:100%}
+.leaf.L{left:0;transform-origin:100% 50%}.leaf.R{right:0;transform-origin:0 50%}
+.leaf .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;background:#fffaf0}
+.leaf .face.bf{transform:rotateY(180deg)}
+.leaf .face::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .9s}
+.leaf.L .face.ff::after{background:linear-gradient(to left,rgba(0,0,0,.45),rgba(0,0,0,0) 60%)}.leaf.L .face.bf::after{background:linear-gradient(to right,rgba(255,255,255,.35),rgba(0,0,0,.25) 70%)}
+.leaf.R .face.ff::after{background:linear-gradient(to right,rgba(0,0,0,.45),rgba(0,0,0,0) 60%)}.leaf.R .face.bf::after{background:linear-gradient(to left,rgba(255,255,255,.35),rgba(0,0,0,.25) 70%)}
+.leaf.go .face::after{opacity:1}
+.leaf .curl{position:absolute;top:0;bottom:0;width:40px;z-index:3;pointer-events:none;opacity:0;transition:opacity .45s}
+.leaf.L .curl{left:0;background:linear-gradient(to right,rgba(0,0,0,.18),transparent)}.leaf.R .curl{right:0;background:linear-gradient(to left,rgba(0,0,0,.18),transparent)}
+.leaf.go .curl{opacity:1}
+#rd .hint{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);color:#a9a1c4;font-size:.8rem}
+/* ===== the page itself (900 × 1200 logical) ===== */
+.pg{width:900px;height:1200px;position:relative;overflow:hidden;background:#fffaf0;color:#2b2233;font-family:var(--fb);direction:rtl;--pad:60px}
+.pg .ct{font-family:var(--ft);margin:0;line-height:1.35;font-weight:var(--tw,700)}
+.pg.none{background:transparent}
+.pg .bgim,.pg .im.has{background-size:cover;background-position:center;background-repeat:no-repeat}
+.pg .bgim{position:absolute;inset:0}
+.pg .ph{position:absolute;inset:0;display:grid;place-items:center;text-align:center;font-size:34px;color:#8a7f9a;background:repeating-linear-gradient(45deg,#f3ecdf,#f3ecdf 22px,#efe6d6 22px,#efe6d6 44px)}
+.pg.cover{background:var(--bc)}
+.pg.cover .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,0) 38%,rgba(0,0,0,0) 72%,rgba(0,0,0,.55))}
+.pg.cover .ctop{position:absolute;top:70px;left:60px;right:60px;text-align:center;color:#fff;text-shadow:0 4px 18px rgba(0,0,0,.55)}
+.pg.cover .ct{font-size:96px}.pg.cover .cs{font-size:40px;margin-top:10px}
+.pg.cover .cbot{position:absolute;bottom:60px;left:60px;right:60px;display:flex;flex-direction:column;align-items:center;gap:14px;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6)}
+.pg .chip2{background:var(--bc);color:#fff;border-radius:999px;padding:8px 34px;font-size:38px;font-weight:700;text-shadow:none;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+.pg.cover .au{font-size:32px}
+.pg .spine{position:absolute;top:0;bottom:0;right:0;width:26px;background:linear-gradient(90deg,rgba(0,0,0,0),rgba(0,0,0,.28))}.pg .spine.r{right:auto;left:0;background:linear-gradient(270deg,rgba(0,0,0,0),rgba(0,0,0,.28))}
+.pg.tpage{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;text-align:center;padding:80px;background:#fffaf0}
+.pg.tpage .ct{font-size:80px;color:var(--bc)}.pg.tpage .cs{font-size:38px;color:#6b5f78}
+.pg .orn{color:var(--bc);font-size:34px;letter-spacing:18px}.pg .orn.big{font-size:120px;opacity:.35}
+.pg .medal{width:330px;height:330px;border-radius:50%;background-size:cover;background-position:center;border:10px solid var(--bc);box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.pg.tpage .au{font-size:36px;color:#4a3f58}.pg.tpage .dd{font-size:34px;color:#7a6d88;font-style:italic;max-width:640px;line-height:1.8}
+.pg.blank{display:grid;place-items:center;background:#fffaf0}
+.pg.back{background:var(--bc);color:#fff}
+.pg.back .bgim.faded{opacity:.22;filter:blur(2px)}
+.pg.back .bwrap{position:absolute;top:150px;left:90px;right:90px;bottom:220px;display:flex;flex-direction:column;justify-content:center;gap:40px;text-align:center;overflow:hidden}
+.pg.back .ct{font-size:64px}.pg.back .blurb{font-size:44px;line-height:1.9;margin:0;background:rgba(0,0,0,.18);border-radius:40px;padding:40px}
+.pg.back .bcre{position:absolute;bottom:70px;left:0;right:0;text-align:center;font-size:26px;opacity:.9}
+.pg.story .pn{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-size:30px;color:#9b8fab;font-family:Vazirmatn}
+.pg.story .im{position:absolute;overflow:hidden}
+.pg.story .tx{position:absolute;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.pg.story .tx p{margin:0;font-size:46px;line-height:1.95;text-align:justify;white-space:pre-wrap}
+.pg.story .fin{text-align:center;font-family:var(--ft);font-size:44px;color:var(--bc);margin-top:20px}
+.pg.L-top .im{top:0;left:0;right:0;height:675px;border-bottom:8px solid var(--bc)}
+.pg.L-top .tx{top:700px;left:var(--pad);right:var(--pad);bottom:80px}
+.pg.L-full .im{inset:0}
+.pg.L-full .tx{left:44px;right:44px;bottom:44px;max-height:470px;background:rgba(255,250,240,.92);border-radius:40px;padding:30px 40px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.pg.L-full .pn{display:none}
+.pg.L-text .tx{top:110px;left:90px;right:90px;bottom:110px;border:6px double var(--bc);border-radius:40px;padding:50px}
+.pg.L-text .tx p{font-size:54px;text-align:center}
+.pg .tx.fit-s p,.pg .bwrap.fit-s .blurb{font-size:38px!important}.pg .tx.fit-xs p,.pg .bwrap.fit-xs .blurb{font-size:32px!important}.pg .tx.fit-xxs p,.pg .bwrap.fit-xxs .blurb{font-size:27px!important}
+.pg.a3 .tx p{font-size:56px}.pg.a8 .tx p{font-size:40px}
+</style>
+</head>
+<body>
+<div id="bootErr" style="display:none;position:fixed;z-index:99999;inset:auto 10px 10px 10px;background:#3a0b1e;color:#ffd7e3;border:1px solid #ff5c8a;border-radius:12px;padding:10px 14px;font:13px/1.8 Tahoma,sans-serif;direction:rtl;white-space:pre-wrap;max-height:40vh;overflow:auto"></div>
+<script>(function(){var n=0;function show(m){var b=document.getElementById("bootErr");if(!b||n>6)return;n++;b.style.display="block";b.textContent+=(b.textContent?"\n":"")+"⚠️ خطای برنامه (برای صبا/هارک بفرست): "+m}
+window.addEventListener("error",function(e){show((e.message||"error")+" | خط "+(e.lineno||"?")+":"+(e.colno||"?"))});
+window.addEventListener("unhandledrejection",function(e){var r=e.reason;show("Promise: "+(r&&(r.stack||r.message)||r))});
+window.addEventListener("load",function(){setTimeout(function(){if(!window.__ready&&!window.__booted)show("کد اصلی اجرا نشد؛ احتمالاً جمینی کد را ناقص نوشته یا تغییر داده. آخر کد باید با تگ پایان html تمام شود.")},8000)})})();</script>
+<header class="top">
+ <span class="logo">📚 کتاب‌ساز کودک صبا</span>
+ <nav class="seg" id="tabs"><button class="on" data-a="tab" data-v="make">ساخت کتاب</button><button data-a="tab" data-v="ed">ویرایشگر</button><button data-a="tab" data-v="books">کتاب‌های من</button><button data-a="tab" data-v="lib">سبک‌ها</button></nav>
+ <span class="sp"></span>
+ <button class="warn hide" id="brB" data-a="settings" title="وضعیت ذخیره‌ی دائمی"></button>
+ <button class="warn hide" id="tmpB" data-a="settings" title="داده‌ها ممکن است پاک شوند">ذخیره موقت</button>
+ <button class="btn" data-a="about" aria-label="درباره‌ی سازنده" title="درباره‌ی سازنده" style="width:44px;padding:0">ℹ️</button>
+ <button class="btn" data-a="settings" aria-label="تنظیمات" style="width:44px;padding:0">⚙️</button>
+</header>
+<main>
+<div class="banner hide" id="banner"><b>داده‌ها پاک شده‌اند؛ از پشتیبان زیپ بازگردانی کن</b><div class="row" style="margin-top:8px"><button class="btn sm" data-a="zipIn">♻️ بازگردانی از پشتیبان</button><button class="btn sm" data-a="banX">بستن</button></div></div>
+
+<section id="t-make">
+ <div class="card">
+  <h3><span class="step">۱</span>قهرمان قصه کیست؟</h3>
+  <div class="g2">
+   <div><label for="cName">اسم کودک</label><div class="fld"><input id="cName" placeholder="مثلاً «آوا» یا «آرمان»" style="padding-left:52px"><button class="btn mic" data-a="mic" data-t="cName" aria-label="گفتن اسم">🎙️</button></div></div>
+   <div><label>پسر یا دختر</label><div class="seg" id="hero"></div></div>
+  </div>
+  <label>سن</label><div class="seg" id="age"></div>
+  <label>عکس کودک (اختیاری؛ تا قهرمان در همه‌ی صفحه‌ها شبیه خودش شود)</label>
+  <div class="photo"><div class="pv" id="phPv">👧</div><div style="flex:1;min-width:200px"><div class="row"><button class="btn sm pri" data-a="photo">📷 انتخاب عکس</button><button class="btn sm hide" id="phX" data-a="photoX">🗑️ حذف عکس</button></div>
+   <div class="privacy">🔒 عکس فقط در همین مرورگر می‌ماند و فقط برای کشیدن تصویرها به جمینی فرستاده می‌شود.</div></div></div>
+  <label for="looks">ظاهر قهرمان (اختیاری؛ اگر عکس نداری خیلی کمک می‌کند)</label>
+  <div class="fld"><input id="looks" placeholder="مثلاً «موهای فرفری قهوه‌ای، عینک گرد، پیراهن زرد»" style="padding-left:52px"><button class="btn mic" data-a="mic" data-t="looks" aria-label="گفتن ظاهر">🎙️</button></div>
+ </div>
+
+ <div class="card">
+  <h3><span class="step">۲</span>قصه</h3>
+  <div class="seg" id="src"></div>
+  <div id="srcIdea">
+   <div class="voice" style="margin-top:12px">
+    <button class="btn pri bigmic mic" id="vBig" data-a="voiceIdea" aria-label="ضبط صدا">🎙️</button>
+    <div style="flex:1;min-width:200px"><b>ایده را با صدای خودت بگو</b><div class="mut" id="vMsg">روی میکروفون بزن، ایده‌ی قصه را بگو و دوباره بزن تا تمام شود.</div><div class="lvl hide" id="vLvl"><i></i></div></div>
+    <button class="btn sm" data-a="voiceFile">📁 فایل صوتی</button>
+   </div>
+   <label for="idea">ایده‌ی قصه</label>
+   <div class="fld"><textarea id="idea" placeholder="مثلاً «آوا با گربه‌اش به جنگل می‌رود و یک ستاره‌ی گم‌شده را پیدا می‌کند»"></textarea><button class="btn mic" data-a="mic" data-t="idea" aria-label="گفتن ایده">🎙️</button></div>
+   <div class="chips" id="ex"></div>
+   <label>پیام قصه</label><div class="chips" id="moral"></div>
+  </div>
+  <div id="srcOwn" class="hide">
+   <label for="own">متن قصه‌ی خودت (کلمه‌ها دست نمی‌خورند؛ فقط صفحه‌بندی می‌شود)</label>
+   <div class="fld"><textarea id="own" style="min-height:200px" placeholder="قصه را اینجا بنویس یا بچسبان…"></textarea><button class="btn mic" data-a="mic" data-t="own" aria-label="گفتن قصه">🎙️</button></div>
+  </div>
+  <div class="g3">
+   <div><label for="cnt">تعداد صفحه</label><select id="cnt"></select></div>
+   <div><label for="author">نام نویسنده روی جلد (اختیاری)</label><input id="author" placeholder="مثلاً «نوشته‌ی مامان و بابا»"></div>
+   <div><label for="dedic">تقدیم‌نامه (اختیاری)</label><input id="dedic" placeholder="مثلاً «تقدیم به آوای عزیزم»"></div>
+  </div>
+ </div>
+
+ <div class="card">
+  <h3><span class="step">۳</span>سبک تصویرها و صدا</h3>
+  <div class="sgrid" id="mSty"></div>
+  <div class="g3">
+   <div><label for="mLay">چیدمان صفحه</label><select id="mLay"><option value="top">🖼️ تصویر بالا، متن پایین</option><option value="full">🌄 تصویر تمام‌صفحه</option></select></div>
+   <div><label for="mVoice">صدای راوی</label><select id="mVoice"></select></div>
+   <div><label for="mVst">سبک خواندن</label><select id="mVst"></select></div>
+  </div>
+ </div>
+
+ <div class="card">
+  <h3><span class="step">۴</span>ساخت</h3>
+  <button class="btn pri big" id="mkBtn" data-a="build">✨ بساز کتاب قصه</button>
+  <p class="mut" id="mkMsg">اول قصه نوشته می‌شود، بعد برگه‌ی شخصیت از روی عکس، بعد جلد و تصویر هر صفحه. همه‌چیز بعداً قابل ویرایش است.</p>
+  <div class="row"><button class="btn sm" data-a="newBlank">📄 کتاب خالی (خودم می‌نویسم)</button></div>
+ </div>
+</section>
+
+<section id="t-ed" class="hide">
+ <div id="edEmpty" class="card"><p>هنوز کتابی باز نیست. از «ساخت کتاب» شروع کن یا از «کتاب‌های من» یکی را باز کن.</p></div>
+ <div id="edBox" class="hide">
+  <div class="etb">
+   <input id="bTitle" aria-label="نام کتاب">
+   <button class="btn sm pri" data-a="read">📖 خواندن کتاب</button>
+   <button class="btn sm" data-a="sheetBox">🧒 شخصیت</button>
+   <button class="btn sm" data-a="allImgs">🖼️ کشیدن همه‌ی تصویرها</button>
+   <button class="btn sm" data-a="allAudio">🔊 گویندگی کل کتاب</button>
+   <button class="btn sm" data-a="bookSet">⚙️ تنظیمات کتاب</button>
+   <button class="btn sm" data-a="exportMenu">⬇️ خروجی</button>
+   <button class="btn sm ic" data-a="undo" title="برگشت (Ctrl+Z)">↶</button><button class="btn sm ic" data-a="redo" title="جلو (Ctrl+Y)">↷</button>
+   <span class="sp"></span><span class="mut" id="jobMsg"></span><button class="btn sm danger hide" id="jobX" data-a="cancelJobs">⏹ توقف</button>
+  </div>
+  <div class="pbar hide" id="jobBar"><i></i></div>
+  <div class="ed">
+   <div class="thumbs" id="thumbs"></div>
+   <div class="stage"><div class="sbx" id="stage"></div></div>
+   <div class="props" id="props"></div>
+  </div>
+ </div>
+</section>
+
+<section id="t-books" class="hide">
+ <div class="card"><div class="row"><h3>📚 کتاب‌های من</h3><span class="sp"></span><button class="btn sm" data-a="importBook">📂 باز کردن فایل کتاب</button><button class="btn sm" data-a="zipOut">⬇️ پشتیبان کامل</button></div>
+ <div class="books" id="books"></div></div>
+</section>
+
+<section id="t-lib" class="hide">
+ <div class="card"><div class="row"><h3>🎨 سبک‌های تصویرسازی</h3><span class="mut" id="styCnt"></span><span class="sp"></span><button class="btn sm pri" data-a="impPack">📥 وارد کردن بسته</button><button class="btn sm" data-a="expPack">📤 خروجی سبک‌های من</button></div>
+ <p class="mut">بسته‌ها فایل JSON با فرمت saba-storybook-pack-v1 هستند و فهرست styles دارند (هر سبک: id، name_fa، group، en). بسته‌های سبک برنامه‌های دیگر صبا هم پذیرفته می‌شوند.</p>
+ <div id="lStyles"></div></div>
+</section>
+</main>
+<footer class="cre"><span>ساخته‌ی <b>سید صبا میری</b></span>·<a href="https://viroai.ir" target="_blank" rel="noopener">viroai.ir</a>·<a href="https://instagram.com/viromedia404" target="_blank" rel="noopener" dir="ltr">Instagram: viromedia404</a>·<a href="tel:+989120349893" dir="ltr">۰۹۱۲۰۳۴۹۸۹۳</a>·<span>تلگرام: به‌زودی</span></footer>
+<audio id="aud1" class="hide"></audio>
+<script>
+// ---------- fixed AI models (one model per job, no fallback chain) ----------
+const IMAGE_MODEL="gemini-3.1-flash-image";
+const TEXT_MODEL="gemini-2.5-flash";
+const TTS_MODEL="gemini-2.5-flash-preview-tts";
+const TTS_CHUNK=6000; // narration chars per TTS request; a children's book fits in ONE request (Gemini allows only a few TTS requests a day)
+const apiKey="";
+const APP_VER="1.0";
+const UITHEMES=[["بنفش","#07051a","#110c27","#a874ff","#7d6aff","#100426"],["زمرد","#040c09","#0a1813","#2ee59d","#14c4b0","#02170f"],["فیروزه‌ای","#030c11","#091921","#25d9f2","#2fd6a8","#021c24"],["آبی","#050a18","#0c142e","#5592ff","#7d6cff","#030b22"],["صورتی","#0f0517","#1b0b24","#ff57da","#b763ff","#2a0422"],["نارنجی","#100a04","#1e140a","#ffa83d","#ff7040","#271302"],["قرمز","#110508","#200c11","#ff5a6c","#ff8a4f","#2a0409"],["طلایی","#0d0b05","#1b170b","#f6c94e","#e9a23b","#231a02"]];
+// age groups: story length + vocabulary
+const AGES={
+ a3:{fa:"۳ تا ۵ سال",en:"3 to 5 years old",pages:8,words:"10 to 25 Persian words per page (one or two very short sentences)",voc:"very simple everyday words a preschooler knows, short sentences, gentle repetition and fun sounds (like «تاپ‌تاپ»), no hard or abstract words",age:4},
+ a6:{fa:"۶ تا ۷ سال",en:"6 to 7 years old",pages:10,words:"25 to 45 Persian words per page",voc:"simple, clear words for a first-grader, short sentences, a little dialogue, one or two new words explained by the story itself",age:6},
+ a8:{fa:"۸ تا ۹ سال",en:"8 to 9 years old",pages:12,words:"45 to 80 Persian words per page",voc:"richer vocabulary for a confident young reader, varied sentences, lively dialogue, a little suspense and humour",age:8}};
+const MORALS=[["kind","مهربانی","kindness"],["brave","شجاعت","courage and facing fears"],["friend","دوستی","friendship"],["honest","راستگویی","honesty"],["team","همکاری","teamwork and helping each other"],["patience","صبر","patience"],["resp","مسئولیت‌پذیری","responsibility"],["nature","مهر به طبیعت","caring for nature and animals"],["diff","پذیرفتن تفاوت‌ها","accepting differences"],["share","بخشیدن و تقسیم","sharing"],["health","بهداشت و سلامتی","healthy habits (brushing teeth, eating well, sleeping on time)"],["calm","آرام کردن خشم","calming down when angry"],["sorry","عذرخواهی","saying sorry and forgiving"],["try","تلاش و پشتکار","trying again after a mistake"],["family","خانواده","love for family"],["curious","کنجکاوی و علم","curiosity and learning about the world"]];
+const HERO={boy:["پسر","boy"],girl:["دختر","girl"]};
+const LAYOUTS={top:["🖼️","تصویر بالا، متن پایین"],full:["🌄","تصویر تمام‌صفحه"],text:["📝","فقط متن"]};
+const VOICES=[["Sulafat","سولافات · زن، گرم"],["Achernar","آخرنار · زن، نرم"],["Aoede","آئوده · زن، روشن"],["Leda","لدا · زن، جوان"],["Kore","کوره · زن، محکم"],["Zephyr","زفیر · زن، روشن"],["Puck","پاک · مرد، شاد"],["Charon","کارون · مرد، آگاه"],["Iapetus","یاپتوس · مرد، شفاف"],["Algieba","الجیبا · مرد، صاف"],["Orus","اوروس · مرد، محکم"],["Fenrir","فنریر · مرد، پرشور"]];
+const VSTYLES=[["story","قصه‌گوی گرم","Read this children's story in Persian like a warm, gentle storyteller reading to a young child: expressive, smiling voice, unhurried pace, small pauses for wonder, different little voices for the characters"],["bed","قصه‌ی شب","Read this children's bedtime story in Persian very softly and slowly, calm and soothing, like a parent at bedtime"],["fun","شاد و پرهیجان","Read this children's story in Persian with lots of joy, energy and playful expression, like a fun children's show host"],["grand","مادربزرگ قصه‌گو","Read this children's story in Persian like a kind old grandmother telling a tale by the korsi: warm, slow, loving, a bit of mystery"],["teach","معلم مهربان","Read this children's story in Persian like a kind kindergarten teacher reading aloud to the class: clear, warm and lively"]];
+const FONTS={vazir:{name_fa:"وزیرمتن",family:"Vazirmatn",src:""},lalezar:{name_fa:"لاله‌زار (تیتر شاد)",family:"Lalezar",src:"g:400",w:400},markazi:{name_fa:"مرکزی (کتابی)",family:"Markazi Text",src:"g:400;700"},naskh:{name_fa:"نسخ نوتو",family:"Noto Naskh Arabic",src:"g:400;700"}};
+const IMG_STYLES=[
+ {"id":"pb-water","name_fa":"آبرنگ کتاب قصه","group":"📚 کتاب کودک","en":"classic children's picture-book watercolor illustration, soft bleeding edges, warm pastel palette, visible paper texture, gentle and dreamy"},
+ {"id":"pb-3d","name_fa":"انیمیشن سه‌بعدی","group":"📚 کتاب کودک","en":"high-quality 3D animated feature film style, big expressive eyes, soft global illumination, rich colors, cute rounded shapes, cinematic but child-friendly"},
+ {"id":"pb-gouache","name_fa":"گواش","group":"📚 کتاب کودک","en":"modern gouache picture-book painting, opaque matte colors, simple bold shapes, textured brush strokes, cozy and charming"},
+ {"id":"pb-crayon","name_fa":"مداد شمعی","group":"📚 کتاب کودک","en":"colorful wax crayon and colored pencil drawing on paper, playful hand-drawn lines, like a beautiful children's book made with crayons"},
+ {"id":"pb-pencil","name_fa":"مدادرنگی نرم","group":"📚 کتاب کودک","en":"soft colored-pencil illustration, delicate hatching, light warm colors, gentle storybook feeling"},
+ {"id":"pb-ink","name_fa":"جوهر و آبرنگ","group":"📚 کتاب کودک","en":"loose ink line drawing with light watercolor washes, lively expressive lines, classic European picture-book look"},
+ {"id":"pb-anime","name_fa":"انیمه‌ی دست‌نقاش","group":"📚 کتاب کودک","en":"hand-painted Japanese animation film background style, lush detailed nature, soft light, warm nostalgic colors, gentle characters"},
+ {"id":"pb-flat","name_fa":"وکتور فلت شاد","group":"📚 کتاب کودک","en":"bright flat vector illustration for children, simple geometric shapes, cheerful saturated colors, clean and friendly"},
+ {"id":"pb-collage","name_fa":"کلاژ کاغذی","group":"✂️ دست‌ساز","en":"textured paper collage illustration, cut and torn colored papers, painted textures, handcrafted picture-book style"},
+ {"id":"papercut","name_fa":"کاغذی لایه‌ای","group":"✂️ دست‌ساز","en":"layered paper-cut art with soft shadows between the paper layers, handcrafted depth"},
+ {"id":"clay3d","name_fa":"خمیری","group":"✂️ دست‌ساز","en":"cute claymation / plasticine stop-motion look, soft matte clay materials, fingerprints texture, rounded shapes, pastel colors"},
+ {"id":"felt","name_fa":"نمدی","group":"✂️ دست‌ساز","en":"felt and fabric craft illustration, stitched edges, wool textures, cozy handmade toy world"},
+ {"id":"wood","name_fa":"اسباب‌بازی چوبی","group":"✂️ دست‌ساز","en":"painted wooden toy world, simple carved shapes, warm wood grain, soft studio light"},
+ {"id":"miniature","name_fa":"نگارگری ایرانی","group":"🇮🇷 ایرانی","en":"Persian miniature painting style for children, flat perspective, rich lapis blue, gold and turquoise, delicate patterns, gardens and flowers, softened and cute for a picture book"},
+ {"id":"tile","name_fa":"کاشی و نقش ایرانی","group":"🇮🇷 ایرانی","en":"Iranian tile art and pattern inspired illustration, turquoise and lapis colors, arabesque decorations, warm and festive"},
+ {"id":"qajar","name_fa":"قهوه‌خانه‌ای شاد","group":"🇮🇷 ایرانی","en":"Iranian coffee-house folk painting style made gentle and colorful for children, bold outlines, warm reds and ochres"},
+ {"id":"comic","name_fa":"کمیک","group":"🎨 هنری","en":"comic book art for kids, bold ink outlines, vivid flat colors, dynamic composition, no speech bubbles"},
+ {"id":"oil","name_fa":"رنگ روغن","group":"🎨 هنری","en":"classic oil painting, visible brush strokes, rich warm light, fairy-tale mood"},
+ {"id":"pixel","name_fa":"پیکسل‌آرت","group":"🎨 هنری","en":"16-bit pixel art, crisp pixels, cheerful retro video game look"},
+ {"id":"line","name_fa":"خطی برای رنگ‌آمیزی","group":"🎨 هنری","en":"clean black and white line art for a coloring book, thick even outlines, no shading, white background"},
+ {"id":"night","name_fa":"شب جادویی","group":"🎨 هنری","en":"magical night-time picture-book illustration, deep blues and purples, glowing stars and lanterns, soft magical light"}];
+const EXAMPLES=["سفر به ماه با یک بادبادک","دوستی با یک دایناسور کوچولو که می‌ترسید","روزی که درخت حیاط حرف زد","گم شدن عروسک در بازار","کمک به یک لاک‌پشت پیر برای رسیدن به دریا","اولین روز مدرسه"];
+
+// ---------- small helpers ----------
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const fa=s=>String(s??"").replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+const faNum=s=>String(s??"").replace(/(\d)\.(\d)/g,"$1٫$2").replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]).replace(/%/g,"٪");
+const enNum=s=>String(s??"").replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/٫/g,".");
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid=p=>p+"-"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const clone=o=>JSON.parse(JSON.stringify(o));
+// deep copy that keeps Blob objects (for undo + duplicate)
+const dcopy=v=>v instanceof Blob||v==null||typeof v!="object"?v:Array.isArray(v)?v.map(dcopy):Object.fromEntries(Object.entries(v).map(([k,x])=>[k,dcopy(x)]));
+const U=new WeakMap(),url=b=>{if(!b)return"";let u=U.get(b);if(!u){u=URL.createObjectURL(b);U.set(b,u)}return u};
+const fmtB=n=>n>=1073741824?fa((n/1073741824).toFixed(1)).replace(".","٫")+" گیگ":fa(Math.max(0,Math.round(n/1048576)))+" مگ";
+const fdate=t=>{try{return new Date(t).toLocaleDateString("fa-IR")+" · "+new Date(t).toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit"})}catch{return fa(new Date(t).toISOString().slice(0,10))}};
+const txt=el=>String(el.innerText!=null?el.innerText:el.textContent||"");
+const fdur=s=>fa(Math.floor(s/60))+":"+fa(String(Math.round(s%60)).padStart(2,"0"));
+function toast(m,t=4000){const d=document.createElement("div");d.className="toast";d.textContent=m;document.body.append(d);setTimeout(()=>d.remove(),t)}
+function modal(html,cls=""){const m=document.createElement("div");m.className="modal "+cls;m.innerHTML=`<div class="card"><button class="btn x" data-a="close" aria-label="بستن">✕</button>${html}</div>`;m.onclick=e=>{if(e.target===m)m.remove()};document.body.append(m);return m}
+function ask(msg){return new Promise(ok=>{const m=modal(`<h3>تأیید</h3><p>${esc(msg)}</p><div class="row"><button class="btn pri" id="cy">بله</button><button class="btn" id="cn">انصراف</button></div>`);$("#cy",m).onclick=()=>{m.remove();ok(true)};$("#cn",m).onclick=()=>{m.remove();ok(false)}})}
+function dl(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),5000)}
+const blobToB64=b=>new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(",")[1]||"");r.onerror=()=>no(r.error);r.readAsDataURL(b)});
+const b64ToBlob=(d,t)=>{const s=atob(d),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return new Blob([a],{type:t})};
+const blobAB=b=>b.arrayBuffer?b.arrayBuffer():new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=()=>no(r.error);r.readAsArrayBuffer(b)});
+const loadImg=src=>new Promise((ok,no)=>{const i=new Image(),t=setTimeout(()=>no(new Error("timeout")),15000);i.onload=()=>{clearTimeout(t);ok(i)};i.onerror=()=>{clearTimeout(t);no(new Error("img"))};i.src=src});
+const abortErr=()=>{const e=new Error("لغو شد");e.name="AbortError";return e};
+const sleep=(ms,sig)=>new Promise((ok,no)=>{if(sig&&sig.aborted)return no(abortErr());const t=setTimeout(ok,ms);sig&&sig.addEventListener("abort",()=>{clearTimeout(t);no(abortErr())},{once:true})});
+const pick=accept=>new Promise(ok=>{const i=document.createElement("input");i.type="file";i.accept=accept;i.onchange=()=>ok(i.files[0]||null);i.click()});
+const cBlob=(c,type,q)=>new Promise(ok=>{try{c.toBlob(b=>ok(b),type,q)}catch{ok(null)}});
+async function drawable(b){const u=URL.createObjectURL(b);try{const i=await loadImg(u);const W=i.naturalWidth||i.width,H=i.naturalHeight||i.height;return W&&H?{i,W,H}:null}catch{return null}finally{setTimeout(()=>URL.revokeObjectURL(u),1000)}}
+async function convert(b,type,maxSide){const d=await drawable(b);if(!d)return null;const s=maxSide?Math.min(1,maxSide/Math.max(d.W,d.H)):1,c=document.createElement("canvas");c.width=Math.round(d.W*s);c.height=Math.round(d.H*s);const x=c.getContext&&c.getContext("2d");if(!x)return null;x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(d.i,0,0,c.width,c.height);return cBlob(c,type,.92)}
+async function toRef(b){try{const j=await convert(b,"image/jpeg",1600);if(j)return{mimeType:"image/jpeg",data:await blobToB64(j)}}catch{}return{mimeType:b.type||"image/png",data:await blobToB64(b)}}
+function parseJ(t){t=String(t).replace(/```(?:json)?/gi,"").trim();try{return JSON.parse(t)}catch{}const a=t.search(/[\[{]/),z=Math.max(t.lastIndexOf("]"),t.lastIndexOf("}"));if(a<0||z<a)throw new Error("پاسخ مدل JSON معتبر نبود");return JSON.parse(t.slice(a,z+1))}
+const hexRgb=h=>{h=String(h||"#000").replace("#","");if(h.length==3)h=h.split("").map(c=>c+c).join("");const n=parseInt(h.slice(0,6),16)||0;return[n>>16&255,n>>8&255,n&255]};
+const rgba=(h,a)=>{if(/^rgba?\(/.test(h))return h;const[r,g,b]=hexRgb(h);return`rgba(${r},${g},${b},${a})`};
+const lum=h=>{const[r,g,b]=hexRgb(h).map(v=>{v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*r+.7152*g+.0722*b};
+const firstColor=css=>{const m=String(css).match(/#[0-9a-f]{6}\b|#[0-9a-f]{3}\b/gi);return m?m[m.length-1]:"#000000"};
+
+// ---------- audio helpers ----------
+const Audio16={
+ // raw 16-bit PCM (little endian) → WAV blob
+ wav(pcm,rate=24000,ch=1){const len=pcm.byteLength,b=new ArrayBuffer(44+len),v=new DataView(b),w=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i))};
+  w(0,"RIFF");v.setUint32(4,36+len,true);w(8,"WAVE");w(12,"fmt ");v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,ch,true);v.setUint32(24,rate,true);v.setUint32(28,rate*ch*2,true);v.setUint16(32,ch*2,true);v.setUint16(34,16,true);w(36,"data");v.setUint32(40,len,true);
+  new Uint8Array(b,44).set(new Uint8Array(pcm.buffer||pcm,pcm.byteOffset||0,len));return new Blob([b],{type:"audio/wav"})},
+ rate(mime){const m=String(mime||"").match(/rate=(\d+)/);return m?+m[1]:24000},
+ // seconds of a 16-bit mono WAV
+ dur(blob,rate=24000){return blob?Math.max(0,(blob.size-44)/(rate*2)):0},
+ // join several 16-bit mono WAVs (same rate) with a short pause
+ async join(blobs,rate=24000,gap=.6){const parts=[];for(const b of blobs){parts.push(new Uint8Array((await blobAB(b)).slice(44)));parts.push(new Uint8Array(Math.round(rate*gap)*2))}
+  const n=parts.reduce((a,p)=>a+p.length,0),all=new Uint8Array(n);let o=0;for(const p of parts){all.set(p,o);o+=p.length}return this.wav(all,rate)},
+ // split one long narration WAV into n parts at the pauses between sections.
+ // weights = expected share of each part (e.g. text length); cuts go to the longest silences near the expected spots.
+ async split(blob,n,weights,rate=24000){const pcm=new Int16Array((await blobAB(blob)).slice(44));if(n<=1)return[Audio16.wav(new Uint8Array(pcm.buffer),rate)];
+  const F=Math.round(rate*.02),nf=Math.floor(pcm.length/F),rms=new Float32Array(nf);
+  for(let f=0;f<nf;f++){let q=0;for(let i=f*F;i<(f+1)*F;i++)q+=pcm[i]*pcm[i];rms[f]=Math.sqrt(q/F)}
+  const sorted=[...rms].sort((a,b)=>a-b),thr=Math.max(120,sorted[Math.floor(nf*.95)]*.06);
+  const sil=[];let st=-1;for(let f=0;f<=nf;f++){const q=f<nf&&rms[f]<thr;if(q&&st<0)st=f;if(!q&&st>=0){if(f-st>=10)sil.push({a:st,b:f,len:f-st,c:(st+f)/2});st=-1}}
+  const W=(weights&&weights.length==n?weights:Array(n).fill(1)).map(x=>Math.max(1,x)),tot=W.reduce((a,b)=>a+b,0);
+  const cuts=[];let prev=0,acc=0;
+  for(let k=0;k<n-1;k++){acc+=W[k];const e=nf*acc/tot,left=n-1-k,maxPos=nf-left*10;let best=null,bs=-1e9;
+   for(const x of sil){if(x.c<=prev+10||x.c>maxPos)continue;const sc=x.len*2-Math.abs(x.c-e)*.12;if(sc>bs){bs=sc;best=x}}
+   const c=best?Math.round(best.c):Math.round(Math.min(Math.max(e,prev+10),maxPos));cuts.push(c);prev=c}
+  const bounds=[0,...cuts,nf],out=[],pad=Math.round(.25*rate/F);
+  for(let k=0;k<n;k++){let a=bounds[k],b=bounds[k+1];while(a<b&&rms[a]<thr)a++;while(b>a&&rms[b-1]<thr)b--;
+   a=Math.max(bounds[k],a-pad);b=Math.min(bounds[k+1],b+pad);if(b<=a){a=bounds[k];b=bounds[k+1]}
+   out.push(Audio16.wav(new Uint8Array(pcm.slice(a*F,b*F).buffer),rate))}
+  return out},
+ // any recorded audio → 16 kHz mono WAV (Gemini accepts WAV; MediaRecorder gives webm/opus)
+ async toWav16(blob){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return null;try{const ctx=new AC(),buf=await ctx.decodeAudioData(await blobAB(blob));ctx.close&&ctx.close();
+  const r=16000,n=Math.floor(buf.duration*r),src=buf.getChannelData(0),k=buf.sampleRate/r,out=new Int16Array(n);
+  for(let i=0;i<n;i++){let s=0,c=0;const a=Math.floor(i*k),z=Math.min(src.length,Math.floor((i+1)*k)||a+1);for(let j=a;j<z;j++){s+=src[j];c++}const x=Math.max(-1,Math.min(1,c?s/c:0));out[i]=x<0?x*32768:x*32767}
+  return this.wav(new Uint8Array(out.buffer),r)}catch{return null}}
+};
+
+
+// Store: the only module that touches IndexedDB / localStorage
+const Store=(()=>{const N="saba-storybook",SS=["kv","books"],QUIET=["meta"];let db,subs=[],tm;
+ const ls=(k,v)=>{try{k="sabaBook."+k;if(v===undefined)return localStorage.getItem(k);v===null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch{return null}};
+ const open=()=>db?Promise.resolve(db):new Promise((ok,no)=>{const r=indexedDB.open(N,1);r.onupgradeneeded=()=>SS.forEach(s=>r.result.objectStoreNames.contains(s)||r.result.createObjectStore(s,{keyPath:s=="kv"?"k":"id"}));r.onsuccess=()=>{db=r.result;ok(db)};r.onerror=()=>no(r.error)});
+ const run=(s,m,f)=>open().then(d=>new Promise((ok,no)=>{const t=d.transaction(s,m),q=f(t.objectStore(s));t.oncomplete=()=>ok(q&&q.result);t.onerror=t.onabort=()=>no(t.error)}));
+ const changed=(s,k)=>{if(s=="kv"&&QUIET.includes(k))return;clearTimeout(tm);tm=setTimeout(async()=>{const t=Date.now();await run("kv","readwrite",o=>o.put({k:"meta",v:{lastSave:t}}));ls("lastSave",t);subs.forEach(f=>f())},1000)};
+ return{SS,
+  get:async(s,k)=>{const r=await run(s,"readonly",o=>o.get(k));return s=="kv"?r&&r.v:r},
+  set:async(s,v,k)=>{if(s=="kv"&&k=="uitheme")ls("uitheme",v);await run(s,"readwrite",o=>o.put(s=="kv"?{k,v}:v));changed(s,k)},
+  list:s=>run(s,"readonly",o=>o.getAll()),
+  delete:async(s,k)=>{await run(s,"readwrite",o=>o.delete(k));changed(s,k)},
+  clear:async()=>{const d=await open();await new Promise(ok=>{const t=d.transaction(SS,"readwrite");SS.forEach(s=>t.objectStore(s).clear());t.oncomplete=ok});["uitheme","lastSave"].forEach(k=>ls(k,null))},
+  fastTheme:()=>ls("uitheme"),lastSaveLS:()=>ls("lastSave"),onChange:f=>subs.push(f),
+  persist:async()=>{try{const s=navigator.storage;if(!s||!s.persist)return false;return(s.persisted&&await s.persisted())||await s.persist()}catch{return false}},
+  estimate:async()=>{try{return await navigator.storage.estimate()}catch{return null}}
+ }})();
+
+// zip backup: one JSON per store, every Blob (at any depth) saved as a file under files/
+const EXT={"image/png":"png","image/jpeg":"jpg","image/webp":"webp","audio/wav":"wav","font/ttf":"ttf","font/otf":"otf","font/woff":"woff","font/woff2":"woff2"};
+const Backup={
+ async pack(v,f,st){if(v instanceof Blob){const p=`files/${++st.n}.${EXT[v.type]||"bin"}`;f[p]=v;return{__file:p,t:v.type||""}}
+  if(Array.isArray(v)){const a=[];for(const x of v)a.push(await this.pack(x,f,st));return a}
+  if(v&&typeof v=="object"){const o={};for(const k in v)o[k]=await this.pack(v[k],f,st);return o}return v},
+ async unpack(v,get){if(Array.isArray(v)){const a=[];for(const x of v)a.push(await this.unpack(x,get));return a}
+  if(v&&typeof v=="object"){if(typeof v.__file=="string"){const b=await get(v.__file);return b?new Blob([b],{type:v.t||""}):null}const o={};for(const k in v)o[k]=await this.unpack(v[k],get);return o}return v},
+ async dump(){const f={},st={n:0},kv={};for(const r of await Store.list("kv"))if(r.k!="meta")kv[r.k]=r.v;f["kv.json"]=JSON.stringify({format:"storybook-kv-v1",kv:await this.pack(kv,f,st)});
+  for(const s of["books"])f[s+".json"]=JSON.stringify({format:`storybook-${s}-v1`,items:await this.pack(await Store.list(s),f,st)});return f},
+ async load(get){let n=0;const kt=await get("kv.json");if(kt){const j=JSON.parse(kt),kv=await this.unpack(j.kv||{},get);for(const k in kv){await Store.set("kv",kv[k],k);n++}}
+  for(const s of["books"]){const t=await get(s+".json");if(!t)continue;const j=JSON.parse(t);for(const o of await this.unpack(j.items||[],get)){if(o&&o.id!=null){await Store.set(s,o);n++}}}return n},
+ async jz(){if(window.JSZip)return JSZip;await Lazy.js("https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js","JSZip");if(!window.JSZip)throw new Error("بارگیری JSZip ممکن نشد");return JSZip},
+ async zipOut(){try{const Z=await this.jz(),z=new Z(),f=await this.dump();for(const n in f)z.file(n,f[n]);dl(await z.generateAsync({type:"blob"}),"saba-storybook-backup-"+new Date().toISOString().slice(0,10)+".zip");toast("پشتیبان کامل دانلود شد")}catch(e){toast("خطا در ساخت پشتیبان: "+e.message)}},
+ async zipIn(){const file=await pick(".zip");if(!file)return;try{const Z=await this.jz(),z=await Z.loadAsync(file);const n=await this.load(async p=>{const e=z.file(p);return e?e.async(p.endsWith(".json")?"string":"blob"):null});await App.reload();$("#banner").classList.add("hide");toast(`${fa(n)} مورد از پشتیبان بازگردانی شد`)}catch(e){toast("فایل پشتیبان معتبر نیست: "+e.message)}}
+};
+
+// lazy loading of CDN scripts / stylesheets
+const Lazy={done:{},
+ js(src,g){if(g&&window[g])return Promise.resolve();if(this.done[src])return this.done[src];return this.done[src]=new Promise((ok,no)=>{const s=document.createElement("script");s.src=src;s.onload=ok;s.onerror=()=>{delete this.done[src];no(new Error("بارگیری کتابخانه ممکن نشد: "+src.split("/").pop()))};document.head.append(s)})},
+ css(href){if(this.done[href])return;this.done[href]=1;const l=document.createElement("link");l.rel="stylesheet";l.href=href;document.head.append(l)}
+};
+
+// Bridge: optional storage in the Chrome extension (chrome.storage.local), which survives closing Gemini Canvas.
+// Protocol: window.postMessage({__sabaBridge:1,dir:"req",app:"saba-storybook",id,op,...}) answered by the extension's content script with dir:"res".
+// The bridge is the source of truth on load; every IndexedDB write is mirrored to it (debounced, batched).
+const Bridge=(()=>{const NS="__sabaBridge",APP="saba-storybook",SS=Store.SS,SKIP=["meta"],CH=8e6,P=new Map(),dirty=new Map();
+ let tm=0,busy=null,mute=0,seq=0,raw=null,lastToast=0,retry=0;
+ const st={on:false,checked:false,ver:"",last:0,pending:0,err:"",restored:0,synced:0};
+ window.addEventListener("message",e=>{const d=e.data;if(e.source!==window||!d||typeof d!="object"||d[NS]!==1||d.dir!=="res"||d.app!==APP)return;const p=P.get(d.id);if(!p)return;P.delete(d.id);clearTimeout(p.t);
+  d.ok?p.ok(d):p.no(Object.assign(new Error(d.error||"bridge error"),{quota:!!d.quota,invalidated:!!d.invalidated}))});
+ const call=(op,o={},ms=60000)=>new Promise((ok,no)=>{const id="b"+(++seq)+"-"+Date.now().toString(36);P.set(id,{ok,no,t:setTimeout(()=>{P.delete(id);no(Object.assign(new Error("timeout"),{timeout:true}))},ms)});
+  window.postMessage({[NS]:1,dir:"req",app:APP,id,op,...o},"*")});
+ const b64ToAB=d=>{const s=atob(d||""),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return a.buffer};
+ // JSON-safe encoding: Blob → {__sb:"blob"}, ArrayBuffer/TypedArray → {__sb:"ab"}; functions and class instances are dropped
+ async function enc(v){if(v==null||typeof v=="string"||typeof v=="boolean")return v;if(typeof v=="number")return isFinite(v)?v:null;if(typeof v!="object")return undefined;
+  if(v instanceof Blob)return{__sb:"blob",t:v.type||"",d:v.size?await blobToB64(v):""};
+  if(v instanceof ArrayBuffer||ArrayBuffer.isView(v)){const b=new Blob([v]);return{__sb:"ab",d:b.size?await blobToB64(b):""}}
+  if(Array.isArray(v)){const a=[];for(const x of v){const y=await enc(x);a.push(y===undefined?null:y)}return a}
+  const p=Object.getPrototypeOf(v);if(p!==Object.prototype&&p!==null)return undefined;
+  const o={};for(const k of Object.keys(v)){const y=await enc(v[k]);if(y!==undefined)o[k]=y}return o}
+ function dec(v){if(Array.isArray(v))return v.map(dec);if(!v||typeof v!="object")return v;if(v.__sb=="blob")return b64ToBlob(v.d||"",v.t||"");if(v.__sb=="ab")return b64ToAB(v.d);
+  const o={};for(const k of Object.keys(v))o[k]=dec(v[k]);return o}
+ function msg(e){return e.quota?"فضای ذخیره‌ی اکستنشن پر است؛ چند کار قدیمی را پاک کن و «همگام‌سازی کامل الان» را بزن، یا پشتیبان زیپ بگیر":
+  e.invalidated?"اکستنشن دوباره بارگذاری شده؛ این پنجره را ببند و برنامه را از آیکون اکستنشن دوباره باز کن":
+  e.timeout?"اکستنشن پاسخ نداد؛ تغییرات هنوز در اکستنشن ذخیره نشده‌اند":"خطا در ذخیره در اکستنشن: "+e.message}
+ function fail(e,silent){st.err=msg(e);if(!silent&&Date.now()-lastToast>20000){lastToast=Date.now();toast("⚠️ "+st.err,8000)}
+  if(!e.quota&&!e.invalidated&&dirty.size){clearTimeout(retry);retry=setTimeout(()=>flush(),15000)}refresh()}
+ const refresh=()=>{st.pending=dirty.size;try{UI.status()}catch{}};
+ function mark(s,k,op){if(!st.on||mute||k==null||(s=="kv"&&SKIP.includes(k)))return;dirty.set(JSON.stringify([s,k]),[s,k,op]);st.pending=dirty.size;clearTimeout(tm);tm=setTimeout(()=>flush(),500)}
+ async function sendAll(sets,dels,full){let a=[],size=0,n=0;const go=async()=>{if(!a.length)return;await call("batch",{sets:a,dels:[],full});n+=a.length;a=[];size=0};
+  for(const x of sets){a.push([x[0],x[1],x[2]]);size+=x[3];if(size>CH)await go()}await go();if(dels.length||full)await call("batch",{sets:[],dels,full});return n}
+ async function flush(){clearTimeout(tm);if(!st.on||!dirty.size)return;if(busy){await busy.catch(()=>{});return flush()}
+  busy=(async()=>{const items=[...dirty.values()];dirty.clear();const sets=[],dels=[];
+   try{for(const[s,k,op]of items){if(!op){dels.push([s,k]);continue}const v=await Store.get(s,k);if(v===undefined){dels.push([s,k]);continue}const e=await enc(v);if(e===undefined)continue;sets.push([s,k,e,JSON.stringify(e).length])}
+    await sendAll(sets,dels,false);st.last=Date.now();st.err=""}
+   catch(e){for(const[s,k,op]of items){const id=JSON.stringify([s,k]);dirty.has(id)||dirty.set(id,[s,k,op])}fail(e)}})();
+  try{await busy}finally{busy=null;refresh()}}
+ // the whole IndexedDB → extension (also removes extension entries that no longer exist here)
+ async function full(user){if(!st.on)return -1;clearTimeout(tm);if(busy)await busy.catch(()=>{});dirty.clear();
+  try{const sets=[],have=new Set();for(const s of SS)for(const r of await Store.list(s)){const k=s=="kv"?r.k:r.id;if(k==null||(s=="kv"&&SKIP.includes(k)))continue;const e=await enc(s=="kv"?r.v:r);if(e===undefined)continue;have.add(JSON.stringify([s,k]));sets.push([s,k,e,JSON.stringify(e).length])}
+   const ks=(await call("list",{},60000)).keys||[],dels=ks.filter(p=>!have.has(JSON.stringify(p)));
+   const n=await sendAll(sets,dels,true);st.last=st.synced=Date.now();st.err="";refresh();if(user)toast(`همگام‌سازی کامل شد: ${fa(n)} مورد در اکستنشن ذخیره شد`);return n}
+  catch(e){fail(e,!user);if(user)toast("⚠️ همگام‌سازی کامل ناموفق: "+st.err,8000);return -1}}
+ async function restore(){const r=await call("getAll",{},180000),items=(r.items||[]).filter(x=>Array.isArray(x)&&SS.includes(x[0]));if(!items.length)return 0;
+  mute++;
+  try{await raw.clear();for(const[s,k,v]of items){const x=dec(v);if(s=="kv")await raw.set("kv",x,k);else if(x&&typeof x=="object"&&x.id!=null)await raw.set(s,x)}}
+  finally{mute--}return items.length}
+ function patch(){if(raw)return;raw={set:Store.set,delete:Store.delete,clear:Store.clear};
+  Store.set=async(s,v,k)=>{await raw.set(s,v,k);mark(s,s=="kv"?k:v&&v.id,1)};
+  Store.delete=async(s,k)=>{await raw.delete(s,k);mark(s,k,0)};
+  Store.clear=async()=>{await raw.clear();if(!st.on||mute)return;clearTimeout(tm);dirty.clear();try{await call("clear");st.last=Date.now()}catch(e){fail(e)}}}
+ async function init(){for(let i=0;i<4&&!st.on;i++){try{const r=await call("ping",{},200);st.ver=r.version||"";st.on=true}catch{}}st.checked=true;if(!st.on)return false;patch();
+  try{st.restored=await restore();if(!st.restored)await full(false);st.last=Date.now()}
+  catch(e){st.on=false;st.err="بازیابی از اکستنشن ناموفق بود ("+msg(e)+")؛ داده‌های اکستنشن دست نخورده ماندند. صفحه را دوباره باز کن";toast("⚠️ "+st.err,9000)}
+  return st.on}
+ const save=()=>{if(dirty.size)flush()};window.addEventListener("pagehide",save);document.addEventListener("visibilitychange",()=>{if(document.visibilityState=="hidden")save()});
+ return{st,init,flush,full,call,enc,dec}})();
+
+// ---------- Gemini API (one model per job, no fallback chain) ----------
+async function callApi(model,body,sig,onStatus,tries=3){
+ for(let a=0;;a++){let r;
+  try{r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body),signal:sig})}
+  catch(e){if(e.name=="AbortError")throw abortErr();throw new Error("خطای شبکه: "+e.message)}
+  if(r.ok)return r.json();
+  let m="";try{const j=await r.json();m=j.error&&j.error.message||JSON.stringify(j)}catch{m=r.statusText||""}
+  if((r.status==429||r.status>=500)&&a<tries){onStatus&&onStatus(`خطای ${fa(r.status)} — تلاش دوباره ${fa(a+1)} از ${fa(tries)} تا ۱۵ ثانیه‌ی دیگر…`);await sleep(15000,sig);continue}
+  throw new Error(`خطای API (کد ${fa(r.status)}): ${m}`)}}
+const parts=(prompt,refs=[])=>[{text:prompt},...refs.map(r=>({inlineData:{mimeType:r.mimeType,data:r.data}}))];
+async function genImage(prompt,refs,sig,onStatus,ar="16:9"){
+ const j=await callApi(IMAGE_MODEL,{contents:[{role:"user",parts:parts(prompt,refs)}],generationConfig:{responseModalities:["IMAGE"],imageConfig:{aspectRatio:ar}}},sig,onStatus);
+ const c=j.candidates&&j.candidates[0],ps=c&&c.content&&c.content.parts||[],p=ps.find(p=>p.inlineData);
+ if(!p){const t=ps.map(p=>p.text).filter(Boolean).join(" ");throw new Error("مدل تصویری تصویر برنگرداند"+(c&&c.finishReason?` (دلیل: ${c.finishReason})`:"")+(j.promptFeedback&&j.promptFeedback.blockReason?` (مسدود شد: ${j.promptFeedback.blockReason})`:"")+(t?" — "+t:""))}
+ return b64ToBlob(p.inlineData.data,p.inlineData.mimeType||"image/png")}
+async function genText(prompt,refs=[],o={},sig){const json=o.json!==false,body={contents:[{role:"user",parts:parts(prompt,refs)}]};
+ if(o.search)body.tools=[{google_search:{}}];else if(json)body.generationConfig={responseMimeType:"application/json"};
+ const j=await callApi(TEXT_MODEL,body,sig,o.onStatus,o.tries),c=j.candidates&&j.candidates[0],t=(c&&c.content&&c.content.parts||[]).map(p=>p.text||"").join("");
+ if(!t)throw new Error("پاسخ مدل متنی خالی بود"+(c&&c.finishReason?` (${c.finishReason})`:""));
+ if(o.raw)return{text:t,meta:c.groundingMetadata||null};return json?parseJ(t):t}
+// Persian text-to-speech → WAV blob
+async function genSpeech(text,voice,style,sig,onStatus){
+ const j=await callApi(TTS_MODEL,{contents:[{role:"user",parts:[{text:`${style}:\n${text}`}]}],generationConfig:{responseModalities:["AUDIO"],speechConfig:{voiceConfig:{prebuiltVoiceConfig:{voiceName:voice}}}}},sig,onStatus);
+ const c=j.candidates&&j.candidates[0],p=(c&&c.content&&c.content.parts||[]).find(p=>p.inlineData);
+ if(!p)throw new Error("مدل گویندگی صدا برنگرداند"+(c&&c.finishReason?` (${c.finishReason})`:""));
+ const mt=p.inlineData.mimeType||"",raw=b64ToBlob(p.inlineData.data,mt);
+ if(/wav/i.test(mt))return raw;const rate=Audio16.rate(mt);return Audio16.wav(new Uint8Array(await blobAB(raw)),rate)}
+// speech-to-text with the text model (audio in, Persian transcript out)
+async function transcribe(blob,sig){let b=blob;if(!/wav|mp3|mpeg|aiff|aac|ogg|flac/i.test(blob.type||"")){const w=await Audio16.toWav16(blob);if(w)b=w}
+ if(b.size>19e6)throw new Error("فایل صوتی خیلی بزرگ است (حداکثر حدود ۱۰ دقیقه)");
+ const mt=(b.type||"audio/wav").split(";")[0].replace("audio/x-wav","audio/wav").replace("audio/mp3","audio/mpeg");
+ const t=await genText(`Transcribe this audio exactly as spoken. The speaker talks in Persian (Farsi) and may use some English words or brand names. Write the Persian in standard modern Persian script with correct spelling, half-spaces (ZWNJ) and punctuation; keep English terms in Latin letters. Return ONLY the transcript text, with no comments, no quotes and no timestamps. If nothing is said, return an empty line.`,[{mimeType:mt,data:await blobToB64(b)}],{json:false},sig);
+ return String(t).trim()}
+
+
+// ---------- voice input (speech → text) ----------
+const Voice={rec:null,btn:null,chunks:[],stream:null,t0:0,timer:0,an:null,raf:0,onText:null,MAX:300,
+ supported(){return!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&window.MediaRecorder)},
+ async toggle(btn,onText,big){if(Voice.rec){if(Voice.btn===btn)return Voice.stop();toast("یک ضبط دیگر در جریان است");return}
+  if(!Voice.supported())return Voice.blocked();
+  try{Voice.stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}})}catch(e){return Voice.blocked(e)}
+  Voice.btn=btn;Voice.onText=onText;Voice.big=big;Voice.chunks=[];const mt=["audio/webm;codecs=opus","audio/webm","audio/ogg;codecs=opus","audio/mp4"].find(t=>MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(t))||"";
+  Voice.rec=new MediaRecorder(Voice.stream,mt?{mimeType:mt}:{});Voice.rec.ondataavailable=e=>e.data&&e.data.size&&Voice.chunks.push(e.data);Voice.rec.onstop=()=>Voice.done();Voice.rec.start(500);
+  Voice.t0=Date.now();btn.classList.add("rec");btn.dataset.lbl=btn.dataset.lbl||btn.textContent;btn.textContent="⏹";Voice.tick();Voice.meter()},
+ blocked(e){const m="دسترسی به میکروفون در این صفحه ممکن نشد"+(e&&e.name=="NotAllowedError"?" (اجازه داده نشد)":"")+". اجازه‌ی میکروفون را در مرورگر بده، یا ویس را با گوشی ضبط کن و با «📁 فایل صوتی» بده.";toast(m,9000);if(Voice.big)$("#vMsg").textContent=m},
+ tick(){clearInterval(Voice.timer);Voice.timer=setInterval(()=>{const s=(Date.now()-Voice.t0)/1000;if(Voice.big)$("#vMsg").textContent=`🔴 در حال ضبط… ${fdur(s)} — برای پایان دوباره روی میکروفون بزن`;if(s>=Voice.MAX){toast("حداکثر ۵ دقیقه؛ ضبط تمام شد");Voice.stop()}},250)},
+ meter(){try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC||!Voice.big)return;const c=new AC(),a=c.createAnalyser();a.fftSize=512;c.createMediaStreamSource(Voice.stream).connect(a);Voice.an={c,a};$("#vLvl").classList.remove("hide");const buf=new Uint8Array(a.fftSize);
+  const f=()=>{if(!Voice.an)return;a.getByteTimeDomainData(buf);let m=0;for(const v of buf)m=Math.max(m,Math.abs(v-128));$("#vLvl i").style.width=Math.min(100,m/1.1)+"%";Voice.raf=requestAnimationFrame(f)};f()}catch{}},
+ stop(){clearInterval(Voice.timer);try{Voice.rec&&Voice.rec.state!="inactive"&&Voice.rec.stop()}catch{Voice.done()}},
+ async done(){const btn=Voice.btn,cb=Voice.onText,big=Voice.big,type=Voice.rec&&Voice.rec.mimeType||"audio/webm";Voice.stream&&Voice.stream.getTracks().forEach(t=>t.stop());cancelAnimationFrame(Voice.raf);if(Voice.an){try{Voice.an.c.close()}catch{}Voice.an=null}
+  Voice.rec=null;Voice.btn=null;btn.classList.remove("rec");btn.textContent="⏳";btn.disabled=true;if(big){$("#vLvl").classList.add("hide");$("#vMsg").textContent="⏳ در حال تبدیل صدا به متن…"}
+  const blob=new Blob(Voice.chunks,{type});Voice.chunks=[];
+  try{if(blob.size<800)throw new Error("صدایی ضبط نشد");const t=await transcribe(blob);if(!t)throw new Error("حرفی شنیده نشد");await cb(t)}catch(e){toast("⚠️ "+e.message,7000);if(big)$("#vMsg").textContent="⚠️ "+e.message}
+  finally{btn.disabled=false;btn.textContent=btn.dataset.lbl||"🎙️"}},
+ async file(cb){const f=await pick("audio/*,.mp3,.wav,.m4a,.ogg,.webm,.aac,.flac");if(!f)return;$("#vMsg").textContent="⏳ در حال تبدیل فایل صوتی به متن…";
+  try{const t=await transcribe(f);if(!t)throw new Error("حرفی شنیده نشد");await cb(t)}catch(e){toast("⚠️ "+e.message,7000);$("#vMsg").textContent="⚠️ "+e.message}},
+ // fill a field with what was said
+ into(el,t){if(!el)return;const v=el.value.trim();el.value=v?v+(el.tagName=="TEXTAREA"?"\n":" ")+t:t;el.dispatchEvent(new Event("input",{bubbles:true}))}
+};
+
+// ---------- fonts ----------
+const Fonts={
+ get(k){return FONTS[k]||FONTS.vazir},
+ tw(k){return Fonts.get(k).w||700},
+ fam(k){const f=Fonts.get(k);return f.family=="Vazirmatn"?"Vazirmatn":`PDigits,'${f.family}',Vazirmatn`},
+ ensure(k){const f=FONTS[k];if(!f||!f.src.startsWith("g:"))return;Lazy.css(`https://fonts.googleapis.com/css2?family=${f.family.replace(/ /g,"+")}:wght@${f.src.slice(2)}&display=swap`)},
+ ensureBook(b){Fonts.ensure(b.fT);Fonts.ensure(b.fB)},
+ async ready(b){try{Fonts.ensureBook(b);if(!document.fonts)return;for(const k of[b.fT,b.fB]){const f=Fonts.get(k);await Promise.race([Promise.all([document.fonts.load(`700 40px '${f.family}'`,"ابپ"),document.fonts.load(`400 40px '${f.family}'`,"ابپ")]),sleep(4000)])}await Promise.race([document.fonts.ready,sleep(4000)])}catch{}},
+ options(sel){return Object.keys(FONTS).map(k=>`<option value="${k}" ${k==sel?"selected":""}>${esc(FONTS[k].name_fa)}</option>`).join("")}
+};
+
+// ---------- illustration styles: built-in + imported packs (kv "imgstyles") ----------
+const ImgStyles={user:[],
+ all(){return[...IMG_STYLES,...ImgStyles.user]},
+ get(id){return id?ImgStyles.all().find(x=>x.id==id):null},
+ async load(){ImgStyles.user=(await Store.get("kv","imgstyles"))||[]},
+ norm(x){return{id:String(x.id||uid("sty")),name_fa:String(x.name_fa||x.name||"سبک من"),group:String(x.group||"🎁 بسته‌ها"),en:String(x.en||x.img_en||x.prompt||"")}},
+ async add(arr){let n=0;for(const x of arr||[]){if(!x||typeof x!="object")continue;const o=ImgStyles.norm(x);if(!o.en)continue;if(IMG_STYLES.some(b=>b.id==o.id))o.id+="-u";
+   ImgStyles.user=ImgStyles.user.filter(u=>u.id!=o.id);ImgStyles.user.push(o);n++}await Store.set("kv",ImgStyles.user,"imgstyles");return n},
+ async del(id){ImgStyles.user=ImgStyles.user.filter(u=>u.id!=id);await Store.set("kv",ImgStyles.user,"imgstyles")},
+ // the style of one page: its own override, else the book's
+ en(b,p){const st=ImgStyles.get(p&&p.istyle)||ImgStyles.get(b&&b.istyle)||IMG_STYLES[0];return st.en},
+ name(id){const s=ImgStyles.get(id);return s?s.name_fa:"؟"},
+ options(sel,first){const g={};for(const x of ImgStyles.all())(g[x.group]=g[x.group]||[]).push(x);
+  return(first?`<option value="">${esc(first)}</option>`:"")+Object.keys(g).map(k=>`<optgroup label="${esc(k)}">${g[k].map(x=>`<option value="${esc(x.id)}" ${x.id==sel?"selected":""}>${esc(x.name_fa)}</option>`).join("")}</optgroup>`).join("")}
+};
+
+// ---------- book model ----------
+const COLORS=["#ff8a3d","#3fb6ff","#7c5cff","#2ec47a","#ff5c8a","#f6b93b","#14b8a6","#e85d4a"];
+function normPage(o){o=o||{};const p={id:o.id||uid("p"),text:String(o.text??"").trim(),scene:String(o.scene??o.image_idea??"").trim(),layout:LAYOUTS[o.layout]?o.layout:"",istyle:String(o.istyle||"")};
+ for(const k of["img","audio"])if(o[k]instanceof Blob)p[k]=o[k];if(o.adur)p.adur=o.adur;return p}
+function normBook(o){o=o||{};const age=AGES[o.age]?o.age:"a6";
+ const b={id:o.id||uid("book"),created:o.created||Date.now(),updated:o.updated||Date.now(),title:String(o.title||"قصه‌ی من").trim(),sub:String(o.sub??"").trim(),author:String(o.author??"").trim(),
+  blurb:String(o.blurb??"").trim(),dedic:String(o.dedic??"").trim(),age,moral:String(o.moral||""),idea:String(o.idea||""),
+  child:{name:String(o.child&&o.child.name||"").trim(),hero:HERO[o.child&&o.child.hero]?o.child.hero:"girl",looks:String(o.child&&o.child.looks||"")},
+  outfit:String(o.outfit||""),cast:String(o.cast||""),coverScene:String(o.coverScene||""),
+  istyle:ImgStyles.get(o.istyle)?o.istyle:IMG_STYLES[0].id,layout:LAYOUTS[o.layout]&&o.layout!="text"?o.layout:"top",fT:FONTS[o.fT]?o.fT:"lalezar",fB:FONTS[o.fB]?o.fB:"vazir",
+  color:/^#[0-9a-f]{6}$/i.test(o.color||"")?o.color:COLORS[0],voice:o.voice||"Sulafat",vstyle:o.vstyle||"story",
+  pages:(Array.isArray(o.pages)?o.pages:[]).map(normPage)};
+ for(const k of["photo","sheet","cover","titleAudio"])if(o[k]instanceof Blob)b[k]=o[k];if(o.tadur)b.tadur=o.tadur;
+ if(!b.pages.length)b.pages=[normPage({text:"روزی روزگاری…"})];return b}
+const heroName=b=>b.child.name||(b.child.hero=="boy"?"قهرمان کوچولو":"قهرمان کوچولو");
+// what the reader shows, in order: front cover, title page, story pages, (end paper), back cover.
+// spread k (k>=1) = right: D[2k-1], left: D[2k]; spread 0 = the closed front cover.
+function bookSeq(b){const D=[{k:"cover"},{k:"title"},...b.pages.map((p,i)=>({k:"page",i}))];if(D.length%2==0)D.push({k:"blank"});D.push({k:"back"});return D}
+const narrText=b=>`${b.title}. ${b.author?b.author+".":""}`;
+
+// ---------- page renderer (HTML, design size 900 × 1200) ----------
+const R={
+ bg(bl){return bl?`background-image:url('${url(bl)}')`:""},
+ vars(b){return`--bc:${b.color};--ft:${Fonts.fam(b.fT)};--fb:${Fonts.fam(b.fB)};--tw:${Fonts.tw(b.fT)}`},
+ html(b,it,mode,pend){pend=pend||{};const V=R.vars(b),wait=t=>`<div class="ph">${pend[t]?"⏳ در حال کشیدن تصویر…":"🖼️ هنوز تصویر ندارد"}</div>`;
+  if(!it)return`<div class="pg none" style="${V}"></div>`;
+  if(it.k=="cover")return`<div class="pg cover" style="${V}">${b.cover?`<div class="bgim" style="${R.bg(b.cover)}"></div>`:wait("cover")}<div class="shade"></div>
+   <div class="ctop"><h1 class="ct">${esc(b.title)}</h1>${b.sub?`<div class="cs">${esc(b.sub)}</div>`:""}</div>
+   <div class="cbot">${b.child.name?`<span class="chip2">قهرمان قصه: ${esc(b.child.name)}</span>`:""}${b.author?`<span class="au">${esc(b.author)}</span>`:""}</div><i class="spine"></i></div>`;
+  if(it.k=="title")return`<div class="pg tpage" style="${V}"><div class="orn">✦ ✦ ✦</div><h1 class="ct">${esc(b.title)}</h1>${b.sub?`<div class="cs">${esc(b.sub)}</div>`:""}
+   ${b.sheet||b.cover?`<div class="medal" style="${R.bg(b.sheet||b.cover)}"></div>`:""}${b.author?`<div class="au">${esc(b.author)}</div>`:""}${b.dedic?`<div class="dd">${esc(b.dedic)}</div>`:""}<div class="orn">✦ ✦ ✦</div></div>`;
+  if(it.k=="blank")return`<div class="pg blank" style="${V}"><div class="orn big">❀</div></div>`;
+  if(it.k=="back")return`<div class="pg back" style="${V}">${b.cover?`<div class="bgim faded" style="${R.bg(b.cover)}"></div>`:""}<div class="bwrap"><h2 class="ct">${esc(b.title)}</h2><p class="blurb">${esc(b.blurb||"")}</p></div>
+   <div class="bcre">ساخته‌شده با کتاب‌ساز کودک صبا · viroai.ir</div><i class="spine r"></i></div>`;
+  const p=b.pages[it.i];if(!p)return R.html(b,null);const L=p.layout||b.layout,n=it.i+1,last=it.i==b.pages.length-1;
+  const tx=`<div class="tx"><p>${esc(p.text)}</p>${last?'<div class="fin">پایان</div>':""}</div>`;
+  const im=L=="text"?"":p.img?`<div class="im has" style="${R.bg(p.img)}"></div>`:`<div class="im">${wait("img")}</div>`;
+  return`<div class="pg story L-${L} ${b.age}" style="${V}">${im}${tx}<span class="pn">${fa(n)}</span></div>`},
+ mount(box,b,it,mode,pend){box.innerHTML=R.html(b,it,mode,pend);R.scale(box);if(mode!="thumb")R.fit(box);return box.firstElementChild},
+ scale(box){const el=box.firstElementChild;if(!el)return;const w=box.clientWidth||box.getBoundingClientRect().width||0;el.style.transform=`scale(${w?w/900:.1})`},
+ fit(box){const el=box.firstElementChild;if(!el)return;$$(".tx,.bwrap",el).forEach(c=>{for(const k of["fit-s","fit-xs","fit-xxs"]){if(!c.clientHeight||c.scrollHeight<=c.clientHeight+2)break;c.classList.add(k)}})}
+};
+
+// ---------- make (child + idea / own text → story → book) ----------
+const D0={name:"",hero:"girl",looks:"",age:"a6",src:"idea",idea:"",moral:"kind",own:"",cnt:10,istyle:"pb-water",layout:"top",voice:"Sulafat",vstyle:"story",author:"",dedic:""};
+const D=clone(D0);
+const Draft={tm:0,photo:null,
+ save(){clearTimeout(Draft.tm);Draft.tm=setTimeout(()=>Store.set("kv",clone(D),"draft"),400)},
+ async load(){Object.assign(D,clone(D0),await Store.get("kv","draft")||{});Draft.photo=await Store.get("kv","draftPhoto")||null}};
+const Make={busy:false,
+ init(){$("#ex").innerHTML=EXAMPLES.map(t=>`<button class="chip" data-a="ex" data-v="${esc(t)}">${esc(t)}</button>`).join("");
+  $("#hero").innerHTML=Object.keys(HERO).map(k=>`<button data-a="opt" data-k="hero" data-v="${k}">${k=="boy"?"👦":"👧"} ${HERO[k][0]}</button>`).join("");
+  $("#age").innerHTML=Object.keys(AGES).map(k=>`<button data-a="opt" data-k="age" data-v="${k}">${AGES[k].fa}</button>`).join("");
+  $("#src").innerHTML=`<button data-a="opt" data-k="src" data-v="idea">✨ از روی ایده (هوش مصنوعی می‌نویسد)</button><button data-a="opt" data-k="src" data-v="own">✍️ متن خودم</button>`;
+  $("#moral").innerHTML=MORALS.map(m=>`<button class="chip" data-a="opt" data-k="moral" data-v="${m[0]}">${m[1]}</button>`).join("")+`<button class="chip" data-a="opt" data-k="moral" data-v="">بدون پیام خاص</button>`;
+  $("#cnt").innerHTML=Array.from({length:13},(_,i)=>i+4).map(n=>`<option value="${n}">${fa(n)} صفحه</option>`).join("");
+  $("#mVoice").innerHTML=VOICES.map(v=>`<option value="${v[0]}">${v[1]}</option>`).join("");
+  $("#mVst").innerHTML=VSTYLES.map(v=>`<option value="${v[0]}">${v[1]}</option>`).join("");
+  const bind=(id,k,num)=>{$("#"+id).addEventListener("input",e=>{D[k]=num?+e.target.value:e.target.value;Draft.save()});$("#"+id).addEventListener("change",e=>{D[k]=num?+e.target.value:e.target.value;Draft.save()})};
+  bind("cName","name");bind("looks","looks");bind("idea","idea");bind("own","own");bind("cnt","cnt",1);bind("author","author");bind("dedic","dedic");bind("mLay","layout");bind("mVoice","voice");bind("mVst","vstyle")},
+ sync(){$("#cName").value=D.name;$("#looks").value=D.looks;$("#idea").value=D.idea;$("#own").value=D.own;$("#cnt").value=String(D.cnt);$("#author").value=D.author;$("#dedic").value=D.dedic;
+  $("#mLay").value=D.layout;$("#mVoice").value=D.voice;$("#mVst").value=D.vstyle;["hero","age","src","moral"].forEach(k=>Make.opt(k,D[k],1));Make.styles();Make.photoUI()},
+ opt(k,v,quiet){D[k]=v;if(k=="age"&&!quiet){D.cnt=AGES[v].pages;$("#cnt").value=String(D.cnt)}if(!quiet)Draft.save();
+  $$(`[data-a=opt][data-k=${k}]`).forEach(b=>b.classList.toggle("on",b.dataset.v==v));
+  if(k=="src"){$("#srcIdea").classList.toggle("hide",v!="idea");$("#srcOwn").classList.toggle("hide",v!="own")}
+  if(k=="hero"&&!Draft.photo)$("#phPv").textContent=v=="boy"?"👦":"👧"},
+ styles(){$("#mSty").innerHTML=ImgStyles.all().map(s=>`<div class="stc ${s.id==D.istyle?"on":""}" data-a="pickSty" data-id="${esc(s.id)}"><b>${esc(s.name_fa)}</b><small>${esc(s.group)}</small></div>`).join("")},
+ photoUI(){const pv=$("#phPv");if(Draft.photo){pv.style.backgroundImage=`url('${url(Draft.photo)}')`;pv.textContent=""}else{pv.style.backgroundImage="";pv.textContent=D.hero=="boy"?"👦":"👧"}$("#phX").classList.toggle("hide",!Draft.photo)},
+ async photo(){const f=await pick("image/*");if(!f)return;const j=await convert(f,"image/jpeg",1024)||f;Draft.photo=j;await Store.set("kv",j,"draftPhoto");Make.photoUI();toast("عکس اضافه شد؛ قهرمان از روی آن کشیده می‌شود")},
+ async photoX(){Draft.photo=null;await Store.delete("kv","draftPhoto");Make.photoUI()},
+ msg(m){$("#mkMsg").textContent=m},
+ schema:`{"title":"","subtitle":"","blurb":"","hero_outfit":"","cast":"","cover_scene":"","pages":[{"text":"","scene":""}]}`,
+ common(d){const A=AGES[d.age],h=HERO[d.hero][1];
+  return`Hero: a ${A.age}-year-old Iranian ${h} named «${d.name||"(no name given: invent a lovely short Persian name)"}». The child who reads this book IS the hero, so make the hero brave, kind and lovable.${d.looks?` The hero looks like this (Persian): «${d.looks}».`:""}
+Reader age: ${A.en}. Vocabulary: ${A.voc}.
+For each page also write "scene": an ENGLISH description of ONE illustration for that page (who is there, where, what they do, emotions, setting, time of day). Mention the hero by name. Vary the shots (close-ups, wide views). The scene must never ask for any written text in the picture.
+Also write: "title" (short, catchy Persian title), "subtitle" (optional short Persian line, or ""), "blurb" (2 or 3 enticing Persian sentences for the back cover, no spoilers), "hero_outfit" (ENGLISH: one fixed outfit the hero wears on every page, with colors), "cast" (ENGLISH: the fixed look of every other recurring character or animal, or ""), "cover_scene" (ENGLISH: the cover illustration with the hero in the center).
+Return ONLY JSON in this exact shape: ${Make.schema}`},
+ prompt(d){const A=AGES[d.age],m=MORALS.find(x=>x[0]==d.moral);
+  if(d.src=="own")return`Below is a Persian children's story written by the user. Turn it into an illustrated picture book of about ${d.cnt} pages (fewer if the story is short).
+Keep the user's words EXACTLY as written: do not rewrite, correct, shorten, translate or add a single word. Only split the story into pages at natural places; every word must appear once, in the original order. Put the split text in each page's "text".
+If the story has no title, invent one.
+${Make.common(d)}
+THE STORY:
+${d.own}`;
+  return`You are an award-winning Persian children's book author. Write an original illustrated picture book in Persian (Farsi).
+Story idea (in Persian): «${d.idea}».
+${m?`Lesson: ${m[2]}. Show it through what happens in the story; never preach.`:"No special lesson; just a delightful story."}
+Exactly ${d.cnt} pages; each page "text" has ${A.words}.
+Write warm, natural, modern standard Persian with correct spelling, half-spaces (ZWNJ) and punctuation; use Persian digits. Everyday Iranian culture is welcome. Safe and gentle (nothing violent or frightening), with a happy, comforting ending.
+${Make.common(d)}`},
+ // plain split for the user's own text when the model changed it
+ split(t,n){t=String(t).trim();let paras=t.split(/\n\s*\n/).map(x=>x.trim()).filter(Boolean);
+  if(paras.length<n){const sents=t.replace(/\s+/g," ").match(/[^.!؟?!…]+[.!؟?!…]*\s*/g)||[t];const per=Math.max(1,Math.ceil(sents.length/n));paras=[];for(let i=0;i<sents.length;i+=per)paras.push(sents.slice(i,i+per).join("").trim())}
+  while(paras.length>n+4){const a=paras.pop();paras[paras.length-1]+=" "+a}return paras.filter(Boolean)},
+ same(a,b){const f=s=>String(s).replace(/[\s\u200c]+/g,"");return f(a)==f(b)},
+ async build(){if(Make.busy)return;const d=clone(D);if(d.src=="idea"&&!d.idea.trim())return toast("ایده‌ی قصه را بنویس یا بگو");if(d.src=="own"&&!d.own.trim())return toast("متن قصه را بنویس یا بچسبان");
+  Make.busy=true;const btn=$("#mkBtn");btn.disabled=true;Make.msg("⏳ در حال نوشتن قصه…");
+  try{const j=await genText(Make.prompt(d),[],{onStatus:Make.msg});let pages=(Array.isArray(j.pages)?j.pages:[]).map(p=>({text:String(p.text||p.page_text||"").trim(),scene:String(p.scene||p.image||"").trim()})).filter(p=>p.text);
+   if(d.src=="own"&&!Make.same(pages.map(p=>p.text).join(" "),d.own)){const parts=Make.split(d.own,d.cnt);pages=parts.map((t,i)=>({text:t,scene:(pages[i]&&pages[i].scene)||""}))}
+   if(!pages.length)throw new Error("مدل قصه‌ای برنگرداند؛ دوباره امتحان کن");
+   const name=d.name.trim()||String(j.hero_name||"").trim();
+   const b=normBook({title:j.title,sub:j.subtitle,blurb:j.blurb,outfit:j.hero_outfit,cast:j.cast,coverScene:j.cover_scene,age:d.age,moral:d.moral,idea:d.src=="idea"?d.idea:"",
+    child:{name,hero:d.hero,looks:d.looks},istyle:d.istyle,layout:d.layout,voice:d.voice,vstyle:d.vstyle,author:d.author.trim(),dedic:d.dedic.trim(),color:COLORS[Math.floor(Math.random()*COLORS.length)],pages,photo:Draft.photo||undefined});
+   await Books.save(b,true);Ed.open(b.id);UI.tab("ed");Make.msg(`✅ قصه‌ی «${b.title}» با ${fa(b.pages.length)} صفحه نوشته شد؛ تصویرها در حال کشیدن‌اند.`);
+   Jobs.allImages(b)}
+  catch(e){Make.msg("⚠️ "+e.message)}finally{Make.busy=false;btn.disabled=false}},
+ async blank(){const b=normBook({title:"قصه‌ی من",child:{name:D.name,hero:D.hero,looks:D.looks},age:D.age,istyle:D.istyle,layout:D.layout,voice:D.voice,vstyle:D.vstyle,author:D.author,dedic:D.dedic,photo:Draft.photo||undefined,
+  pages:[{text:"روزی روزگاری…"},{text:""},{text:""}]});await Books.save(b,true);Ed.open(b.id);UI.tab("ed")}
+};
+
+// ---------- books (IndexedDB "books") ----------
+const Books={list:[],tm:{},
+ async load(){Books.list=(await Store.list("books")).map(normBook).sort((a,b)=>b.updated-a.updated)},
+ get(id){return Books.list.find(b=>b.id==id)},
+ save(b,now){b.updated=Date.now();if(!Books.list.includes(b))Books.list.unshift(b);clearTimeout(Books.tm[b.id]);const go=()=>Store.set("books",dcopy(b)).catch(e=>toast("⚠️ ذخیره نشد: "+e.message));if(now)return go();Books.tm[b.id]=setTimeout(go,500);return Promise.resolve()},
+ render(){const box=$("#books");if(!box)return;if(!Books.list.length){box.innerHTML='<p class="mut">هنوز کتابی نساخته‌ای.</p>';return}
+  box.innerHTML=Books.list.map(b=>`<div class="bkc"><div class="sbx" data-cv="${esc(b.id)}">${R.html(b,{k:"cover"},"thumb")}</div><div class="b"><h4>${esc(b.title)}</h4><div class="mut">${fa(b.pages.length)} صفحه · ${esc(AGES[b.age].fa)} · ${fdate(b.updated)}</div>
+   <div class="row" style="margin-top:8px"><button class="btn sm pri" data-a="openBook" data-id="${esc(b.id)}">✏️ باز کردن</button><button class="btn sm" data-a="readBook" data-id="${esc(b.id)}">📖</button><button class="btn sm" data-a="dupBook" data-id="${esc(b.id)}" title="کپی">⧉</button><button class="btn sm" data-a="saveBookFile" data-id="${esc(b.id)}" title="ذخیره‌ی فایل">💾</button><button class="btn sm danger" data-a="delBook" data-id="${esc(b.id)}" title="حذف">🗑️</button></div></div></div>`).join("");
+  requestAnimationFrame(()=>$$("#books .sbx").forEach(x=>R.scale(x)))},
+ async dup(id){const s=Books.get(id);if(!s)return;const b=normBook({...dcopy(s),id:uid("book"),title:s.title+" (کپی)",created:Date.now()});b.pages.forEach(p=>p.id=uid("p"));await Books.save(b,true);Books.render();toast("کپی ساخته شد")},
+ async del(id){const b=Books.get(id);if(!b||!await ask(`کتاب «${b.title}» حذف شود؟`))return;Books.list=Books.list.filter(x=>x!==b);await Store.delete("books",id);if(Ed.b===b)Ed.close();Books.render()},
+ async fileOut(id){const b=Books.get(id);if(!b)return;const j={format:"saba-storybook-book-v1",book:await Bridge.enc(b)};dl(new Blob([JSON.stringify(j)],{type:"application/json"}),(b.title||"book").replace(/[\\/:*?"<>|]+/g," ").slice(0,60)+".saba-book.json");toast("فایل کتاب ذخیره شد")},
+ async fileIn(){const f=await pick(".json");if(!f)return;try{const j=JSON.parse(await f.text());if(j.format!="saba-storybook-book-v1"||!j.book)throw new Error("این فایل کتاب کتاب‌ساز صبا نیست");const b=normBook(Bridge.dec(j.book));b.id=uid("book");await Books.save(b,true);Books.render();Ed.open(b.id);UI.tab("ed");toast("کتاب باز شد")}catch(e){toast("⚠️ "+e.message)}}
+};
+
+// ---------- editor ----------
+const REWRITES=["ساده‌تر کن","کوتاه‌تر کن","کمی بلندتر کن","گفت‌وگو اضافه کن","خنده‌دارتر کن","شاعرانه و آهنگین کن"];
+const Ed={b:null,x:2,undo:[],redo:[],snapT:0,
+ get D(){return Ed.b?bookSeq(Ed.b):[]},
+ get it(){return Ed.D[Ed.x]},
+ get p(){const it=Ed.it;return it&&it.k=="page"?Ed.b.pages[it.i]:null},
+ open(id){const b=Books.get(id);if(!b)return;Ed.b=b;Ed.x=Math.min(2,Ed.D.length-1);Ed.undo=[];Ed.redo=[];Fonts.ensureBook(b);$("#edEmpty").classList.add("hide");$("#edBox").classList.remove("hide");$("#bTitle").value=b.title;Ed.render()},
+ close(){Ed.b=null;$("#edEmpty").classList.remove("hide");$("#edBox").classList.add("hide")},
+ state(){const b=Ed.b;return dcopy({title:b.title,sub:b.sub,author:b.author,blurb:b.blurb,dedic:b.dedic,color:b.color,pages:b.pages,cover:b.cover,x:Ed.x})},
+ snap(){if(!Ed.b)return;Ed.undo.push(Ed.state());if(Ed.undo.length>60)Ed.undo.shift();Ed.redo=[]},
+ restore(from,to){if(!Ed.b||!from.length)return toast("چیزی برای برگشت نیست");to.push(Ed.state());const s=from.pop();const x=s.x;delete s.x;if(!s.cover)delete Ed.b.cover;Object.assign(Ed.b,s);Ed.x=Math.min(x,Ed.D.length-1);$("#bTitle").value=Ed.b.title;Ed.changed(true)},
+ changed(all){Books.save(Ed.b);all?Ed.render():(Ed.thumb(Ed.x),Ed.stage())},
+ pend(it){const b=Ed.b||{};if(!it)return{};if(it.k=="cover")return{cover:!!Jobs.pend[b.id+":cover"]};if(it.k=="page"){const p=b.pages[it.i];return p?{img:!!(Jobs.pend[p.id]||{}).img}:{}}return{}},
+ render(){if(!Ed.b)return;Ed.renderThumbs();Ed.stage();Ed.props()},
+ label(it,x){return it.k=="cover"?"جلد":it.k=="title"?"صفحه‌ی عنوان":it.k=="back"?"پشت جلد":it.k=="blank"?"":fa(it.i+1)},
+ renderThumbs(){const b=Ed.b;$("#thumbs").innerHTML=Ed.D.map((it,x)=>it.k=="blank"?"":`<div class="tb ${x==Ed.x?"on":""}" data-a="goto" data-x="${x}"><span class="n">${Ed.label(it)}</span>${it.k=="page"&&b.pages[it.i].audio||it.k=="title"&&b.titleAudio?'<span class="fl">🔊</span>':""}<div class="sbx">${R.html(b,it,"thumb",Ed.pend(it))}</div></div>`).join("");
+  requestAnimationFrame(()=>$$("#thumbs .sbx").forEach(x=>R.scale(x)))},
+ thumb(x){const tb=$(`#thumbs .tb[data-x="${x}"]`);if(!tb)return;const it=Ed.D[x],el=$(".sbx",tb);if(el&&it)R.mount(el,Ed.b,it,"thumb",Ed.pend(it))},
+ stage(){const box=$("#stage");if(!Ed.it){box.innerHTML="";return}R.mount(box,Ed.b,Ed.it,"edit",Ed.pend(Ed.it))},
+ go(x){if(!Ed.b)return;const D=Ed.D;x=Math.max(0,Math.min(D.length-1,x));if(D[x]&&D[x].k=="blank")x+=x>Ed.x?1:-1;Ed.x=Math.max(0,Math.min(D.length-1,x));$$("#thumbs .tb").forEach(t=>t.classList.toggle("on",+t.dataset.x==Ed.x));Ed.stage();Ed.props();const t=$(`#thumbs .tb[data-x="${Ed.x}"]`);t&&t.scrollIntoView&&t.scrollIntoView({block:"nearest"})},
+ xOfPage(i){return Ed.D.findIndex(it=>it.k=="page"&&it.i==i)},
+ fld(id,label,val,area,mic=true){return`<label for="${id}">${label}</label><div class="fld">${area?`<textarea id="${id}" data-e="${id}">${esc(val)}</textarea>`:`<input id="${id}" data-e="${id}" value="${esc(val)}" style="padding-left:52px">`}${mic?`<button class="btn mic" data-a="mic" data-t="${id}" aria-label="گفتن">🎙️</button>`:""}</div>`},
+ props(){const b=Ed.b,it=Ed.it,box=$("#props");if(!b||!it)return;const pd=Ed.pend(it);let h="";
+  if(it.k=="cover")h=`<div class="card"><h4>📕 جلد کتاب</h4>${Ed.fld("eTitle","نام کتاب",b.title)}${Ed.fld("eSub","زیرعنوان",b.sub)}${Ed.fld("eAuthor","نویسنده",b.author)}
+   <label>رنگ کتاب</label><div class="sw">${COLORS.map(c=>`<button data-a="color" data-v="${c}" class="${c==b.color?"on":""}" style="background:${c}" aria-label="رنگ"></button>`).join("")}</div>
+   ${Ed.fld("eCScene","تصویر جلد چه باشد؟ (فارسی یا انگلیسی)",b.coverScene,true)}
+   <div class="row" style="margin-top:10px"><button class="btn sm pri" data-a="genCover" ${pd.cover?"disabled":""}>${pd.cover?"⏳ در حال کشیدن…":b.cover?"🎨 کشیدن دوباره‌ی جلد":"🎨 کشیدن جلد"}</button><button class="btn sm" data-a="upCover">📁 تصویر خودم</button>${b.cover?'<button class="btn sm danger" data-a="rmCover">🗑️</button>':""}</div></div>`;
+  else if(it.k=="title")h=`<div class="card"><h4>📄 صفحه‌ی عنوان</h4>${Ed.fld("eAuthor","نویسنده",b.author)}${Ed.fld("eDedic","تقدیم‌نامه",b.dedic,true)}
+   <h4>🔊 گویندگی عنوان</h4>${b.titleAudio?`<audio controls src="${url(b.titleAudio)}"></audio>`:'<p class="mut">با «گویندگی کل کتاب» ساخته می‌شود.</p>'}</div>`;
+  else if(it.k=="back")h=`<div class="card"><h4>📗 پشت جلد</h4>${Ed.fld("eBlurb","متن پشت جلد",b.blurb,true)}<div class="row" style="margin-top:8px"><button class="btn sm" data-a="aiBlurb">✨ نوشتن با هوش مصنوعی</button></div></div>`;
+  else if(it.k=="page"){const p=b.pages[it.i],pj=Jobs.pend[p.id]||{},L=p.layout||b.layout;
+   h=`<div class="card"><div class="row"><h4 style="margin:0">صفحه‌ی ${fa(it.i+1)} از ${fa(b.pages.length)}</h4><span class="sp"></span><button class="btn sm ic" data-a="mvP" data-v="-1" title="صفحه‌ی قبل">→</button><button class="btn sm ic" data-a="mvP" data-v="1" title="صفحه‌ی بعد">←</button><button class="btn sm ic" data-a="dupP" title="کپی">⧉</button><button class="btn sm ic danger" data-a="delP" title="حذف">🗑️</button></div>
+    ${Ed.fld("eText","متن صفحه",p.text,true)}
+    <div class="chips">${REWRITES.map(r=>`<button class="chip" data-a="rw" data-v="${esc(r)}" ${pj.text?"disabled":""}>${esc(r)}</button>`).join("")}</div>
+    <div class="fld"><input id="rwIn" placeholder="یا بگو چه تغییری بدهم…" style="padding-left:52px"><button class="btn mic" data-a="mic" data-t="rwIn" aria-label="گفتن">🎙️</button></div><div class="row" style="margin-top:6px"><button class="btn sm" data-a="rwGo" ${pj.text?"disabled":""}>${pj.text?"⏳ در حال بازنویسی…":"✨ بازنویسی"}</button></div></div>
+   <div class="card"><h4>🖼️ تصویر</h4><div class="seg">${Object.keys(LAYOUTS).map(k=>`<button data-a="lay" data-v="${k}" class="${k==L?"on":""}" title="${LAYOUTS[k][1]}">${LAYOUTS[k][0]} ${LAYOUTS[k][1].split("،")[0]}</button>`).join("")}</div>
+    ${L=="text"?"":`${Ed.fld("eScene","چه چیزی کشیده شود؟ (فارسی یا انگلیسی)",p.scene,true)}<label for="pSty">سبک همین صفحه</label><select id="pSty" data-e="pSty">${ImgStyles.options(p.istyle,"مثل کل کتاب ("+ImgStyles.name(b.istyle)+")")}</select>
+    <div class="row" style="margin-top:10px"><button class="btn sm pri" data-a="genImg" ${pj.img?"disabled":""}>${pj.img?"⏳ در حال کشیدن…":p.img?"🎨 کشیدن دوباره":"🎨 کشیدن تصویر"}</button><button class="btn sm" data-a="upImg">📁 تصویر خودم</button>${p.img?'<button class="btn sm danger" data-a="rmImg">🗑️</button>':""}</div>`}</div>
+   <div class="card"><h4>🔊 گویندگی این صفحه</h4>${p.audio?`<audio controls src="${url(p.audio)}"></audio><div class="row"><button class="btn sm" data-a="dlAud">⬇️ دانلود</button><button class="btn sm danger" data-a="rmAud">🗑️</button></div>`:""}
+    <div class="row" style="margin-top:6px"><button class="btn sm" data-a="genAud" ${pj.audio?"disabled":""}>${pj.audio?"⏳ در حال ساخت…":p.audio?"🔄 ساخت دوباره":"🔊 ساخت صدای این صفحه"}</button></div><p class="mut">برای صرفه‌جویی در سهمیه‌ی روزانه، «گویندگی کل کتاب» همه‌ی صفحه‌ها را با یک درخواست می‌سازد.</p></div>
+   <div class="card"><h4>➕ صفحه‌ی جدید بعد از این</h4><div class="row"><button class="btn sm" data-a="addP">📄 صفحه‌ی خالی</button><button class="btn sm" data-a="aiP">✨ ادامه‌ی قصه با هوش مصنوعی</button></div></div>`}
+  box.innerHTML=h;R.scale($("#stage"))},
+ input(el){const b=Ed.b,id=el.dataset.e,v=el.value;if(!b)return;if(!Ed.snapT){Ed.snap();Ed.snapT=1}const p=Ed.p;
+  const map={eTitle:()=>{b.title=v.trim()||"قصه";$("#bTitle").value=b.title},eSub:()=>b.sub=v.trim(),eAuthor:()=>b.author=v.trim(),eDedic:()=>b.dedic=v.trim(),eBlurb:()=>b.blurb=v.trim(),eCScene:()=>b.coverScene=v.trim(),
+   eText:()=>p&&(p.text=v.trim()),eScene:()=>p&&(p.scene=v.trim()),pSty:()=>p&&(p.istyle=v)};
+  if(!map[id])return;map[id]();Books.save(b);clearTimeout(Ed.tt);Ed.tt=setTimeout(()=>{Ed.stage();Ed.thumb(Ed.x);if(id=="eTitle"||id=="eSub"||id=="eAuthor")Ed.renderThumbs()},300)},
+ setP(k,v){const p=Ed.p;if(!p)return;Ed.snap();p[k]=v;Ed.changed(true);Ed.props()},
+ move(dir){const a=Ed.b.pages,p=Ed.p;if(!p)return;const i=a.indexOf(p),j=i+dir;if(j<0||j>=a.length)return;Ed.snap();[a[i],a[j]]=[a[j],a[i]];Ed.x=Ed.xOfPage(j);Ed.changed(true)},
+ dup(){const p=Ed.p;if(!p)return;Ed.snap();const a=Ed.b.pages,i=a.indexOf(p);a.splice(i+1,0,{...dcopy(p),id:uid("p")});Ed.x=Ed.xOfPage(i+1);Ed.changed(true)},
+ async del(){const p=Ed.p;if(!p)return;if(Ed.b.pages.length<2)return toast("کتاب حداقل یک صفحه لازم دارد");if(!await ask("این صفحه حذف شود؟"))return;Ed.snap();const a=Ed.b.pages,i=a.indexOf(p);a.splice(i,1);Ed.x=Ed.xOfPage(Math.min(i,a.length-1));Ed.changed(true)},
+ add(p){const a=Ed.b.pages,cur=Ed.p,i=cur?a.indexOf(cur):a.length-1;Ed.snap();a.splice(i+1,0,normPage(p||{text:""}));Ed.x=Ed.xOfPage(i+1);Ed.changed(true);return a[i+1]},
+ ctx(){const b=Ed.b;return`Book: «${b.title}» for a child aged ${AGES[b.age].en}. Hero: ${heroName(b)} (${HERO[b.child.hero][1]}). Vocabulary: ${AGES[b.age].voc}. Each page has ${AGES[b.age].words}.
+The whole story so far, page by page (Persian):
+${b.pages.map((p,i)=>`${i+1}. ${p.text}`).join("\n")}`},
+ async rewrite(ins){const p=Ed.p,b=Ed.b;if(!p)return;const i=b.pages.indexOf(p);(Jobs.pend[p.id]=Jobs.pend[p.id]||{}).text=1;Ed.props();
+  try{const j=await genText(`${Ed.ctx()}
+Rewrite page ${i+1} of this Persian children's book following this request (written in Persian): «${ins}».
+Keep the story consistent with the other pages, keep the hero's name, and write warm, correct modern Persian with half-spaces (ZWNJ) and Persian digits.
+Also give "scene": an English description of the illustration for the new text.
+Return ONLY JSON: {"text":"","scene":""}`);
+   if(!j.text)throw new Error("مدل متنی برنگرداند");Ed.snap();p.text=String(j.text).trim();if(j.scene)p.scene=String(j.scene).trim();Books.save(b);toast("✅ صفحه بازنویسی شد؛ اگر تصویر هم باید عوض شود «کشیدن دوباره» را بزن")}
+  catch(e){toast("⚠️ "+e.message,7000)}finally{const q=Jobs.pend[p.id];if(q)delete q.text;if(Ed.b===b){Ed.stage();Ed.thumb(Ed.x);Ed.props()}}},
+ async aiPage(){const b=Ed.b,cur=Ed.p;const i=cur?b.pages.indexOf(cur):b.pages.length-1;toast("⏳ در حال نوشتن صفحه‌ی جدید…");
+  try{const j=await genText(`${Ed.ctx()}
+Write ONE new page to insert right after page ${i+1}, so the story flows naturally into the next page${i+1<b.pages.length?"":" (it may become the new ending)"}. Same style and length as the other pages, warm correct Persian with half-spaces.
+Also give "scene": an English description of its illustration.
+Return ONLY JSON: {"text":"","scene":""}`);if(!j.text)throw new Error("مدل متنی برنگرداند");const p=Ed.add({text:j.text,scene:j.scene});Jobs.page(b,p)}catch(e){toast("⚠️ "+e.message,7000)}},
+ async blurb(){const b=Ed.b;toast("⏳ در حال نوشتن متن پشت جلد…");try{const j=await genText(`${Ed.ctx()}
+Write the back-cover text of this Persian children's book: 2 or 3 enticing Persian sentences, no spoilers of the ending. Return ONLY JSON: {"blurb":""}`);if(!j.blurb)throw new Error("مدل متنی برنگرداند");Ed.snap();b.blurb=String(j.blurb).trim();Ed.changed(true);Ed.props()}catch(e){toast("⚠️ "+e.message,7000)}},
+ async upload(kind){const f=await pick("image/*");if(!f)return;const j=await convert(f,"image/jpeg",1800)||f;Ed.snap();if(kind=="cover")Ed.b.cover=j;else if(Ed.p)Ed.p.img=j;Ed.changed(true);Ed.props()},
+ color(c){Ed.snap();Ed.b.color=c;Ed.changed(true);Ed.props()},
+ // character sheet + photo
+ sheetBox(){const b=Ed.b,pd=!!Jobs.pend[b.id+":sheet"];const m=modal(`<h3>🧒 شخصیت قهرمان: ${esc(heroName(b))}</h3>
+  <div class="g2"><div><h4>عکس کودک</h4><div class="photo"><div class="pv" style="${b.photo?`background-image:url('${url(b.photo)}')`:""}">${b.photo?"":b.child.hero=="boy"?"👦":"👧"}</div><div class="row"><button class="btn sm" data-a="bPhoto">📷 ${b.photo?"عوض کردن":"اضافه کردن"} عکس</button>${b.photo?'<button class="btn sm danger" data-a="bPhotoX">🗑️</button>':""}</div></div>
+   <p class="privacy">🔒 عکس فقط در همین مرورگر می‌ماند و فقط برای کشیدن تصویرها به جمینی فرستاده می‌شود.</p>
+   ${Ed.fld("eLooks","ظاهر قهرمان",b.child.looks,false)}<label for="eOutfit">لباس ثابت قهرمان (انگلیسی یا فارسی)</label><input id="eOutfit" value="${esc(b.outfit)}">
+   <label for="eCast">شخصیت‌های دیگر (ظاهر ثابت)</label><textarea id="eCast">${esc(b.cast)}</textarea></div>
+  <div><h4>برگه‌ی شخصیت (مرجع همه‌ی تصویرها)</h4><div class="sheet" id="shImg" style="${b.sheet?`background-image:url('${url(b.sheet)}')`:""}">${b.sheet?"":pd?"⏳ در حال کشیدن…":"هنوز ساخته نشده"}</div>
+   <div class="row" style="margin-top:8px"><button class="btn sm pri" data-a="genSheet" ${pd?"disabled":""}>🎨 ${b.sheet?"کشیدن دوباره":"ساخت برگه‌ی شخصیت"}</button><button class="btn sm" data-a="upSheet">📁 تصویر خودم</button></div>
+   <p class="mut">برگه‌ی شخصیت از روی عکس و به سبک کتاب کشیده می‌شود و به همه‌ی صفحه‌ها فرستاده می‌شود تا قهرمان همه‌جا یک شکل باشد. اگر آن را عوض کردی، «کشیدن همه‌ی تصویرها» را دوباره بزن.</p></div></div>`);
+  const sv=()=>{b.child.looks=$("#eLooks",m).value.trim();b.outfit=$("#eOutfit",m).value.trim();b.cast=$("#eCast",m).value.trim();Books.save(b)};["#eLooks","#eOutfit","#eCast"].forEach(s=>$(s,m).addEventListener("input",sv));return m},
+ refreshSheet(){const m=$("#shImg");if(!m)return;$$(".modal").forEach(x=>x.remove());Ed.sheetBox()},
+ async photo(x){const b=Ed.b;if(x){delete b.photo}else{const f=await pick("image/*");if(!f)return;b.photo=await convert(f,"image/jpeg",1024)||f}await Books.save(b,true);Ed.refreshSheet();if(!x)toast("عکس عوض شد؛ «ساخت برگه‌ی شخصیت» را بزن")},
+ async upSheet(){const f=await pick("image/*");if(!f)return;Ed.b.sheet=await convert(f,"image/jpeg",1800)||f;await Books.save(Ed.b,true);Ed.refreshSheet();Ed.render()},
+ settings(){const b=Ed.b;modal(`<h3>⚙️ تنظیمات کتاب</h3><div class="g2">
+  <div><label for="sName">اسم قهرمان</label><input id="sName" value="${esc(b.child.name)}"></div><div><label>پسر یا دختر</label><div class="seg">${Object.keys(HERO).map(k=>`<button data-a="bset" data-k="hero" data-v="${k}" class="${k==b.child.hero?"on":""}">${HERO[k][0]}</button>`).join("")}</div></div>
+  <div><label>سن</label><div class="seg">${Object.keys(AGES).map(k=>`<button data-a="bset" data-k="age" data-v="${k}" class="${k==b.age?"on":""}">${AGES[k].fa}</button>`).join("")}</div></div>
+  <div><label for="sLay">چیدمان پیش‌فرض صفحه‌ها</label><select id="sLay"><option value="top" ${b.layout=="top"?"selected":""}>🖼️ تصویر بالا، متن پایین</option><option value="full" ${b.layout=="full"?"selected":""}>🌄 تصویر تمام‌صفحه</option></select></div>
+  <div><label for="sSty">سبک تصویر کل کتاب</label><select id="sSty">${ImgStyles.options(b.istyle)}</select></div>
+  <div><label for="sFT">فونت عنوان</label><select id="sFT">${Fonts.options(b.fT)}</select></div><div><label for="sFB">فونت متن</label><select id="sFB">${Fonts.options(b.fB)}</select></div>
+  <div><label for="sVoice">صدای راوی</label><select id="sVoice">${VOICES.map(v=>`<option value="${v[0]}" ${v[0]==b.voice?"selected":""}>${v[1]}</option>`).join("")}</select></div>
+  <div><label for="sVst">سبک خواندن</label><select id="sVst">${VSTYLES.map(v=>`<option value="${v[0]}" ${v[0]==b.vstyle?"selected":""}>${v[1]}</option>`).join("")}</select></div></div>
+  <div class="row" style="margin-top:14px"><button class="btn sm" data-a="redrawAll">🎨 کشیدن دوباره‌ی همه‌ی تصویرها با سبک فعلی</button></div>`);
+  const on=(id,f)=>$("#"+id).addEventListener("change",e=>{Ed.snap();f(e.target.value);Fonts.ensureBook(b);Ed.changed(true)});
+  $("#sName").addEventListener("input",e=>{b.child.name=e.target.value.trim();Books.save(b);Ed.renderThumbs();Ed.stage()});
+  on("sLay",v=>b.layout=v);on("sSty",v=>{b.istyle=v;toast("سبک عوض شد؛ برای تصویرهای قبلی «کشیدن دوباره‌ی همه» را بزن")});on("sFT",v=>b.fT=v);on("sFB",v=>b.fB=v);on("sVoice",v=>b.voice=v);on("sVst",v=>b.vstyle=v)},
+ bset(el){const b=Ed.b,k=el.dataset.k,v=el.dataset.v;Ed.snap();if(k=="hero")b.child.hero=v;else b[k]=v;$$(`[data-a=bset][data-k=${k}]`).forEach(x=>x.classList.toggle("on",x.dataset.v==v));Ed.changed(true)}
+};
+
+// ---------- jobs: character sheet, cover, page images, narration (2 at a time) ----------
+const Jobs={q:[],active:0,max:2,total:0,done:0,ac:null,pend:{},
+ add(b,key,kind,run){if((Jobs.pend[key]||{})[kind])return Promise.resolve(false);(Jobs.pend[key]=Jobs.pend[key]||{})[kind]=1;return new Promise(res=>{Jobs.q.push({b,key,kind,run,res});Jobs.total++;Jobs.ui();Jobs.refresh(b);Jobs.pump()})},
+ pump(){if(!Jobs.ac||Jobs.ac.signal.aborted)Jobs.ac=new AbortController();while(Jobs.active<Jobs.max&&Jobs.q.length){const j=Jobs.q.shift();Jobs.active++;Jobs.exec(j)}},
+ async exec(j){let ok=false;try{await j.run(Jobs.ac.signal);ok=true;await Books.save(j.b,true)}catch(e){if(e.name!="AbortError")toast("⚠️ "+e.message,8000)}
+  finally{const p=Jobs.pend[j.key];if(p){delete p[j.kind];if(!Object.keys(p).length)delete Jobs.pend[j.key]}Jobs.active--;Jobs.done++;if(!Jobs.q.length&&!Jobs.active){Jobs.total=Jobs.done=0}Jobs.ui();Jobs.refresh(j.b);j.res(ok);Jobs.pump()}},
+ refresh(b){if(Ed.b!==b)return;Ed.renderThumbs();Ed.stage();if(!$("#props textarea:focus,#props input:focus"))Ed.props();if($("#shImg"))Ed.refreshSheet()},
+ ui(){const on=Jobs.total>0,bar=$("#jobBar");$("#jobX").classList.toggle("hide",!on);bar.classList.toggle("hide",!on);$("#jobMsg").textContent=on?`⏳ ${fa(Jobs.done)} از ${fa(Jobs.total)} کار`:"";$("#jobBar i").style.width=on?Math.round(Jobs.done/Jobs.total*100)+"%":"0"},
+ cancel(){Jobs.q.forEach(j=>{const p=Jobs.pend[j.key];if(p)delete p[j.kind];j.res(false)});Jobs.q=[];Jobs.ac&&Jobs.ac.abort();Jobs.total=Jobs.done=0;Jobs.ui();Ed.b&&Jobs.refresh(Ed.b);toast("کارهای در صف متوقف شد")},
+ heroDesc(b,ref){const A=AGES[b.age],n=heroName(b);
+  return ref?`The hero is ${n}, a ${A.age}-year-old ${HERO[b.child.hero][1]}: draw the hero EXACTLY like the child in the attached character reference sheet (same face, hair, skin tone, body proportions and outfit) on every page.`
+   :`The hero is ${n}, a ${A.age}-year-old Iranian ${HERO[b.child.hero][1]}${b.child.looks?` who looks like this (Persian description): «${b.child.looks}»`:""}. Outfit: ${b.outfit||"a simple colorful everyday outfit"}.`},
+ NOTEXT:"Absolutely NO text, letters, words, numbers, captions, signatures or speech bubbles anywhere in the image.",
+ sheetPrompt(b){const A=AGES[b.age];return`Create a CHARACTER REFERENCE SHEET for a children's picture book. Art style: ${ImgStyles.en(b)}.
+${b.photo?`The hero is the child in the attached photo. Redraw THIS child in the art style above and keep the real face clearly recognizable: face shape, eyes, eyebrows, nose, smile, skin tone, hair color, hairstyle and hair length. A flattering, cute, child-friendly version.`:`The hero is a ${A.age}-year-old Iranian ${HERO[b.child.hero][1]}${b.child.looks?` who looks like this (Persian description): «${b.child.looks}»`:""}.`}
+Name: ${heroName(b)}. Age about ${A.age}. Outfit, kept the same in the whole book: ${b.outfit||"a simple colorful everyday outfit"}.
+Show the same child three times side by side on a plain white background: full body front view, full body three-quarter view, and a large head-and-shoulders close-up with a happy expression. Consistent proportions and colors. ${Jobs.NOTEXT}`},
+ coverPrompt(b,ref){return`Front cover illustration (portrait) of a Persian children's picture book titled «${b.title}» for ages ${AGES[b.age].en}. Art style: ${ImgStyles.en(b)}.
+Cover scene: ${b.coverScene||"the hero in the middle of the story's most magical moment, smiling at the viewer"}.
+${Jobs.heroDesc(b,ref)}${b.cast?`\nOther characters (keep their look): ${b.cast}`:""}
+The hero is the clear center of attention, warm and inviting. Keep the TOP third of the picture calm and simple (sky or soft background) because the title will be placed there later. ${Jobs.NOTEXT}`},
+ pagePrompt(b,p,ref){const i=b.pages.indexOf(p),full=(p.layout||b.layout)=="full";return`Illustration for page ${i+1} of a Persian children's picture book for ages ${AGES[b.age].en}. Art style: ${ImgStyles.en(b,p)}.
+Scene: ${p.scene||"the moment described in the page text"}.
+Page text (Persian, for context only; do NOT write it in the picture): «${p.text}»
+${Jobs.heroDesc(b,ref)}${b.cast?`\nOther recurring characters (keep their look identical on every page): ${b.cast}`:""}
+${full?"Full-page portrait composition; keep the lower third calm and simple because a text box will cover it.":"Wide landscape composition."} Child-friendly, warm, expressive and safe. ${Jobs.NOTEXT}`},
+ refs:async b=>b.sheet?[await toRef(b.sheet)]:[],
+ sheet(b){return Jobs.add(b,b.id+":sheet","sheet",async sig=>{const refs=b.photo?[await toRef(b.photo)]:[];b.sheet=await genImage(Jobs.sheetPrompt(b),refs,sig,null,"16:9")})},
+ cover(b){return Jobs.add(b,b.id+":cover","img",async sig=>{const r=await Jobs.refs(b);b.cover=await genImage(Jobs.coverPrompt(b,r.length),r,sig,null,"3:4")})},
+ page(b,p){return Jobs.add(b,p.id,"img",async sig=>{const r=await Jobs.refs(b);p.img=await genImage(Jobs.pagePrompt(b,p,r.length),r,sig,null,(p.layout||b.layout)=="full"?"3:4":"4:3")})},
+ async allImages(b,force){if(!b.sheet||force=="sheet")await Jobs.sheet(b);const w=[];if(!b.cover||force)w.push(Jobs.cover(b));for(const p of b.pages)if((p.layout||b.layout)!="text"&&(!p.img||force))w.push(Jobs.page(b,p));return w.length},
+ // narration: the title + every page in ONE TTS request, split at the pauses
+ vstyle:b=>(VSTYLES.find(v=>v[0]==b.vstyle)||VSTYLES[0])[2],
+ audioBatch(b){const items=[{key:b.id+":title",text:narrText(b),set:(a,d)=>{b.titleAudio=a;b.tadur=d}},...b.pages.filter(p=>p.text.trim()).map(p=>({key:p.id,text:p.text,set:(a,d)=>{p.audio=a;p.adur=d}}))];
+  const chunks=[];let cur=[],len=0;for(const it of items){if(cur.length&&len+it.text.length>TTS_CHUNK){chunks.push(cur);cur=[];len=0}cur.push(it);len+=it.text.length}if(cur.length)chunks.push(cur);
+  for(const ch of chunks){ch.slice(1).forEach(it=>{(Jobs.pend[it.key]=Jobs.pend[it.key]||{}).audio=1});
+   Jobs.add(b,ch[0].key,"audio",async sig=>{try{const text=ch.map(it=>it.text.trim()).join("\n\n… … …\n\n");
+     const style=Jobs.vstyle(b)+(ch.length>1?`. This is a children's book read page by page; pages are separated by "… … …". At every "… … …" stay completely silent for about 2 seconds, like turning a page, then continue. Never read the dots aloud`:"");
+     const a=await genSpeech(text,b.voice||"Sulafat",style,sig);const parts=ch.length>1?await Audio16.split(a,ch.length,ch.map(it=>it.text.length)):[a];
+     ch.forEach((it,i)=>it.set(parts[i],Audio16.dur(parts[i])))}
+    finally{ch.slice(1).forEach(it=>{const p=Jobs.pend[it.key];if(p){delete p.audio;if(!Object.keys(p).length)delete Jobs.pend[it.key]}})}})}
+  return chunks.length},
+ audio(b,p){if(!p.text.trim())return toast("این صفحه متن ندارد");Jobs.add(b,p.id,"audio",async sig=>{const a=await genSpeech(p.text,b.voice||"Sulafat",Jobs.vstyle(b),sig);p.audio=a;p.adur=Audio16.dur(a)})}
+};
+
+// ---------- reader: flipbook that opens and turns RIGHT-TO-LEFT like a Persian book ----------
+const Reader={b:null,D:[],k:0,i:0,single:false,busy:false,el:null,auto:false,sound:true,tm:0,x0:null,
+ open(b,from){if(!b)return;Reader.b=b;Reader.D=bookSeq(b);Reader.single=(innerWidth||1200)<760;Reader.auto=false;Reader.busy=false;Fonts.ensureBook(b);
+  if(Reader.single){Reader.i=Math.max(0,Math.min(Reader.D.length-1,from||0));if(Reader.D[Reader.i]&&Reader.D[Reader.i].k=="blank")Reader.i++}else Reader.k=from?Math.ceil(from/2):0;
+  const el=document.createElement("div");el.id="rd";el.tabIndex=0;Reader.el=el;
+  el.innerHTML=`<div class="rbar"><button class="btn sm" data-a="rClose">✕ بستن</button><button class="btn sm" data-a="rPrev" title="صفحه‌ی قبل">→ قبلی</button><span class="rpos" id="rPos"></span><button class="btn sm" data-a="rNext" title="صفحه‌ی بعد">بعدی ←</button>
+   <button class="btn sm pri" id="rAutoB" data-a="rAuto">▶️ پخش خودکار با قصه‌گو</button><button class="btn sm" id="rSnd" data-a="rSnd">🔊 صدا روشن</button><button class="btn sm" data-a="rFull">⛶ تمام‌صفحه</button></div>
+   <div class="rst" id="rSt"><div class="bk" id="rBk"><div class="shadow"></div><div class="half hr" id="rR"><div class="sbx"></div></div><div class="half hl" id="rL"><div class="sbx"></div></div><i class="spineL"></i></div></div>
+   <div class="hint">ورق زدن مثل کتاب فارسی: کلید ← یا کشیدن به راست = صفحه‌ی بعد</div>`;
+  document.body.append(el);Reader.size();Reader.show();el.focus();
+  const st=$("#rSt");st.addEventListener("pointerdown",e=>{Reader.x0=e.clientX});
+  st.addEventListener("pointerup",e=>{if(Reader.x0==null)return;const dx=e.clientX-Reader.x0;Reader.x0=null;if(Math.abs(dx)>40){dx>0?Reader.next():Reader.prev();return}
+   const r=$("#rBk").getBoundingClientRect();if(!r.width)return;(e.clientX<r.left+r.width/2)?Reader.next():Reader.prev()});
+  Reader.rs=()=>{Reader.size();Reader.show()};window.addEventListener("resize",Reader.rs)},
+ size(){const st=$("#rSt"),W=(st&&st.clientWidth)||innerWidth||1200,H=(st&&st.clientHeight)||(innerHeight||800)-80,k=Reader.single?Math.min((W-30)/900,(H-60)/1200):Math.min((W-60)/1800,(H-60)/1200),bk=$("#rBk");
+  Reader.w=Math.max(120,Math.floor(900*k));bk.style.width=(Reader.single?Reader.w:Reader.w*2)+"px";bk.style.height=Math.floor(1200*k)+"px";bk.classList.toggle("single",Reader.single)},
+ kmax(){return Reader.D.length/2},
+ put(half,it){const box=$(".sbx",half);half.classList.toggle("e",!it);R.mount(box,Reader.b,it||null,"read");box.firstElementChild&&(box.firstElementChild.style.transform=`scale(${Reader.w/900})`);R.fit(box)},
+ mountFace(face,it){face.innerHTML='<div class="sbx"></div><i class="curl"></i>';const box=$(".sbx",face);R.mount(box,Reader.b,it||{k:"blank"},"read");box.firstElementChild.style.transform=`scale(${Reader.w/900})`;R.fit(box)},
+ pos(){const D=Reader.D,lab=it=>!it?"":it.k=="cover"?"جلد":it.k=="back"?"پشت جلد":it.k=="title"?"عنوان":it.k=="page"?"صفحه‌ی "+fa(it.i+1):"";
+  if(Reader.single)return lab(D[Reader.i]);const r=D[2*Reader.k-1],l=D[2*Reader.k];return[lab(r),lab(l)].filter(Boolean).join(" · ")},
+ vis(){const D=Reader.D;return Reader.single?[D[Reader.i]]:[D[2*Reader.k-1],D[2*Reader.k]].filter(Boolean)},
+ show(){const D=Reader.D,bk=$("#rBk");if(!bk)return;
+  if(Reader.single){Reader.put($("#rR"),D[Reader.i]);bk.classList.remove("cf","cb")}
+  else{Reader.put($("#rR"),D[2*Reader.k-1]);Reader.put($("#rL"),D[2*Reader.k]);bk.classList.toggle("cf",Reader.k==0);bk.classList.toggle("cb",Reader.k==Reader.kmax())}
+  $("#rPos").textContent=Reader.pos();if(Reader.auto)Reader.play()},
+ // animate one leaf; side "L" = the left page turning over to the right (forward), "R" = the right page turning back to the left
+ flip(side,front,back,under,done){const bk=$("#rBk"),leaf=document.createElement("div");leaf.className="leaf "+side;leaf.innerHTML='<div class="face ff"></div><div class="face bf"></div>';
+  Reader.mountFace($(".ff",leaf),front);Reader.mountFace($(".bf",leaf),back);under&&under();bk.append(leaf);Reader.busy=true;
+  const fin=()=>{if(!leaf.isConnected)return;leaf.remove();Reader.busy=false;done()};
+  void leaf.offsetWidth;requestAnimationFrame(()=>{leaf.classList.add("go");leaf.style.transform=`rotateY(${side=="L"?180:-180}deg)`});
+  leaf.addEventListener("transitionend",e=>{if(e.target===leaf)fin()});setTimeout(fin,1100)},
+ next(){if(Reader.busy)return false;const D=Reader.D;Reader.stop();
+  if(Reader.single){if(Reader.i>=D.length-1)return Reader.end();let n=Reader.i+1;if(D[n]&&D[n].k=="blank"&&n<D.length-1)n++;const cur=D[Reader.i];
+   Reader.flip("L",cur,null,()=>Reader.put($("#rR"),D[n]),()=>{Reader.i=n;Reader.show()});return true}
+  if(Reader.k>=Reader.kmax())return Reader.end();const k=Reader.k,bk=$("#rBk");
+  Reader.flip("L",D[2*k],D[2*k+1],()=>{Reader.put($("#rL"),D[2*k+2]);bk.classList.remove("cf");if(k+1==Reader.kmax())bk.classList.add("cb")},()=>{Reader.k=k+1;Reader.show()});return true},
+ prev(){if(Reader.busy)return false;const D=Reader.D;Reader.stop();
+  if(Reader.single){if(Reader.i<=0)return false;let n=Reader.i-1;if(D[n]&&D[n].k=="blank"&&n>0)n--;Reader.i=n;Reader.show();return true}
+  if(Reader.k<=0)return false;const k=Reader.k,bk=$("#rBk");
+  Reader.flip("R",D[2*k-1],D[2*k-2],()=>{Reader.put($("#rR"),D[2*k-3]);bk.classList.remove("cb");if(k-1==0)bk.classList.add("cf")},()=>{Reader.k=k-1;Reader.show()});return true},
+ end(){if(Reader.auto){Reader.auto=false;$("#rAutoB").textContent="▶️ پخش خودکار با قصه‌گو";toast("پایان قصه 🌙")}return false},
+ audioOf(it){const b=Reader.b;if(!it)return null;if(it.k=="title")return b.titleAudio||null;if(it.k=="page")return(b.pages[it.i]||{}).audio||null;return null},
+ textOf(it){const b=Reader.b;if(!it)return"";if(it.k=="page")return(b.pages[it.i]||{}).text||"";if(it.k=="title")return b.title;if(it.k=="back")return b.blurb;return""},
+ stop(){clearTimeout(Reader.tm);const a=$("#aud1");try{a.pause();a.onended=null}catch{}},
+ // read the visible pages aloud (right page first, then left), then turn the page
+ play(){Reader.stop();const q=Reader.vis().slice(),a=$("#aud1"),gen=Reader.gen=(Reader.gen||0)+1;
+  const step=()=>{if(!Reader.auto||gen!=Reader.gen)return;const it=q.shift();if(!it){Reader.tm=setTimeout(()=>{if(Reader.auto&&gen==Reader.gen)Reader.next()},900);return}
+   const au=Reader.sound&&Reader.audioOf(it);if(au){a.src=url(au);a.onended=()=>step();const p=a.play();p&&p.catch&&p.catch(()=>{Reader.tm=setTimeout(step,2500)})}
+   else Reader.tm=setTimeout(step,it.k=="cover"?2500:Math.min(14000,1800+Reader.textOf(it).length*55))};step()},
+ toggleAuto(){Reader.auto=!Reader.auto;$("#rAutoB").textContent=Reader.auto?"⏸ توقف":"▶️ پخش خودکار با قصه‌گو";if(Reader.auto){if(!Reader.b.pages.some(p=>p.audio)&&Reader.sound)toast("این کتاب هنوز گویندگی ندارد؛ صفحه‌ها خودکار ورق می‌خورند. در ویرایشگر «گویندگی کل کتاب» را بزن",6000);Reader.play()}else Reader.stop()},
+ toggleSnd(){Reader.sound=!Reader.sound;$("#rSnd").textContent=Reader.sound?"🔊 صدا روشن":"🔇 بی‌صدا";if(Reader.auto)Reader.play()},
+ full(){try{document.fullscreenElement?document.exitFullscreen():Reader.el.requestFullscreen()}catch{toast("تمام‌صفحه در این محیط مجاز نیست")}},
+ close(){Reader.stop();Reader.auto=false;window.removeEventListener("resize",Reader.rs);try{document.fullscreenElement&&document.exitFullscreen()}catch{}Reader.el&&Reader.el.remove();Reader.el=null}
+};
+
+// ---------- export: canvas renderer (correct Persian shaping), PDF, PNG, audio, book file ----------
+const Exp={W:1200,H:1600,
+ menu(){if(!Ed.b)return;const b=Ed.b,na=b.pages.filter(p=>p.audio).length;modal(`<h3>⬇️ خروجی «${esc(b.title)}»</h3>
+  <div class="laygrid"><div class="lb" data-a="xPdf"><b>📄</b>PDF کتاب<br><small class="mut">جلد + همه‌ی صفحه‌ها</small></div><div class="lb" data-a="xPng"><b>🖼️</b>PNG همه (ZIP)</div><div class="lb" data-a="xCur"><b>🖼️</b>PNG همین صفحه</div>
+  <div class="lb" data-a="xWav"><b>🎧</b>کل قصه یک فایل صوتی<br><small class="mut">${fa(na)} صفحه صدا دارد</small></div><div class="lb" data-a="xAudZip"><b>🔊</b>صدای صفحه‌ها (ZIP)</div><div class="lb" data-a="xTxt"><b>🗒️</b>متن قصه (TXT)</div><div class="lb" data-a="xBook"><b>💾</b>فایل کتاب<br><small class="mut">برای باز کردن دوباره</small></div></div>
+  <p class="mut" id="xMsg">PDF و PNG با همان فونت و حروف فارسی درست ساخته می‌شوند.</p>`)},
+ msg(m){const e=$("#xMsg");if(e)e.textContent=m},
+ name(b,ext){return(b.title||"book").replace(/[\\/:*?"<>|]+/g," ").slice(0,60)+"."+ext},
+ font(k,w,px){return`${w} ${px}px ${Fonts.fam(k).replace(/PDigits,/,"")}`},
+ wrap(x,t,maxW){const out=[];for(const para of String(t||"").split("\n")){const ws=para.split(/\s+/).filter(Boolean);let line="";for(const w of ws){const tr=line?line+" "+w:w;if(line&&x.measureText(tr).width>maxW){out.push(line);line=w}else line=tr}out.push(line)}return out},
+ // fit text in a box: shrink until it fits
+ fitText(x,t,fontK,w,start,min,maxW,maxH,lh){let px=start,lines;for(;;){x.font=Exp.font(fontK,w,px);lines=Exp.wrap(x,t,maxW);if(lines.length*px*lh<=maxH||px<=min)break;px-=2}return{px,lines}},
+ lines(x,L,cx,y,px,lh,align){x.textAlign=align||"right";L.forEach((l,i)=>x.fillText(l,cx,y+i*px*lh))},
+ async img(bl){if(!bl)return null;const d=await drawable(bl);return d},
+ cover(x,d,X,Y,W,H){if(!d)return;const s=Math.max(W/d.W,H/d.H),w=d.W*s,h=d.H*s;x.save();x.beginPath();x.rect(X,Y,W,H);x.clip();x.drawImage(d.i,X+(W-w)/2,Y+(H-h)/2,w,h);x.restore()},
+ rr(x,X,Y,W,H,r){x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+W,Y,X+W,Y+H,r);x.arcTo(X+W,Y+H,X,Y+H,r);x.arcTo(X,Y+H,X,Y,r);x.arcTo(X,Y,X+W,Y,r);x.closePath()},
+ async draw(b,it){const W=Exp.W,H=Exp.H,c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext&&c.getContext("2d");if(!x)throw new Error("Canvas در دسترس نیست");
+  x.direction="rtl";x.textBaseline="top";const paper="#fffaf0",ink="#2b2233",acc=b.color,S=W/900;x.fillStyle=paper;x.fillRect(0,0,W,H);
+  if(it.k=="cover"){x.fillStyle=acc;x.fillRect(0,0,W,H);Exp.cover(x,await Exp.img(b.cover),0,0,W,H);
+   let g=x.createLinearGradient(0,0,0,H*.4);g.addColorStop(0,"rgba(0,0,0,.45)");g.addColorStop(1,"rgba(0,0,0,0)");x.fillStyle=g;x.fillRect(0,0,W,H*.4);
+   g=x.createLinearGradient(0,H*.7,0,H);g.addColorStop(0,"rgba(0,0,0,0)");g.addColorStop(1,"rgba(0,0,0,.55)");x.fillStyle=g;x.fillRect(0,H*.7,W,H*.3);
+   x.fillStyle="#fff";x.shadowColor="rgba(0,0,0,.55)";x.shadowBlur=24;const t=Exp.fitText(x,b.title,b.fT,Fonts.tw(b.fT),128,70,W-160,H*.3,1.3);Exp.lines(x,t.lines,W/2,95,t.px,1.3,"center");
+   let y=95+t.lines.length*t.px*1.3;if(b.sub){x.font=Exp.font(b.fB,400,52);Exp.lines(x,Exp.wrap(x,b.sub,W-160),W/2,y+10,52,1.4,"center")}
+   x.shadowBlur=0;y=H-90;if(b.author){x.font=Exp.font(b.fB,400,42);x.shadowBlur=14;x.fillText(b.author,W/2,y-42);x.shadowBlur=0;y-=70}
+   if(b.child.name){const s=`قهرمان قصه: ${b.child.name}`;x.font=Exp.font(b.fB,700,50);const tw=x.measureText(s).width+90;x.fillStyle=acc;Exp.rr(x,(W-tw)/2,y-100,tw,84,42);x.fill();x.fillStyle="#fff";x.fillText(s,W/2,y-86)}
+   x.fillStyle="rgba(0,0,0,.25)";x.fillRect(W-30,0,30,H)}
+  else if(it.k=="title"){x.textAlign="center";x.fillStyle=acc;x.font="48px Vazirmatn";x.fillText("✦  ✦  ✦",W/2,150);const t=Exp.fitText(x,b.title,b.fT,Fonts.tw(b.fT),104,60,W-220,330,1.3);Exp.lines(x,t.lines,W/2,250,t.px,1.3,"center");
+   let y=250+t.lines.length*t.px*1.3+20;if(b.sub){x.fillStyle="#6b5f78";x.font=Exp.font(b.fB,400,48);const L=Exp.wrap(x,b.sub,W-220);Exp.lines(x,L,W/2,y,48,1.4,"center");y+=L.length*67+20}
+   const m=await Exp.img(b.sheet||b.cover);if(m){const r=210,cx=W/2,cy=y+r+20;x.save();x.beginPath();x.arc(cx,cy,r,0,7);x.clip();Exp.cover(x,m,cx-r,cy-r,2*r,2*r);x.restore();x.lineWidth=13;x.strokeStyle=acc;x.beginPath();x.arc(cx,cy,r,0,7);x.stroke();y=cy+r+50}
+   x.fillStyle="#4a3f58";if(b.author){x.font=Exp.font(b.fB,400,46);x.fillText(b.author,W/2,y);y+=80}if(b.dedic){x.fillStyle="#7a6d88";x.font=Exp.font(b.fB,400,42);Exp.lines(x,Exp.wrap(x,b.dedic,W-300),W/2,y,42,1.8,"center")}
+   x.fillStyle=acc;x.font="48px Vazirmatn";x.fillText("✦  ✦  ✦",W/2,H-190)}
+  else if(it.k=="blank"){x.fillStyle=rgba(acc,.3);x.font="160px Vazirmatn";x.textAlign="center";x.fillText("❀",W/2,H/2-100)}
+  else if(it.k=="back"){x.fillStyle=acc;x.fillRect(0,0,W,H);const m=await Exp.img(b.cover);if(m){x.globalAlpha=.22;Exp.cover(x,m,0,0,W,H);x.globalAlpha=1}
+   x.fillStyle="#fff";x.font=Exp.font(b.fT,Fonts.tw(b.fT),84);const tl=Exp.wrap(x,b.title,W-240);const bl=Exp.fitText(x,b.blurb||"",b.fB,400,58,30,W-320,H-700,1.9);
+   const bh=bl.lines.length*bl.px*1.9+110,th=tl.length*84*1.3,top=(H-160-(th+50+bh))/2;x.font=Exp.font(b.fT,Fonts.tw(b.fT),84);Exp.lines(x,tl,W/2,top,84,1.3,"center");
+   x.fillStyle="rgba(0,0,0,.18)";Exp.rr(x,110,top+th+50,W-220,bh,50);x.fill();x.fillStyle="#fff";x.font=Exp.font(b.fB,400,bl.px);Exp.lines(x,bl.lines,W/2,top+th+105,bl.px,1.9,"center");
+   x.font="34px Vazirmatn";x.textAlign="center";x.fillText("ساخته‌شده با کتاب‌ساز کودک صبا · viroai.ir",W/2,H-120);x.fillStyle="rgba(0,0,0,.25)";x.fillRect(0,0,30,H)}
+  else if(it.k=="page"){const p=b.pages[it.i],L=p.layout||b.layout,last=it.i==b.pages.length-1,base={a3:74,a6:62,a8:54}[b.age]||60,m=L=="text"?null:await Exp.img(p.img);
+   const txt=last?p.text+"\n":p.text;let box;
+   if(L=="top"){if(m)Exp.cover(x,m,0,0,W,900);else{x.fillStyle="#f3ecdf";x.fillRect(0,0,W,900)}x.fillStyle=acc;x.fillRect(0,900,W,11);box={X:80,Y:945,W:W-160,H:H-945-120}}
+   else if(L=="full"){if(m)Exp.cover(x,m,0,0,W,H);const t=Exp.fitText(x,txt,b.fB,400,base,30,W-200,620,1.95),h=t.lines.length*t.px*1.95+(last?70:0)+80;x.fillStyle="rgba(255,250,240,.93)";x.shadowColor="rgba(0,0,0,.25)";x.shadowBlur=30;Exp.rr(x,58,H-58-h,W-116,h,52);x.fill();x.shadowBlur=0;box={X:100,Y:H-58-h+40,W:W-200,H:h-80}}
+   else{x.strokeStyle=acc;x.lineWidth=8;Exp.rr(x,120,146,W-240,H-292,52);x.stroke();box={X:190,Y:220,W:W-380,H:H-440}}
+   const t=Exp.fitText(x,txt,b.fB,400,L=="text"?base+10:base,28,box.W,box.H-(last?70:0),1.95),th=t.lines.length*t.px*1.95,y0=box.Y+Math.max(0,(box.H-th-(last?70:0))/2);
+   x.fillStyle=ink;x.font=Exp.font(b.fB,400,t.px);Exp.lines(x,t.lines,L=="text"?W/2:box.X+box.W,y0,t.px,1.95,L=="text"?"center":"right");
+   if(last){x.fillStyle=acc;x.font=Exp.font(b.fT,Fonts.tw(b.fT),58);x.textAlign="center";x.fillText("پایان",W/2,y0+th+6)}
+   if(L!="full"){x.fillStyle="#9b8fab";x.font="40px Vazirmatn";x.textAlign="center";x.fillText(fa(it.i+1),W/2,H-80)}}
+  return c},
+ items(b){return bookSeq(b).filter(it=>it.k!="blank")},
+ async png(b,it){await Fonts.ready(b);return cBlob(await Exp.draw(b,it),"image/png")},
+ async cur(){const b=Ed.b,it=Ed.it;Exp.msg("⏳ در حال ساخت تصویر…");try{const bl=await Exp.png(b,it);if(!bl)throw new Error("ساخت تصویر ممکن نشد");dl(bl,Exp.name(b,"png").replace(".png",`-${Ed.x}.png`));Exp.msg("✅ دانلود شد")}catch(e){Exp.msg("⚠️ "+e.message)}},
+ async pngZip(){const b=Ed.b,its=Exp.items(b);try{const Z=await Backup.jz(),z=new Z();await Fonts.ready(b);for(let i=0;i<its.length;i++){Exp.msg(`⏳ صفحه‌ی ${fa(i+1)} از ${fa(its.length)}…`);const bl=await cBlob(await Exp.draw(b,its[i]),"image/png");bl&&z.file(`${String(i).padStart(2,"0")}-${its[i].k=="page"?"page-"+(its[i].i+1):its[i].k}.png`,bl)}dl(await z.generateAsync({type:"blob"}),Exp.name(b,"zip"));Exp.msg("✅ دانلود شد")}catch(e){Exp.msg("⚠️ "+e.message)}},
+ async pdf(){const b=Ed.b,its=Exp.items(b);try{await Lazy.js("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js","jspdf");const J=window.jspdf&&window.jspdf.jsPDF;if(!J)throw new Error("jsPDF در دسترس نیست");
+  await Fonts.ready(b);const pdf=new J({orientation:"portrait",unit:"px",format:[Exp.W,Exp.H],compress:true});
+  for(let i=0;i<its.length;i++){Exp.msg(`⏳ صفحه‌ی ${fa(i+1)} از ${fa(its.length)}…`);const c=await Exp.draw(b,its[i]);if(i)pdf.addPage([Exp.W,Exp.H],"portrait");pdf.addImage(c.toDataURL("image/jpeg",.9),"JPEG",0,0,Exp.W,Exp.H)}
+  dl(pdf.output("blob"),Exp.name(b,"pdf"));Exp.msg("✅ PDF دانلود شد")}catch(e){Exp.msg("⚠️ "+e.message)}},
+ async wav(){const b=Ed.b,a=[b.titleAudio,...b.pages.map(p=>p.audio)].filter(Boolean);if(!a.length)return Exp.msg("هنوز گویندگی نداری؛ «🔊 گویندگی کل کتاب» را بزن");dl(await Audio16.join(a,24000,1.2),Exp.name(b,"wav"));Exp.msg("✅ دانلود شد")},
+ async audZip(){const b=Ed.b,a=b.pages.map((p,i)=>[p,i]).filter(([p])=>p.audio);if(!a.length&&!b.titleAudio)return Exp.msg("هنوز گویندگی نداری");try{const Z=await Backup.jz(),z=new Z();b.titleAudio&&z.file("00-title.wav",b.titleAudio);a.forEach(([p,i])=>z.file(`page-${String(i+1).padStart(2,"0")}.wav`,p.audio));dl(await z.generateAsync({type:"blob"}),Exp.name(b,"zip").replace(".zip","-audio.zip"));Exp.msg("✅ دانلود شد")}catch(e){Exp.msg("⚠️ "+e.message)}},
+ txt(){const b=Ed.b;dl(new Blob([`${b.title}\n${b.sub?b.sub+"\n":""}${b.author?b.author+"\n":""}\n${b.pages.map((p,i)=>`— ${fa(i+1)} —\n${p.text}`).join("\n\n")}\n\nپایان\n\n${b.blurb||""}`],{type:"text/plain;charset=utf-8"}),Exp.name(b,"txt"))}
+};
+
+// ---------- style library ----------
+const Lib={
+ render(){const b=$("#lStyles");if(!b)return;$("#styCnt").textContent=fa(ImgStyles.all().length)+" سبک";const g={};for(const x of ImgStyles.all())(g[x.group]=g[x.group]||[]).push(x);
+  b.innerHTML=Object.keys(g).map(k=>`<h4>${esc(k)}</h4><div class="sgrid" style="max-height:none">${g[k].map(s=>`<div class="stc"><b>${esc(s.name_fa)}</b><small dir="ltr" style="display:block;text-align:left">${esc(s.en.slice(0,90))}…</small>${ImgStyles.user.includes(s)?`<button class="btn sm danger" data-a="delSty" data-id="${esc(s.id)}" style="margin-top:6px">🗑️ حذف</button>`:""}</div>`).join("")}</div>`).join("")},
+ async imp(){const f=await pick(".json");if(!f)return;try{const j=JSON.parse(await f.text());const arr=Array.isArray(j)?j:j.styles||j.img_styles||[];if(!arr.length)throw new Error("در این فایل سبکی پیدا نشد");const n=await ImgStyles.add(arr);Lib.render();Make.styles();toast(`${fa(n)} سبک اضافه شد`)}catch(e){toast("⚠️ فایل بسته معتبر نیست: "+e.message)}},
+ exp(){if(!ImgStyles.user.length)return toast("هنوز سبک واردشده‌ای نداری");dl(new Blob([JSON.stringify({format:"saba-storybook-pack-v1",name_fa:"سبک‌های من",styles:ImgStyles.user},null,1)],{type:"application/json"}),"my-storybook-styles.json")}
+};
+
+// ---------- UI shell ----------
+const S={uitheme:"بنفش",persisted:false};
+function applyUI(n){const t=UITHEMES.find(t=>t[0]==n)||UITHEMES[0],r=document.documentElement.style;["--bg","--card","--neon","--neon2","--btxt"].forEach((k,i)=>r.setProperty(k,t[i+1]));S.uitheme=t[0]}
+const UI={
+ tab(v){$$("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.v==v));["make","ed","books","lib"].forEach(t=>$("#t-"+t).classList.toggle("hide",t!=v));
+  if(v=="books")Books.render();if(v=="lib")Lib.render();if(v=="ed")requestAnimationFrame(()=>Ed.b&&Ed.render())},
+ status(){$("#tmpB").classList.toggle("hide",S.persisted||Bridge.st.on);const bb=$("#brB");if(bb){bb.className=(Bridge.st.checked?"":"hide ")+(Bridge.st.on&&!Bridge.st.err?"okb":"warn");bb.textContent=Bridge.st.on?(Bridge.st.err?"⚠️ ذخیره در اکستنشن ناموفق":"ذخیره‌ی دائمی با اکستنشن ✓"):"بدون اکستنشن: قبل از بستن پشتیبان زیپ بگیر";bb.title=Bridge.st.err||"وضعیت ذخیره‌ی دائمی"}UI.storage()},
+ about(){modal(`<h3>ℹ️ درباره‌ی سازنده</h3><p><b>سید صبا میری</b></p><p>🌐 وب‌سایت: <a href="https://viroai.ir" target="_blank" rel="noopener">viroai.ir</a></p><p>📸 اینستاگرام: <a href="https://instagram.com/viromedia404" target="_blank" rel="noopener" dir="ltr">viromedia404</a></p><p>📞 تلفن: <a href="tel:+989120349893" dir="ltr">۰۹۱۲۰۳۴۹۸۹۳</a></p><p>✈️ تلگرام: به‌زودی…</p><p class="mut">کتاب‌ساز کودک صبا · نسخه‌ی ${fa(APP_VER)}</p>`)},
+ settings(){modal(`<h3>⚙️ تنظیمات</h3><h4>رنگ برنامه</h4><div class="themes">${UITHEMES.map(t=>`<button class="th ${t[0]==S.uitheme?"on":""}" data-a="uitheme" data-v="${t[0]}" style="background:${t[1]};border-color:${t[3]}"><i style="background:linear-gradient(90deg,${t[3]},${t[4]})"></i>${t[0]}</button>`).join("")}</div>
+  <h4>ذخیره‌سازی</h4><div id="sto"></div><h4>پاک کردن</h4><button class="btn danger" data-a="wipe">🗑️ پاک کردن همه‌ی داده‌ها</button>
+  <p class="mut">نسخه‌ی ${fa(APP_VER)} · تصویر: ${IMAGE_MODEL} · متن: ${TEXT_MODEL} · گویندگی: ${TTS_MODEL} · ${fa(IMG_STYLES.length)} سبک داخلی</p><p class="mut">ساخته‌ی سید صبا میری · viroai.ir · اینستاگرام viromedia404 · ۰۹۱۲۰۳۴۹۸۹۳</p>`);UI.storage()},
+ async storage(){const b=$("#sto");if(!b)return;const e=await Store.estimate(),B=Bridge.st,tf=t=>t?new Date(t).toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit",second:"2-digit"}):"هنوز نه";
+  b.innerHTML=`<div class="sbox"><b>🧩 ذخیره‌ی دائمی با اکستنشن</b>${B.on?`<div class="mut">✅ وصل است (اکستنشن نسخه‌ی ${fa(B.ver||"؟")}) — هر تغییر خودکار در اکستنشن ذخیره می‌شود و با بستن Canvas پاک نمی‌شود</div><div class="mut">آخرین ذخیره: ${tf(B.last)} · در صف: ${fa(B.pending)}${B.restored?` · ${fa(B.restored)} مورد هنگام باز شدن بازیابی شد`:""}</div>${B.err?`<div class="mut" style="color:#ff8a8a">⚠️ ${esc(B.err)}</div>`:""}<div class="row" style="margin-top:8px"><button class="btn sm pri" data-a="bsync">🔄 همگام‌سازی کامل الان</button></div>`:`<div class="mut">${B.err?"⚠️ "+esc(B.err):"اکستنشن پیدا نشد؛ داده‌ها فقط تا بستن Canvas می‌مانند. قبل از بستن «دانلود پشتیبان کامل» را بزن، یا برنامه را از آیکون اکستنشن «کتاب‌ساز کودک صبا» یا جعبه‌ابزار باز کن تا همه‌چیز خودکار و دائمی ذخیره شود."}</div>`}</div>
+  <div class="sbox"><b>🌐 مرورگر (IndexedDB)</b><div class="mut">${S.persisted?"✅ ذخیره‌ی دائمی فعال است":"⚠️ ذخیره‌ی موقت — مرورگر ممکن است داده‌ها را پاک کند"}</div><div class="mut">فضا: ${e?fmtB(e.usage||0)+" از "+fmtB(e.quota||0):"نامشخص"}</div></div>
+  <div class="sbox"><b>🗂️ پشتیبان فایل</b><div class="row" style="margin-top:8px"><button class="btn sm" data-a="zipOut">⬇️ دانلود پشتیبان کامل</button><button class="btn sm" data-a="zipIn">♻️ بازگردانی از پشتیبان</button></div></div>`},
+ async wipe(){if(!await ask("همه‌ی کتاب‌ها، عکس‌ها، سبک‌های واردشده و تنظیمات پاک شود؟ این کار برگشت‌پذیر نیست."))return;await Store.clear();Ed.close();await App.reload();$$(".modal").forEach(m=>m.remove());toast("همه‌ی داده‌ها پاک شد")}
+};
+
+// ---------- actions (event delegation) ----------
+const A={
+ tab:e=>UI.tab(e.dataset.v),settings:()=>UI.settings(),about:()=>UI.about(),close:e=>e.closest(".modal").remove(),
+ uitheme:e=>{applyUI(e.dataset.v);Store.set("kv",S.uitheme,"uitheme");$$(".th").forEach(b=>b.classList.toggle("on",b.dataset.v==S.uitheme))},
+ opt:e=>Make.opt(e.dataset.k,e.dataset.v),ex:e=>{const t=$("#idea");t.value=e.dataset.v;D.idea=e.dataset.v;Draft.save()},
+ pickSty:e=>{D.istyle=e.dataset.id;Draft.save();$$("#mSty .stc").forEach(c=>c.classList.toggle("on",c.dataset.id==D.istyle))},
+ photo:()=>Make.photo(),photoX:()=>Make.photoX(),
+ voiceIdea:e=>Voice.toggle(e,t=>{Voice.into($("#idea"),t);$("#vMsg").textContent="✅ فهمیدم: «"+t.slice(0,120)+"»"},true),voiceFile:()=>Voice.file(t=>{Voice.into($("#idea"),t);$("#vMsg").textContent="✅ فهمیدم: «"+t.slice(0,120)+"»"}),
+ mic:e=>Voice.toggle(e,t=>Voice.into($("#"+e.dataset.t),t)),
+ build:()=>Make.build(),newBlank:()=>Make.blank(),
+ goto:e=>Ed.go(+e.dataset.x),undo:()=>Ed.restore(Ed.undo,Ed.redo),redo:()=>Ed.restore(Ed.redo,Ed.undo),
+ mvP:e=>Ed.move(+e.dataset.v),dupP:()=>Ed.dup(),delP:()=>Ed.del(),addP:()=>Ed.add(),aiP:()=>Ed.aiPage(),
+ lay:e=>{Ed.setP("layout",e.dataset.v==Ed.b.layout?"":e.dataset.v)},color:e=>Ed.color(e.dataset.v),
+ rw:e=>Ed.rewrite(e.dataset.v),rwGo:()=>{const v=$("#rwIn").value.trim();if(!v)return toast("بنویس یا بگو چه تغییری می‌خواهی");Ed.rewrite(v)},
+ genImg:()=>Jobs.page(Ed.b,Ed.p),upImg:()=>Ed.upload("img"),rmImg:()=>{Ed.snap();delete Ed.p.img;Ed.changed(true);Ed.props()},
+ genCover:()=>Jobs.cover(Ed.b),upCover:()=>Ed.upload("cover"),rmCover:()=>{Ed.snap();delete Ed.b.cover;Ed.changed(true);Ed.props()},aiBlurb:()=>Ed.blurb(),
+ genAud:()=>Jobs.audio(Ed.b,Ed.p),dlAud:()=>dl(Ed.p.audio,`page-${Ed.b.pages.indexOf(Ed.p)+1}.wav`),rmAud:()=>{delete Ed.p.audio;delete Ed.p.adur;Ed.changed(true);Ed.props()},
+ sheetBox:()=>Ed.sheetBox(),genSheet:()=>{Jobs.sheet(Ed.b);Ed.refreshSheet()},upSheet:()=>Ed.upSheet(),bPhoto:()=>Ed.photo(),bPhotoX:()=>Ed.photo(1),
+ allImgs:async()=>{const b=Ed.b,n=await Jobs.allImages(b);if(!n&&!Jobs.total)toast("همه‌ی صفحه‌ها تصویر دارند؛ برای کشیدن دوباره از «تنظیمات کتاب» استفاده کن")},
+ redrawAll:async()=>{if(!await ask("همه‌ی تصویرها (و برگه‌ی شخصیت) دوباره کشیده شوند؟"))return;$$(".modal").forEach(m=>m.remove());Jobs.allImages(Ed.b,"sheet")},
+ allAudio:async()=>{const b=Ed.b;if(b.pages.every(p=>p.audio)&&!await ask("همه‌ی صفحه‌ها گویندگی دارند. دوباره ساخته شود؟"))return;const n=Jobs.audioBatch(b);toast(`🔊 گویندگی کل کتاب با ${fa(n)} درخواست ساخته می‌شود و خودکار بین صفحه‌ها تقسیم می‌شود`,6000)},
+ bookSet:()=>Ed.settings(),bset:e=>Ed.bset(e),cancelJobs:()=>Jobs.cancel(),
+ read:()=>Reader.open(Ed.b,Ed.x),readBook:e=>Reader.open(Books.get(e.dataset.id),0),
+ rPrev:()=>Reader.prev(),rNext:()=>Reader.next(),rAuto:()=>Reader.toggleAuto(),rSnd:()=>Reader.toggleSnd(),rFull:()=>Reader.full(),rClose:()=>Reader.close(),
+ exportMenu:()=>Exp.menu(),xPdf:()=>Exp.pdf(),xPng:()=>Exp.pngZip(),xCur:()=>Exp.cur(),xWav:()=>Exp.wav(),xAudZip:()=>Exp.audZip(),xTxt:()=>Exp.txt(),xBook:()=>Books.fileOut(Ed.b.id),
+ openBook:e=>{Ed.open(e.dataset.id);UI.tab("ed")},dupBook:e=>Books.dup(e.dataset.id),delBook:e=>Books.del(e.dataset.id),saveBookFile:e=>Books.fileOut(e.dataset.id),importBook:()=>Books.fileIn(),
+ delSty:async e=>{if(!await ask("این سبک حذف شود؟"))return;await ImgStyles.del(e.dataset.id);Lib.render();Make.styles()},impPack:()=>Lib.imp(),expPack:()=>Lib.exp(),
+ zipOut:()=>Backup.zipOut(),zipIn:()=>Backup.zipIn(),bsync:async e=>{e.disabled=true;e.textContent="در حال همگام‌سازی…";await Bridge.full(true);UI.storage()},
+ wipe:()=>UI.wipe(),banX:()=>$("#banner").classList.add("hide")
+};
+document.addEventListener("click",e=>{const el=e.target.closest("[data-a]");if(!el||el.disabled||!A[el.dataset.a])return;if(el.tagName!="A")e.preventDefault();e.stopPropagation();Promise.resolve(A[el.dataset.a](el,e)).catch(err=>toast("⚠️ "+err.message))});
+document.addEventListener("input",e=>{const el=e.target;if(el.dataset&&el.dataset.e&&el.closest("#props"))Ed.input(el)});
+document.addEventListener("change",e=>{const el=e.target;if(el.dataset&&el.dataset.e=="pSty"&&el.closest("#props"))Ed.input(el)});
+document.addEventListener("focusout",e=>{if(e.target.dataset&&e.target.dataset.e)Ed.snapT=0});
+document.addEventListener("keydown",e=>{const el=e.target;
+ if(Reader.el){if(["ArrowLeft","PageDown"," ","Enter"].includes(e.key)){e.preventDefault();Reader.next()}else if(["ArrowRight","PageUp","Backspace"].includes(e.key)){e.preventDefault();Reader.prev()}else if(e.key=="Escape")Reader.close();return}
+ if(/INPUT|TEXTAREA|SELECT/.test(el.tagName)||el.isContentEditable||$("#t-ed").classList.contains("hide")||!Ed.b)return;
+ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()=="z"){e.preventDefault();A.undo()}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()=="y"){e.preventDefault();A.redo()}
+ else if(e.key=="ArrowDown"||e.key=="ArrowLeft"){e.preventDefault();Ed.go(Ed.x+1)}else if(e.key=="ArrowUp"||e.key=="ArrowRight"){e.preventDefault();Ed.go(Ed.x-1)}});
+window.addEventListener("resize",()=>{clearTimeout(window.__rs);window.__rs=setTimeout(()=>{$$("main .sbx").forEach(b=>R.scale(b))},150)});
+
+// ---------- app ----------
+const App={
+ async reload(){const th=await Store.get("kv","uitheme");applyUI(th||Store.fastTheme()||"بنفش");
+  await Draft.load();await ImgStyles.load();await Books.load();Make.sync();Books.render();
+  $("#bTitle").onchange=e=>{if(!Ed.b)return;Ed.snap();Ed.b.title=e.target.value.trim()||"قصه";Ed.changed(true)}},
+ async init(){window.__booted=true;applyUI(Store.fastTheme()||"بنفش");Make.init();
+  try{await Bridge.init()}catch(e){console.warn(e)}
+  const lost=!Bridge.st.restored&&!(await Store.get("kv","meta"))&&Store.lastSaveLS();await App.reload();
+  S.persisted=await Store.persist();UI.status();if(lost)$("#banner").classList.remove("hide");window.__ready=true}
+};
+App.init().catch(e=>toast("⚠️ خطا در شروع برنامه: "+e.message,9000));
+
+</script>
+</body>
+</html>
