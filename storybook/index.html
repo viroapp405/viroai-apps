@@ -295,7 +295,7 @@ const KeyCfg=(()=>{const L=k=>{try{return localStorage.getItem("sabaKey."+k)||""
 let IMAGE_MODEL,TEXT_MODEL,TTS_MODEL;KeyCfg.apply();
 const TTS_CHUNK=6000; // narration chars per TTS request; a children's book fits in ONE request (Gemini allows only a few TTS requests a day)
 const apiKey="";
-const APP_VER="1.1";
+const APP_VER="1.1.1";
 const UITHEMES=[["بنفش","#07051a","#110c27","#a874ff","#7d6aff","#100426"],["زمرد","#040c09","#0a1813","#2ee59d","#14c4b0","#02170f"],["فیروزه‌ای","#030c11","#091921","#25d9f2","#2fd6a8","#021c24"],["آبی","#050a18","#0c142e","#5592ff","#7d6cff","#030b22"],["صورتی","#0f0517","#1b0b24","#ff57da","#b763ff","#2a0422"],["نارنجی","#100a04","#1e140a","#ffa83d","#ff7040","#271302"],["قرمز","#110508","#200c11","#ff5a6c","#ff8a4f","#2a0409"],["طلایی","#0d0b05","#1b170b","#f6c94e","#e9a23b","#231a02"]];
 // age groups: story length + vocabulary
 const AGES={
@@ -509,10 +509,17 @@ async function callApi(model,body,sig,onStatus,tries=3){
   if(r.ok)return r.json();
   let m="";try{const j=await r.json();m=j.error&&j.error.message||JSON.stringify(j)}catch{m=r.statusText||""}
   if((r.status==429||r.status>=500)&&a<tries){onStatus&&onStatus(`خطای ${fa(r.status)} — تلاش دوباره ${fa(a+1)} از ${fa(tries)} تا ۱۵ ثانیه‌ی دیگر…`);await sleep(15000,sig);continue}
-  throw new Error(`خطای API (کد ${fa(r.status)}): ${m}`)}}
+  throw Object.assign(new Error(`خطای API (کد ${fa(r.status)}): ${m}`),{status:r.status})}}
 const parts=(prompt,refs=[])=>[{text:prompt},...refs.map(r=>({inlineData:{mimeType:r.mimeType,data:r.data}}))];
+// Image models in order: when the first hits its limit (429) or is refused, switch automatically to the next.
+const IMAGE_MODELS=["gemini-3.1-flash-image","gemini-2.5-flash-image-preview"];
+const ImgPick={i:0,since:0,start(){if(this.i&&Date.now()-this.since>10*60*1000)this.i=0;return this.i}};
 async function genImage(prompt,refs,sig,onStatus,ar="16:9"){
- const j=await callApi(IMAGE_MODEL,{contents:[{role:"user",parts:parts(prompt,refs)}],generationConfig:{responseModalities:["IMAGE"],imageConfig:{aspectRatio:ar}}},sig,onStatus);
+ const body={contents:[{role:"user",parts:parts(prompt,refs)}],generationConfig:{responseModalities:["IMAGE"],imageConfig:{aspectRatio:ar}}};let j;
+ for(let i=ImgPick.start();i<IMAGE_MODELS.length;i++){const last=i==IMAGE_MODELS.length-1;
+  try{j=await callApi(IMAGE_MODELS[i],body,sig,onStatus,last?3:0);if(i!=ImgPick.i){ImgPick.i=i;ImgPick.since=Date.now()}IMAGE_MODEL=IMAGE_MODELS[i];break}
+  catch(e){if(last||!e.status||!(e.status==429||e.status==403||e.status==404||e.status>=500))throw e;
+   onStatus&&onStatus(`مدل ${IMAGE_MODELS[i]} به محدودیت خورد — ادامه با ${IMAGE_MODELS[i+1]}…`)}}
  const c=j.candidates&&j.candidates[0],ps=c&&c.content&&c.content.parts||[],p=ps.find(p=>p.inlineData);
  if(!p){const t=ps.map(p=>p.text).filter(Boolean).join(" ");throw new Error("مدل تصویری تصویر برنگرداند"+(c&&c.finishReason?` (دلیل: ${c.finishReason})`:"")+(j.promptFeedback&&j.promptFeedback.blockReason?` (مسدود شد: ${j.promptFeedback.blockReason})`:"")+(t?" — "+t:""))}
  return b64ToBlob(p.inlineData.data,p.inlineData.mimeType||"image/png")}
