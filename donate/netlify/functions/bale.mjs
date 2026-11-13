@@ -85,6 +85,13 @@ export default async (req) => {
       headers: { "Content-Type": "text/plain; charset=utf-8" },
     });
   }
+  // عیب‌یابی: ‎?diag=1&k=KEY‎ یک پیام آزمایشی به کانال گزارش می‌فرستد و پاسخ بله را نشان می‌دهد
+  if (req.method === "GET" && url.searchParams.get("diag") === "1") {
+    if (url.searchParams.get("k") !== key) return new Response("forbidden", { status: 403 });
+    const rc = process.env.REPORT_CHAT_ID || "";
+    const r = await call("sendMessage", { chat_id: rc.trim(), text: "🔧 پیام آزمایشی گزارش از سرور Netlify" });
+    return new Response(JSON.stringify({ report_chat_id_set: !!rc, report_chat_id_len: rc.length, provider_token_set: !!process.env.PROVIDER_TOKEN, bale: r }), { headers: { "Content-Type": "application/json; charset=utf-8" } });
+  }
   if (req.method !== "POST") return new Response("ok");
   if (url.searchParams.get("k") !== key) return new Response("forbidden", { status: 403 });
 
@@ -121,9 +128,9 @@ export default async (req) => {
         chat_id: chatId,
         text: `🙏 پرداخت ${fa(toman)} تومانی شما رسید. از حمایت‌تان صمیمانه ممنونیم!\n— سید صبا میری، Saba Apps Studio`,
       });
-      if (process.env.REPORT_CHAT_ID)
-        await call("sendMessage", {
-          chat_id: process.env.REPORT_CHAT_ID,
+      if (process.env.REPORT_CHAT_ID) {
+        const rep = await call("sendMessage", {
+          chat_id: process.env.REPORT_CHAT_ID.trim(),
           text:
             `💚 حمایت جدید\n` +
             `مبلغ: ${fa(toman)} تومان\n` +
@@ -132,6 +139,8 @@ export default async (req) => {
             `شناسه تراکنش: ${p.telegram_payment_charge_id || "—"}\n` +
             `شماره پیگیری: ${p.provider_payment_charge_id || "—"}`,
         });
+        if (!rep || !rep.ok) console.error("report failed", JSON.stringify(rep));
+      }
       return new Response("ok");
     }
 
