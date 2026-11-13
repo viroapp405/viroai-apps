@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>مقاله‌نویس محصول صبا · v1.0.0</title>
+<title>مقاله‌نویس محصول صبا · v1.1.0</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
 <style>
 
@@ -134,6 +134,32 @@ details.brand>summary{font-weight:700}
 canvas#edc{width:100%;height:auto;border-radius:14px;background:#000;touch-action:none;display:block}
 .fo .g2{gap:8px}.pg{display:grid;grid-template-columns:repeat(3,44px);gap:4px}.pg .chip{min-height:36px;padding:0}
 .kw{display:inline-block;background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:1px 10px;margin:2px;font-size:.8rem}
+/* ---- featured image settings modal (v1.1.0) ---- */
+.modal.fim>.card{width:min(1180px,100%);padding:0;display:flex;flex-direction:column;overflow:hidden}
+.fih{display:flex;gap:12px;align-items:center;padding:14px 20px 10px 70px;border-bottom:1px solid var(--line)}
+.fih h3{margin:0;font-size:1.05rem;display:flex;gap:8px;flex-wrap:wrap;align-items:center}.fih p{margin:4px 0 0}
+.fiic{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--neon),#ff57da);flex:none;font-size:1.2rem}
+.arb{font-size:.72rem;border:1px solid var(--neon);color:var(--neon);border-radius:999px;padding:1px 10px;font-weight:600;white-space:nowrap}
+.fib{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);gap:20px;padding:14px 20px;overflow:auto;flex:1;min-height:0}
+.fis label{margin:12px 0 6px}.fip{position:sticky;top:0;align-self:start;display:grid;gap:8px}
+.fbox{border:1px solid var(--line);border-radius:16px;padding:10px 12px;background:rgba(0,0,0,.2);margin-top:10px}
+.fbox.fon{display:flex;gap:12px;align-items:center}.fbox.fon b{font-size:.92rem}
+.fis.off #fiTxt{opacity:.4;pointer-events:none;filter:grayscale(.6)}
+.swt{position:relative;display:inline-block;width:50px;height:28px;margin:0;flex:none;cursor:pointer}.swt input{opacity:0;width:0;height:0;position:absolute;min-height:0}
+.swt i{position:absolute;inset:0;border-radius:999px;background:rgba(255,255,255,.18);transition:.2s}.swt i::after{content:"";position:absolute;top:3px;right:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:.2s}
+.swt input:checked+i{background:linear-gradient(135deg,var(--neon),var(--neon2))}.swt input:checked+i::after{right:25px}
+.lrow{display:flex;align-items:flex-end;justify-content:space-between;gap:8px}.lrow label{margin-bottom:6px}
+.hrow{display:flex;gap:8px;align-items:center}.hrow input{flex:1;min-width:0}
+.lnk{background:none;border:0;color:var(--neon);cursor:pointer;font-size:.8rem;text-decoration:underline dotted;padding:0 0 6px;white-space:nowrap}
+.seg.full{display:flex;width:100%}.seg.full button{flex:1;min-width:0;padding:0 8px}
+.pvw{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#000;width:100%}
+.pvw canvas{display:block;width:100%;height:auto}
+.pvw .bb{position:absolute;top:10px;left:10px;background:#f6c94e;color:#231a02;border-radius:999px;padding:2px 10px;font-size:.72rem;font-weight:800}
+.fip .pvn{margin:0;font-size:.78rem;text-align:center}
+.fip .chips{margin:0}.fip .chip{min-height:30px;font-size:.76rem;cursor:default}
+#fiPr{max-height:220px;font-size:.72rem}
+.fif{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 20px;border-top:1px solid var(--line);background:color-mix(in srgb,var(--card) 92%,#000)}
+@media(max-width:860px){.fib{grid-template-columns:1fr}.fip{position:static;order:-1}.fih{padding-left:62px}}
 .selsty{display:flex;gap:10px;align-items:center;flex-wrap:wrap;border:1px dashed var(--neon);border-radius:16px;padding:8px 12px;background:var(--soft)}
 </style>
 </head>
@@ -175,6 +201,7 @@ canvas#edc{width:100%;height:auto;border-radius:14px;background:#000;touch-actio
   </div>
   <label>استایل تصویرها</label>
   <div class="selsty" id="selSty"></div>
+  <div class="selsty" id="fiSum" style="margin-top:8px"></div>
   <label style="margin-top:12px"><input type="checkbox" id="brandOn"> نام فروشگاه/آیدی گوشه‌ی تصویرها بنشیند</label>
   <button class="btn pri big" id="goBtn" data-a="go" style="margin-top:14px">🔎 تحقیق و نوشتن مقاله</button>
   <div class="row" style="margin-top:8px"><span class="mut" id="goMsg"></span><span class="sp"></span><button class="btn danger sm hide" id="cancel" data-a="cancel">⏹ لغو</button></div>
@@ -201,7 +228,7 @@ canvas#edc{width:100%;height:auto;border-radius:14px;background:#000;touch-actio
 
   <div class="card">
    <div class="row"><h3><span class="step">۳</span>تصویرها</h3><span class="sp"></span><button class="btn sm" data-a="regenImgs">🔄 ساخت دوباره‌ی هر دو تصویر</button></div>
-   <p class="mut">تصویرها بدون نوشته ساخته می‌شوند و عنوان به‌صورت لایه‌ی متن قابل ویرایش رویشان می‌نشیند (فونت، سه‌بعدی، دورخط، درخشش، گرادیان، سایه، برچسب). «✏️ ویرایش متن» را بزن.</p>
+   <p class="mut">تیتر تصویر شاخص طبق «⚙️ تنظیمات تصویر شاخص» ساخته می‌شود: داخل خود تصویر با هوش مصنوعی (فونت و تایپوگرافی انتخابی)، یا لایه‌ی متن قابل ویرایش، یا تصویر تمیز بدون متن. در حالت لایه، «✏️ ویرایش متن» را بزن.</p>
    <div class="imgs" id="imgs"></div>
   </div>
 
@@ -261,7 +288,7 @@ const KeyCfg=(()=>{const L=k=>{try{return localStorage.getItem("sabaKey."+k)||""
  note(){return this.key?`✅ کلید شخصی فعال است · مدل متن: ${TEXT_MODEL}`:"بدون کلید: مدل‌های رایگان Canvas استفاده می‌شوند"},
  html(){const o=(a,v)=>a.map(m=>`<option ${m==v?"selected":""}>${m}</option>`).join("");return`<h4>🔑 کلید API شخصی (اختیاری)</h4><p class="mut">اگر کلید Gemini API خودت را بزنی، مدل‌های جدیدتر متن باز می‌شوند (هزینه‌اش با حساب خودت است). کلید فقط در همین مرورگر می‌ماند و جایی فرستاده نمی‌شود جز گوگل. خالی بگذاری، برنامه رایگان با Canvas کار می‌کند.</p><input id="keyIn" type="password" dir="ltr" placeholder="AIza..." value="${this.key.replace(/"/g,"&quot;")}" oninput="KeyCfg.save('key',this.value)"><div class="row" style="margin-top:8px"><label class="mut" style="margin:0">مدل متن <select dir="ltr" onchange="KeyCfg.save('text',this.value)">${o(KEY_TEXT_MODELS,this.text)}</select></label></div><p class="mut" id="keyNote">${this.note()}</p>`}}})();
 KeyCfg.apply();
-const APP_VER="1.0.0";
+const APP_VER="1.1.0";
 const THEMES=[["زمرد","#040c09","#0a1813","#2ee59d","#14c4b0","#02170f"],["بنفش","#07051a","#110c27","#a874ff","#7d6aff","#100426"],["فیروزه‌ای","#030c11","#091921","#25d9f2","#2fd6a8","#021c24"],["آبی","#050a18","#0c142e","#5592ff","#7d6cff","#030b22"],["صورتی","#0f0517","#1b0b24","#ff57da","#b763ff","#2a0422"],["نارنجی","#100a04","#1e140a","#ffa83d","#ff7040","#271302"],["قرمز","#110508","#200c11","#ff5a6c","#ff8a4f","#2a0409"],["طلایی","#0d0b05","#1b170b","#f6c94e","#e9a23b","#231a02"]];
 // Saba's 20 visual styles (styles/saba-visual-styles.json + prompt fragments, merged by app/build.py)
 const VSTYLES={"format":"saba-visual-styles-v1","styles":[{"n":1,"own":true,"fa":"مجله‌ای تخت","en":"Flat 2D Editorial","tag":"پیشنهاد اصلی برند","desc":"تمیز، مدرن، قابل اعتماد و بدون شلوغی، مناسب ساخت هویت بصری منسجم و سازمانی.","cat":"برند و سازمانی","prompt_en":"clean flat 2D editorial vector illustration, modern minimal geometric shapes, a limited harmonious brand palette of solid color blocks, subtle paper grain, generous negative space, trustworthy corporate magazine look, uncluttered and consistent"},{"n":2,"own":true,"fa":"داستان‌های انسانی","en":"2D Character Animation","tag":"داستان‌های انسانی","desc":"شخصیت‌محور و احساسی با طراحی کاراکترهای دوستانه و خطوط متحرک انیمیشنی.","cat":"تصویرسازی و داستان","prompt_en":"2D character animation style illustration, friendly expressive cartoon characters happily interacting with the product, smooth clean outlines, soft cel-shaded colors, subtle motion lines, warm emotional storytelling mood"},{"n":3,"own":true,"fa":"توضیح فرآیندها","en":"Narrative Motion Graphics","tag":"توضیح فرآیندها","desc":"روایت داستان با نشانه‌ها، آیکون‌های شناور، خطوط نقطه‌چین و نمودارهای شکیل.","cat":"اینفوگرافیک و آموزشی","prompt_en":"narrative motion-graphics explainer frame, flat vector scene with floating icons and symbols orbiting the product, dotted connector lines, elegant abstract mini charts and arrows (no readable text or numbers), clean flat colors"},{"n":4,"own":true,"fa":"شبکه‌های اجتماعی و ترند","en":"Kinetic Typography & Rhythm","tag":"شبکه‌های اجتماعی و ترند","desc":"فرم‌های هندسی مورب، برش‌های گرافیکی پرانرژی و ترکیب ریتمیک متن و المان‌های برداری.","cat":"شبکه‌های اجتماعی","prompt_en":"kinetic social-media graphic style, bold diagonal geometric shapes and energetic graphic cut-outs, rhythmic vector stripes and bursts framing the product, punchy saturated colors, dynamic tilted composition, no letters"},{"n":5,"own":true,"fa":"حادثه، تعلیق و چالش","en":"Comic / Graphic Novel","tag":"حادثه، تعلیق و چالش","desc":"خطوط پررنگ جوهری، هاشورهای سایه‌زن دستی و قاب‌بندی‌های دراماتیک داستانی.","cat":"تصویرسازی و داستان","prompt_en":"comic book / graphic novel illustration, bold black ink outlines, hand-drawn hatching shadows, dramatic panel-like framing with action lines and halftone accents, high-contrast suspenseful colors"},{"n":6,"own":true,"fa":"مدرن و تولید سریالی","en":"Digital Cutout Papercraft","tag":"مدرن و تولید سریالی","desc":"لایه‌های برجسته، مقوایی با سایه‌های ملایم عمق‌دار و عروسک‌های کاغذی تخت مدرن.","cat":"تصویرسازی و داستان","prompt_en":"digital cut-out papercraft style, layered paper and cardboard shapes with soft depth shadows, flat paper-doll elements, tactile handmade texture, modern clean paper colors, product presented as part of a layered paper diorama"},{"n":7,"own":true,"fa":"حس صمیمی و هنری","en":"Hand-drawn Editorial","tag":"حس صمیمی و هنری","desc":"بافت مدادرنگی و پاستل، خطوط نامنظم ارگانیک و فضایی گرم و هنرمندانه.","cat":"تصویرسازی و داستان","prompt_en":"hand-drawn editorial illustration, colored pencil and soft pastel texture, irregular organic lines, visible paper grain, gentle sketchy shading, warm cozy and artistic atmosphere"},{"n":8,"own":true,"fa":"محتوای آموزشی و آمار","en":"Infographic Storytelling","tag":"محتوای آموزشی و آمار","desc":"کادر مرکزی داستانی احاطه‌شده با آیکون‌های وکتوری درون دایره، نمودارها و باکس‌های آماری.","cat":"اینفوگرافیک و آموزشی","prompt_en":"infographic storytelling illustration, the product in a central story frame surrounded by clean vector icons inside circles, simple abstract charts and stat boxes as shapes only (no readable text or numbers), organized educational layout, crisp flat colors"},{"n":9,"own":true,"fa":"کمپین‌های خاص و خاص‌پسند","en":"Retro Poster / Risograph","tag":"کمپین‌های خاص و خاص‌پسند","desc":"پالت ۳ تا ۴ رنگ محدود، بافت نقطه‌ای ترام چاپ دستی و فرم‌های جسورانه رترو.","cat":"هنری و رترو","prompt_en":"retro risograph poster style, limited palette of 3 to 4 inks, halftone dot texture with slight misregistration, bold retro geometric forms, grainy hand-printed feel, distinctive campaign look"},{"n":10,"fa":"ترند استارتاپ و وب مدرن","en":"3D Minimal Claymorphism","tag":"ترند استارتاپ و وب مدرن","desc":"مدل‌های سه‌بعدی خمیری مات با گوشه‌های نرم و گرد، نورپردازی ملایم استودیویی و رنگ‌های پاستلی جذاب.","own":false,"cat":"سه‌بعدی و تکنولوژی","prompt_en":"3D minimal claymorphism render, matte soft clay-like shapes with rounded corners around the product, soft studio lighting with gentle shadows, appealing pastel colors, playful modern startup web aesthetic"},{"n":11,"fa":"تخصصی نرم‌افزار و شبکه","en":"Modern Tech Isometric Vector","tag":"تخصصی نرم‌افزار و شبکه","desc":"زاویه دید ۳۰ درجه ایزومتریک دقیق با سرورها، جریان داده، پلتفرم‌های ابری و عناصر دیجیتال فوق‌العاده شکیل.","own":false,"cat":"سه‌بعدی و تکنولوژی","prompt_en":"modern tech isometric vector illustration, precise 30-degree isometric view, sleek servers, data flows, cloud platforms and digital elements arranged around the product, crisp gradients, clean premium tech palette"},{"n":12,"fa":"محصولات دیجیتال و اپلیکیشن","en":"Glassmorphism & Modern UI","tag":"محصولات دیجیتال و اپلیکیشن","desc":"کارت‌های شیشه‌ای مات با افکت بلور پس‌زمینه، انعکاس نور نئونی و ویجت‌های معلق مدرن.","own":false,"cat":"سه‌بعدی و تکنولوژی","prompt_en":"glassmorphism modern UI aesthetic, frosted translucent glass cards with background blur floating around the product, subtle neon light reflections, floating abstract widgets without text, soft vibrant gradient backdrop"},{"n":13,"fa":"هوش مصنوعی پیشرفته","en":"Cyberpunk & Futuristic Neon","tag":"هوش مصنوعی پیشرفته","desc":"تم تیره با نورهای نئونی باریک فیروزه‌ای و ارغوانی، عناصر سایبری و آینده‌نگر با کنتراست بالا.","own":false,"cat":"سه‌بعدی و تکنولوژی","prompt_en":"cyberpunk futuristic neon scene, dark background with thin cyan and magenta neon light lines, high-contrast cyber elements, holographic glints and reflections, sleek sci-fi atmosphere"},{"n":14,"fa":"عکاسی مینیمال لوکس","en":"Photorealistic Studio Editorial","tag":"عکاسی مینیمال لوکس","desc":"نورپردازی ملایم سافت‌باکس، فوکوس دقیق، بوکه سینمایی و فضایی باکیفیت و بدون عناصر تصادفی.","own":false,"cat":"عکاسی","prompt_en":"photorealistic luxury studio product photography, soft softbox lighting, crisp precise focus on the product, cinematic shallow depth of field with creamy bokeh, minimal elegant set and surface, no random props"},{"n":15,"fa":"کاور یوتیوب ویروسی پرکلیک","en":"High-CTR Viral YouTube Thumbnail","tag":"یوتیوب ترند","desc":"سوژه با چهره اکسپرسیو در کانون توجه، نور ریم‌لایت درخشان، کادربندی دینامیک و کنتراست چشمگیر جذب کلیک.","own":false,"cat":"شبکه‌های اجتماعی","prompt_en":"high-CTR viral YouTube thumbnail look, the product as a bold hero in the spotlight, glowing rim light, dynamic angled framing, punchy saturated colors and striking contrast, energetic background, no text"},{"n":16,"fa":"ریلز و تیک‌تاک نئوگرادیان","en":"Neo-Gradient Kinetic Social","tag":"ریلز و استوری","desc":"گرادیان‌های داغ و پرانرژی مایع، اشکال انتزاعی متحرک، تایپوگرافی کشیده و وایب نسل Z.","own":false,"cat":"شبکه‌های اجتماعی","prompt_en":"neo-gradient kinetic social style, hot energetic liquid gradients, abstract flowing and stretched shapes around the product, bold Gen-Z vibe made for reels and stories"},{"n":17,"fa":"سینمایی نوآر و رازآلود","en":"Cinematic Dark Noir & Mood","tag":"سینمایی و ویدیویی","desc":"نورپردازی کیاروسکورو تاریک، سایه‌های عمیق، مه جوی، پالت رنگی دودی با حسی مرموز و جذاب.","own":false,"cat":"سینمایی و هنری","prompt_en":"cinematic dark noir mood, chiaroscuro lighting with deep shadows, atmospheric haze, smoky desaturated palette with one subtle accent color, mysterious and alluring film still"},{"n":18,"fa":"دارک سایبرتک و هوش مصنوعی","en":"Sleek Dark Cyber Tech","tag":"تکنولوژی ترند","desc":"پس‌زمینه عمیق ابسیدین با خطوط فیبر نوری هولوگرافیک، مدارهای کوانتومی درخشان و دیاگرام‌های هوشمند.","own":false,"cat":"سه‌بعدی و تکنولوژی","prompt_en":"sleek dark cyber-tech scene, deep obsidian background, holographic fiber-optic light lines, glowing quantum circuit patterns and smart abstract diagram shapes, premium high-tech feel"},{"n":19,"fa":"انیمه و مانگا مدرن","en":"Modern Anime & Webtoon Style","tag":"هنر و انیمه","desc":"طراحی خطوط تمیز شیک مانگا، سایه‌روشن سل‌شیدینگ، دراماتیک با چشم‌انداز شهری و المان‌های ماورایی.","own":false,"cat":"سینمایی و هنری","prompt_en":"modern anime and webtoon illustration, clean stylish manga line art, cel shading, dramatic composition with a city skyline backdrop and subtle magical elements, the product drawn faithfully"},{"n":20,"fa":"عکاسی خیابانی هایپررئال","en":"Hyperrealistic Candid Street & Portrait","tag":"عکاسی مستند","desc":"نور طبیعی محیطی طلایی، بافت واقعی پوست و اشیاء بدون ادیت مصنوعی، عمق میدان سینمایی لنز 85mm.","own":false,"cat":"عکاسی","prompt_en":"hyperrealistic candid street and portrait photography, natural golden-hour ambient light, real unretouched textures of skin and objects, cinematic shallow depth of field like an 85mm lens, documentary feel"}]};
@@ -391,9 +418,11 @@ const Bridge=(()=>{const NS="__sabaBridge",APP="saba-product-article",SS=Store.S
  return{st,init,flush,full,call,enc,dec}})();
 
 // ---------- Persian text layers over generated images (from Thumbnail Studio v4, extended) ----------
-const GF=[["Vazirmatn","ساده و مدرن"],["Lalezar","ضخیم تیتر"],["Noto Kufi Arabic","کوفی هندسی"],["Reem Kufi","کوفی"],["Changa","مربعی مدرن"],["Rakkas","تزئینی ضخیم"],["Marhey","دست‌نویس بامزه"],["Lemonada","گرد و دوستانه"],["Katibeh","خوشنویسی فشرده"],["Aref Ruqaa","رقعه"],["Noto Nastaliq Urdu","نستعلیق"]];
+const GF=[["Vazirmatn","ساده و مدرن"],["Lalezar","ضخیم تیتر"],["Noto Kufi Arabic","کوفی هندسی"],["Reem Kufi","کوفی"],["Changa","مربعی مدرن"],["Rakkas","تزئینی ضخیم"],["Marhey","دست‌نویس بامزه"],["Lemonada","گرد و دوستانه"],["Katibeh","خوشنویسی فشرده"],["Aref Ruqaa","رقعه"],["Noto Nastaliq Urdu","نستعلیق"],["Readex Pro","هندسی مدرن"],["Shabnam","شبنم · تمیز و متعادل"]];
+// fonts that need explicit weights or a non-Google stylesheet
+const WEBF={"Noto Kufi Arabic":"https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;700;900&display=swap","Readex Pro":"https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;700&display=swap","Lemonada":"https://fonts.googleapis.com/css2?family=Lemonada:wght@400;700&display=swap","Shabnam":"https://cdn.jsdelivr.net/gh/rastikerdar/shabnam-font@v5.0.1/dist/font-face.css"};
 const FX=[["none","بدون"],["shadow","سایه"],["glow","درخشش (نئون)"],["3d","سه‌بعدی"],["long","سایه‌ی بلند"],["metal","فلزی طلایی"],["gradient","گرادیان"]];
-const BGS=[["none","بدون"],["pill","برچسب کپسولی"],["rect","برچسب مستطیل"]];
+const BGS=[["none","بدون"],["pill","برچسب کپسولی"],["rect","برچسب مستطیل"],["glass","کارت شیشه‌ای"],["banner","کتیبه‌ی تیره با نوار"],["badge","مدال ادیتوریال"],["line","خط تأکید زیر تیتر"]];
 const TSIZES=[28,30,36,40,44,48,56,64,72,84,96,110,120,150,180],SWS=[0,2,4,6,8,10,14,18],ARW=["↗","↑","↖","→","•","←","↘","↓","↙"];
 const POSEN=["top-right","top-center","top-left","middle-right","center","middle-left","bottom-right","bottom-center","bottom-left"];
 const PRE={"ضخیم وایرال":{font:"Lalezar",color:"#ffffff",stroke:"#000000",sw:10,fx:"shadow"},"سه‌بعدی":{font:"Lalezar",color:"#ffd400",stroke:"#8a2a00",sw:4,fx:"3d"},"نئونی":{font:"Vazirmatn",color:"#ffffff",stroke:"#ff2bd6",sw:3,fx:"glow"},
@@ -403,7 +432,7 @@ const PRE={"ضخیم وایرال":{font:"Lalezar",color:"#ffffff",stroke:"#0000
 const newL=o=>({text:"",pos:4,font:"Lalezar",size:100,color:"#ffffff",color2:"#ffd400",stroke:"#000000",sw:8,fx:"shadow",bg:"none",bgc:"#e3262f",mw:86,preset:"",...o});
 const strip=L=>(L||[]).map(({_bb,...l})=>l);
 const posXY=l=>l.x!=null?[l.x,l.y]:[[92,50,8][l.pos%3],[14,50,86][~~(l.pos/3)]];
-const FontL={d:{},use(n){if(!n||n=="Vazirmatn"||!GF.some(g=>g[0]==n))return Promise.resolve();return this.d[n]||(this.d[n]=new Promise(ok=>{const l=document.createElement("link");l.rel="stylesheet";l.href="https://fonts.googleapis.com/css2?family="+n.replace(/ /g,"+")+"&display=swap";l.onload=l.onerror=ok;document.head.append(l);setTimeout(ok,4000)}).then(()=>document.fonts&&document.fonts.load(`700 40px "${n}"`)).catch(()=>{}))}};
+const FontL={d:{},use(n,w){if(!n||n=="Vazirmatn"||!GF.some(g=>g[0]==n))return Promise.resolve();return this.d[n]||(this.d[n]=new Promise(ok=>{const l=document.createElement("link");l.rel="stylesheet";l.href=WEBF[n]||"https://fonts.googleapis.com/css2?family="+n.replace(/ /g,"+")+"&display=swap";l.onload=l.onerror=ok;document.head.append(l);setTimeout(ok,4000)}).then(()=>document.fonts&&Promise.all([700,900].map(x=>document.fonts.load(`${x} 40px "${n}"`)))).catch(()=>{}))}};
 function rr(x,X,Y,w,h,r){x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+w,Y,X+w,Y+h,r);x.arcTo(X+w,Y+h,X,Y+h,r);x.arcTo(X,Y+h,X,Y,r);x.arcTo(X,Y,X+w,Y,r);x.closePath()}
 function wrapT(x,t,m){const w=t.split(/\s+/),L=[];let c="";for(const s of w){const n=c?c+" "+s:s;if(c&&x.measureText(n).width>m){L.push(c);c=s}else c=n}L.push(c);return L}
 // default layers for an image: title + optional brand line
@@ -413,9 +442,9 @@ function defLayers(slot,title,brand){const ar=slot.ar,v=ar=="9:16"||ar=="4:5",sq
  if(brand)L.push(newL({text:brand,role:"brand",size:v?44:sq?40:30,mw:90,font:"Vazirmatn",color:"#ffffff",stroke:"#000000",sw:0,fx:"shadow",...(v||sq?{pos:7,x:50,y:94}:{pos:8,x:5,y:93})}));
  return L}
 function paint(x,img,L,W,H){x.fillStyle="#111";x.fillRect(0,0,W,H);if(img){const a=img.naturalWidth||img.width,b=img.naturalHeight||img.height,s=Math.max(W/a,H/b);x.drawImage(img,(W-a*s)/2,(H-b*s)/2,a*s,b*s)}const k=Math.min(W/1280,H/720)*(H>W?1.5:1);
- for(const l of L){if(!String(l.text||"").trim())continue;const sz=l.size*k,[px,py]=posXY(l),al=["right","center","left"][l.pos%3];x.save();x.font=`700 ${sz}px "${l.font}", Vazirmatn, Tahoma, sans-serif`;x.direction="rtl";x.textAlign=al;x.textBaseline="middle";
-  const ls=wrapT(x,faTxt(l.text).replace(/(^|\s)([@#])(?=[A-Za-z0-9_])/g,"$1\u200E$2"),W*(l.mw||86)/100),lh=sz*1.35,tw=Math.max(...ls.map(t=>x.measureText(t).width)),th=lh*ls.length,cx=px*W/100,cy=py*H/100,lf=al=="right"?cx-tw:al=="center"?cx-tw/2:cx,tp=Math.max(sz*.4,Math.min(H-th-sz*.4,cy-th/2)),p=sz*.3;
-  l._bb=[lf-p,tp-p,tw+2*p,th+2*p];if(l.bg&&l.bg!="none"){x.save();x.shadowColor="rgba(0,0,0,.45)";x.shadowBlur=sz*.2;x.fillStyle=l.bgc;rr(x,...l._bb,l.bg=="pill"?l._bb[3]/2:sz*.12);x.fill();x.restore()}
+ for(const l of L){if(!String(l.text||"").trim())continue;const sz=l.size*k,[px,py]=posXY(l),al=["right","center","left"][l.pos%3];x.save();x.font=`${l.fw||700} ${sz}px "${l.font}", Vazirmatn, Tahoma, sans-serif`;x.direction="rtl";x.textAlign=al;x.textBaseline="middle";
+  const ls=wrapT(x,faTxt(l.text).replace(/(^|\s)([@#])(?=[A-Za-z0-9_])/g,"$1\u200E$2"),W*(l.mw||86)/100),lh=sz*1.35,tw=Math.max(...ls.map(t=>x.measureText(t).width)),th=lh*ls.length,cx=px*W/100,cy=py*H/100,lf=al=="right"?cx-tw:al=="center"?cx-tw/2:cx,tp=Math.max(sz*.4,Math.min(H-th-sz*.4,cy-th/2)),p=sz*(["glass","banner","badge"].includes(l.bg)?.45:.3);
+  l._bb=[lf-p,tp-p,tw+2*p,th+2*p];if(l.bg&&l.bg!="none")plate(x,l,l._bb,sz,k)
   ls.forEach((t,i)=>{const y=tp+lh*(i+.5);x.save();
    if(l.fx=="3d"){x.fillStyle=l.stroke;for(let d=Math.round(sz*.08);d>0;d--)x.fillText(t,cx+d,y+d)}
    if(l.fx=="long"){x.fillStyle=l.stroke;for(let d=Math.round(sz*.3);d>0;d-=1)x.fillText(t,cx-d,y+d)}
@@ -424,6 +453,15 @@ function paint(x,img,L,W,H){x.fillStyle="#111";x.fillRect(0,0,W,H);if(img){const
    if(l.sw>0){x.lineJoin="round";x.lineWidth=l.sw*2*k;x.strokeStyle=l.stroke;x.strokeText(t,cx,y);if(l.fx!="glow")x.shadowColor="transparent"}
    let f=l.color;if(l.fx=="metal"||l.fx=="gradient"){f=x.createLinearGradient(0,y-sz/2,0,y+sz/2);if(l.fx=="metal"){f.addColorStop(0,"#fffbe6");f.addColorStop(.5,l.color);f.addColorStop(1,"#6b4a00")}else{f.addColorStop(0,l.color);f.addColorStop(1,l.color2||"#ff4e9b")}}
    x.fillStyle=f;x.fillText(t,cx,y);l.fx=="glow"&&x.fillText(t,cx,y);x.restore()});x.restore()}}
+// plate behind a text layer: pill / rect / frosted glass card / dark banner with accent bar / editorial badge / accent underline
+function plate(x,l,b,sz,k){const[X,Y,w,h]=b;x.save();
+ if(l.bg=="line"){x.fillStyle=l.bgc;rr(x,X+w*.08,Y+h-sz*.08,w*.84,Math.max(4,sz*.09),sz*.04);x.fill();x.restore();return}
+ x.shadowColor="rgba(0,0,0,.45)";x.shadowBlur=sz*.25;x.shadowOffsetY=sz*.06;
+ if(l.bg=="glass"){x.fillStyle="rgba(255,255,255,.16)";rr(x,X,Y,w,h,sz*.3);x.fill();x.shadowColor="transparent";const g=x.createLinearGradient(0,Y,0,Y+h);g.addColorStop(0,"rgba(255,255,255,.22)");g.addColorStop(1,"rgba(255,255,255,.04)");x.fillStyle=g;x.fill();x.lineWidth=Math.max(2,2.5*k);x.strokeStyle="rgba(255,255,255,.55)";x.stroke()}
+ else if(l.bg=="banner"){x.fillStyle=l.bgc;rr(x,X,Y,w,h,sz*.08);x.fill();x.shadowColor="transparent";x.fillStyle=l.color2||"#ffd400";x.fillRect(X+w-sz*.16,Y,sz*.16,h)}
+ else if(l.bg=="badge"){x.fillStyle=l.bgc;rr(x,X,Y,w,h,h/2);x.fill();x.shadowColor="transparent";x.lineWidth=Math.max(3,4*k);x.strokeStyle=l.color2||"#ffffff";rr(x,X+sz*.12,Y+sz*.12,w-sz*.24,h-sz*.24,(h-sz*.24)/2);x.stroke()}
+ else{x.fillStyle=l.bgc;rr(x,X,Y,w,h,l.bg=="pill"?h/2:sz*.12);x.fill()}
+ x.restore()}
 // bake layers into a PNG (null when the browser cannot draw)
 async function compose(base,L,ar){const[W,H]=AR_DIM[ar]||AR_DIM["16:9"],c=document.createElement("canvas");c.width=W;c.height=H;const x=ctx2d(c);if(!x)return null;
  try{await Promise.all(L.map(l=>FontL.use(l.font)));const u=URL.createObjectURL(base);let i;try{i=await loadImg(u)}finally{URL.revokeObjectURL(u)}paint(x,i,L,W,H);return await cBlob(c,"image/png")}catch{return null}}
@@ -463,6 +501,138 @@ const Ed={L:[],U:[],s:0,
 };
 document.addEventListener("input",e=>Ed.onInput(e));document.addEventListener("change",e=>Ed.onInput(e));
 
+// ---------- ⚙️ featured image settings (v1.1.0): Persian headline inside the image (AI) or as an editable layer, font, typography, detail ----------
+// Commercial fonts (Kalameh, Yekan Bakh, Dana, Titr) are only DESCRIBED in AI prompts; preview + overlay use free look-alike web fonts.
+const FI_FONTS=[
+ {id:"kalameh",fa:"کلمه بولد",en:"Kalameh Bold",desc:"جسورانه، پرانرژی و ترند برای عناوینی با حداکثر جذابیت",web:"Noto Kufi Arabic",w:900,free:false,look:"an ultra-bold, modern, trendy Persian display sans-serif with thick strokes, compact counters and energetic, confident letterforms"},
+ {id:"vazir",fa:"وزیرمتن سیاه",en:"Vazirmatn Black",desc:"استاندارد، ادیتوریال، فوق‌العاده خوانا در هر ابعاد",web:"Vazirmatn",w:900,free:true,look:"a black-weight, clean, extremely legible editorial Persian sans-serif with even strokes and open shapes"},
+ {id:"yekan",fa:"یکان‌بخ سنگین",en:"Yekan Bakh Heavy",desc:"مدرن، هندسی و شکیل برای مجلات خبری و تکنولوژی",web:"Readex Pro",w:700,free:false,look:"a heavy, modern, geometric Persian sans-serif with crisp straight terminals and a sleek news / tech-magazine feel"},
+ {id:"dana",fa:"دانا بولد",en:"Dana Bold",desc:"گرم، صمیمی با انحناهای نرم و دوستانه",web:"Lemonada",w:700,free:false,look:"a bold, warm and friendly Persian sans-serif with soft rounded curves and gentle terminals"},
+ {id:"shabnam",fa:"شبنم بولد",en:"Shabnam Bold",desc:"متعادل، پاکیزه و چشم‌نواز",web:"Shabnam",w:700,free:true,look:"a bold, balanced, clean and pleasant Persian sans-serif with harmonious proportions"},
+ {id:"titr",fa:"تیتر بولد",en:"Titr Bold",desc:"کلاسیک، قدرتمند و ضربتی",web:"Lalezar",w:700,free:false,look:"a classic, powerful, heavy Persian newspaper-headline typeface (Titr style) with strong, punchy letterforms"}];
+const FI_TYPOS=[
+ {id:"emboss",fa:"حروف سه‌بعدی برجسته محیطی",en:"3D Embossed Typography",desc:"حروف سه‌بعدی حجیم و برجسته که با نور و فضای صحنه یکی شده‌اند",
+  prompt:"big bold three-dimensional extruded, embossed letters with real depth, beveled edges and soft cast shadows, lit by the same light as the scene and naturally integrated into the environment",
+  L:{fx:"3d",color:"#ffffff",stroke:"#3b1d86",sw:3,bg:"none"}},
+ {id:"glass",fa:"کارت شیشه‌ای گلس‌مورفیک",en:"Frosted Glassmorphic Card",desc:"پلاک شیشه‌ای نیمه‌شفاف مات با لبه‌ی روشن و متن سفید",
+  prompt:"crisp white letters set on a floating frosted, semi-transparent glass card with background blur, a thin bright luminous edge, rounded corners and a soft drop shadow",
+  L:{fx:"shadow",color:"#ffffff",stroke:"#000000",sw:0,bg:"glass",bgc:"#ffffff"}},
+ {id:"badge",fa:"بج و مدال گرافیکی ادیتوریال",en:"Editorial Graphic Badge",desc:"نشان و مدال شیک مجله‌ای با قاب دوخطی و رنگ برند",
+  prompt:"the headline inside a stylish editorial magazine badge / medallion shape with a solid violet brand-color fill, a thin inner outline frame and clean white letters, like a premium magazine-cover seal",
+  L:{fx:"none",color:"#ffffff",stroke:"#000000",sw:0,bg:"badge",bgc:"#6a3df0",color2:"#ffffff"}},
+ {id:"neon",fa:"تایپوگرافی نئونی درخشان",en:"Glowing Cyber Neon",desc:"حروف نئونی درخشان فیروزه‌ای با هاله‌ی نور",
+  prompt:"glowing cyan / turquoise neon-tube letters with a bright white core, a strong luminous glow and light bloom reflecting on nearby surfaces, cyber-tech mood",
+  L:{fx:"glow",color:"#eaffff",stroke:"#00e5ff",sw:2,bg:"none"}},
+ {id:"banner",fa:"کتیبه و نوار مدرن های‌کنتراست",en:"Modern High-Contrast Banner",desc:"کتیبه با نوار تیره، متن سفید پرکنتراست و نوار رنگی تأکیدی",
+  prompt:"white letters on a solid dark, high-contrast rectangular banner / plaque with a vivid yellow accent bar on its right edge, sharp modern editorial look",
+  L:{fx:"none",color:"#ffffff",stroke:"#000000",sw:0,bg:"banner",bgc:"#0d0b1a",color2:"#ffd400"}},
+ {id:"gold",fa:"طلایی فلزی لوکس",en:"Gold Metallic Luxury",desc:"حروف طلایی براق با لبه‌ی فلزی و درخشش ظریف؛ حس لوکس",
+  prompt:"luxurious polished gold metallic letters with realistic reflections, a fine bevel, subtle sparkle highlights and dark elegant contrast around them",
+  L:{fx:"metal",color:"#f6c94e",stroke:"#3a2500",sw:4,bg:"none"}},
+ {id:"sticker",fa:"استیکر برش‌خورده‌ی جسور",en:"Bold Sticker Cutout",desc:"حروف زرد پررنگ با دورخط سفید ضخیم، مثل استیکر برش‌خورده",
+  prompt:"bold yellow letters with a very thick white die-cut sticker outline and a soft drop shadow, as if a vinyl sticker were placed on the image; playful and scroll-stopping",
+  L:{fx:"shadow",color:"#ffd400",stroke:"#ffffff",sw:14,bg:"none"}},
+ {id:"kinetic",fa:"گرادیان پرانرژی",en:"Gradient Kinetic",desc:"حروف با گرادیان داغ زرد تا صورتی و حس حرکت و سرعت",
+  prompt:"letters filled with a hot, energetic yellow-to-magenta gradient, a dark outline, a dynamic slight slant and subtle motion streaks behind them",
+  L:{fx:"gradient",color:"#ffe259",color2:"#ff4e9b",stroke:"#1a0033",sw:5,bg:"none"}},
+ {id:"minimal",fa:"گوشه‌ی مینیمال ادیتوریال",en:"Minimal Editorial Corner",desc:"تیتر تمیز و کوچک‌تر در گوشه‌ی پایین با خط تأکید نازک",
+  prompt:"a refined, smaller, clean white headline with a thin yellow accent underline; calm editorial magazine typography",region:"in the bottom-right corner with generous margins, smaller than a typical cover headline",
+  L:{fx:"shadow",color:"#ffffff",stroke:"#000000",sw:0,bg:"line",bgc:"#ffd400"},pos:{x:94,y:84,k:.68}}];
+const FI_DETAIL=[["rich","غنی و چندلایه","","rich, multi-layered composition with secondary elements, depth and atmosphere; not minimal"],
+ ["ultra","فوق‌العاده پرجزئیات","✳️","ultra-detailed and intricate: many fine elements, rich textures and materials, layered lighting; highly polished, no minimalism"],
+ ["8k","شاهکار 8K نهایی","🔥","final 8K masterpiece quality: extremely intricate detail, cinematic volumetric lighting, razor-sharp textures, premium award-winning finish; absolutely no minimalism or empty simplicity"]];
+const FI_MODES=[["ai","🤖 متن توسط هوش مصنوعی"],["layer","✏️ لایه‌ی قابل ویرایش"]];
+const FI_DEF={on:true,mode:"ai",font:"kalameh",typo:"emboss",detail:"8k",custom:""};
+const AR_FA={"16:9":"افقی","9:16":"عمودی","4:5":"عمودی","1:1":"مربع","4:3":"افقی"};
+const FI={slot:"hero",m:null,st:null,bg:null,raf:0,
+ font(id){return FI_FONTS.find(f=>f.id==id)||FI_FONTS[0]},typo(id){return FI_TYPOS.find(t=>t.id==id)||FI_TYPOS[0]},det(id){return FI_DETAIL.find(d=>d[0]==id)||FI_DETAIL[2]},
+ def(){return{...FI_DEF,...(S.fimgDef||{})}},
+ // settings for one image slot: saved defaults ← this project's saved slot settings; headline falls back to the article/social title
+ get(slot,P=Cur.p){const b=this.def(),own=P&&P.fimg&&P.fimg[slot]||null,s={...b,on:slot=="inline"?false:b.on,headline:"",...(own||{})};if(!String(s.headline||"").trim()&&P&&P.a&&P===Cur.p)s.headline=Imgs.title(slot)||"";return s},
+ mode(s){return s.on&&String(s.headline||"").trim()?s.mode:"off"},
+ sig(s){return[this.mode(s),s.headline,s.font,s.typo,s.detail,s.custom].join("|")},
+ fontNote(F){return F.free?`«${F.fa}» فونت آزاد است و پیش‌نمایش و لایه‌ی متن با همین فونت نمایش داده می‌شود.`:`ℹ️ «${F.fa}» فونت تجاری است: در حالت هوش مصنوعی ظاهرش در پرامپت توصیف می‌شود؛ پیش‌نمایش و لایه‌ی متن با فونت رایگان مشابه «${F.web}» نمایش داده می‌شود.`},
+ // overlay look of the title layer for the chosen font + typography style
+ titleStyle(s,l,ar){const F=this.font(s.font),T=this.typo(s.typo),hz=!(ar=="9:16"||ar=="4:5"||ar=="1:1");Object.assign(l,{font:F.web,fw:F.w,color2:"#ffd400",bgc:"#e3262f",...T.L,preset:""});
+  if(T.pos){l.size=Math.round(l.size*T.pos.k);if(hz){l.x=T.pos.x;l.y=T.pos.y;l.pos=6;l.mw=60}}return l},
+ // layers for a slot in the current mode: layer → title (+badge) + brand; ai → brand (+story CTA); off → brand only
+ layersFor(slot,s,P,mode){mode=mode||this.mode(s);const ar=Imgs.ar(slot),a=P&&P.a||{},sub=mode=="off"?"":slot=="hero"?(mode=="layer"?a.image_badge:""):slot=="story"?(P&&P.social&&P.social.story&&P.social.story.cta):"";
+  const L=defLayers({ar,sub},String(s.headline||"").trim(),slot=="inline"?"":Imgs.brand());if(mode=="layer")this.titleStyle(s,L[0],ar);else L.shift();return L},
+ aiComp(slot,ar,T){const v=ar=="9:16",tall=ar=="4:5"||ar=="1:1",where=T.region||(v?"in the upper part of the frame, centered, large":tall?"across the top third of the frame, centered, large":"on the RIGHT side of the frame, right-aligned (Persian reads right-to-left), large");
+  return`Place the Persian headline ${where}. ${v?"Keep the product in the middle and the BOTTOM 22% calm for an interactive sticker.":tall?"The product sits large in the lower two-thirds.":"Place the product in the LEFT half so the headline and the product never overlap."} Keep the bottom-left corner calm for a small shop name.`},
+ aiText(s){const F=this.font(s.font),T=this.typo(s.typo);return["PERSIAN HEADLINE RENDERED INSIDE THE IMAGE — write this exact Persian (Farsi) headline, letter-perfect, right-to-left, with correctly joined Persian letters and correct dots:",`«${String(s.headline).trim()}»`,
+  "- Copy it character by character: do not translate, transliterate, add, drop or reorder words; Latin words and numbers inside it stay exactly as written.",
+  `- FONT CHARACTER: ${F.look}, in the spirit of the Persian typeface "${F.en}".`,`- TYPOGRAPHY STYLE: ${T.en} — ${T.prompt}.`,
+  "- Large, highly legible, strong contrast with the background, fully inside the frame with safe margins.",
+  "- This headline is the ONLY text in the image: no other letters, words, numbers, captions, logos, watermarks or UI text (only text physically printed on the real product may stay)."].join("\n")},
+ detailLine(s){return"DETAIL & COMPLEXITY: "+this.det(s.detail)[3]+"."},
+ // ---- modal ----
+ P(){return Cur.p&&Cur.p.a?Cur.p:null},
+ pseudo(){return{styleId:D.styleId,a:{},product:{name:D.name},photo:S.photo,input:D,images:{}}},
+ open(slot){slot=SLOTS[slot]?slot:"hero";this.slot=slot;const P=this.P(),s=this.st=this.get(slot,P),ar=Imgs.ar(slot),[W,H]=AR_DIM[ar]||AR_DIM["16:9"],F=this.font(s.font),hz=W>=H;
+  const opt=(arr,v,lab,tip)=>arr.map(o=>`<option value="${o.id}"${o.id==v?" selected":""}${tip?` title="${esc(tip(o))}"`:""}>${esc(lab(o))}</option>`).join("");
+  const m=this.m=modal(`<div class="fih"><span class="fiic">✨</span><div><h3>${slot=="hero"?"⚙️ تنظیمات تصویر شاخص (Featured Image)":"⚙️ تنظیمات "+esc(SLOTS[slot].fa)} <span class="arb">نسبت ${fa(ar)} ${AR_FA[ar]||""}</span></h3><p class="mut" id="fiArt">مقاله: ${P?esc(P.a.seo_title):"هنوز نوشته نشده — تنظیمات برای مقاله‌ی بعدی ذخیره می‌شود"}</p></div></div>
+  <div class="fib"><div class="fis" id="fiS">
+   <p class="mut" style="margin:0">تیتر، فونت، چیدمان تایپوگرافی و سطح جزئیات تصویر را تنظیم کن؛ پیش‌نمایش کنارش زنده عوض می‌شود.</p>
+   <div class="fbox fon"><label class="swt"><input type="checkbox" id="fiOn"${s.on?" checked":""}><i></i></label><div><b>درج متن و عنوان روی تصویر</b><div class="mut">تیتر فارسی مقاله در پرامپت هوش مصنوعی قید شود.</div></div></div>
+   <div class="fbox" id="fiTxt">
+    <label style="margin-top:0">نحوه‌ی ساخت متن روی تصویر:</label><div class="seg full" id="fiMode">${FI_MODES.map(([v,l])=>`<button class="${s.mode==v?"on":""}" data-a="fiMode" data-v="${v}">${l}</button>`).join("")}</div><p class="mut" id="fiModeNote"></p>
+    <div class="lrow"><label for="fiHead">تیتر کوتاه فارسی تصویر شاخص:</label><span class="cnt" id="fiCnt"></span></div>
+    <div class="hrow"><input id="fiHead" value="${esc(s.headline)}" placeholder="${P?"تیتر کوتاه و جذاب…":"بعد از نوشتن مقاله خودکار پر می‌شود"}"${P?"":" disabled"}><button class="btn sm" data-a="fiShort" id="fiShortB"${P?"":" disabled"}>✂️ کوتاه‌سازی</button></div>
+    <label for="fiFont">فونت پیشنهادی فارسی برای کاور:</label><select id="fiFont">${opt(FI_FONTS,s.font,f=>`${f.fa} (${f.en}) — ${f.desc}`,f=>this.fontNote(f))}</select><p class="mut" id="fiFontNote"></p>
+    <label for="fiTypo">استایل و نحوه قرارگیری تایپوگرافی فارسی:</label><select id="fiTypo">${opt(FI_TYPOS,s.typo,t=>`${t.fa} (${t.en}) — ${t.desc}`)}</select>
+   </div>
+   <div class="lrow"><label>سطح غنا و تراکم جزئیات (Detail &amp; Complexity):</label><button class="lnk" data-a="fiNoMin" title="افزودن «بدون مینیمالیسم» به دستورات">بدون مینیمالیسم</button></div>
+   <div class="seg full" id="fiDet">${FI_DETAIL.map(d=>`<button class="${s.detail==d[0]?"on":""}" data-a="fiDet" data-v="${d[0]}">${d[2]?d[2]+" ":""}${d[1]}</button>`).join("")}</div>
+   <label for="fiCustom">دستورات اختصاصی یا المان‌های دلخواه (اختیاری):</label><textarea id="fiCustom" style="min-height:70px" placeholder="مثلاً: المان‌های معماری پیچیده، نورپردازی والومتریک، بدون سادگی مینیمال…">${esc(s.custom)}</textarea>
+  </div>
+  <div class="fip"><div class="pvw" style="${hz?"":`max-width:calc(56vh * ${W}/${H});margin-inline:auto`}"><canvas id="fiCv" width="${W}" height="${H}"></canvas><span class="bb hide" id="fiBrand">پیشنهاد اصلی برند</span></div><p class="mut pvn" id="fiPvn"></p>
+   <div class="chips" id="fiChips"></div><p class="mut" id="fiUse"></p><p class="mut" dir="ltr" style="text-align:left;margin:0">${fa(W)}×${fa(H)} • ${fa(ar)}</p>
+   <details id="fiDt"><summary>👁 جزئیات پرامپت</summary><pre id="fiPr"></pre><button class="btn sm" data-a="fiCopy">📋 کپی پرامپت</button></details></div></div>
+  <div class="fif"><span class="mut" id="fiFoot"></span><span class="sp"></span><button class="btn sm" data-a="fiGen" id="fiGenB">🖼️ ساخت تصویر با این تنظیمات</button><button class="btn pri" data-a="fiOk">تأیید و بستن</button></div>`);
+  m.classList.add("fim");m.addEventListener("input",()=>this.upd());m.addEventListener("change",()=>this.upd());
+  this.c=$("#fiCv",m);this.x=ctx2d(this.c);this.bg=null;this.loadBg(slot,P);this.upd();FontL.use(F.web).then(()=>this.draw())},
+ async loadBg(slot,P){const im=P&&P.images[slot],src=im&&im.base&&im.mode!="ai"?im.base:(P&&P.photo)||S.photo;let i=null;if(src){try{i=await loadImg(url(src))}catch{}}
+  if(!i){const[W,H]=[this.c.width,this.c.height],g=document.createElement("canvas");g.width=W;g.height=H;const x=ctx2d(g);if(x){const q=x.createLinearGradient(0,0,W,H);q.addColorStop(0,"#1a0b3d");q.addColorStop(.55,"#3b1d86");q.addColorStop(1,"#0a6c8a");x.fillStyle=q;x.fillRect(0,0,W,H);x.globalAlpha=.35;x.fillStyle="#ff57da";x.beginPath();x.arc(W*.25,H*.6,Math.min(W,H)*.3,0,7);x.fill()}i=g}
+  this.bg=i;this.draw()},
+ read(){const m=this.m,s=this.st;if(!m)return s;s.on=$("#fiOn",m).checked;if(!$("#fiHead",m).disabled)s.headline=$("#fiHead",m).value;s.font=$("#fiFont",m).value;s.typo=$("#fiTypo",m).value;s.custom=$("#fiCustom",m).value;return s},
+ upd(){if(!this.m||!this.m.isConnected)return;const s=this.read(),m=this.m,F=this.font(s.font),T=this.typo(s.typo),d=this.det(s.detail),P=this.P(),sty=Styles.get((P&&P.styleId)||D.styleId),ar=Imgs.ar(this.slot),md=this.mode(P?s:{...s,headline:"x"}),n=[...String(s.headline||"").trim()].length;
+  $("#fiS",m).classList.toggle("off",!s.on);$$("#fiMode button",m).forEach(b=>b.classList.toggle("on",b.dataset.v==s.mode));$$("#fiDet button",m).forEach(b=>b.classList.toggle("on",b.dataset.v==s.detail));
+  $("#fiModeNote",m).textContent=s.mode=="ai"?"تیتر فارسی با فونت و استایل انتخابی داخل خود تصویر ساخته می‌شود (مثل اپ قبلی؛ مدل تصویر فارسی را خوب می‌نویسد). بعداً فقط با ساخت دوباره عوض می‌شود.":"تصویر بدون نوشته ساخته می‌شود و تیتر به‌صورت لایه‌ی متن قابل ویرایش رویش می‌نشیند (با «✏️ ویرایش متن» عوض می‌شود).";
+  const c=$("#fiCnt",m);c.textContent=fa(n)+" حرف";c.classList.toggle("over",n>40);$("#fiFontNote",m).textContent=this.fontNote(F);$("#fiFont",m).title=this.fontNote(F);
+  $("#fiChips",m).innerHTML=[`🔤 فونت: ${F.fa} (${F.en})`,`🅰️ استایل: ${T.fa} (${T.en})`,`💎 جزئیات: ${d[1]}`,`📝 متن: ${md=="ai"?"هوش مصنوعی":md=="layer"?"لایه‌ی قابل ویرایش":"بدون متن"}`].map(t=>`<span class="chip">${esc(t)}</span>`).join("");
+  $("#fiBrand",m).classList.toggle("hide",sty.n!=1);$("#fiUse",m).textContent="✨ کاربرد: "+(sty.desc||sty.tag||"");
+  $("#fiPvn",m).textContent=md=="ai"?"👁 پیش‌نمایش تقریبی — در این حالت تیتر را هوش مصنوعی داخل خود تصویر می‌سازد":md=="layer"?"پیش‌نمایش لایه‌ی متن":"تصویر تمیز بدون متن";
+  $("#fiFoot",m).innerHTML=`سبک فعلی: <b>${esc(sty.fa)}</b> <span dir="ltr">(${esc(sty.en)})</span> • نسبت: ${fa(ar)} • کیفیت: ${esc(d[1])}`;
+  $("#fiPr",m).textContent=imgPrompt(this.slot,P||this.pseudo(),P?s:{...s,headline:"نمونه‌ی تیتر کاور مقاله"});
+  FontL.use(F.web).then(()=>this.draw());this.draw()},
+ // preview = the same canvas painter the overlay uses (layer look), so what you see is what layer mode bakes
+ draw(){if(!this.x||!this.m)return;const s=this.st,P=this.P(),pv={...s,headline:String(s.headline||"").trim()||(P?"":"نمونه‌ی تیتر کاور مقاله")};
+  let L=s.on&&pv.headline?this.layersFor(this.slot,pv,P,"layer"):this.layersFor(this.slot,pv,P,"off");if(s.on&&s.mode=="ai"&&this.slot=="hero")L=L.filter(l=>l.role!="badge");paint(this.x,this.bg,L,this.c.width,this.c.height)},
+ set(k,v){if(!this.st)return;this.st[k]=v;this.upd()},
+ noMin(){const t=$("#fiCustom",this.m);if(!/مینیمال/.test(t.value))t.value=(t.value.trim()?t.value.trim()+"، ":"")+"بدون مینیمالیسم و سادگی";this.upd()},
+ async shorten(){const P=this.P(),inp=$("#fiHead",this.m),b=$("#fiShortB",this.m),h=inp.value.trim()||(P&&P.a.seo_title)||"";if(!P||!h)return toast("اول مقاله را بساز");b.disabled=true;b.textContent="⏳ …";
+  try{const j=await genText(`Shorten this Persian headline for a featured image / article cover. Write ONE punchy, catchy Persian headline of 3 to 6 words (at most 28 characters) that keeps the product or brand name and the main hook. Natural modern Persian with half-spaces; keep Latin brand/model names exactly as written; no quotes, no emoji, no hashtags.
+Headline: «${h}»
+Article title: ${P.a.seo_title}
+Return JSON only: {"headline":""}`);const t=T_(j&&j.headline||"").replace(/^[«"']+|[»"']+$/g,"");if(!t)throw new Error("پاسخ خالی بود");inp.value=t;this.upd();toast("تیتر کوتاه شد: "+t,2500)}
+  catch(e){toast("⚠️ کوتاه‌سازی ممکن نشد: "+e.message)}finally{b.disabled=false;b.textContent="✂️ کوتاه‌سازی"}},
+ async copy(){const ok=await copyTxt($("#fiPr",this.m).textContent);toast(ok?"پرامپت کپی شد":"کپی ممکن نشد")},
+ // save settings (project + defaults) and refresh an existing image's text layers when no new generation is needed
+ async commit(){const s=this.read(),slot=this.slot,P=this.P(),keep={on:s.on,mode:s.mode,font:s.font,typo:s.typo,detail:s.detail,custom:s.custom};
+  if(!P||slot!="inline"){S.fimgDef={...this.def(),...keep};if(slot=="inline")S.fimgDef.on=this.def().on;await Store.set("kv",clone(S.fimgDef),"fimgDef")}
+  if(P){P.fimg=P.fimg||{};P.fimg[slot]={...keep,headline:String(s.headline||"").trim()};const im=P.images[slot],md=this.mode(s);
+   if(im&&im.base&&!im.run){if(im.mode=="ai"||md=="ai"){if(im.fsig!==this.sig(s))toast("برای اعمال این تنظیمات «🖼️ ساخت تصویر با این تنظیمات» یا «🔄 ساخت دوباره» را بزن",5000)}
+    else{const fresh=this.layersFor(slot,s,P,md);if(im.mode==md&&Array.isArray(im.layers)&&md=="layer"){const i=im.layers.findIndex(l=>l.role=="title");if(i>=0)im.layers[i]=fresh[0];else im.layers.unshift(fresh[0])}else im.layers=fresh;
+     im.mode=md;im.fsig=this.sig(s);im.blob=im.layers.length?await compose(im.base,im.layers,im.ar):null}}
+   await Cur.save();Imgs.render();Social.render();Art.imgs()}
+  this.sum()},
+ async ok(){await this.commit();this.m&&this.m.remove();this.m=null;toast("تنظیمات تصویر ذخیره شد",2000)},
+ async gen(){const slot=this.slot;if(!this.P())return toast("اول مقاله را بساز؛ این تنظیمات برای تصویر شاخص مقاله ذخیره شد");await this.ok();await Imgs.one(slot)},
+ sum(){const b=$("#fiSum");if(!b)return;const P=this.P(),s=this.get("hero",P),md=this.mode(s.on&&!s.headline?{...s,headline:"x"}:s);
+  b.innerHTML=`<b>🖼️ تصویر شاخص:</b><span>${md=="ai"?"تیتر داخل تصویر با هوش مصنوعی":md=="layer"?"تیتر به‌صورت لایه‌ی قابل ویرایش":"بدون متن"}</span><span class="mut">${md=="off"?"":esc(this.font(s.font).fa)+" · "+esc(this.typo(s.typo).fa)+" · "}${esc(this.det(s.detail)[1])}</span><span class="sp"></span><button class="btn sm" data-a="fiOpen" data-slot="hero">⚙️ تنظیمات تصویر شاخص</button>`}
+};
+
 // ---------- Gemini API ----------
 async function callApi(model,body,sig,onStatus,tries=3){
  for(let a=0;;a++){let r;
@@ -491,7 +661,7 @@ async function genText(prompt,refs=[],o={},sig){const json=o.json!==false,body={
  if(o.raw)return{text:t,meta:c.groundingMetadata||null};return json?parseJ(t):t}
 
 // ---------- state ----------
-const S={theme:"بنفش",persisted:false,photo:null,user:[]};
+const S={theme:"بنفش",persisted:false,photo:null,user:[],fimgDef:null};
 const D0={name:"",feat:"",notes:"",kw:"",link:"",shop:"",handle:"",tone:"pro",len:1000,styleId:"s1",brandOn:true,tgAr:"1:1"};
 const D=clone(D0);
 const Draft={tm:0,save(){clearTimeout(this.tm);this.tm=setTimeout(()=>Store.set("kv",clone(D),"draft"),400)},
@@ -599,12 +769,13 @@ ${JSON.stringify(a)}
 
 RESEARCH NOTES:
 ${P.notes||"(none)"}`}
-function imgPrompt(slot,P){const s=Styles.get(P.styleId||D.styleId),T=SLOTS[slot],a=P.a||{},p=P.product||{},ar=Imgs.ar(slot);
+function imgPrompt(slot,P,fs){const s=Styles.get(P.styleId||D.styleId),T=SLOTS[slot],a=P.a||{},p=P.product||{},ar=Imgs.ar(slot);fs=fs||FI.get(slot,P);const md=FI.mode(fs);
  const scene=slot=="inline"?a.inline_scene:slot=="hero"?a.hero_scene:a.hero_scene;
  return[`Create a high-quality ${T.kind} for a Persian online-shop article about this product: ${p.name_en||p.name||""}${p.category?" ("+p.category+")":""}. Aspect ratio ${ar}.`,
   P.photo?"PRODUCT REFERENCE: the attached photo shows the REAL product. Reproduce this exact product faithfully as the visual hero: same shape, proportions, colors, materials, label and packaging design. Do not redesign, simplify or replace it. You may cut it out, relight it, rotate it slightly and place it in the scene.":"No product photo is attached: depict a realistic, accurate image of this exact product as the visual hero.",
-  scene?`SCENE: ${scene}`:"",`VISUAL STYLE: ${s.prompt_en}.`,`COMPOSITION: ${T.comp}`,
-  "ABSOLUTELY NO TEXT anywhere in the image: no letters, words, numbers, captions, labels, logos, watermarks or UI text (only text physically printed on the real product may stay). The headline is added later as a separate layer.",
+  scene?`SCENE: ${scene}`:"",`VISUAL STYLE: ${s.prompt_en}.`,`COMPOSITION: ${md=="ai"?FI.aiComp(slot,ar,FI.typo(fs.typo)):md=="layer"||slot=="inline"?T.comp:"Balanced, attractive composition with the product as the clear hero; no empty headline area is needed."}`,
+  md=="ai"?FI.aiText(fs):"ABSOLUTELY NO TEXT anywhere in the image: no letters, words, numbers, captions, labels, logos, watermarks or UI text (only text physically printed on the real product may stay)."+(md=="layer"?" The headline is added later as a separate layer.":" The image stays clean, without any text."),
+  FI.detailLine(fs),String(fs.custom||"").trim()?`EXTRA REQUESTS FROM THE USER (written in Persian; follow them as long as they do not break the rules above): ${String(fs.custom).trim()}`:"",
   slot=="story"||slot=="ig"||slot=="tg"?"Make it eye-catching for social media while staying clean and premium.":""].filter(Boolean).join("\n")}
 function socialPrompt(d,P){const a=P.a||{},link=d.link||"";return`You write Persian social media content for an online shop. Based on this product article, write:
 1) A Telegram channel post caption: 500-900 characters, engaging, with emoji, 4-6 short bullet lines of key benefits (each starting with an emoji), a call to action${link?` that includes this exact link: ${link}`:""}${d.shop?`, mention «${d.shop}»`:""}, and 5-8 hashtags at the end.
@@ -692,7 +863,7 @@ const Run={busy:false,ac:null,
    stage="social";Stages.set(stage,"run");st("⏳ نوشتن متن‌های شبکه‌های اجتماعی…");await Social.genText(sig);Stages.set(stage,"done");
    st("✅ تمام شد: "+fa(countHTML(P.html))+" کلمه");toast("مقاله آماده است ✨")}
   catch(e){const ab=e.name=="AbortError";if(Stages.st[stage]&&Stages.st[stage].s=="run"||stage=="images"){if(stage=="images"){Stages.set("hero","err");Stages.set("inline","err")}else Stages.set(stage,"err",ab?"لغو شد":"")}st(ab?"⏹ لغو شد":"⚠️ "+e.message);if(!ab)toast("⚠️ "+e.message,8000)}
-  finally{this.lock(false);this.ac=null;await Cur.save().catch(()=>{});Art.render()}},
+  finally{this.ac=null;await Cur.save().catch(()=>{});Art.render();this.lock(false)}},
  sources(r){const out=[],seen=new Set(),add=(u,t)=>{u=String(u||"").trim().replace(/[.,،)\]]+$/,"");if(!/^https?:\/\//.test(u)||seen.has(u)||out.length>=12)return;seen.add(u);out.push({title:String(t||"").trim()||u,url:u})};
   for(const c of(r.meta&&r.meta.groundingChunks)||[])if(c&&c.web)add(c.web.uri,c.web.title);for(const m of String(r.text).matchAll(/https?:\/\/[^\s)\]>"'«»]+/g))add(m[0]);return out},
  async expand(){const P=Cur.p;if(!P||!P.a||this.busy)return;const d=P.input,have=countHTML(P.html),target=Math.max(d.len,have+400);
@@ -720,18 +891,18 @@ const Art={tm:0,
 // ---------- images ----------
 const Imgs={
  ar(slot){return slot=="tg"?(Cur.p&&Cur.p.input&&Cur.p.input.tgAr)||D.tgAr||"1:1":SLOTS[slot].ar},
- title(slot){const P=Cur.p,a=P.a||{},t=P.social&&P.social.titles||{};return slot=="hero"?a.image_title:slot=="tg"?t.telegram||a.image_title:slot=="ig"?t.instagram||a.image_title:slot=="story"?t.story||a.image_title:""},
- brand(){const d=Cur.p.input||D;return d.brandOn?[d.shop,d.handle].map(s=>String(s||"").trim()).filter(Boolean).join(" · "):""},
+ title(slot){const P=Cur.p;if(!P)return"";const a=P.a||{},t=P.social&&P.social.titles||{};return slot=="hero"?a.image_title:slot=="tg"?t.telegram||a.image_title:slot=="ig"?t.instagram||a.image_title:slot=="story"?t.story||a.image_title:""},
+ brand(){const d=(Cur.p&&Cur.p.input)||D;return d.brandOn?[d.shop,d.handle].map(s=>String(s||"").trim()).filter(Boolean).join(" · "):""},
  async gen(slot,sig){const P=Cur.p;if(!P)throw new Error("پروژه‌ای باز نیست");const ar=this.ar(slot),im=P.images[slot]=P.images[slot]||{ar,layers:null};im.ar=ar;im.run=true;im.err="";this.render();Social.render();
-  try{const refs=P.photo?[await toRef(P.photo)]:[];const b=await genImage(imgPrompt(slot,P),refs,sig,t=>this.status(slot,t),ar);
-   im.base=b;im.model=IMAGE_MODEL;if(!Array.isArray(im.layers))im.layers=slot=="inline"?[]:defLayers({ar,sub:slot=="hero"?(P.a&&P.a.image_badge):slot=="story"?(P.social&&P.social.story&&P.social.story.cta):""},this.title(slot)||"",this.brand());
+  try{const refs=P.photo?[await toRef(P.photo)]:[],fs=FI.get(slot,P),md=FI.mode(fs);const b=await genImage(imgPrompt(slot,P,fs),refs,sig,t=>this.status(slot,t),ar);
+   im.base=b;im.model=IMAGE_MODEL;if(!Array.isArray(im.layers)||im.mode!==md)im.layers=FI.layersFor(slot,fs,P,md);im.mode=md;im.fsig=FI.sig(fs);
    im.blob=im.layers.length?await compose(b,im.layers,ar):null;return im}
   catch(e){im.err=e.name=="AbortError"?"لغو شد":e.message;throw e}
   finally{im.run=false;await Cur.save();this.render();Social.render();Art.imgs();Art.stats()}},
  status(slot,t){$$(`[data-ims="${slot}"]`).forEach(e=>e.textContent=t)},
  tile(slot){const P=Cur.p,im=P&&P.images[slot],T=SLOTS[slot],b=im&&(im.blob||im.base);
   return`<div class="tile" data-slot="${slot}"><span class="kind">${T.fa} · ${fa(this.ar(slot))}</span><div class="im ${im&&im.run?"sk":""}" style="aspect-ratio:${this.ar(slot).replace(":","/")}">${b&&!im.run?`<img src="${url(b)}" alt="${esc(T.fa)}" data-a="zoom" data-slot="${slot}">`:im&&im.run?`<span data-ims="${slot}">⏳ در حال ساخت…</span>`:im&&im.err?`<div class="err">⚠️ ${esc(im.err)}</div>`:'<span>هنوز ساخته نشده</span>'}</div>
-  <div class="acts">${b&&!(im&&im.run)?`<button class="btn sm" data-a="edText" data-slot="${slot}">✏️ ویرایش متن</button><button class="btn sm" data-a="dlImg" data-slot="${slot}">⬇️ PNG</button><button class="btn sm" data-a="dlBase" data-slot="${slot}" title="بدون نوشته">⬇️ بدون متن</button>`:""}<button class="btn sm" data-a="genImg" data-slot="${slot}" ${im&&im.run?"disabled":""}>${b?"🔄 ساخت دوباره":"🖼️ ساخت"}</button></div></div>`},
+  <div class="acts">${b&&!(im&&im.run)?`<button class="btn sm" data-a="edText" data-slot="${slot}">✏️ ویرایش متن</button><button class="btn sm" data-a="dlImg" data-slot="${slot}">⬇️ PNG</button><button class="btn sm" data-a="dlBase" data-slot="${slot}" title="بدون نوشته">⬇️ بدون متن</button>`:""}<button class="btn sm" data-a="genImg" data-slot="${slot}" ${im&&im.run?"disabled":""}>${b?"🔄 ساخت دوباره":"🖼️ ساخت"}</button><button class="btn sm" data-a="fiOpen" data-slot="${slot}" title="تیتر، فونت، تایپوگرافی و جزئیات">⚙️ ${slot=="hero"?"تنظیمات تصویر شاخص":"تنظیمات متن و تصویر"}</button></div>${im&&im.base&&!im.run?`<div class="cap" style="padding-bottom:6px">${im.mode=="ai"?"🤖 تیتر داخل خود تصویر (هوش مصنوعی)":im.mode=="layer"?"✏️ تیتر = لایه‌ی قابل ویرایش":im.mode=="off"?"🧼 بدون تیتر":""}</div>`:""}</div>`},
  render(){const b=$("#imgs");if(b)b.innerHTML=Cur.p?["hero","inline"].map(s=>this.tile(s)).join(""):""},
  async one(slot){try{await this.gen(slot)}catch(e){if(e.name!="AbortError")toast("⚠️ "+e.message,7000)}},
  async dl(slot,base){const im=Cur.p&&Cur.p.images[slot];if(!im)return;let b=base?im.base:im.blob||(im.layers&&im.layers.length?await compose(im.base,im.layers,im.ar):null)||im.base;if(!b)return;
@@ -800,7 +971,7 @@ const Form={
  read(){D.name=$("#pname").value;D.feat=$("#pfeat").value;D.notes=$("#notes").value;D.kw=$("#kw").value.trim();D.link=$("#link").value.trim();D.shop=$("#shop").value.trim();D.handle=$("#handle").value.trim();D.brandOn=$("#brandOn").checked},
  sync(){$("#pname").value=D.name;$("#pfeat").value=D.feat;$("#notes").value=D.notes;$("#kw").value=D.kw;$("#link").value=D.link;$("#shop").value=D.shop;$("#handle").value=D.handle;$("#brandOn").checked=!!D.brandOn;
   $("#tone").innerHTML=TONES.map(t=>`<button class="${D.tone==t[0]?"on":""}" data-a="opt" data-k="tone" data-v="${t[0]}">${t[1]}</button>`).join("");
-  $("#len").innerHTML=LENS.map(n=>`<button class="${D.len==n?"on":""}" data-a="opt" data-k="len" data-v="${n}">${fa(n)}${n==2000?"+":""}</button>`).join("");Photo.render();Picker.sel()},
+  $("#len").innerHTML=LENS.map(n=>`<button class="${D.len==n?"on":""}" data-a="opt" data-k="len" data-v="${n}">${fa(n)}${n==2000?"+":""}</button>`).join("");Photo.render();Picker.sel();FI.sum()},
  opt(k,v){D[k]=k=="len"?+v:v;Draft.save();this.sync()},
  async fresh(){if(Run.busy)return toast("صبر کن کار فعلی تمام شود");const old=await Store.get("kv","draft");Object.keys(D).forEach(k=>delete D[k]);Object.assign(D,clone(D0));if(old){D.shop=old.shop||"";D.handle=old.handle||"";D.link="";D.styleId=old.styleId||"s1";D.tone=old.tone||"pro";D.len=old.len||1000;D.brandOn=old.brandOn!==false}
   await Store.set("kv",clone(D),"draft");await Photo.del();Cur.p=null;await Store.delete("kv","cur");Stages.clear();this.sync();Art.render();Imgs.render();Social.render();UI.tab("art");Run.msg("")}
@@ -861,14 +1032,15 @@ const A={
  hOpen:async e=>{await Cur.open(e.dataset.id);const P=Cur.p;if(P&&P.input){Object.assign(D,clone(D0),P.input);if(P.photo)S.photo=P.photo;Form.sync()}UI.tab("art")},
  hDel:async e=>{if(await ask("این پروژه حذف شود؟"))await Hist.del(e.dataset.id)},
  zipOut:()=>Backup.zipOut(),zipIn:()=>Backup.zipIn(),bsync:async e=>{e.disabled=true;e.textContent="در حال همگام‌سازی…";await Bridge.full(true);UI.storage()},
- wipe:()=>UI.wipe(),banX:()=>$("#banner").classList.add("hide")
+ wipe:()=>UI.wipe(),banX:()=>$("#banner").classList.add("hide"),
+ fiOpen:e=>FI.open(e.dataset.slot||"hero"),fiMode:e=>FI.set("mode",e.dataset.v),fiDet:e=>FI.set("detail",e.dataset.v),fiShort:()=>FI.shorten(),fiNoMin:()=>FI.noMin(),fiCopy:()=>FI.copy(),fiOk:()=>FI.ok(),fiGen:()=>FI.gen()
 };
 document.addEventListener("click",e=>{const el=e.target.closest("[data-a]");if(!el||el.disabled||!A[el.dataset.a])return;if(el.tagName!="A")e.preventDefault();e.stopPropagation();Promise.resolve(A[el.dataset.a](el,e)).catch(err=>toast("⚠️ "+err.message))});
 
 // ---------- app ----------
 const App={
  async reload(){const th=await Store.get("kv","theme");applyTheme(th||Store.fastTheme()||"بنفش");
-  const ph=await Store.get("kv","photo");S.photo=ph instanceof Blob?ph:null;await Draft.load();await Styles.load();await Hist.load();
+  const ph=await Store.get("kv","photo");S.photo=ph instanceof Blob?ph:null;const fd=await Store.get("kv","fimgDef");S.fimgDef=fd&&typeof fd=="object"?fd:null;await Draft.load();await Styles.load();await Hist.load();
   const cur=await Store.get("kv","cur");Cur.p=null;if(cur){const p=await Store.get("projects",cur);if(p){p.images=p.images||{};Cur.p=p}}
   Form.sync();Picker.render();Custom.render();Art.render();Imgs.render();Social.render()},
  async init(){applyTheme(Store.fastTheme()||"بنفش");Form.init();Form.sync();Picker.render();Custom.render();
