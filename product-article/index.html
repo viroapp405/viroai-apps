@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>مقاله‌نویس محصول صبا · v1.1.0</title>
+<title>مقاله‌نویس محصول صبا · v1.2.0</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
 <style>
 
@@ -122,7 +122,7 @@ details.brand>summary{font-weight:700}
 .seo{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:4px 14px;padding:0;list-style:none;margin:8px 0}
 .seo li{font-size:.85rem}.seo li.ok::before{content:"✅ "}.seo li.no::before{content:"⚠️ "}
 .score{display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;font-weight:900;font-size:1.2rem;border:3px solid var(--neon);box-shadow:0 0 18px color-mix(in srgb,var(--neon) 40%,transparent)}
-.cnt{font-size:.78rem;color:var(--mut)}.cnt.over{color:#ff9aa8}
+.cnt{font-size:.78rem;color:var(--mut)}.cnt.over{color:#ff9aa8}.soclim{margin-top:4px}.limw{margin-top:3px;line-height:1.7;font-weight:600}.limi{margin-top:3px;line-height:1.7;color:var(--mut)}
 .imgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
 .sc .num{position:absolute;top:8px;left:8px;background:rgba(0,0,0,.6);color:#fff;border-radius:999px;padding:2px 9px;font-size:.75rem;font-weight:800}
 .sc .own{display:inline-block;margin-top:4px;background:#f6c94e;color:#231a02;border-radius:999px;padding:1px 8px;font-size:.7rem;font-weight:800}
@@ -260,7 +260,7 @@ canvas#edc{width:100%;height:auto;border-radius:14px;background:#000;touch-actio
 
 <section id="t-soc" class="hide">
  <div class="card">
-  <div class="row"><h3>📣 شبکه‌های اجتماعی</h3><span class="sp"></span><button class="btn sm" data-a="socText">✍️ نوشتن دوباره‌ی متن‌ها</button><button class="btn sm pri" data-a="socImgs">🖼️ ساخت هر سه تصویر</button></div>
+  <div class="row"><h3>📣 شبکه‌های اجتماعی</h3><span class="sp"></span><button class="btn sm" data-a="socText">✍️ نوشتن دوباره‌ی متن‌ها</button><button class="btn sm pri" data-a="socImgs">🖼️ ساخت هر سه تصویر</button><button class="btn sm" data-a="socZipAll">📦 دانلود همه‌ی پکیج‌های سوشال</button></div>
   <p class="mut" id="socNote">اول مقاله را بساز؛ متن‌های تلگرام، اینستاگرام و استوری خودکار نوشته می‌شوند.</p>
   <div class="row"><span class="mut">اندازه‌ی تصویر تلگرام:</span><div class="seg" id="tgAr"></div></div>
   <div class="soc" id="soc" style="margin-top:12px"></div>
@@ -288,7 +288,7 @@ const KeyCfg=(()=>{const L=k=>{try{return localStorage.getItem("sabaKey."+k)||""
  note(){return this.key?`✅ کلید شخصی فعال است · مدل متن: ${TEXT_MODEL}`:"بدون کلید: مدل‌های رایگان Canvas استفاده می‌شوند"},
  html(){const o=(a,v)=>a.map(m=>`<option ${m==v?"selected":""}>${m}</option>`).join("");return`<h4>🔑 کلید API شخصی (اختیاری)</h4><p class="mut">اگر کلید Gemini API خودت را بزنی، مدل‌های جدیدتر متن باز می‌شوند (هزینه‌اش با حساب خودت است). کلید فقط در همین مرورگر می‌ماند و جایی فرستاده نمی‌شود جز گوگل. خالی بگذاری، برنامه رایگان با Canvas کار می‌کند.</p><input id="keyIn" type="password" dir="ltr" placeholder="AIza..." value="${this.key.replace(/"/g,"&quot;")}" oninput="KeyCfg.save('key',this.value)"><div class="row" style="margin-top:8px"><label class="mut" style="margin:0">مدل متن <select dir="ltr" onchange="KeyCfg.save('text',this.value)">${o(KEY_TEXT_MODELS,this.text)}</select></label></div><p class="mut" id="keyNote">${this.note()}</p>`}}})();
 KeyCfg.apply();
-const APP_VER="1.1.0";
+const APP_VER="1.2.0";
 const THEMES=[["زمرد","#040c09","#0a1813","#2ee59d","#14c4b0","#02170f"],["بنفش","#07051a","#110c27","#a874ff","#7d6aff","#100426"],["فیروزه‌ای","#030c11","#091921","#25d9f2","#2fd6a8","#021c24"],["آبی","#050a18","#0c142e","#5592ff","#7d6cff","#030b22"],["صورتی","#0f0517","#1b0b24","#ff57da","#b763ff","#2a0422"],["نارنجی","#100a04","#1e140a","#ffa83d","#ff7040","#271302"],["قرمز","#110508","#200c11","#ff5a6c","#ff8a4f","#2a0409"],["طلایی","#0d0b05","#1b170b","#f6c94e","#e9a23b","#231a02"]];
 // Saba's 20 visual styles (styles/saba-visual-styles.json + prompt fragments, merged by app/build.py)
 const VSTYLES={"format":"saba-visual-styles-v1","styles":[{"n":1,"own":true,"fa":"مجله‌ای تخت","en":"Flat 2D Editorial","tag":"پیشنهاد اصلی برند","desc":"تمیز، مدرن، قابل اعتماد و بدون شلوغی، مناسب ساخت هویت بصری منسجم و سازمانی.","cat":"برند و سازمانی","prompt_en":"clean flat 2D editorial vector illustration, modern minimal geometric shapes, a limited harmonious brand palette of solid color blocks, subtle paper grain, generous negative space, trustworthy corporate magazine look, uncluttered and consistent"},{"n":2,"own":true,"fa":"داستان‌های انسانی","en":"2D Character Animation","tag":"داستان‌های انسانی","desc":"شخصیت‌محور و احساسی با طراحی کاراکترهای دوستانه و خطوط متحرک انیمیشنی.","cat":"تصویرسازی و داستان","prompt_en":"2D character animation style illustration, friendly expressive cartoon characters happily interacting with the product, smooth clean outlines, soft cel-shaded colors, subtle motion lines, warm emotional storytelling mood"},{"n":3,"own":true,"fa":"توضیح فرآیندها","en":"Narrative Motion Graphics","tag":"توضیح فرآیندها","desc":"روایت داستان با نشانه‌ها، آیکون‌های شناور، خطوط نقطه‌چین و نمودارهای شکیل.","cat":"اینفوگرافیک و آموزشی","prompt_en":"narrative motion-graphics explainer frame, flat vector scene with floating icons and symbols orbiting the product, dotted connector lines, elegant abstract mini charts and arrows (no readable text or numbers), clean flat colors"},{"n":4,"own":true,"fa":"شبکه‌های اجتماعی و ترند","en":"Kinetic Typography & Rhythm","tag":"شبکه‌های اجتماعی و ترند","desc":"فرم‌های هندسی مورب، برش‌های گرافیکی پرانرژی و ترکیب ریتمیک متن و المان‌های برداری.","cat":"شبکه‌های اجتماعی","prompt_en":"kinetic social-media graphic style, bold diagonal geometric shapes and energetic graphic cut-outs, rhythmic vector stripes and bursts framing the product, punchy saturated colors, dynamic tilted composition, no letters"},{"n":5,"own":true,"fa":"حادثه، تعلیق و چالش","en":"Comic / Graphic Novel","tag":"حادثه، تعلیق و چالش","desc":"خطوط پررنگ جوهری، هاشورهای سایه‌زن دستی و قاب‌بندی‌های دراماتیک داستانی.","cat":"تصویرسازی و داستان","prompt_en":"comic book / graphic novel illustration, bold black ink outlines, hand-drawn hatching shadows, dramatic panel-like framing with action lines and halftone accents, high-contrast suspenseful colors"},{"n":6,"own":true,"fa":"مدرن و تولید سریالی","en":"Digital Cutout Papercraft","tag":"مدرن و تولید سریالی","desc":"لایه‌های برجسته، مقوایی با سایه‌های ملایم عمق‌دار و عروسک‌های کاغذی تخت مدرن.","cat":"تصویرسازی و داستان","prompt_en":"digital cut-out papercraft style, layered paper and cardboard shapes with soft depth shadows, flat paper-doll elements, tactile handmade texture, modern clean paper colors, product presented as part of a layered paper diorama"},{"n":7,"own":true,"fa":"حس صمیمی و هنری","en":"Hand-drawn Editorial","tag":"حس صمیمی و هنری","desc":"بافت مدادرنگی و پاستل، خطوط نامنظم ارگانیک و فضایی گرم و هنرمندانه.","cat":"تصویرسازی و داستان","prompt_en":"hand-drawn editorial illustration, colored pencil and soft pastel texture, irregular organic lines, visible paper grain, gentle sketchy shading, warm cozy and artistic atmosphere"},{"n":8,"own":true,"fa":"محتوای آموزشی و آمار","en":"Infographic Storytelling","tag":"محتوای آموزشی و آمار","desc":"کادر مرکزی داستانی احاطه‌شده با آیکون‌های وکتوری درون دایره، نمودارها و باکس‌های آماری.","cat":"اینفوگرافیک و آموزشی","prompt_en":"infographic storytelling illustration, the product in a central story frame surrounded by clean vector icons inside circles, simple abstract charts and stat boxes as shapes only (no readable text or numbers), organized educational layout, crisp flat colors"},{"n":9,"own":true,"fa":"کمپین‌های خاص و خاص‌پسند","en":"Retro Poster / Risograph","tag":"کمپین‌های خاص و خاص‌پسند","desc":"پالت ۳ تا ۴ رنگ محدود، بافت نقطه‌ای ترام چاپ دستی و فرم‌های جسورانه رترو.","cat":"هنری و رترو","prompt_en":"retro risograph poster style, limited palette of 3 to 4 inks, halftone dot texture with slight misregistration, bold retro geometric forms, grainy hand-printed feel, distinctive campaign look"},{"n":10,"fa":"ترند استارتاپ و وب مدرن","en":"3D Minimal Claymorphism","tag":"ترند استارتاپ و وب مدرن","desc":"مدل‌های سه‌بعدی خمیری مات با گوشه‌های نرم و گرد، نورپردازی ملایم استودیویی و رنگ‌های پاستلی جذاب.","own":false,"cat":"سه‌بعدی و تکنولوژی","prompt_en":"3D minimal claymorphism render, matte soft clay-like shapes with rounded corners around the product, soft studio lighting with gentle shadows, appealing pastel colors, playful modern startup web aesthetic"},{"n":11,"fa":"تخصصی نرم‌افزار و شبکه","en":"Modern Tech Isometric Vector","tag":"تخصصی نرم‌افزار و شبکه","desc":"زاویه دید ۳۰ درجه ایزومتریک دقیق با سرورها، جریان داده، پلتفرم‌های ابری و عناصر دیجیتال فوق‌العاده شکیل.","own":false,"cat":"سه‌بعدی و تکنولوژی","prompt_en":"modern tech isometric vector illustration, precise 30-degree isometric view, sleek servers, data flows, cloud platforms and digital elements arranged around the product, crisp gradients, clean premium tech palette"},{"n":12,"fa":"محصولات دیجیتال و اپلیکیشن","en":"Glassmorphism & Modern UI","tag":"محصولات دیجیتال و اپلیکیشن","desc":"کارت‌های شیشه‌ای مات با افکت بلور پس‌زمینه، انعکاس نور نئونی و ویجت‌های معلق مدرن.","own":false,"cat":"سه‌بعدی و تکنولوژی","prompt_en":"glassmorphism modern UI aesthetic, frosted translucent glass cards with background blur floating around the product, subtle neon light reflections, floating abstract widgets without text, soft vibrant gradient backdrop"},{"n":13,"fa":"هوش مصنوعی پیشرفته","en":"Cyberpunk & Futuristic Neon","tag":"هوش مصنوعی پیشرفته","desc":"تم تیره با نورهای نئونی باریک فیروزه‌ای و ارغوانی، عناصر سایبری و آینده‌نگر با کنتراست بالا.","own":false,"cat":"سه‌بعدی و تکنولوژی","prompt_en":"cyberpunk futuristic neon scene, dark background with thin cyan and magenta neon light lines, high-contrast cyber elements, holographic glints and reflections, sleek sci-fi atmosphere"},{"n":14,"fa":"عکاسی مینیمال لوکس","en":"Photorealistic Studio Editorial","tag":"عکاسی مینیمال لوکس","desc":"نورپردازی ملایم سافت‌باکس، فوکوس دقیق، بوکه سینمایی و فضایی باکیفیت و بدون عناصر تصادفی.","own":false,"cat":"عکاسی","prompt_en":"photorealistic luxury studio product photography, soft softbox lighting, crisp precise focus on the product, cinematic shallow depth of field with creamy bokeh, minimal elegant set and surface, no random props"},{"n":15,"fa":"کاور یوتیوب ویروسی پرکلیک","en":"High-CTR Viral YouTube Thumbnail","tag":"یوتیوب ترند","desc":"سوژه با چهره اکسپرسیو در کانون توجه، نور ریم‌لایت درخشان، کادربندی دینامیک و کنتراست چشمگیر جذب کلیک.","own":false,"cat":"شبکه‌های اجتماعی","prompt_en":"high-CTR viral YouTube thumbnail look, the product as a bold hero in the spotlight, glowing rim light, dynamic angled framing, punchy saturated colors and striking contrast, energetic background, no text"},{"n":16,"fa":"ریلز و تیک‌تاک نئوگرادیان","en":"Neo-Gradient Kinetic Social","tag":"ریلز و استوری","desc":"گرادیان‌های داغ و پرانرژی مایع، اشکال انتزاعی متحرک، تایپوگرافی کشیده و وایب نسل Z.","own":false,"cat":"شبکه‌های اجتماعی","prompt_en":"neo-gradient kinetic social style, hot energetic liquid gradients, abstract flowing and stretched shapes around the product, bold Gen-Z vibe made for reels and stories"},{"n":17,"fa":"سینمایی نوآر و رازآلود","en":"Cinematic Dark Noir & Mood","tag":"سینمایی و ویدیویی","desc":"نورپردازی کیاروسکورو تاریک، سایه‌های عمیق، مه جوی، پالت رنگی دودی با حسی مرموز و جذاب.","own":false,"cat":"سینمایی و هنری","prompt_en":"cinematic dark noir mood, chiaroscuro lighting with deep shadows, atmospheric haze, smoky desaturated palette with one subtle accent color, mysterious and alluring film still"},{"n":18,"fa":"دارک سایبرتک و هوش مصنوعی","en":"Sleek Dark Cyber Tech","tag":"تکنولوژی ترند","desc":"پس‌زمینه عمیق ابسیدین با خطوط فیبر نوری هولوگرافیک، مدارهای کوانتومی درخشان و دیاگرام‌های هوشمند.","own":false,"cat":"سه‌بعدی و تکنولوژی","prompt_en":"sleek dark cyber-tech scene, deep obsidian background, holographic fiber-optic light lines, glowing quantum circuit patterns and smart abstract diagram shapes, premium high-tech feel"},{"n":19,"fa":"انیمه و مانگا مدرن","en":"Modern Anime & Webtoon Style","tag":"هنر و انیمه","desc":"طراحی خطوط تمیز شیک مانگا، سایه‌روشن سل‌شیدینگ، دراماتیک با چشم‌انداز شهری و المان‌های ماورایی.","own":false,"cat":"سینمایی و هنری","prompt_en":"modern anime and webtoon illustration, clean stylish manga line art, cel shading, dramatic composition with a city skyline backdrop and subtle magical elements, the product drawn faithfully"},{"n":20,"fa":"عکاسی خیابانی هایپررئال","en":"Hyperrealistic Candid Street & Portrait","tag":"عکاسی مستند","desc":"نور طبیعی محیطی طلایی، بافت واقعی پوست و اشیاء بدون ادیت مصنوعی، عمق میدان سینمایی لنز 85mm.","own":false,"cat":"عکاسی","prompt_en":"hyperrealistic candid street and portrait photography, natural golden-hour ambient light, real unretouched textures of skin and objects, cinematic shallow depth of field like an 85mm lens, documentary feel"}]};
@@ -633,6 +633,88 @@ Return JSON only: {"headline":""}`);const t=T_(j&&j.headline||"").replace(/^[«"
   b.innerHTML=`<b>🖼️ تصویر شاخص:</b><span>${md=="ai"?"تیتر داخل تصویر با هوش مصنوعی":md=="layer"?"تیتر به‌صورت لایه‌ی قابل ویرایش":"بدون متن"}</span><span class="mut">${md=="off"?"":esc(this.font(s.font).fa)+" · "+esc(this.typo(s.typo).fa)+" · "}${esc(this.det(s.detail)[1])}</span><span class="sp"></span><button class="btn sm" data-a="fiOpen" data-slot="hero">⚙️ تنظیمات تصویر شاخص</button>`}
 };
 
+// ---------- 📦 social packages (v1.2.0): one ZIP per part (Telegram / Instagram post / story) + one ZIP with all three ----------
+// Each package: final image with baked text (PNG) + clean no-text PNG when it exists, caption.txt (plain, paste-ready on mobile),
+// caption.md (Telegram-friendly Markdown for Telegram), caption.html (RTL, UTF-8, image linked relatively), hashtags.txt (Instagram),
+// story-text.txt / sticker-idea.txt / cta.txt (story), rich-post.md (Telegram).
+// Limits (Saba, 2026-11-13): Telegram = soft info only — caption under a photo 1024 (Premium 4096); Telegram Rich Text Editor (July 2026) lets Premium send
+// rich posts up to 32,768 chars with headings/tables/lists/quotes/inline photos, and Telegram opens .md files → rich-post.md built from the article data (no API call).
+// Instagram 2200 chars / 30 hashtags stays a warning (full text always kept).
+const SOC_LIM={tg:1024,tgPremium:4096,tgRich:32768,ig:2200,igTags:30};
+const TG_INFO="کپشن زیر عکس: ۱۰۲۴ حرف (پریمیوم ۴۰۹۶)؛ پست متنی غنی پریمیوم تا ۳۲٬۷۶۸ حرف";
+const SOC_KEY={tg:"telegram",ig:"instagram",story:"story"},SOC_FA={tg:"پست تلگرام",ig:"پست اینستاگرام",story:"استوری اینستاگرام"};
+const nChars=s=>[...String(s||"")].length;
+const URL_RE=/https?:\/\/[^\s<>()"'«»]+/g;
+const SocPkg={
+ slug(){const P=Cur.p;return(P&&P.a&&P.a.slug)||slugify(P&&P.product&&P.product.name_en)||"post"},
+ folder(k){return SOC_KEY[k]+"-"+this.slug()},
+ // limit state for the UI and the package
+ lim(k){const s=Cur.p&&Cur.p.social;if(!s)return null;
+  if(k=="tg"){const n=nChars(s.telegram.caption);return{n,max:SOC_LIM.tg,over:false,info:"ℹ️ "+TG_INFO+(n>SOC_LIM.tg?" — برای کپشن بلندتر از پریمیوم یا «پست غنی تلگرام» استفاده کن.":"")}}
+  if(k=="ig"){const n=nChars(Social.full("ig")),t=s.instagram.hashtags.length,o1=n>SOC_LIM.ig,o2=t>SOC_LIM.igTags;
+   return{n,max:SOC_LIM.ig,tags:t,over:o1||o2,msg:[o1&&`⚠️ کپشن + هشتگ اینستاگرام حداکثر ${fa(SOC_LIM.ig)} نویسه است (الان ${fa(n)}).`,o2&&`⚠️ اینستاگرام حداکثر ${fa(SOC_LIM.igTags)} هشتگ قبول می‌کند (الان ${fa(t)}).`,(o1||o2)&&"متن کامل در پکیج هست؛ پیش از انتشار کوتاهش کن."].filter(Boolean).join(" ")}}
+  return null},
+ limHTML(k){const L=this.lim(k);if(!L)return"";return`<div class="cnt soclim ${L.over?"over":""}" data-lim="${k}">${fa(L.n)} / ${fa(L.max)} نویسه${L.tags!=null?` · ${fa(L.tags)} / ${fa(SOC_LIM.igTags)} هشتگ`:""}${L.msg?`<div class="limw">${esc(L.msg)}</div>`:""}${L.info?`<div class="limi">${esc(L.info)}</div>`:""}</div>`},
+ limUpd(){for(const k of["tg","ig"]){const e=$(`[data-lim="${k}"]`);if(e)e.outerHTML=this.limHTML(k)}},
+ // images: final (baked text) + clean, as PNG when possible
+ async png(b){if(!b)return null;if(b.type=="image/png")return b;try{const c=await convert(b,"image/png");if(c)return c}catch{}return b},
+ async images(k){const im=Cur.p&&Cur.p.images[k],out=[];if(!im||!im.base)return out;const nm=fileName(k);
+  let fin=im.blob||(im.layers&&im.layers.length?await compose(im.base,im.layers,im.ar).catch(()=>null):null);
+  if(fin){fin=await this.png(fin);out.push([nm+"."+(EXT[fin.type]||"png"),fin]);const cl=await this.png(im.base);out.push([nm+"-clean."+(EXT[cl.type]||"png"),cl])}
+  else{const b=await this.png(im.base);out.push([nm+"."+(EXT[b.type]||"png"),b])}
+  return out},
+ // text builders
+ tgMd(t){const L=String(t||"").split("\n");let first=true;
+  return L.map(l=>{let x=l.trim();if(!x)return"";
+   const m=x.match(/^🛒\s*(https?:\/\/\S+)$/);if(m)return`🛒 [مشاهده و خرید محصول](${m[1]})`;
+   x=x.replace(URL_RE,u=>`[${u}](${u})`);if(first&&!/^\*\*/.test(x)&&!/^#/.test(x)){first=false;return`**${x.replace(/\*\*/g,"")}**`}first=false;return x}).join("\n").replace(/\n{3,}/g,"\n\n").trim()+"\n"},
+ // Telegram rich post (Rich Text Editor / .md): heading, short intro, specs/features table, pros, quote, CTA link, image reference — from article data only
+ richMd(img){const P=Cur.p,a=P&&P.a;if(!a)return"";const cell=x=>String(x||"").replace(/\|/g,"/").replace(/\n/g," ").trim(),link=(P.input&&P.input.link||"").trim(),L=[];
+  const short=t=>{t=String(t||"").trim();if(nChars(t)<=380)return t;return[...t].slice(0,380).join("").replace(/\s+\S*$/,"")+"…"};
+  L.push("# "+a.seo_title);
+  if(img)L.push(`![${a.alt_hero||a.image_title||a.seo_title}](${img})`);
+  if(a.intro[0])L.push(short(a.intro[0]));
+  if(a.specs.length)L.push("## 📋 مشخصات فنی\n\n| مشخصه | مقدار |\n|---|---|\n"+a.specs.map(s=>`| ${cell(s.label)} | ${cell(s.value)} |`).join("\n"));
+  else{const f=a.sections.flatMap(s=>s.bullets).slice(0,8);if(f.length)L.push("## ✨ ویژگی‌ها\n\n| # | ویژگی |\n|---|---|\n"+f.map((x,i)=>`| ${fa(i+1)} | ${cell(x)} |`).join("\n"))}
+  if(a.pros.length)L.push("## ✅ مزایا\n\n"+a.pros.map(x=>"- "+x).join("\n"));
+  if(a.cons.length)L.push("## ⚠️ نکته‌ها پیش از خرید\n\n"+a.cons.map(x=>"- "+x).join("\n"));
+  const q=a.conclusion[0]?short(a.conclusion[0]):a.meta_description;if(q)L.push("> "+q);
+  const cta=a.cta||"مشاهده و خرید محصول";L.push(link?`🛒 **[${cta}](${link})**`:`🛒 **${cta}**`);
+  const h=Cur.p.social&&Cur.p.social.instagram&&Cur.p.social.instagram.hashtags||[];if(h.length)L.push(h.slice(0,6).join(" "));
+  return L.join("\n\n")+"\n"},
+ lnk(t){return esc(t).replace(/https?:\/\/[^\s<>()"'«»&]+(?:&amp;[^\s<>()"'«»&]+)*/g,u=>`<a href="${u}" target="_blank" rel="noopener">${u}</a>`).replace(/(^|\s)(#[^\s#<]+)/g,'$1<span class="tag">$2</span>').replace(/\n/g,"<br>\n")},
+ html(k,title,img,blocks){return`<!doctype html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+<style>body{font-family:Vazirmatn,Tahoma,sans-serif;direction:rtl;text-align:right;max-width:640px;margin:auto;padding:20px;line-height:2;color:#1b1630;background:#faf8ff}img{max-width:100%;height:auto;border-radius:14px;display:block;margin:0 auto 14px}h1{font-size:1.3rem;margin:0 0 12px}.box{background:#fff;border:1px solid #e3dcff;border-radius:14px;padding:12px 16px;margin:10px 0}.box b{color:#5b2ec8}.tag{color:#5b2ec8}a{color:#5b2ec8}</style></head>
+<body><h1>${esc(title)}</h1>
+${img?`<img src="${esc(img)}" alt="${esc(title)}">`:""}
+${blocks.map(([h,t])=>t?`<div class="box">${h?`<b>${esc(h)}</b><br>`:""}${this.lnk(t)}</div>`:"").join("\n")}
+</body></html>
+`},
+ // all files for one part: {path: string|Blob}
+ async files(k){const P=Cur.p,s=P&&P.social;if(!s)throw new Error("متن‌های شبکه‌های اجتماعی هنوز نوشته نشده");
+  const dir=this.folder(k)+"/",f={},imgs=await this.images(k),main=imgs[0]&&imgs[0][0],title=Imgs.title(k)||SOC_FA[k];
+  for(const[n,b]of imgs)f[dir+n]=b;
+  if(k=="tg"){const c=s.telegram.caption;f[dir+"caption.txt"]=c.trim()+"\n";f[dir+"caption.md"]=this.tgMd(c);f[dir+"rich-post.md"]=this.richMd(main);f[dir+"caption.html"]=this.html(k,title,main,[["",c]])}
+  else if(k=="ig"){const c=s.instagram.caption,h=s.instagram.hashtags.join(" ");f[dir+"caption.txt"]=Social.full("ig").trim()+"\n";f[dir+"hashtags.txt"]=h+"\n";
+   f[dir+"caption.md"]=`# ${title}\n\n${main?`![${title}](${main})\n\n`:""}${c.trim()}\n\n${h}\n`;f[dir+"caption.html"]=this.html(k,title,main,[["",c],["هشتگ‌ها",h]])}
+  else{const st=s.story;f[dir+"caption.txt"]=Social.full("story").trim()+"\n";f[dir+"story-text.txt"]=(st.text||"").trim()+"\n";f[dir+"sticker-idea.txt"]=(st.sticker||"").trim()+"\n";f[dir+"cta.txt"]=(st.cta||"").trim()+"\n";
+   f[dir+"caption.md"]=`# ${title}\n\n${main?`![${title}](${main})\n\n`:""}**متن استوری:** ${st.text||""}\n\n**ایده‌ی استیکر تعاملی:** ${st.sticker||""}\n\n**دعوت به اقدام:** ${st.cta||""}\n`;
+   f[dir+"caption.html"]=this.html(k,title,main,[["متن استوری",st.text],["ایده‌ی استیکر تعاملی",st.sticker],["دعوت به اقدام",st.cta]])}
+  const L=this.lim(k);if(L&&L.over)f[dir+"LIMIT-WARNING.txt"]=L.msg+"\n";
+  return f},
+ async build(ks){const Z=await Backup.jz(),z=new Z();let noImg=[];
+  for(const k of ks){const f=await this.files(k);if(!Object.keys(f).some(n=>/\.(png|jpg|webp)$/.test(n)))noImg.push(SOC_FA[k]);
+   for(const n in f)typeof f[n]=="string"?z.file(n,f[n]):z.file(n,await blobToB64(f[n]),{base64:true})}
+  return{blob:await z.generateAsync({type:"blob",mimeType:"application/zip",compression:"DEFLATE"}),noImg}},
+ async dl(ks,name,btn){if(btn){btn.disabled=true}try{const{blob,noImg}=await this.build(ks);dl(blob,name);
+   toast(noImg.length?`📦 پکیج دانلود شد (تصویر ${noImg.join("، ")} هنوز ساخته نشده)`:"📦 پکیج دانلود شد",noImg.length?6000:3000)}
+  catch(e){toast("⚠️ ساخت پکیج ممکن نشد: "+e.message,7000)}finally{if(btn)btn.disabled=false}},
+ one(k,btn){return this.dl([k],this.folder(k)+".zip",btn)},
+ all(btn){return this.dl(["tg","ig","story"],"social-"+this.slug()+".zip",btn)}
+};
+
 // ---------- Gemini API ----------
 async function callApi(model,body,sig,onStatus,tries=3){
  for(let a=0;;a++){let r;
@@ -921,13 +1003,13 @@ const Social={
  async text(){try{$("#socNote").textContent="⏳ نوشتن متن‌ها…";await this.genText();$("#socNote").textContent="✅ متن‌ها آماده است"}catch(e){$("#socNote").textContent="⚠️ "+e.message}},
  async imgs(){const P=Cur.p;if(!P||!P.a)return toast("اول مقاله را بساز");if(!P.social)await this.text();const r=await Promise.allSettled(["tg","ig","story"].map(k=>Imgs.gen(k)));const bad=r.filter(x=>x.status=="rejected");bad.length?toast(`⚠️ ${fa(bad.length)} تصویر ساخته نشد: `+bad[0].reason.message,7000):toast("تصویرهای شبکه‌های اجتماعی آماده است")},
  full(k){const s=Cur.p&&Cur.p.social;if(!s)return"";if(k=="tg")return s.telegram.caption;if(k=="ig")return[s.instagram.caption,s.instagram.hashtags.join(" ")].filter(Boolean).join("\n\n");return[s.story.text,s.story.sticker&&"🔘 استیکر: "+s.story.sticker,s.story.cta&&"👉 "+s.story.cta].filter(Boolean).join("\n")},
- edit(el){const s=Cur.p&&Cur.p.social;if(!s)return;const k=el.dataset.sk,v=el.value;if(k=="tg")s.telegram.caption=v;else if(k=="igc")s.instagram.caption=v;else if(k=="igh")s.instagram.hashtags=v.split(/\s+/).map(tagify).filter(Boolean);else if(k=="st")s.story.text=v;else if(k=="sk")s.story.sticker=v;else if(k=="cta")s.story.cta=v;Cur.later()},
+ edit(el){const s=Cur.p&&Cur.p.social;if(!s)return;const k=el.dataset.sk,v=el.value;if(k=="tg")s.telegram.caption=v;else if(k=="igc")s.instagram.caption=v;else if(k=="igh")s.instagram.hashtags=v.split(/\s+/).map(tagify).filter(Boolean);else if(k=="st")s.story.text=v;else if(k=="sk")s.story.sticker=v;else if(k=="cta")s.story.cta=v;SocPkg.limUpd();Cur.later()},
  render(){const b=$("#soc");if(!b)return;$("#tgAr").innerHTML=[["1:1","مربع ۱:۱"],["16:9","افقی ۱۶:۹"]].map(([v,l])=>`<button class="${(Cur.p&&Cur.p.input?Cur.p.input.tgAr:D.tgAr)==v?"on":""}" data-a="tgAr" data-v="${v}">${l}</button>`).join("");
   const P=Cur.p,s=P&&P.social;if(!P||!P.a){b.innerHTML="";return}if(!s){b.innerHTML='<p class="mut">متن‌ها هنوز نوشته نشده؛ «نوشتن دوباره‌ی متن‌ها» را بزن.</p>';return}$("#socNote").textContent="متن‌ها را می‌توانی ویرایش کنی؛ تغییرها ذخیره می‌شود.";
   const ta=(k,v,h)=>`<textarea data-sk="${k}" ${h?`style="min-height:${h}px"`:""}>${esc(v)}</textarea>`;
-  b.innerHTML=`<div class="card" style="margin:0"><h3>✈️ پست تلگرام</h3>${Imgs.tile("tg")}<label>کپشن</label>${ta("tg",s.telegram.caption)}<div class="row" style="margin-top:6px"><button class="btn sm" data-a="copySoc" data-k="tg">📋 کپی کپشن</button></div></div>
-  <div class="card" style="margin:0"><h3>📸 پست اینستاگرام</h3>${Imgs.tile("ig")}<label>کپشن</label>${ta("igc",s.instagram.caption)}<label>هشتگ‌ها</label>${ta("igh",s.instagram.hashtags.join(" "),70)}<div class="row" style="margin-top:6px"><button class="btn sm" data-a="copySoc" data-k="ig">📋 کپی کپشن + هشتگ</button></div></div>
-  <div class="card" style="margin:0"><h3>📱 استوری اینستاگرام</h3>${Imgs.tile("story")}<label>متن استوری</label>${ta("st",s.story.text,60)}<label>ایده‌ی استیکر تعاملی</label>${ta("sk",s.story.sticker,60)}<label>دعوت به اقدام</label>${ta("cta",s.story.cta,50)}<div class="row" style="margin-top:6px"><button class="btn sm" data-a="copySoc" data-k="story">📋 کپی متن استوری</button></div></div>`}
+  b.innerHTML=`<div class="card" style="margin:0"><h3>✈️ پست تلگرام</h3>${Imgs.tile("tg")}<label>کپشن</label>${ta("tg",s.telegram.caption)}${SocPkg.limHTML("tg")}<div class="row" style="margin-top:6px"><button class="btn sm" data-a="copySoc" data-k="tg">📋 کپی کپشن</button><button class="btn sm" data-a="copyRich">📋 کپی پست غنی تلگرام</button><button class="btn sm" data-a="socZip" data-k="tg">📦 دانلود پکیج (ZIP)</button></div></div>
+  <div class="card" style="margin:0"><h3>📸 پست اینستاگرام</h3>${Imgs.tile("ig")}<label>کپشن</label>${ta("igc",s.instagram.caption)}<label>هشتگ‌ها</label>${ta("igh",s.instagram.hashtags.join(" "),70)}${SocPkg.limHTML("ig")}<div class="row" style="margin-top:6px"><button class="btn sm" data-a="copySoc" data-k="ig">📋 کپی کپشن + هشتگ</button><button class="btn sm" data-a="socZip" data-k="ig">📦 دانلود پکیج (ZIP)</button></div></div>
+  <div class="card" style="margin:0"><h3>📱 استوری اینستاگرام</h3>${Imgs.tile("story")}<label>متن استوری</label>${ta("st",s.story.text,60)}<label>ایده‌ی استیکر تعاملی</label>${ta("sk",s.story.sticker,60)}<label>دعوت به اقدام</label>${ta("cta",s.story.cta,50)}<div class="row" style="margin-top:6px"><button class="btn sm" data-a="copySoc" data-k="story">📋 کپی متن استوری</button><button class="btn sm" data-a="socZip" data-k="story">📦 دانلود پکیج (ZIP)</button></div></div>`}
 };
 function T_ML(s){return String(s??"").split("\n").map(l=>faTxt(l.replace(/[ \t]+/g," ").trim())).join("\n").replace(/\n{3,}/g,"\n\n").trim()}
 
@@ -1022,7 +1104,7 @@ const A={
  eadd:()=>Ed.add(),eundo:()=>Ed.undo(),esave:()=>Ed.save(),epng:()=>Ed.png(),edel:()=>Ed.del(),esel:e=>{Ed.s=+e.dataset.v;Ed.panel();Ed.draw()},
  fpos:e=>{const l=Ed.L[+e.dataset.f];if(!l)return;Ed.snap();delete l.x;delete l.y;l.pos=+e.dataset.v;Ed.panel();Ed.draw()},
  copyText:need(()=>Exp.copyText()),copyHtml:need(()=>Exp.copyHtml()),dlHtml:need(()=>Exp.dlHtml()),dlDoc:need(()=>Exp.dlDoc()),dlMd:need(()=>Exp.dlMd()),
- socText:need(()=>Social.text()),socImgs:need(()=>Social.imgs()),copySoc:async e=>{const ok=await copyTxt(Social.full(e.dataset.k));toast(ok?"کپی شد":"کپی ممکن نشد")},
+ socText:need(()=>Social.text()),socImgs:need(()=>Social.imgs()),copyRich:need(async()=>{const ok=await copyTxt(SocPkg.richMd(null));toast(ok?"پست غنی تلگرام کپی شد (Markdown؛ عکس را جدا در پست بگذار)":"کپی ممکن نشد")}),socZip:need(e=>SocPkg.one(e.dataset.k,e)),socZipAll:need(e=>SocPkg.all(e)),copySoc:async e=>{const ok=await copyTxt(Social.full(e.dataset.k));toast(ok?"کپی شد":"کپی ممکن نشد")},
  tgAr:async e=>{D.tgAr=e.dataset.v;Draft.save();if(Cur.p&&Cur.p.input){Cur.p.input.tgAr=e.dataset.v;const im=Cur.p.images.tg;if(im&&im.ar!=e.dataset.v){delete Cur.p.images.tg}await Cur.save()}Social.render()},
  pickSty:(e,ev)=>{if(ev&&ev.target.closest("button"))return;Picker.pick(e.dataset.id)},styCat:e=>{Picker.cat=e.dataset.v;Picker.render()},
  styDel:async e=>{const s=S.user.find(x=>x.id==e.dataset.id);if(s&&await ask(`استایل «${s.fa}» حذف شود؟`))await Styles.del(s.id)},styEdit:e=>Custom.edit(e.dataset.id),styEditSave:e=>Custom.save(e.dataset.id,e.closest(".modal")),
