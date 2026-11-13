@@ -1,0 +1,593 @@
+/* ============================================================================
+   Saba Neon — second design system of Saba App Kit (beside Saba Clay).
+   Dark near-black canvas, soft radial glow + starfield, glassy cards with thin
+   neon borders, glowing pills and a big round primary action.
+
+   Plain CSS (no @apply) so it works with Tailwind v4 *and* in a static page.
+   Import AFTER saba-clay-theme.css:   @import "./saba-neon-theme.css";
+
+   Tokens come from theme/themes.ts → applyTheme() which sets on <html>:
+     data-design="neon"  data-theme="neon-emerald"  + CSS variables
+     (--background --foreground --card --primary --primary-foreground
+      --muted-foreground --border … and --neon / --neon-2).
+   Under data-design="neon" the clay-* classes are re-skinned to Neon, so an app
+   written with clay classes switches design without code changes. neon-* classes
+   are extras (orb, stats, nav…) that still render sensibly under Clay themes.
+   Original work for Saba Apps Studio — not derived from any third-party code.
+   ========================================================================== */
+
+/* -------------------------------- tokens --------------------------------- */
+:root {
+  --neon: var(--primary);
+  --neon-2: var(--neon);
+}
+
+/* Derived tokens. Re-declared on every [data-design] scope so a nested preview
+   (e.g. a theme thumbnail with its own inline vars) recomputes them. */
+:root,
+[data-design] {
+  --neon-radius: 1.5rem;
+  --neon-soft: color-mix(in srgb, var(--neon) 16%, transparent);
+  --neon-line: color-mix(in srgb, var(--neon) 55%, transparent);
+  --neon-line-soft: color-mix(in srgb, var(--neon) 26%, transparent);
+  --neon-hairline: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --neon-glass: color-mix(in srgb, var(--card) 82%, transparent);
+  --neon-well: color-mix(in srgb, var(--background) 55%, var(--card));
+  --neon-grad: linear-gradient(135deg, var(--neon), var(--neon-2));
+  --neon-glow-sm: 0 0 12px -2px color-mix(in srgb, var(--neon) 55%, transparent);
+  --neon-glow: 0 0 22px -4px color-mix(in srgb, var(--neon) 60%, transparent);
+  --neon-glow-lg: 0 0 44px -6px color-mix(in srgb, var(--neon) 65%, transparent);
+  --neon-drop: 0 18px 40px -22px rgb(0 0 0 / 0.85);
+  --neon-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* ----------------------------- page canvas ------------------------------- */
+@layer components {
+  [data-design="neon"] body,
+  .neon-bg {
+    background-color: var(--background);
+    background-image:
+      radial-gradient(70% 50% at 50% -5%, color-mix(in srgb, var(--neon) 20%, transparent), transparent 70%),
+      radial-gradient(45% 40% at 100% 100%, color-mix(in srgb, var(--neon-2) 13%, transparent), transparent 72%),
+      radial-gradient(40% 35% at 0% 65%, color-mix(in srgb, var(--neon) 9%, transparent), transparent 70%);
+    background-repeat: no-repeat;
+    color: var(--foreground);
+  }
+  .neon-bg { position: relative; isolation: isolate; }
+
+  /* starfield: tiny white + neon dots, slow twinkle */
+  [data-design="neon"] body::before,
+  .neon-bg::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      radial-gradient(1px 1px at 18px 26px, rgb(255 255 255 / 0.55), transparent 60%),
+      radial-gradient(1px 1px at 120px 80px, rgb(255 255 255 / 0.35), transparent 60%),
+      radial-gradient(1.5px 1.5px at 190px 160px, rgb(255 255 255 / 0.45), transparent 60%),
+      radial-gradient(1px 1px at 60px 200px, rgb(255 255 255 / 0.3), transparent 60%),
+      radial-gradient(1.5px 1.5px at 90px 130px, color-mix(in srgb, var(--neon) 80%, transparent), transparent 60%),
+      radial-gradient(1px 1px at 240px 40px, color-mix(in srgb, var(--neon) 70%, transparent), transparent 60%);
+    background-size: 230px 230px, 230px 230px, 230px 230px, 230px 230px, 310px 310px, 310px 310px;
+    opacity: 0.7;
+    animation: neon-twinkle 7s ease-in-out infinite alternate;
+  }
+  .neon-bg::before { position: absolute; }
+
+  [data-design="neon"] ::selection { background: color-mix(in srgb, var(--neon) 35%, transparent); }
+
+  /* ------------------------------- type ---------------------------------- */
+  .neon-title {
+    font-weight: 900;
+    line-height: 1.5;
+    letter-spacing: 0;
+    color: var(--foreground);
+    text-shadow: 0 0 18px color-mix(in srgb, var(--neon) 35%, transparent);
+  }
+  .neon-accent-text { color: var(--neon); text-shadow: 0 0 14px color-mix(in srgb, var(--neon) 45%, transparent); }
+  .neon-muted { color: var(--muted-foreground); }
+  .neon-label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--muted-foreground); margin-block-end: 0.4rem; }
+
+  /* ---------------------------- glass surfaces --------------------------- */
+  .neon-card,
+  .neon-glass {
+    border-radius: var(--neon-radius);
+    background:
+      linear-gradient(160deg, color-mix(in srgb, var(--neon) 7%, transparent), transparent 45%),
+      var(--neon-glass);
+    border: 1px solid var(--neon-line-soft);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05), var(--neon-glow-sm), var(--neon-drop);
+    backdrop-filter: blur(14px) saturate(1.2);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  }
+  .neon-tile {
+    border-radius: 1.1rem;
+    background: var(--neon-glass);
+    border: 1px solid var(--neon-hairline);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04);
+  }
+  .neon-divider { height: 1px; border: 0; background: linear-gradient(90deg, transparent, var(--neon-line-soft), transparent); }
+
+  /* --------------------------- big round action -------------------------- */
+  /* <button class="neon-orb" data-state="off|busy|on"><svg class="neon-orb__icon"/>
+       <span class="neon-orb__label">اتصال</span><span class="neon-orb__hint">…</span></button> */
+  .neon-orb {
+    --size: clamp(9.5rem, 44vw, 13rem);
+    position: relative;
+    inline-size: var(--size);
+    block-size: var(--size);
+    margin: 1.25rem auto;
+    border: 0;
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 0.2rem;
+    color: var(--foreground);
+    font: inherit;
+    background: radial-gradient(circle at 50% 32%,
+      color-mix(in srgb, var(--neon) 28%, var(--background)) 0%,
+      color-mix(in srgb, var(--neon) 9%, var(--background)) 58%,
+      var(--background) 100%);
+    box-shadow:
+      0 0 0 0.6rem color-mix(in srgb, var(--neon) 7%, transparent),
+      0 0 0 calc(0.6rem + 1px) color-mix(in srgb, var(--neon) 30%, transparent),
+      0 0 60px 4px color-mix(in srgb, var(--neon) 32%, transparent),
+      inset 0 0 34px color-mix(in srgb, var(--neon) 30%, transparent),
+      inset 0 -14px 30px rgb(0 0 0 / 0.55);
+    transition: transform 0.2s var(--neon-ease), box-shadow 0.3s ease, filter 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* glowing gradient ring */
+  .neon-orb::before {
+    content: "";
+    position: absolute;
+    inset: -0.15rem;
+    border-radius: 50%;
+    padding: 0.32rem;
+    background: conic-gradient(from 210deg, var(--neon), var(--neon-2), color-mix(in srgb, var(--neon) 30%, transparent), var(--neon));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    filter: drop-shadow(0 0 8px var(--neon));
+    pointer-events: none;
+  }
+  /* halo */
+  .neon-orb::after {
+    content: "";
+    position: absolute;
+    inset: -1.4rem;
+    border-radius: 50%;
+    border: 1px solid color-mix(in srgb, var(--neon) 22%, transparent);
+    pointer-events: none;
+    opacity: 0.8;
+  }
+  .neon-orb__icon {
+    inline-size: calc(var(--size) * 0.3);
+    block-size: calc(var(--size) * 0.3);
+    color: var(--neon);
+    filter: drop-shadow(0 0 10px color-mix(in srgb, var(--neon) 80%, transparent));
+  }
+  .neon-orb__label { font-weight: 900; font-size: 1.05rem; line-height: 1.6; }
+  .neon-orb__hint { font-size: 0.68rem; color: var(--muted-foreground); line-height: 1.4; max-inline-size: 88%; text-align: center; }
+
+  .neon-orb[data-state="busy"]::before { animation: neon-spin 1.4s linear infinite; }
+  .neon-orb[data-state="on"] {
+    color: var(--primary-foreground);
+    background: radial-gradient(circle at 50% 30%,
+      color-mix(in srgb, var(--neon) 70%, white) 0%, var(--neon) 42%, var(--neon-2) 100%);
+    box-shadow:
+      0 0 0 0.6rem color-mix(in srgb, var(--neon) 14%, transparent),
+      0 0 0 calc(0.6rem + 1px) color-mix(in srgb, var(--neon) 45%, transparent),
+      0 0 80px 10px color-mix(in srgb, var(--neon) 50%, transparent),
+      inset 0 -12px 26px rgb(0 0 0 / 0.25);
+  }
+  .neon-orb[data-state="on"] .neon-orb__icon { color: var(--primary-foreground); filter: none; }
+  .neon-orb[data-state="on"] .neon-orb__hint { color: color-mix(in srgb, var(--primary-foreground) 80%, transparent); }
+  .neon-orb[data-state="on"]::after { animation: neon-pulse 2.4s ease-out infinite; }
+  @media (hover: hover) {
+    .neon-orb:hover:not(:disabled) { transform: scale(1.02); filter: brightness(1.08); }
+  }
+  .neon-orb:active:not(:disabled) { transform: scale(0.97); }
+  .neon-orb:focus-visible { outline: 2px solid var(--neon); outline-offset: 1.9rem; }
+
+  /* -------------------------------- buttons ------------------------------ */
+  .neon-btn,
+  .neon-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-block-size: 2.75rem;
+    padding: 0.6rem 1.35rem;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 800;
+    line-height: 1.4;
+    white-space: nowrap;
+    transition: transform 0.15s var(--neon-ease), box-shadow 0.2s ease, filter 0.15s ease, background-color 0.2s ease;
+  }
+  .neon-btn {
+    border: 0;
+    color: var(--primary-foreground);
+    background: var(--neon-grad);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.3), 0 8px 24px -10px var(--neon), var(--neon-glow-sm);
+  }
+  .neon-btn-ghost {
+    color: var(--foreground);
+    background: var(--neon-soft);
+    border: 1px solid var(--neon-line-soft);
+  }
+  .neon-btn svg,
+  .neon-btn-ghost svg { flex: none; inline-size: 1.15rem; block-size: 1.15rem; }
+  .neon-btn-sm { min-block-size: 2.25rem; padding: 0.35rem 0.9rem; font-size: 0.8rem; }
+  .neon-btn-icon { inline-size: 2.75rem; padding: 0; }
+  @media (hover: hover) {
+    .neon-btn:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.08); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.3), 0 10px 28px -8px var(--neon), var(--neon-glow); }
+    .neon-btn-ghost:hover:not(:disabled) { border-color: var(--neon-line); box-shadow: var(--neon-glow-sm); background: color-mix(in srgb, var(--neon) 22%, transparent); }
+  }
+  .neon-btn:active:not(:disabled),
+  .neon-btn-ghost:active:not(:disabled) { transform: scale(0.97); }
+  .neon-btn:disabled,
+  .neon-btn-ghost:disabled { opacity: 0.45; cursor: not-allowed; }
+  .neon-btn:focus-visible,
+  .neon-btn-ghost:focus-visible { outline: 2px solid var(--neon); outline-offset: 3px; }
+
+  /* --------------------------------- fields ------------------------------ */
+  .neon-field {
+    inline-size: 100%;
+    min-block-size: 2.9rem;
+    padding: 0.65rem 1rem;
+    border-radius: 1rem;
+    border: 1px solid var(--neon-hairline);
+    background: var(--neon-well);
+    color: var(--foreground);
+    font: inherit;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  textarea.neon-field { min-block-size: 6rem; resize: vertical; }
+  .neon-field::placeholder { color: var(--muted-foreground); opacity: 0.85; }
+  .neon-field:focus { outline: none; border-color: var(--neon-line); box-shadow: 0 0 0 3px var(--neon-soft), var(--neon-glow-sm); }
+  select.neon-field {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-inline-end: 2.6rem;
+    background-image:
+      linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+      linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+    background-position: left 1.25rem center, left calc(1.25rem + 6px) center;
+  }
+  [dir="ltr"] select.neon-field,
+  select.neon-field[dir="ltr"] { background-position: right calc(1.25rem + 6px) center, right 1.25rem center; }
+  select.neon-field option { background: var(--card); color: var(--foreground); }
+
+  /* ---------------------------- segmented pills -------------------------- */
+  /* <div class="neon-seg" role="tablist"><button aria-pressed="true">…</button>… */
+  .neon-seg {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.3rem;
+    border-radius: 999px;
+    background: var(--neon-well);
+    border: 1px solid var(--neon-line-soft);
+  }
+  .neon-seg > * {
+    flex: 1 1 0;
+    min-inline-size: 0;
+    min-block-size: 2.4rem;
+    padding: 0.3rem 0.8rem;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted-foreground);
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 0.2s ease, background-color 0.2s ease, box-shadow 0.25s ease;
+  }
+  .neon-seg > [aria-pressed="true"],
+  .neon-seg > [aria-selected="true"],
+  .neon-seg > .is-active {
+    color: var(--primary-foreground);
+    background: var(--neon-grad);
+    box-shadow: var(--neon-glow);
+  }
+  @media (hover: hover) {
+    .neon-seg > :not([aria-pressed="true"], [aria-selected="true"], .is-active):hover { color: var(--foreground); }
+  }
+
+  /* --------------------------------- chips ------------------------------- */
+  .neon-chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(6.25rem, 1fr)); gap: 0.5rem; }
+  .neon-chip {
+    min-block-size: 2.5rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid var(--neon-hairline);
+    background: var(--neon-glass);
+    color: var(--foreground);
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
+  }
+  .neon-chip[aria-pressed="true"],
+  .neon-chip.is-active {
+    border-color: transparent;
+    color: var(--primary-foreground);
+    background: var(--neon-grad);
+    box-shadow: var(--neon-glow);
+  }
+  .neon-chip:disabled { opacity: 0.4; cursor: not-allowed; }
+  @media (hover: hover) {
+    .neon-chip:not([aria-pressed="true"], .is-active, :disabled):hover { border-color: var(--neon-line); box-shadow: var(--neon-glow-sm); }
+  }
+  .neon-chip:active:not(:disabled) { transform: scale(0.96); }
+  .neon-chip:focus-visible,
+  .neon-seg > :focus-visible { outline: 2px solid var(--neon); outline-offset: 2px; }
+
+  /* --------------------------------- toggle ------------------------------ */
+  /* <button class="neon-toggle" role="switch" aria-checked="true"></button> */
+  .neon-toggle {
+    position: relative;
+    flex: none;
+    inline-size: 3.25rem;
+    block-size: 1.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--neon-hairline);
+    background: var(--neon-well);
+    transition: background-color 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  }
+  .neon-toggle::after {
+    content: "";
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 0.22rem;
+    inline-size: 1.35rem;
+    block-size: 1.35rem;
+    margin-block-start: -0.675rem;
+    border-radius: 50%;
+    background: var(--muted-foreground);
+    transition: inset-inline-start 0.25s var(--neon-ease), background-color 0.25s ease;
+  }
+  .neon-toggle[aria-checked="true"] { background: var(--neon-grad); border-color: transparent; box-shadow: var(--neon-glow); }
+  .neon-toggle[aria-checked="true"]::after { inset-inline-start: calc(100% - 1.57rem); background: var(--primary-foreground); }
+  .neon-toggle:focus-visible { outline: 2px solid var(--neon); outline-offset: 3px; }
+  .neon-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-block-size: 2.75rem; }
+
+  /* -------------------------------- progress ----------------------------- */
+  /* <div class="neon-progress" role="progressbar" aria-valuenow="60"><span style="inline-size:60%"></span></div> */
+  .neon-progress {
+    block-size: 0.6rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--foreground) 8%, transparent);
+    overflow: hidden;
+  }
+  .neon-progress > span {
+    display: block;
+    block-size: 100%;
+    border-radius: inherit;
+    background: linear-gradient(to left, var(--neon), var(--neon-2));
+    box-shadow: 0 0 12px var(--neon);
+    transition: inline-size 0.4s var(--neon-ease);
+  }
+  .neon-progress.is-indeterminate > span { inline-size: 35%; animation: neon-indeterminate 1.3s ease-in-out infinite; }
+
+  /* ------------------------------ stat tiles ----------------------------- */
+  .neon-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; }
+  .neon-stat {
+    min-inline-size: 0;
+    padding: 0.7rem 0.75rem 0.5rem;
+    border-radius: 1.1rem;
+    background: var(--neon-glass);
+    border: 1px solid var(--neon-line-soft);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04);
+  }
+  .neon-stat + .neon-stat { position: relative; }
+  .neon-stat__label { display: flex; align-items: center; gap: 0.3rem; font-size: 0.7rem; font-weight: 700; color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .neon-stat__label svg { inline-size: 0.85rem; block-size: 0.85rem; color: var(--neon); flex: none; }
+  .neon-stat { container-type: inline-size; }
+  /* number never truncates: font scales with tile width, unit wraps below if needed */
+  .neon-stat__value { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 0.2rem; margin-block-start: 0.2rem; font-size: clamp(0.85rem, 17cqi, 1.15rem); font-weight: 900; line-height: 1.5; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .neon-stat__unit { font-size: 0.68rem; font-weight: 700; color: var(--muted-foreground); }
+  .neon-spark { display: block; inline-size: 100%; block-size: 1.75rem; margin-block-start: 0.25rem; color: var(--neon); overflow: visible; }
+  .neon-spark .line { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 3px currentColor); vector-effect: non-scaling-stroke; }
+  .neon-spark .area { fill: currentColor; opacity: 0.14; stroke: none; }
+
+  /* ------------------------------- status dot ---------------------------- */
+  .neon-status { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.8rem; font-weight: 700; }
+  .neon-status::before { content: ""; inline-size: 0.5rem; block-size: 0.5rem; border-radius: 50%; background: var(--neon); box-shadow: 0 0 8px var(--neon); }
+  .neon-status.is-off::before { background: var(--destructive, #ff5d6c); box-shadow: 0 0 8px var(--destructive, #ff5d6c); }
+  .neon-badge { display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.15rem 0.6rem; border-radius: 999px; font-size: 0.7rem; font-weight: 800; color: var(--neon); background: var(--neon-soft); border: 1px solid var(--neon-line-soft); }
+
+  /* ------------------------------ top tabs ------------------------------- */
+  .neon-tabs { display: flex; gap: 0.25rem; overflow-x: auto; scrollbar-width: none; border-block-end: 1px solid var(--neon-hairline); }
+  .neon-tabs::-webkit-scrollbar { display: none; }
+  .neon-tabs > * {
+    position: relative;
+    flex: none;
+    min-block-size: 2.75rem;
+    padding: 0.4rem 0.95rem;
+    border: 0;
+    background: transparent;
+    color: var(--muted-foreground);
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .neon-tabs > [aria-selected="true"],
+  .neon-tabs > .is-active { color: var(--foreground); }
+  .neon-tabs > [aria-selected="true"]::after,
+  .neon-tabs > .is-active::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0.6rem;
+    inset-block-end: -1px;
+    block-size: 2px;
+    border-radius: 2px;
+    background: var(--neon-grad);
+    box-shadow: 0 0 10px var(--neon);
+  }
+
+  /* ------------------------------ bottom nav ----------------------------- */
+  /* <nav class="neon-nav"><a class="neon-nav__item" aria-current="page"><span class="neon-nav__icon"><svg/></span><span>اتصال</span></a>… */
+  .neon-nav {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 0.25rem;
+    padding: 0.45rem 0.5rem calc(0.45rem + env(safe-area-inset-bottom));
+    border-radius: 1.4rem;
+    background: color-mix(in srgb, var(--card) 88%, transparent);
+    border: 1px solid var(--neon-line-soft);
+    box-shadow: var(--neon-glow-sm), var(--neon-drop);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+  .neon-nav--fixed { position: fixed; inset-inline: 0.75rem; inset-block-end: 0.75rem; z-index: 40; }
+  .neon-nav__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    min-inline-size: 0;
+    min-block-size: 2.9rem;
+    padding: 0.15rem;
+    border: 0;
+    background: transparent;
+    color: var(--muted-foreground);
+    font: inherit;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .neon-nav__item > span:last-child { max-inline-size: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .neon-nav__icon { display: grid; place-items: center; inline-size: 3.1rem; block-size: 1.8rem; border-radius: 999px; transition: background-color 0.2s ease, box-shadow 0.25s ease, color 0.2s ease; }
+  .neon-nav__icon svg { inline-size: 1.15rem; block-size: 1.15rem; }
+  .neon-nav__item[aria-current="page"],
+  .neon-nav__item.is-active { color: var(--neon); }
+  .neon-nav__item[aria-current="page"] .neon-nav__icon,
+  .neon-nav__item.is-active .neon-nav__icon { color: var(--primary-foreground); background: var(--neon-grad); box-shadow: var(--neon-glow); }
+  .neon-nav__item:focus-visible { outline: 2px solid var(--neon); outline-offset: 2px; border-radius: 0.9rem; }
+
+  /* -------------------------------- dialog ------------------------------- */
+  /* <dialog class="neon-dialog"> … </dialog>  →  el.showModal() */
+  .neon-dialog {
+    inline-size: min(92vw, 27rem);
+    padding: 1.35rem;
+    border-radius: var(--neon-radius);
+    border: 1px solid var(--neon-line);
+    background: linear-gradient(160deg, color-mix(in srgb, var(--neon) 9%, transparent), transparent 50%), var(--card);
+    color: var(--foreground);
+    box-shadow: var(--neon-glow-lg), 0 30px 60px -20px rgb(0 0 0 / 0.9);
+  }
+  .neon-dialog[open] { animation: neon-pop 0.22s var(--neon-ease); }
+  .neon-dialog::backdrop { background: rgb(0 0 0 / 0.62); backdrop-filter: blur(4px); }
+  .neon-dialog.is-static { position: static; display: block; margin: 0; inline-size: auto; }
+  .neon-dialog__actions { display: flex; gap: 0.5rem; justify-content: flex-end; margin-block-start: 1.1rem; flex-wrap: wrap; }
+
+  /* --------------------------------- toast ------------------------------- */
+  .neon-toaster { position: fixed; inset-inline: 0; inset-block-end: calc(5.5rem + env(safe-area-inset-bottom)); z-index: 60; display: grid; justify-items: center; gap: 0.5rem; padding-inline: 1rem; pointer-events: none; }
+  .neon-toast {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    inline-size: min(100%, 24rem);
+    padding: 0.75rem 1rem;
+    border-radius: 1.1rem;
+    border: 1px solid var(--neon-line-soft);
+    border-inline-start: 3px solid var(--neon);
+    background: color-mix(in srgb, var(--card) 92%, transparent);
+    color: var(--foreground);
+    font-size: 0.85rem;
+    font-weight: 600;
+    line-height: 1.6;
+    box-shadow: var(--neon-glow-sm), var(--neon-drop);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    animation: neon-rise 0.25s var(--neon-ease);
+  }
+  .neon-toast svg { flex: none; inline-size: 1.15rem; block-size: 1.15rem; color: var(--neon); }
+  .neon-toast--error { border-inline-start-color: var(--destructive, #ff5d6c); border-color: color-mix(in srgb, var(--destructive, #ff5d6c) 40%, transparent); }
+  .neon-toast--error svg { color: var(--destructive, #ff5d6c); }
+
+  /* sonner (shadcn toaster) under Neon */
+  [data-design="neon"] [data-sonner-toast][data-styled="true"] {
+    background: color-mix(in srgb, var(--card) 92%, transparent);
+    color: var(--foreground);
+    border: 1px solid var(--neon-line-soft);
+    border-radius: 1.1rem;
+    box-shadow: var(--neon-glow-sm), var(--neon-drop);
+  }
+
+  /* --------------- Clay classes re-skinned when data-design=neon ---------- */
+  [data-design="neon"] .clay-card,
+  [data-design="neon"] .clay-tile {
+    background: linear-gradient(160deg, color-mix(in srgb, var(--neon) 6%, transparent), transparent 45%), var(--neon-glass);
+    border: 1px solid var(--neon-line-soft);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05), var(--neon-glow-sm), var(--neon-drop);
+  }
+  [data-design="neon"] .clay-card { border-radius: var(--neon-radius); }
+  [data-design="neon"] .clay-inset {
+    background: var(--neon-well);
+    border: 1px solid var(--neon-hairline);
+    box-shadow: none;
+  }
+  [data-design="neon"] .clay-btn {
+    background-image: var(--neon-grad);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.3), 0 8px 24px -10px var(--neon), var(--neon-glow-sm);
+  }
+  [data-design="neon"] .clay-btn:hover:not(:disabled) { box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.3), 0 10px 28px -8px var(--neon), var(--neon-glow); }
+  [data-design="neon"] .clay-btn:active:not(:disabled) { box-shadow: var(--neon-glow-sm); }
+  [data-design="neon"] .clay-btn-soft,
+  [data-design="neon"] .clay-btn-soft:active:not(:disabled) {
+    box-shadow: inset 0 0 0 1px var(--neon-line-soft);
+  }
+  [data-design="neon"] .clay-chip {
+    background: var(--neon-glass);
+    border: 1px solid var(--neon-line-soft);
+    box-shadow: none;
+  }
+}
+
+/* ------------------------------- keyframes -------------------------------- */
+@keyframes neon-spin { to { transform: rotate(360deg); } }
+@keyframes neon-pulse {
+  0% { transform: scale(0.92); opacity: 0.9; }
+  100% { transform: scale(1.12); opacity: 0; }
+}
+@keyframes neon-twinkle { from { opacity: 0.45; } to { opacity: 0.85; } }
+@keyframes neon-indeterminate {
+  0% { transform: translateX(120%); }
+  100% { transform: translateX(-320%); }
+}
+@keyframes neon-pop { from { transform: scale(0.94); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes neon-rise { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-design="neon"] body::before,
+  .neon-bg::before,
+  .neon-orb::before,
+  .neon-orb::after,
+  .neon-progress > span,
+  .neon-dialog[open],
+  .neon-toast { animation: none !important; }
+  .neon-orb, .neon-btn, .neon-btn-ghost, .neon-chip, .neon-seg > *, .neon-toggle,
+  .neon-toggle::after, .neon-nav__icon, .neon-field { transition: none !important; }
+  .neon-progress.is-indeterminate > span { inline-size: 100%; opacity: 0.6; }
+}

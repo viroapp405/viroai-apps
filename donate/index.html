@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="fa" dir="rtl" data-design="neon" data-theme="neon-emerald">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>حمایت مالی از Saba Apps Studio</title>
+<meta name="description" content="حمایت از ساخت اپ‌های رایگان فارسی Saba Apps Studio با کیف پول بله، کیف پول ایران یا ارز دیجیتال.">
+<meta name="theme-color" content="#040c09">
+<meta property="og:title" content="حمایت از Saba Apps Studio">
+<meta property="og:description" content="حمایت از اپ‌های رایگان فارسی هوش مصنوعی سید صبا میری">
+<meta property="og:image" content="og.jpg">
+<meta property="og:locale" content="fa_IR">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23040c09'/%3E%3Cpath d='M32 50s-16-9.5-16-21a9 9 0 0 1 16-5.6A9 9 0 0 1 48 29c0 11.5-16 21-16 21z' fill='%232ee59d'/%3E%3C/svg%3E">
+<style>
+@font-face{font-family:'Vazirmatn';src:url('fonts/vazirmatn-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Vazirmatn';src:url('fonts/vazirmatn-600.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Vazirmatn';src:url('fonts/vazirmatn-800.woff2') format('woff2');font-weight:800;font-display:swap}
+@font-face{font-family:'Vazirmatn';src:url('fonts/vazirmatn-900.woff2') format('woff2');font-weight:900;font-display:swap}
+:root{
+  --background:#040c09;--foreground:#e9fff5;--card:#0a1813;
+  --primary:#2ee59d;--primary-foreground:#02170f;
+  --muted-foreground:#8db8a6;--border:#1b3a2e;--input:#0c1c16;
+  --neon:#2ee59d;--neon-2:#14c4b0;--warn:#ffb547;
+}
+</style>
+<link rel="stylesheet" href="saba-neon-theme.css">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:'Vazirmatn',system-ui,sans-serif;min-height:100vh;line-height:1.9;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:28px 16px 48px}
+header.hero{text-align:center;padding:24px 8px 8px}
+.heart{width:72px;height:72px;margin:0 auto 12px;border-radius:24px;display:grid;place-items:center;background:var(--neon-soft);border:1px solid var(--neon-line);box-shadow:var(--neon-glow)}
+.heart svg{width:38px;height:38px;fill:var(--neon)}
+h1{font-weight:900;font-size:clamp(1.6rem,5vw,2.3rem);margin:0 0 6px}
+.lead{color:var(--muted-foreground);margin:0 auto;max-width:560px}
+.card{background:var(--neon-glass);border:1px solid var(--neon-line-soft);border-radius:var(--neon-radius);padding:20px;margin-top:18px;box-shadow:var(--neon-drop);backdrop-filter:blur(10px)}
+.card h2{font-weight:800;font-size:1.2rem;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.card h2 .ic{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:var(--neon-soft);color:var(--neon);font-size:1.05rem}
+.hint{color:var(--muted-foreground);font-size:.9rem;margin:0 0 14px}
+.amounts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:460px){.amounts{grid-template-columns:repeat(2,1fr)}}
+.amt{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:64px;border-radius:18px;text-decoration:none;color:var(--foreground);background:var(--neon-well);border:1px solid var(--neon-line-soft);font-weight:800;font-size:1.1rem;transition:transform .15s,box-shadow .2s,border-color .2s;font-variant-numeric:tabular-nums}
+.amt small{font-weight:400;font-size:.75rem;color:var(--muted-foreground)}
+.amt:hover{border-color:var(--neon-line);box-shadow:var(--neon-glow-sm)}
+.amt:active{transform:scale(.97)}
+.custom{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.custom input{flex:1 1 180px;min-height:48px;border-radius:16px;border:1px solid var(--neon-line-soft);background:var(--neon-well);color:var(--foreground);font:inherit;padding:0 14px;font-variant-numeric:tabular-nums}
+.custom input:focus{outline:2px solid var(--neon);outline-offset:1px}
+.btn{min-height:48px;padding:0 20px;border-radius:999px;border:0;font:inherit;font-weight:800;cursor:pointer;background:var(--neon-grad);color:var(--primary-foreground);box-shadow:var(--neon-glow-sm);text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn:active{transform:scale(.97)}
+.btn-ghost{background:transparent;color:var(--neon);border:1px solid var(--neon-line);box-shadow:none;min-height:40px;padding:0 14px;font-size:.9rem}
+.err{color:#ff8a8a;font-size:.85rem;min-height:1.3em;margin:6px 2px 0}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--neon-well);border:1px solid var(--neon-line-soft);border-radius:18px;padding:12px 14px}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;direction:ltr;unicode-bidi:isolate;word-break:break-all;font-size:.95rem}
+.big{font-size:1.35rem;font-weight:800;letter-spacing:.04em}
+.coins{display:grid;gap:12px}
+.coin{display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:center;background:var(--neon-well);border:1px solid var(--neon-line-soft);border-radius:18px;padding:12px}
+@media(max-width:520px){.coin{grid-template-columns:1fr;justify-items:center;text-align:center}}
+.coin img{width:120px;height:120px;border-radius:12px;background:#fff;padding:4px}
+.net{display:inline-block;font-weight:800;font-size:.8rem;padding:2px 10px;border-radius:999px;background:var(--neon-soft);color:var(--neon);border:1px solid var(--neon-line-soft)}
+.coin .tokens{color:var(--muted-foreground);font-size:.85rem;margin:2px 0 8px}
+.warn{display:flex;gap:10px;align-items:flex-start;border:1px solid color-mix(in srgb,var(--warn) 55%,transparent);background:color-mix(in srgb,var(--warn) 12%,transparent);color:#ffe2b5;border-radius:16px;padding:12px 14px;font-size:.92rem;margin-bottom:14px}
+.warn b{color:var(--warn)}
+footer{margin-top:28px;text-align:center;color:var(--muted-foreground);font-size:.9rem}
+footer a{color:var(--neon);text-decoration:none}
+footer .links{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:6px}
+.toast{position:fixed;inset-inline:0;bottom:22px;margin:auto;width:max-content;max-width:90vw;background:var(--card);border:1px solid var(--neon-line);box-shadow:var(--neon-glow);color:var(--foreground);padding:10px 18px;border-radius:999px;opacity:0;transform:translateY(10px);transition:.25s;pointer-events:none;font-weight:600}
+.toast.show{opacity:1;transform:none}
+
+header.hero{display:grid;grid-template-columns:240px 1fr;gap:28px;align-items:center;text-align:start;padding:34px 4px 10px}
+@media(max-width:640px){header.hero{grid-template-columns:1fr;text-align:center;justify-items:center}}
+.portrait{position:relative;width:220px;height:220px;margin:auto}
+.portrait img{position:relative;z-index:1;width:220px;height:220px;border-radius:50%;object-fit:cover;object-position:50% 18%;border:3px solid var(--background)}
+.portrait .ring{position:absolute;inset:-8px;border-radius:50%;background:conic-gradient(from 0deg,var(--neon),var(--neon-2),transparent 55%,var(--neon));filter:drop-shadow(0 0 18px color-mix(in srgb,var(--neon) 60%,transparent));animation:spin 9s linear infinite}
+@keyframes spin{to{transform:rotate(1turn)}}
+.badge-live{position:absolute;z-index:2;bottom:-10px;inset-inline:0;margin:auto;width:max-content;max-width:260px;font-size:.72rem;font-weight:800;background:var(--card);border:1px solid var(--neon-line);border-radius:999px;padding:3px 12px;box-shadow:var(--neon-glow-sm);white-space:nowrap}
+.badge-live .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--neon);margin-inline-end:6px;box-shadow:0 0 8px var(--neon);vertical-align:middle}
+.kicker{margin:0;color:var(--neon);font-weight:800;letter-spacing:.12em;font-size:.85rem;direction:ltr;unicode-bidi:isolate}
+.hero-text h1{margin:2px 0 8px}
+.hero-text .lead{margin:0}
+.stats{display:flex;gap:10px;margin:16px 0;flex-wrap:wrap}
+@media(max-width:640px){.stats{justify-content:center}}
+.stat{background:var(--neon-well);border:1px solid var(--neon-line-soft);border-radius:16px;padding:8px 16px;text-align:center;min-width:90px}
+.stat b{display:block;font-size:1.3rem;font-weight:900;color:var(--neon)}
+.stat span{font-size:.78rem;color:var(--muted-foreground)}
+.cta{font-size:1.05rem;padding:0 28px;min-height:52px}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="portrait">
+    <div class="ring" aria-hidden="true"></div>
+    <img src="saba.webp" alt="سید صبا میری" width="220" height="220">
+    <span class="badge-live"><span class="dot"></span>سازندهٔ اپ‌های فارسی هوش مصنوعی</span>
+  </div>
+  <div class="hero-text">
+    <p class="kicker">Saba Apps Studio</p>
+    <h1 class="neon-title">سید صبا میری</h1>
+    <p class="lead">اپ‌های فارسی ما رایگان می‌مانند تا هر کسی، بدون دانش فنی، از هوش مصنوعی برای کار و کسب‌وکارش استفاده کند. حمایت شما هزینهٔ سرور، ابزارها و ساعت‌ها ساخت همین اپ‌ها را می‌پوشاند.</p>
+    <div class="stats">
+      <div class="stat"><b>۶+</b><span>اپ رایگان</span></div>
+      <div class="stat"><b>۱۰۰٪</b><span>فارسی</span></div>
+      <div class="stat"><b>۳</b><span>روش حمایت</span></div>
+    </div>
+    <a class="btn cta" href="#bale">حمایت می‌کنم 💚</a>
+  </div>
+</header>
+
+<!-- ۱. کیف پول بله -->
+<section class="card" id="bale">
+  <h2><span class="ic">۱</span>پرداخت ریالی با کیف پول بله</h2>
+  <p class="hint">مبلغ را بزنید؛ بازوی <span class="mono">@virodonitbot</span> در بله باز می‌شود و درخواست پرداخت همان مبلغ را می‌فرستد. پرداخت با کیف پول بله انجام می‌شود.</p>
+  <div class="amounts" id="amounts"></div>
+  <form class="custom" id="customForm" novalidate>
+    <input id="customAmt" inputmode="numeric" autocomplete="off" placeholder="مبلغ دلخواه به تومان (حداقل ۱۰٬۰۰۰)" aria-label="مبلغ دلخواه به تومان">
+    <button class="btn" type="submit">پرداخت مبلغ دلخواه</button>
+  </form>
+  <p class="err" id="customErr" role="alert"></p>
+</section>
+
+<!-- ۲. کیف پول ایران -->
+<section class="card" id="iranwallet">
+  <h2><span class="ic">۲</span>پرداخت ریالی با «کیف پول ایران»</h2>
+  <p class="hint">در اپ کیف پول ایران، انتقال وجه را بزنید و این شماره را وارد کنید.</p>
+  <div class="row">
+    <span class="mono big" id="iwNum">09221861200</span>
+    <button class="btn btn-ghost" data-copy="09221861200">کپی شماره</button>
+  </div>
+</section>
+
+<!-- ۳. ارز دیجیتال -->
+<section class="card" id="crypto">
+  <h2><span class="ic">۳</span>حمایت با ارز دیجیتال</h2>
+  <div class="warn" role="note"><span aria-hidden="true">⚠️</span><div><b>فقط از همان شبکه‌ای بفرستید که کنار هر آدرس نوشته شده.</b> ارسال از شبکه دیگر (مثلاً ترون یا TRC20) ممکن است دارایی را برای همیشه از بین ببرد. برای تتر، شبکه <b>BEP20</b> کارمزد کمی دارد.</div></div>
+  <div class="coins">
+    <div class="coin">
+      <img src="qr/bnb.svg" alt="کیوآر آدرس شبکه BNB Smart Chain" width="120" height="120">
+      <div>
+        <span class="net">BNB Smart Chain · BEP20</span>
+        <p class="tokens">USDT (BEP20)، BNB</p>
+        <div class="mono">0x72A05762ca32721e075D47A94eF5E3c7547D1C59</div>
+        <p style="margin:8px 0 0"><button class="btn btn-ghost" data-copy="0x72A05762ca32721e075D47A94eF5E3c7547D1C59">کپی آدرس BEP20</button></p>
+      </div>
+    </div>
+    <div class="coin">
+      <img src="qr/bnb.svg" alt="کیوآر آدرس شبکه Polygon" width="120" height="120">
+      <div>
+        <span class="net">Polygon</span>
+        <p class="tokens">POL، USDT (Polygon)</p>
+        <div class="mono">0x72A05762ca32721e075D47A94eF5E3c7547D1C59</div>
+        <p style="margin:8px 0 0"><button class="btn btn-ghost" data-copy="0x72A05762ca32721e075D47A94eF5E3c7547D1C59">کپی آدرس Polygon</button></p>
+      </div>
+    </div>
+    <div class="coin">
+      <img src="qr/sol.svg" alt="کیوآر آدرس شبکه Solana" width="120" height="120">
+      <div>
+        <span class="net">Solana</span>
+        <p class="tokens">SOL، USDT (Solana)</p>
+        <div class="mono">CmDXocDbTHs9pQtrz5duRKhkkXs2mBvy17r658cEBCgg</div>
+        <p style="margin:8px 0 0"><button class="btn btn-ghost" data-copy="CmDXocDbTHs9pQtrz5duRKhkkXs2mBvy17r658cEBCgg">کپی آدرس Solana</button></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>ساخته‌شده توسط <b>سید صبا میری</b> · Saba Apps Studio</div>
+  <div class="links">
+    <a href="https://viroai.ir" target="_blank" rel="noopener">viroai.ir</a>
+    <a href="https://instagram.com/viromedia404" target="_blank" rel="noopener">اینستاگرام viromedia404</a>
+    <a href="tel:+989120349893">۰۹۱۲۰۳۴۹۸۹۳</a>
+  </div>
+</footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  var BOT = "virodonitbot";
+  var AMOUNTS = [20000, 50000, 100000, 200000, 500000, 1000000]; // تومان
+  var MIN = 10000, MAX = 50000000;
+  var fa = function(n){ return Number(n).toLocaleString("fa-IR"); };
+  var link = function(t){ return "https://ble.ir/" + BOT + "?start=d" + t; };
+  function label(t){ return t >= 1000000 ? fa(t/1000000) + " میلیون" : fa(t/1000) + " هزار"; }
+
+  var box = document.getElementById("amounts");
+  AMOUNTS.forEach(function(t){
+    var a = document.createElement("a");
+    a.className = "amt"; a.href = link(t); a.target = "_blank"; a.rel = "noopener";
+    a.innerHTML = label(t) + "<small>تومان</small>";
+    box.appendChild(a);
+  });
+
+  function toLatin(s){ return String(s).replace(/[۰-۹]/g,function(d){return "۰۱۲۳۴۵۶۷۸۹".indexOf(d);}).replace(/[٠-٩]/g,function(d){return "٠١٢٣٤٥٦٧٨٩".indexOf(d);}).replace(/[^\d]/g,""); }
+  var inp = document.getElementById("customAmt"), err = document.getElementById("customErr");
+  inp.addEventListener("input", function(){
+    var v = toLatin(inp.value); inp.value = v ? fa(v) : ""; err.textContent = "";
+  });
+  document.getElementById("customForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var t = parseInt(toLatin(inp.value) || "0", 10);
+    if (t < MIN) { err.textContent = "حداقل مبلغ " + fa(MIN) + " تومان است."; return; }
+    if (t > MAX) { err.textContent = "حداکثر مبلغ " + fa(MAX) + " تومان است."; return; }
+    window.open(link(t), "_blank", "noopener");
+  });
+
+  var toast = document.getElementById("toast"), tm;
+  function show(msg){ toast.textContent = msg; toast.classList.add("show"); clearTimeout(tm); tm = setTimeout(function(){ toast.classList.remove("show"); }, 1800); }
+  function copy(text){
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+    return new Promise(function(res,rej){ var ta=document.createElement("textarea"); ta.value=text; ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy");res();}catch(x){rej(x);} document.body.removeChild(ta); });
+  }
+  document.querySelectorAll("[data-copy]").forEach(function(b){
+    b.addEventListener("click", function(){ copy(b.getAttribute("data-copy")).then(function(){ show("کپی شد ✓"); }, function(){ show("کپی نشد؛ دستی انتخاب کنید"); }); });
+  });
+})();
+</script>
+</body>
+</html>

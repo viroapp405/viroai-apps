@@ -1,0 +1,10 @@
+# Netlify: این پوشه (donate) را به‌عنوان Base directory بدهید.
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
