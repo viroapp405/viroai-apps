@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>پادکست‌ساز محصول صبا · v1.0.0</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
+<style>
+:root{--bg:#07051a;--card:#110c27;--neon:#a874ff;--neon2:#7d6aff;--btxt:#100426;--line:color-mix(in srgb,var(--neon) 26%,transparent);--soft:color-mix(in srgb,var(--neon) 12%,transparent);--txt:color-mix(in srgb,var(--neon) 8%,#f4f2fb);--mut:color-mix(in srgb,var(--neon) 18%,#9a96ad)}
+*{box-sizing:border-box}
+body{margin:0;font-family:Vazirmatn,Tahoma,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;background-image:radial-gradient(900px 600px at 85% -10%,color-mix(in srgb,var(--neon) 22%,transparent),transparent 70%),radial-gradient(700px 500px at 0% 110%,color-mix(in srgb,var(--neon2) 14%,transparent),transparent 70%);background-attachment:fixed}
+button,input,select,textarea{font:inherit;color:inherit}
+h3{margin:0 0 8px}h4{margin:16px 0 8px}
+.card{background:color-mix(in srgb,var(--card) 82%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 0 32px color-mix(in srgb,var(--neon) 10%,transparent);margin-bottom:16px}
+.btn{min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line);background:var(--soft);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;text-decoration:none}
+.btn:hover{border-color:var(--neon)}.btn:disabled{opacity:.5;cursor:wait}
+.pri{background:linear-gradient(135deg,var(--neon),var(--neon2));color:var(--btxt);border:0;font-weight:700;box-shadow:0 0 18px color-mix(in srgb,var(--neon) 40%,transparent)}
+.big{min-height:56px;font-size:1.1rem;width:100%}
+.sm{padding:0 12px;font-size:.82rem;min-height:38px}
+.danger{border-color:#ff5a6c;color:#ff8a9a}
+input,select,textarea{width:100%;min-height:44px;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;padding:10px 14px;outline:0}
+textarea{min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--neon)}
+input[type=checkbox]{width:auto;min-height:0;vertical-align:middle;accent-color:var(--neon)}
+label{display:block;margin:12px 0 6px;color:var(--mut);font-size:.9rem}
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:10px 16px;flex-wrap:wrap;background:color-mix(in srgb,var(--bg) 75%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.logo{font-weight:800;font-size:1.15rem;background:linear-gradient(90deg,var(--neon),var(--neon2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.seg{display:inline-flex;gap:4px;padding:4px;border-radius:999px;border:1px solid var(--line);background:rgba(0,0,0,.3);flex-wrap:wrap}
+.seg button{min-height:40px;padding:0 14px;border-radius:999px;border:0;background:none;cursor:pointer}
+.seg .on{background:linear-gradient(135deg,var(--neon),var(--neon2));color:var(--btxt);font-weight:700}
+.sp{flex:1}
+main{max-width:1240px;margin:auto;padding:16px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:800px){.g2,.g3{grid-template-columns:1fr}.top{padding:8px}}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.chip{min-height:38px;padding:4px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(0,0,0,.25);cursor:pointer;font-size:.85rem}
+.chip.on{background:var(--neon);color:var(--btxt);font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:10px}
+.sc{position:relative;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:rgba(0,0,0,.3);cursor:pointer}
+.sc.on{border-color:var(--neon);box-shadow:0 0 0 2px var(--neon),0 0 20px color-mix(in srgb,var(--neon) 40%,transparent)}
+.sw{aspect-ratio:4/3;display:flex;align-items:flex-end;justify-content:flex-start;padding:8px;gap:4px;flex-wrap:wrap}
+.sw img{width:100%;height:100%;object-fit:cover;display:block}.sw:has(img){padding:0}
+.sw i{font-style:normal;font-size:.7rem;background:rgba(0,0,0,.55);color:#fff;border-radius:999px;padding:2px 8px}
+.sc .b{padding:8px 10px}.sc h4{margin:0;font-size:.95rem}.sc p{margin:4px 0 0;font-size:.78rem;color:var(--mut)}
+.star{position:absolute;top:6px;left:6px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#f6c94e;font-size:1.1rem;cursor:pointer}
+.badge{position:absolute;top:8px;right:8px;background:var(--neon);color:var(--btxt);border-radius:999px;padding:2px 10px;font-size:.75rem;font-weight:700}
+.sug{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin:8px 0}
+.sgi{border:1px dashed var(--neon);border-radius:16px;padding:10px;cursor:pointer;background:var(--soft)}.sgi.on{border-style:solid;box-shadow:0 0 0 2px var(--neon)}
+.sgi b{display:block}.sgi span{font-size:.8rem;color:var(--mut)}
+.ol{display:grid;gap:10px}
+.olt{font-size:1.3rem;font-weight:800}.ols{color:var(--mut)}
+.sec{border:1px solid var(--line);border-radius:16px;padding:10px 12px;position:relative;background:rgba(0,0,0,.2)}
+.sec h4{margin:0 0 6px}.sec ul{margin:0;padding-inline-start:20px}.sec .st{display:inline-block;margin-top:6px;background:var(--soft);border-radius:999px;padding:2px 10px;font-weight:700}
+.sec .ic{font-size:.75rem;color:var(--mut);direction:ltr;text-align:left}
+.sec .x2{position:absolute;top:6px;left:6px;width:32px;height:32px;border-radius:50%;border:0;background:rgba(0,0,0,.4);color:#ff9aa8;cursor:pointer}
+[contenteditable]{outline:0;border-radius:6px}[contenteditable]:focus{background:rgba(255,255,255,.06);box-shadow:0 0 0 1px var(--neon)}
+.srcs a{color:var(--neon);overflow-wrap:anywhere}.srcs li{margin:4px 0}
+.res{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.tile{position:relative;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:rgba(0,0,0,.3)}
+.im{display:flex;align-items:center;justify-content:center;text-align:center;font-size:.85rem;color:var(--mut);padding:0 10px;min-height:160px}
+.im img{width:100%;height:100%;object-fit:contain;display:block;cursor:zoom-in;background:#000}.im:has(img){padding:0}
+.sk{background:linear-gradient(90deg,rgba(255,255,255,.04),rgba(255,255,255,.12),rgba(255,255,255,.04));background-size:200% 100%;animation:sh 1.4s infinite}
+@keyframes sh{to{background-position:-200% 0}}
+@media(prefers-reduced-motion:reduce){.sk{animation:none}}
+.err{color:#ff9aa8;padding:12px;font-size:.85rem;overflow-wrap:anywhere}
+.acts{display:flex;flex-wrap:wrap;gap:6px;padding:8px}
+.cap{padding:6px 10px 0;font-size:.8rem;color:var(--mut)}
+.ck{margin:6px 10px 0;font-size:.8rem;border-radius:12px;padding:6px 10px;background:rgba(0,0,0,.3)}
+.ck.ok{background:#12391f;color:#b7f5c9}.ck.bad{background:#3e2a05;color:#ffe08a}.ck.er{background:#3a0d18;color:#ffb3bf}
+.kind{position:absolute;top:8px;right:8px;z-index:2;background:var(--neon);color:var(--btxt);border-radius:999px;padding:2px 10px;font-size:.72rem;font-weight:700}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:12px}
+.modal>.card{width:min(940px,100%);max-height:94vh;overflow:auto;margin:0;position:relative}
+.x{position:absolute;top:10px;left:10px;width:44px;padding:0}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:70;background:var(--card);border:1px solid var(--neon);border-radius:16px;padding:12px 18px;max-width:92vw;box-shadow:0 0 24px color-mix(in srgb,var(--neon) 40%,transparent)}
+.okb{background:#1f6f43;color:#eafff2;border-radius:999px;padding:0 14px;font-size:.82rem;font-weight:700;cursor:pointer;border:0;min-height:36px}
+#brB{max-width:46vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.warn{background:#f6c94e;color:#231a02;border-radius:999px;padding:0 14px;font-size:.82rem;font-weight:700;cursor:pointer;border:0;min-height:36px}
+.banner{background:#3a0d18;border:1px solid #ff5a6c;border-radius:18px;padding:12px;margin-bottom:14px}
+.mut{color:var(--mut);font-size:.85rem}
+.cre{display:flex;flex-wrap:wrap;gap:6px 10px;justify-content:center;align-items:center;padding:18px 14px 26px;margin-top:10px;border-top:1px solid var(--line);color:var(--mut);font-size:.85rem}.cre b{color:var(--txt)}.cre a{color:var(--neon);text-decoration:none}.cre a:hover{text-decoration:underline}
+.hide{display:none!important}
+pre{white-space:pre-wrap;direction:ltr;text-align:left;font-size:.78rem;background:rgba(0,0,0,.4);padding:12px;border-radius:14px;max-height:300px;overflow:auto}
+summary{cursor:pointer;min-height:44px;display:flex;align-items:center;color:var(--mut)}
+.themes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.th{min-height:64px;border-radius:16px;border:2px solid;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#fff}
+.th i{width:36px;height:12px;border-radius:9px}.th.on{outline:3px solid #fff}
+.sbox{border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}
+.big-img{width:100%;max-height:70vh;object-fit:contain;border-radius:14px;background:#000;display:block}
+.iss{margin:6px 0;padding-inline-start:18px;font-size:.85rem}
+.step{display:inline-flex;width:30px;height:30px;border-radius:50%;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--neon),var(--neon2));color:var(--btxt);font-weight:800;margin-inline-end:6px}
+.phs{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.ph{position:relative;width:120px;height:120px;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:rgba(0,0,0,.3)}
+.ph img{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
+.ph.add{cursor:pointer;color:var(--mut);font-size:.85rem;border-style:dashed;line-height:1.7}
+.ph .x2{position:absolute;top:4px;left:4px;width:30px;height:30px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#ff9aa8;cursor:pointer}
+.ph .badge{top:auto;bottom:6px;right:6px}
+.logo-box{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.logo-box img{width:64px;height:64px;object-fit:contain;border-radius:12px;background:repeating-conic-gradient(#ddd 0 25%,#fff 0 50%) 50%/12px 12px}
+.specs{display:flex;gap:8px;flex-wrap:wrap}.specs .st{position:relative;padding-left:30px}
+.x3{position:absolute;left:4px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;border:0;background:rgba(0,0,0,.4);color:#ff9aa8;cursor:pointer;font-size:.7rem}
+details.brand>summary{font-weight:700}
+
+.line{display:grid;grid-template-columns:130px 1fr 40px;gap:8px;align-items:start;margin:8px 0}
+.line select{min-height:40px;padding:6px 10px}
+.line textarea{min-height:56px}
+.line.io textarea{border-style:dashed}
+.line .x2{position:static;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:rgba(0,0,0,.3);color:#ff9aa8;cursor:pointer}
+@media(max-width:700px){.line{grid-template-columns:1fr 40px}.line select{grid-column:1/-1}}
+.spk{border:1px solid var(--line);border-radius:18px;padding:10px 12px;background:rgba(0,0,0,.2)}
+.spk h4{margin:0 0 4px}
+audio{width:100%;margin:8px 0;filter:hue-rotate(0deg)}
+.prog{height:10px;border-radius:9px;background:rgba(0,0,0,.35);overflow:hidden;border:1px solid var(--line)}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--neon2));transition:width .3s}
+.parts{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.part{font-size:.78rem;border-radius:999px;padding:2px 10px;border:1px solid var(--line);background:rgba(0,0,0,.3)}
+.part.ok{background:#12391f;color:#b7f5c9}.part.run{background:var(--soft)}.part.er{background:#3a0d18;color:#ffb3bf;cursor:pointer}
+.pod{border:1px solid var(--line);border-radius:20px;padding:12px;background:rgba(0,0,0,.25)}
+.pod h4{margin:0 0 4px}
+.facts{white-space:pre-wrap;min-height:140px}
+</style>
+</head>
+<body>
+<header class="top">
+ <span class="logo">🎙️ پادکست‌ساز محصول صبا</span>
+ <nav class="seg" id="tabs"><button class="on" data-a="tab" data-v="make">ساخت پادکست</button><button data-a="tab" data-v="his">پادکست‌های من</button></nav>
+ <span class="sp"></span>
+ <button class="warn hide" id="brB" data-a="settings" title="وضعیت ذخیره‌ی دائمی"></button>
+ <button class="warn hide" id="tmpB" data-a="settings" title="داده‌ها ممکن است پاک شوند">ذخیره موقت</button>
+ <button class="btn" data-a="about" aria-label="درباره‌ی سازنده" title="درباره‌ی سازنده" style="width:44px;padding:0">ℹ️</button>
+ <button class="btn" data-a="settings" aria-label="تنظیمات" style="width:44px;padding:0">⚙️</button>
+</header>
+<main>
+<div class="banner hide" id="banner"><b>داده‌ها پاک شده‌اند؛ از پشتیبان زیپ بازگردانی کن</b><div class="row" style="margin-top:8px"><button class="btn sm" data-a="zipIn">♻️ بازگردانی از پشتیبان</button><button class="btn sm" data-a="banX">بستن</button></div></div>
+
+<section id="t-make">
+ <div class="card">
+  <h3><span class="step">۱</span>محصول</h3>
+  <p class="mut">عکس محصول را بگذار (تا ۳ عکس؛ کشیدن و رها کردن یا Ctrl+V هم کار می‌کند) و نامش را بنویس.</p>
+  <div class="phs" id="phs"></div>
+  <label for="pname">نام محصول</label>
+  <input id="pname" placeholder="مثلاً «اره زنجیری اشتیل MS 180» — اگر عکس داری، خالی هم بماند جمینی سعی می‌کند بشناسد">
+  <div class="chips" id="ex"></div>
+  <label for="pinfo">اطلاعات محصول (اختیاری)</label>
+  <textarea id="pinfo" placeholder="هر چیزی که خودت می‌دانی: ویژگی‌ها، کاربرد، ضمانت، قیمت، پیشنهاد ویژه… اطلاعات تو بر جستجو مقدم است"></textarea>
+  <details class="brand" style="margin-top:14px"><summary>🏢 اطلاعات شرکت من · <span class="mut" id="cSum"></span></summary>
+   <p class="mut">یک‌بار پر کن؛ ذخیره می‌شود و در جای مناسب پادکست گفته می‌شود (مثلاً بخش «چرا از … تهیه کنیم؟» و دعوت به تماس در پایان). چیزی جز همین اطلاعات درباره‌ی شرکتت گفته نمی‌شود.</p>
+   <label style="margin:0"><input type="checkbox" id="cOn"> استفاده از اطلاعات شرکت در پادکست</label>
+   <div class="g2">
+    <div><label for="cName">نام شرکت یا فروشگاه</label><input id="cName" placeholder="مثلاً فرا اشتیل"></div>
+    <div><label for="cYears">سابقه (اختیاری)</label><input id="cYears" placeholder="مثلاً بیش از ۲۰ سال"></div>
+   </div>
+   <label for="cAbout">معرفی و امتیازها</label>
+   <textarea id="cAbout" placeholder="مثلاً نماینده‌ی رسمی فروش و تعمیرات اشتیل آلمان در ایران، ضمانت اصالت کالا، قطعات یدکی اصلی، ارسال به سراسر کشور…"></textarea>
+   <div class="g2">
+    <div><label for="cPhone">تلفن تماس</label><input id="cPhone" dir="ltr" placeholder="021-12345678"></div>
+    <div><label for="cWeb">سایت یا اینستاگرام</label><input id="cWeb" dir="ltr" placeholder="example.ir"></div>
+    <div><label for="cAddr">آدرس (اختیاری)</label><input id="cAddr" placeholder="تهران، خیابان …"></div>
+    <div><label for="cCta">جمله‌ی دعوت (اختیاری)</label><input id="cCta" placeholder="همین امروز با ما تماس بگیرید"></div>
+   </div>
+   <label style="margin-top:10px"><input type="checkbox" id="cWhy"> بخش «چرا باید از … تهیه کنیم؟» داشته باشد</label>
+  </details>
+ </div>
+
+ <div class="card">
+  <h3><span class="step">۲</span>تنظیم پادکست</h3>
+  <div class="g2">
+   <div><label>نوع</label><div class="seg" id="mode"></div></div>
+   <div><label>طول تقریبی</label><div class="seg" id="len"></div></div>
+  </div>
+  <label>لحن</label><div class="seg" id="tone"></div>
+  <div class="g2" id="spks" style="margin-top:12px"></div>
+  <div class="g2">
+   <div><label for="podName">نام برنامه (اختیاری)</label><input id="podName" placeholder="مثلاً «پادکست ابزار حرفه‌ای»"></div>
+   <div><label for="aud">مخاطب (اختیاری)</label><input id="aud" placeholder="مثلاً باغدارها و تعمیرکارها"></div>
+  </div>
+  <div class="g2">
+   <div><label><input type="checkbox" id="inOn"> جمله‌ی مقدمه</label><input id="inT" placeholder="خالی بگذاری، هوش مصنوعی خودش می‌نویسد"></div>
+   <div><label><input type="checkbox" id="outOn"> جمله‌ی پایانی</label><input id="outT" placeholder="خالی بگذاری، هوش مصنوعی خودش می‌نویسد"></div>
+  </div>
+  <div class="row" style="margin-top:14px"><button class="btn pri" id="resBtn" data-a="research">🔎 تحقیق و نوشتن متن</button><button class="btn" id="autoBtn" data-a="auto">✨ همه‌اش را خودت بساز (تا صدا)</button><span class="mut" id="resMsg"></span></div>
+ </div>
+
+ <div class="card hide" id="factCard">
+  <div class="row"><h3><span class="step">۳</span>نتیجه‌ی تحقیق</h3><span class="sp"></span><button class="btn sm" data-a="research">🔄 تحقیق دوباره</button></div>
+  <p class="mut">این یادداشت‌ها پایه‌ی متن پادکست است؛ اگر چیزی اشتباه است اصلاحش کن و «نوشتن دوباره‌ی متن» را بزن.</p>
+  <textarea id="facts" class="facts"></textarea>
+  <details><summary>📚 منابع</summary><ol class="srcs" id="srcs"></ol></details>
+ </div>
+
+ <div class="card hide" id="scrCard">
+  <div class="row"><h3><span class="step">۴</span>متن پادکست</h3><span class="mut" id="scrInfo"></span><span class="sp"></span>
+   <button class="btn sm" data-a="write">✍️ نوشتن دوباره‌ی متن</button><button class="btn sm" data-a="shorter">✂️ کوتاه‌تر</button><button class="btn sm" data-a="longer">➕ بلندتر</button><button class="btn sm" data-a="addLine">➕ جمله</button><button class="btn sm" data-a="dlTxt">⬇️ متن</button></div>
+  <input id="title" placeholder="عنوان قسمت" style="margin-top:8px">
+  <div id="lines"></div>
+ </div>
+
+ <div class="card" id="audCard">
+  <h3><span class="step">۵</span>صدا</h3>
+  <p class="mut" id="audInfo">بعد از نوشتن متن، صدای فارسی را بساز. متن‌های بلند چند تکه ساخته و به هم چسبانده می‌شوند.</p>
+  <div class="row"><button class="btn pri big" id="ttsBtn" data-a="tts">🎧 ساخت صدای پادکست</button></div>
+  <div class="hide" id="progBox"><div class="prog" style="margin-top:12px"><i id="progI"></i></div><div class="parts" id="parts"></div><div class="row"><span class="mut" id="progT"></span><span class="sp"></span><button class="btn sm danger" id="cancel" data-a="cancel">⏹ لغو</button></div></div>
+  <div id="player"></div>
+ </div>
+</section>
+
+<section id="t-his" class="hide"><div class="card">
+ <div class="row"><h3>پادکست‌های من</h3><span class="mut" id="hisCnt"></span><span class="sp"></span><button class="btn sm" data-a="zipOut">⬇️ پشتیبان زیپ</button></div>
+ <input id="hq" placeholder="🔎 جستجو در پادکست‌ها…" style="margin-top:10px"><div class="res" id="his" style="margin-top:12px"></div>
+</div></section>
+</main>
+<footer class="cre" id="cre"><b>ساخته‌ی سید صبا میری</b><span>·</span><a href="https://viroai.ir" target="_blank" rel="noopener">🌐 viroai.ir</a><span>·</span><a href="https://instagram.com/viromedia404" target="_blank" rel="noopener">📸 اینستاگرام viromedia404</a><span>·</span><a href="tel:+989120349893" dir="ltr">📞 ۰۹۱۲۰۳۴۹۸۹۳</a><span>·</span><span>✈️ تلگرام: به‌زودی</span></footer>
+<script>
+// ---- AI models (gemini-canvas-app-build v2) ----
+const CANVAS_MODELS={text:"gemini-2.5-flash",tts:"gemini-2.5-flash-preview-tts"};
+const KEY_TEXT_MODELS=["gemini-3.5-flash-lite","gemini-3.5-flash","gemini-3.8-flash"];
+const KEY_TTS_MODELS=["gemini-3.8-flash-tts","gemini-3.8-flash-lite-tts"];
+const apiKey="";
+let TEXT_MODEL=CANVAS_MODELS.text,TTS_MODEL=CANVAS_MODELS.tts;
+// optional personal key: stays in this browser (localStorage sabaKey.*), sent only to Google
+const KeyCfg=(()=>{const L=k=>{try{return localStorage.getItem("sabaKey."+k)||""}catch(e){return""}};
+ return{key:L("key"),text:L("text")||KEY_TEXT_MODELS[0],tts:L("tts")||KEY_TTS_MODELS[0],
+ save(k,v){this[k]=String(v||"").trim();try{this[k]?localStorage.setItem("sabaKey."+k,this[k]):localStorage.removeItem("sabaKey."+k)}catch(e){}KeyCfg.apply();const n=document.getElementById("keyNote");if(n)n.textContent=KeyCfg.note()},
+ apply(){TEXT_MODEL=this.key?this.text:CANVAS_MODELS.text;TTS_MODEL=this.key?this.tts:CANVAS_MODELS.tts},
+ note(){return this.key?`✅ کلید شخصی فعال است · متن: ${TEXT_MODEL} · گویندگی: ${TTS_MODEL}`:"بدون کلید: مدل‌های رایگان Canvas استفاده می‌شوند"},
+ html(){const o=(a,v)=>a.map(m=>`<option ${m==v?"selected":""}>${m}</option>`).join("");return`<h4>🔑 کلید API شخصی (اختیاری)</h4><p class="mut">اگر کلید Gemini API خودت را بزنی، مدل‌های جدیدتر متن و گویندگی (صدای طبیعی‌تر 3.8) باز می‌شوند (هزینه‌اش با حساب خودت است). کلید فقط در همین مرورگر می‌ماند و جایی فرستاده نمی‌شود جز گوگل. خالی بگذاری، برنامه رایگان با Canvas کار می‌کند.</p><input id="keyIn" type="password" dir="ltr" placeholder="AIza..." value="${this.key.replace(/"/g,"&quot;")}" oninput="KeyCfg.save('key',this.value)"><div class="row" style="margin-top:8px"><label class="mut" style="margin:0">مدل متن <select dir="ltr" onchange="KeyCfg.save('text',this.value)">${o(KEY_TEXT_MODELS,this.text)}</select></label><label class="mut" style="margin:0">مدل گویندگی <select dir="ltr" onchange="KeyCfg.save('tts',this.value)">${o(KEY_TTS_MODELS,this.tts)}</select></label></div><p class="mut" id="keyNote">${this.note()}</p>`}}})();
+KeyCfg.apply();
+const APP_VER="1.0.0";
+const THEMES=[["زمرد","#040c09","#0a1813","#2ee59d","#14c4b0","#02170f"],["بنفش","#07051a","#110c27","#a874ff","#7d6aff","#100426"],["فیروزه‌ای","#030c11","#091921","#25d9f2","#2fd6a8","#021c24"],["آبی","#050a18","#0c142e","#5592ff","#7d6cff","#030b22"],["صورتی","#0f0517","#1b0b24","#ff57da","#b763ff","#2a0422"],["نارنجی","#100a04","#1e140a","#ffa83d","#ff7040","#271302"],["قرمز","#110508","#200c11","#ff5a6c","#ff8a4f","#2a0409"],["طلایی","#0d0b05","#1b170b","#f6c94e","#e9a23b","#231a02"]];
+const VOICES=[["Kore","کوره · زن، محکم"],["Aoede","آئوده · زن، روشن"],["Leda","لدا · زن، جوان"],["Sulafat","سولافات · زن، گرم"],["Achernar","آخرنار · زن، نرم"],["Zephyr","زفیر · زن، روشن"],["Puck","پاک · مرد، شاد"],["Charon","کارون · مرد، آگاه"],["Orus","اوروس · مرد، محکم"],["Fenrir","فنریر · مرد، پرشور"],["Iapetus","یاپتوس · مرد، شفاف"],["Algieba","الجیبا · مرد، صاف"]];
+const MODES={solo:"🎤 یک گوینده",duo:"👥 گفتگوی دو نفره"};
+const LENS={1:"۱ دقیقه",2:"۲ دقیقه",3:"۳ دقیقه",5:"۵ دقیقه"};
+const WPM=130; // Persian spoken words per minute (approx.)
+const TONES={friendly:["😊 صمیمی","warm, friendly and conversational, like two friends chatting"],formal:["🎩 رسمی","formal, trustworthy and calm, like a radio presenter"],promo:["🔥 هیجانی و تبلیغاتی","energetic, enthusiastic and persuasive, like an advertisement"],expert:["🧠 آموزشی و تخصصی","knowledgeable, clear and educational, like an expert reviewer"],story:["📖 داستانی","story-telling, vivid and engaging, opening with a short real-life scenario"]};
+const EXAMPLES=["اره زنجیری اشتیل MS 180","زعفران سرگل ۴ گرمی","هدفون بی‌سیم سونی WH-1000XM5","قهوه‌ساز دلونگی EC685","کرم ضدآفتاب SPF50 سینره"];
+const SAMPLE_LINE="سلام! به پادکست ما خوش اومدین؛ امروز می‌خوایم یه محصول جذاب رو با هم بررسی کنیم.";
+
+// utils
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const fa=s=>String(s??"").replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid=p=>p+"-"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const clone=o=>JSON.parse(JSON.stringify(o));
+const U=new WeakMap(),url=b=>{if(!b)return"";let u=U.get(b);if(!u){u=URL.createObjectURL(b);U.set(b,u)}return u};
+const fmtB=n=>n>=1073741824?fa((n/1073741824).toFixed(1)).replace(".","٫")+" گیگ":fa(Math.max(0,Math.round(n/1048576)))+" مگ";
+const fmtT=s=>{s=Math.round(s||0);return fa(Math.floor(s/60)+":"+String(s%60).padStart(2,"0"))};
+const fdate=t=>{try{return new Date(t).toLocaleDateString("fa-IR")+" · "+new Date(t).toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit"})}catch{return fa(new Date(t).toISOString().slice(0,10))}};
+const words=s=>String(s||"").trim().split(/\s+/).filter(Boolean).length;
+function toast(m,t=4000){const d=document.createElement("div");d.className="toast";d.textContent=m;document.body.append(d);setTimeout(()=>d.remove(),t)}
+function modal(html){const m=document.createElement("div");m.className="modal";m.innerHTML=`<div class="card"><button class="btn x" data-a="close" aria-label="بستن">✕</button>${html}</div>`;m.onclick=e=>{if(e.target===m)m.remove()};document.body.append(m);return m}
+function ask(msg){return new Promise(ok=>{const m=modal(`<h3>تأیید</h3><p>${esc(msg)}</p><div class="row"><button class="btn pri" id="cy">بله</button><button class="btn" id="cn">انصراف</button></div>`);$("#cy",m).onclick=()=>{m.remove();ok(true)};$("#cn",m).onclick=()=>{m.remove();ok(false)}})}
+function dl(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),5000)}
+const blobToB64=b=>new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(",")[1]);r.onerror=()=>no(r.error);r.readAsDataURL(b)});
+const b64ToBlob=(d,t)=>{const s=atob(d),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return new Blob([a],{type:t})};
+const blobAB=b=>b.arrayBuffer?b.arrayBuffer():new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=()=>no(r.error);r.readAsArrayBuffer(b)});
+const loadImg=src=>new Promise((ok,no)=>{const i=new Image(),t=setTimeout(()=>no(new Error("timeout")),15000);i.onload=()=>{clearTimeout(t);ok(i)};i.onerror=()=>{clearTimeout(t);no(new Error("img"))};i.src=src});
+const abortErr=()=>{const e=new Error("لغو شد");e.name="AbortError";return e};
+const sleep=(ms,sig)=>new Promise((ok,no)=>{if(sig&&sig.aborted)return no(abortErr());const t=setTimeout(ok,ms);sig&&sig.addEventListener("abort",()=>{clearTimeout(t);no(abortErr())},{once:true})});
+const pick=accept=>new Promise(ok=>{const i=document.createElement("input");i.type="file";i.accept=accept;i.onchange=()=>ok(i.files[0]||null);i.click()});
+const cBlob=(c,type,q)=>new Promise(ok=>{try{c.toBlob(b=>ok(b),type,q)}catch{ok(null)}});
+async function drawable(b){const u=URL.createObjectURL(b);try{const i=await loadImg(u);const W=i.naturalWidth||i.width,H=i.naturalHeight||i.height;return W&&H?{i,W,H}:null}catch{return null}finally{setTimeout(()=>URL.revokeObjectURL(u),1000)}}
+async function convert(b,type,maxSide){const d=await drawable(b);if(!d)return null;const s=maxSide?Math.min(1,maxSide/Math.max(d.W,d.H)):1,c=document.createElement("canvas");c.width=Math.round(d.W*s);c.height=Math.round(d.H*s);const x=c.getContext&&c.getContext("2d");if(!x)return null;if(type=="image/jpeg"){x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height)}x.drawImage(d.i,0,0,c.width,c.height);return cBlob(c,type,.92)}
+async function toRef(b){try{const j=await convert(b,"image/jpeg",1600);if(j)return{mimeType:"image/jpeg",data:await blobToB64(j)}}catch{}return{mimeType:b.type||"image/png",data:await blobToB64(b)}}
+function parseJ(t){t=String(t).replace(/```(?:json)?/gi,"").trim();try{return JSON.parse(t)}catch{}const a=t.search(/[\[{]/),z=Math.max(t.lastIndexOf("]"),t.lastIndexOf("}"));if(a<0||z<a)throw new Error("پاسخ مدل JSON معتبر نبود");return JSON.parse(t.slice(a,z+1))}
+
+// ---------- audio helpers (16-bit mono PCM / WAV) ----------
+const Audio16={
+ wav(pcm,rate=24000,ch=1){const len=pcm.byteLength,b=new ArrayBuffer(44+len),v=new DataView(b),w=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i))};
+  w(0,"RIFF");v.setUint32(4,36+len,true);w(8,"WAVE");w(12,"fmt ");v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,ch,true);v.setUint32(24,rate,true);v.setUint32(28,rate*ch*2,true);v.setUint16(32,ch*2,true);v.setUint16(34,16,true);w(36,"data");v.setUint32(40,len,true);
+  new Uint8Array(b,44).set(new Uint8Array(pcm.buffer||pcm,pcm.byteOffset||0,len));return new Blob([b],{type:"audio/wav"})},
+ rate(mime){const m=String(mime||"").match(/rate=(\d+)/);return m?+m[1]:24000},
+ wavRate(ab){try{return new DataView(ab).getUint32(24,true)||24000}catch{return 24000}},
+ dur(blob,rate=24000){return blob?Math.max(0,(blob.size-44)/(rate*2)):0},
+ // join 16-bit mono WAVs (same rate) with a short pause between them
+ async join(blobs,gap=.45){let rate=24000;const parts=[];for(const b of blobs){const ab=await blobAB(b);rate=this.wavRate(ab);parts.push(new Uint8Array(ab.slice(44)));parts.push(new Uint8Array(Math.round(rate*gap)*2))}
+  if(parts.length)parts.pop();const n=parts.reduce((a,p)=>a+p.length,0),all=new Uint8Array(n);let o=0;for(const p of parts){all.set(p,o);o+=p.length}return this.wav(all,rate)}
+};
+
+// Store: the only module that touches IndexedDB / localStorage
+const Store=(()=>{const N="saba-product-podcast",SS=["kv","history"],QUIET=["meta"];let db,subs=[],tm;
+ const ls=(k,v)=>{try{k="sabaPod."+k;if(v===undefined)return localStorage.getItem(k);v===null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch{return null}};
+ const open=()=>db?Promise.resolve(db):new Promise((ok,no)=>{const r=indexedDB.open(N,1);r.onupgradeneeded=()=>SS.forEach(s=>r.result.objectStoreNames.contains(s)||r.result.createObjectStore(s,{keyPath:s=="kv"?"k":"id"}));r.onsuccess=()=>{db=r.result;ok(db)};r.onerror=()=>no(r.error)});
+ const run=(s,m,f)=>open().then(d=>new Promise((ok,no)=>{const t=d.transaction(s,m),q=f(t.objectStore(s));t.oncomplete=()=>ok(q&&q.result);t.onerror=t.onabort=()=>no(t.error)}));
+ const changed=(s,k)=>{if(s=="kv"&&QUIET.includes(k))return;clearTimeout(tm);tm=setTimeout(async()=>{const t=Date.now();await run("kv","readwrite",o=>o.put({k:"meta",v:{lastSave:t}}));ls("lastSave",t);subs.forEach(f=>f())},1000)};
+ return{SS,
+  get:async(s,k)=>{const r=await run(s,"readonly",o=>o.get(k));return s=="kv"?r&&r.v:r},
+  set:async(s,v,k)=>{if(s=="kv"&&k=="theme")ls("theme",v);await run(s,"readwrite",o=>o.put(s=="kv"?{k,v}:v));changed(s,k)},
+  list:s=>run(s,"readonly",o=>o.getAll()),
+  delete:async(s,k)=>{await run(s,"readwrite",o=>o.delete(k));changed(s,k)},
+  clear:async()=>{const d=await open();await new Promise(ok=>{const t=d.transaction(SS,"readwrite");SS.forEach(s=>t.objectStore(s).clear());t.oncomplete=ok});["theme","lastSave"].forEach(k=>ls(k,null))},
+  fastTheme:()=>ls("theme"),lastSaveLS:()=>ls("lastSave"),onChange:f=>subs.push(f),
+  persist:async()=>{try{const s=navigator.storage;if(!s||!s.persist)return false;return(s.persisted&&await s.persisted())||await s.persist()}catch{return false}},
+  estimate:async()=>{try{return await navigator.storage.estimate()}catch{return null}}
+ }})();
+
+// zip backup: kv.json + history.json + files/ (photos, audio)
+const EXT={"image/png":"png","image/jpeg":"jpg","image/webp":"webp","audio/wav":"wav"},MIME={png:"image/png",jpg:"image/jpeg",jpeg:"image/jpeg",webp:"image/webp",wav:"audio/wav"};
+const isF=v=>typeof v=="string"&&/^files\//.test(v);
+const Backup={
+ async dump(){const f={};let n=0;const put=(s,id,b)=>{const p=`files/${s}-${String(id).replace(/[^\w-]/g,"_")}-${++n}.${EXT[b.type]||"bin"}`;f[p]=b;return p};
+  const walk=(s,id,v)=>v instanceof Blob?put(s,id,v):Array.isArray(v)?v.map(x=>walk(s,id,x)):v&&typeof v=="object"&&Object.getPrototypeOf(v)===Object.prototype?Object.fromEntries(Object.entries(v).map(([a,x])=>[a,walk(s,id,x)])):v;
+  const kv={};for(const r of await Store.list("kv"))if(r.k!="meta")kv[r.k]=walk("kv",r.k,r.v);f["kv.json"]=JSON.stringify({format:"podcast-kv-v1",kv});
+  const h=(await Store.list("history")).map(r=>walk("history",r.id,r));f["history.json"]=JSON.stringify({format:"podcast-history-v1",count:h.length,history:h});return f},
+ async load(get){let n=0;const back=async v=>{if(isF(v)){const b=await get(v);return b?new Blob([b],{type:MIME[v.split(".").pop()]||"application/octet-stream"}):null}
+   if(Array.isArray(v)){const a=[];for(const x of v){const y=await back(x);y!=null&&a.push(y)}return a}if(v&&typeof v=="object"){const o={};for(const k in v)o[k]=await back(v[k]);return o}return v};
+  const kt=await get("kv.json");if(kt){const j=JSON.parse(kt);for(const k in j.kv||{}){await Store.set("kv",await back(j.kv[k]),k);n++}}
+  const ht=await get("history.json");if(ht){for(const o of JSON.parse(ht).history||[]){if(!o||o.id==null)continue;await Store.set("history",await back(o));n++}}return n},
+ async jz(){if(window.JSZip)return JSZip;await new Promise((ok,no)=>{const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";s.onload=ok;s.onerror=()=>no(new Error("بارگیری JSZip ممکن نشد"));document.head.append(s)});return JSZip},
+ async zipOut(){try{const Z=await this.jz(),z=new Z(),f=await this.dump();for(const n in f)z.file(n,f[n]);dl(await z.generateAsync({type:"blob"}),"saba-podcast-backup-"+new Date().toISOString().slice(0,10)+".zip");toast("پشتیبان کامل دانلود شد")}catch(e){toast("خطا در ساخت پشتیبان: "+e.message)}},
+ async zipIn(){const file=await pick(".zip");if(!file)return;try{const Z=await this.jz(),z=await Z.loadAsync(file);const n=await this.load(async p=>{const e=z.file(p);return e?e.async(p.endsWith(".json")?"string":"blob"):null});await App.reload();$("#banner").classList.add("hide");toast(`${fa(n)} مورد از پشتیبان بازگردانی شد`)}catch(e){toast("فایل پشتیبان معتبر نیست: "+e.message)}}
+};
+
+// Bridge: optional storage in the Chrome extension (chrome.storage.local), which survives closing Gemini Canvas.
+// Protocol: window.postMessage({__sabaBridge:1,dir:"req",app:"saba-product-podcast",id,op,...}) answered by the extension's content script with dir:"res".
+// The bridge is the source of truth on load; every IndexedDB write is mirrored to it (debounced, batched).
+const Bridge=(()=>{const NS="__sabaBridge",APP="saba-product-podcast",SS=Store.SS,SKIP=["meta"],CH=8e6,P=new Map(),dirty=new Map();
+ let tm=0,busy=null,mute=0,seq=0,raw=null,lastToast=0,retry=0;
+ const st={on:false,checked:false,ver:"",last:0,pending:0,err:"",restored:0,synced:0};
+ window.addEventListener("message",e=>{const d=e.data;if(e.source!==window||!d||typeof d!="object"||d[NS]!==1||d.dir!=="res"||d.app!==APP)return;const p=P.get(d.id);if(!p)return;P.delete(d.id);clearTimeout(p.t);
+  d.ok?p.ok(d):p.no(Object.assign(new Error(d.error||"bridge error"),{quota:!!d.quota,invalidated:!!d.invalidated}))});
+ const call=(op,o={},ms=60000)=>new Promise((ok,no)=>{const id="b"+(++seq)+"-"+Date.now().toString(36);P.set(id,{ok,no,t:setTimeout(()=>{P.delete(id);no(Object.assign(new Error("timeout"),{timeout:true}))},ms)});
+  window.postMessage({[NS]:1,dir:"req",app:APP,id,op,...o},"*")});
+ const b64ToAB=d=>{const s=atob(d||""),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return a.buffer};
+ // JSON-safe encoding: Blob → {__sb:"blob"}, ArrayBuffer/TypedArray → {__sb:"ab"}; functions and class instances are dropped
+ async function enc(v){if(v==null||typeof v=="string"||typeof v=="boolean")return v;if(typeof v=="number")return isFinite(v)?v:null;if(typeof v!="object")return undefined;
+  if(v instanceof Blob)return{__sb:"blob",t:v.type||"",d:v.size?await blobToB64(v):""};
+  if(v instanceof ArrayBuffer||ArrayBuffer.isView(v)){const b=new Blob([v]);return{__sb:"ab",d:b.size?await blobToB64(b):""}}
+  if(Array.isArray(v)){const a=[];for(const x of v){const y=await enc(x);a.push(y===undefined?null:y)}return a}
+  const p=Object.getPrototypeOf(v);if(p!==Object.prototype&&p!==null)return undefined;
+  const o={};for(const k of Object.keys(v)){const y=await enc(v[k]);if(y!==undefined)o[k]=y}return o}
+ function dec(v){if(Array.isArray(v))return v.map(dec);if(!v||typeof v!="object")return v;if(v.__sb=="blob")return b64ToBlob(v.d||"",v.t||"");if(v.__sb=="ab")return b64ToAB(v.d);
+  const o={};for(const k of Object.keys(v))o[k]=dec(v[k]);return o}
+ function msg(e){return e.quota?"فضای ذخیره‌ی اکستنشن پر است؛ چند کار قدیمی را پاک کن و «همگام‌سازی کامل الان» را بزن، یا پشتیبان زیپ بگیر":
+  e.invalidated?"اکستنشن دوباره بارگذاری شده؛ این پنجره را ببند و برنامه را از آیکون اکستنشن دوباره باز کن":
+  e.timeout?"اکستنشن پاسخ نداد؛ تغییرات هنوز در اکستنشن ذخیره نشده‌اند":"خطا در ذخیره در اکستنشن: "+e.message}
+ function fail(e,silent){st.err=msg(e);if(!silent&&Date.now()-lastToast>20000){lastToast=Date.now();toast("⚠️ "+st.err,8000)}
+  if(!e.quota&&!e.invalidated&&dirty.size){clearTimeout(retry);retry=setTimeout(()=>flush(),15000)}refresh()}
+ const refresh=()=>{st.pending=dirty.size;try{UI.status()}catch{}};
+ function mark(s,k,op){if(!st.on||mute||k==null||(s=="kv"&&SKIP.includes(k)))return;dirty.set(JSON.stringify([s,k]),[s,k,op]);st.pending=dirty.size;clearTimeout(tm);tm=setTimeout(()=>flush(),500)}
+ async function sendAll(sets,dels,full){let a=[],size=0,n=0;const go=async()=>{if(!a.length)return;await call("batch",{sets:a,dels:[],full});n+=a.length;a=[];size=0};
+  for(const x of sets){a.push([x[0],x[1],x[2]]);size+=x[3];if(size>CH)await go()}await go();if(dels.length||full)await call("batch",{sets:[],dels,full});return n}
+ async function flush(){clearTimeout(tm);if(!st.on||!dirty.size)return;if(busy){await busy.catch(()=>{});return flush()}
+  busy=(async()=>{const items=[...dirty.values()];dirty.clear();const sets=[],dels=[];
+   try{for(const[s,k,op]of items){if(!op){dels.push([s,k]);continue}const v=await Store.get(s,k);if(v===undefined){dels.push([s,k]);continue}const e=await enc(v);if(e===undefined)continue;sets.push([s,k,e,JSON.stringify(e).length])}
+    await sendAll(sets,dels,false);st.last=Date.now();st.err=""}
+   catch(e){for(const[s,k,op]of items){const id=JSON.stringify([s,k]);dirty.has(id)||dirty.set(id,[s,k,op])}fail(e)}})();
+  try{await busy}finally{busy=null;refresh()}}
+ // the whole IndexedDB → extension (also removes extension entries that no longer exist here)
+ async function full(user){if(!st.on)return -1;clearTimeout(tm);if(busy)await busy.catch(()=>{});dirty.clear();
+  try{const sets=[],have=new Set();for(const s of SS)for(const r of await Store.list(s)){const k=s=="kv"?r.k:r.id;if(k==null||(s=="kv"&&SKIP.includes(k)))continue;const e=await enc(s=="kv"?r.v:r);if(e===undefined)continue;have.add(JSON.stringify([s,k]));sets.push([s,k,e,JSON.stringify(e).length])}
+   const ks=(await call("list",{},60000)).keys||[],dels=ks.filter(p=>!have.has(JSON.stringify(p)));
+   const n=await sendAll(sets,dels,true);st.last=st.synced=Date.now();st.err="";refresh();if(user)toast(`همگام‌سازی کامل شد: ${fa(n)} مورد در اکستنشن ذخیره شد`);return n}
+  catch(e){fail(e,!user);if(user)toast("⚠️ همگام‌سازی کامل ناموفق: "+st.err,8000);return -1}}
+ async function restore(){const r=await call("getAll",{},180000),items=(r.items||[]).filter(x=>Array.isArray(x)&&SS.includes(x[0]));if(!items.length)return 0;
+  mute++;
+  try{await raw.clear();for(const[s,k,v]of items){const x=dec(v);if(s=="kv")await raw.set("kv",x,k);else if(x&&typeof x=="object"&&x.id!=null)await raw.set(s,x)}}
+  finally{mute--}return items.length}
+ function patch(){if(raw)return;raw={set:Store.set,delete:Store.delete,clear:Store.clear};
+  Store.set=async(s,v,k)=>{await raw.set(s,v,k);mark(s,s=="kv"?k:v&&v.id,1)};
+  Store.delete=async(s,k)=>{await raw.delete(s,k);mark(s,k,0)};
+  Store.clear=async()=>{await raw.clear();if(!st.on||mute)return;clearTimeout(tm);dirty.clear();try{await call("clear");st.last=Date.now()}catch(e){fail(e)}}}
+ async function init(){for(let i=0;i<4&&!st.on;i++){try{const r=await call("ping",{},200);st.ver=r.version||"";st.on=true}catch{}}st.checked=true;if(!st.on)return false;patch();
+  try{st.restored=await restore();if(!st.restored)await full(false);st.last=Date.now()}
+  catch(e){st.on=false;st.err="بازیابی از اکستنشن ناموفق بود ("+msg(e)+")؛ داده‌های اکستنشن دست نخورده ماندند. صفحه را دوباره باز کن";toast("⚠️ "+st.err,9000)}
+  return st.on}
+ const save=()=>{if(dirty.size)flush()};window.addEventListener("pagehide",save);document.addEventListener("visibilitychange",()=>{if(document.visibilityState=="hidden")save()});
+ return{st,init,flush,full,call,enc,dec}})();
+
+// ---------- Gemini API ----------
+async function callApi(model,body,sig,onStatus,tries=3){
+ for(let a=0;;a++){let r;
+  try{r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${KeyCfg.key||apiKey}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body),signal:sig})}
+  catch(e){if(e.name=="AbortError")throw abortErr();throw new Error("خطای شبکه: "+e.message)}
+  if(r.ok)return r.json();
+  let m="";try{const j=await r.json();m=j.error&&j.error.message||JSON.stringify(j)}catch{m=r.statusText||""}
+  if((r.status==429||r.status>=500)&&a<tries){onStatus&&onStatus(`خطای ${fa(r.status)} — تلاش دوباره ${fa(a+1)} از ${fa(tries)} تا ۱۵ ثانیه‌ی دیگر…`);await sleep(15000,sig);continue}
+  throw Object.assign(new Error(`خطای API (کد ${fa(r.status)}): ${m}`),{status:r.status})}}
+const parts=(prompt,refs=[])=>[{text:prompt},...refs.map(r=>({inlineData:{mimeType:r.mimeType,data:r.data}}))];
+async function genText(prompt,refs=[],o={},sig){const json=o.json!==false,body={contents:[{role:"user",parts:parts(prompt,refs)}]};
+ if(o.search)body.tools=[{google_search:{}}];else if(json)body.generationConfig={responseMimeType:"application/json"};
+ const j=await callApi(TEXT_MODEL,body,sig,o.onStatus,o.tries),c=j.candidates&&j.candidates[0],t=(c&&c.content&&c.content.parts||[]).map(p=>p.text||"").join("");
+ if(!t)throw new Error("پاسخ مدل متنی خالی بود"+(c&&c.finishReason?` (${c.finishReason})`:""));
+ if(o.raw)return{text:t,meta:c.groundingMetadata||null};return json?parseJ(t):t}
+// Persian text-to-speech → WAV blob. voices: one name (single speaker) or [[label,voice],[label,voice]] (two speakers)
+async function genSpeech(text,voices,sig,onStatus){
+ const sc=Array.isArray(voices)?{multiSpeakerVoiceConfig:{speakerVoiceConfigs:voices.map(([speaker,v])=>({speaker,voiceConfig:{prebuiltVoiceConfig:{voiceName:v}}}))}}:{voiceConfig:{prebuiltVoiceConfig:{voiceName:voices}}};
+ const j=await callApi(TTS_MODEL,{contents:[{role:"user",parts:[{text}]}],generationConfig:{responseModalities:["AUDIO"],speechConfig:sc}},sig,onStatus);
+ const c=j.candidates&&j.candidates[0],p=(c&&c.content&&c.content.parts||[]).find(p=>p.inlineData);
+ if(!p)throw new Error("مدل گویندگی صدا برنگرداند"+(c&&c.finishReason?` (${c.finishReason})`:""));
+ const mt=p.inlineData.mimeType||"",raw=b64ToBlob(p.inlineData.data,mt);
+ if(/wav/i.test(mt))return new Blob([raw],{type:"audio/wav"});return Audio16.wav(new Uint8Array(await blobAB(raw)),Audio16.rate(mt))}
+
+// ---------- state ----------
+const C0={on:true,name:"",years:"",about:"",phone:"",web:"",addr:"",cta:"",why:true};
+const S={theme:"بنفش",persisted:false,photos:[],company:clone(C0)};
+const D0={name:"",info:"",mode:"duo",len:2,tone:"friendly",hosts:[{name:"سارا",voice:"Kore"},{name:"علی",voice:"Charon"}],podName:"",aud:"",intro:{on:true,text:""},outro:{on:true,text:""},facts:"",sources:[],pname:"",title:"",lines:[]};
+const D=clone(D0);
+const Draft={tm:0,save(){clearTimeout(this.tm);this.tm=setTimeout(()=>Store.set("kv",clone(D),"draft"),500)},
+ async load(){const d=await Store.get("kv","draft");Object.keys(D).forEach(k=>delete D[k]);Object.assign(D,clone(D0),d&&typeof d=="object"?d:{});
+  if(!Array.isArray(D.hosts)||D.hosts.length<2)D.hosts=clone(D0.hosts);if(!Array.isArray(D.lines))D.lines=[]}};
+function applyTheme(n){const t=THEMES.find(t=>t[0]==n)||THEMES[1],r=document.documentElement.style;["--bg","--card","--neon","--neon2","--btxt"].forEach((k,i)=>r.setProperty(k,t[i+1]));S.theme=t[0]}
+
+// ---------- product photos + company (saved in kv) ----------
+const Photos={max:3,
+ async add(files){for(const f of files){if(!f||!/^image\//.test(f.type||""))continue;if(S.photos.length>=this.max){toast(`حداکثر ${fa(this.max)} عکس`);break}S.photos.push(new Blob([f],{type:f.type}))}await this.save()},
+ async del(i){S.photos.splice(i,1);await this.save()},
+ async save(){await Store.set("kv",S.photos.slice(),"photos");this.render()},
+ render(){const b=$("#phs");if(!b)return;b.innerHTML=S.photos.map((p,i)=>`<div class="ph"><img src="${url(p)}" alt="عکس محصول ${fa(i+1)}"><button class="x2" data-a="phDel" data-i="${i}" aria-label="حذف عکس">✕</button>${i==0?'<span class="badge">اصلی</span>':""}</div>`).join("")+(S.photos.length<this.max?`<button class="ph add" data-a="phAdd">📷<br>افزودن عکس محصول</button>`:"")},
+ refs(){return Promise.all(S.photos.map(p=>toRef(p)))}};
+const CF=[["cName","name"],["cYears","years"],["cAbout","about"],["cPhone","phone"],["cWeb","web"],["cAddr","addr"],["cCta","cta"]];
+const Company={tm:0,
+ has(c=S.company){return!!(c&&c.on&&String(c.name||"").trim())},
+ save(){clearTimeout(this.tm);this.tm=setTimeout(()=>Store.set("kv",{...S.company},"company"),400)},
+ sync(){const c=S.company;$("#cOn").checked=!!c.on;$("#cWhy").checked=c.why!==false;CF.forEach(([id,k])=>$("#"+id).value=c[k]||"");
+  $("#cSum").textContent=this.has()?"✓ "+c.name:(c.name?"خاموش":"اختیاری")},
+ // the company block for the script prompt (only what the user typed)
+ block(c=S.company){if(!this.has(c))return"";const L=[`Company / shop name: ${c.name}`];if(c.years)L.push(`Experience: ${c.years}`);if(c.about)L.push(`About the company and why buy from it: ${c.about}`);
+  if(c.phone)L.push(`Phone: ${c.phone}`);if(c.web)L.push(`Website / Instagram: ${c.web}`);if(c.addr)L.push(`Address: ${c.addr}`);if(c.cta)L.push(`Preferred call to action: ${c.cta}`);return L.join("\n")}};
+
+// ---------- research ----------
+const srcOK=u=>/^https?:\/\//.test(String(u||""));
+const Research={
+ async run(d,refs,onStatus){const prompt=`You are a careful product researcher preparing notes for a Persian (Farsi) podcast episode about ONE product. ${refs.length?"The attached photo shows the real product: identify it exactly (brand, model, variant). ":""}Use Google Search to collect accurate, current facts about this exact product: what it is, who it is for, key features and benefits, important specifications and numbers, typical uses, tips for buyers, care/maintenance, and what makes it stand out from alternatives.
+Product name: ${d.name||"(not given — identify it from the photo)"}
+${d.info?"Details from the seller (trust these first): "+d.info+"\n":""}Rules: every fact must be true for THIS exact product; never invent numbers; no prices unless the seller gave them.
+Return ONLY this JSON:
+{"product_name":"the product name as buyers know it","notes":["8 to 14 short factual notes in Persian"],"sources":[{"title":"","url":""}]}`;
+  onStatus&&onStatus("⏳ جمینی در حال شناختن محصول و جستجو در گوگل است…");
+  const r=await genText(prompt,refs.slice(0,1),{search:true,raw:true,onStatus});
+  const g=((r.meta&&r.meta.groundingChunks)||[]).map(c=>c&&c.web).filter(Boolean).map(w=>({title:w.title,url:w.uri}));
+  let j;try{j=parseJ(r.text)}catch{j={product_name:d.name,notes:String(r.text).split(/\n+/).map(s=>s.replace(/^[\s*•\-\d.]+/,"").trim()).filter(s=>s.length>3).slice(0,16),sources:[]}}
+  const notes=(Array.isArray(j.notes)?j.notes:[]).map(s=>String(s||"").replace(/\s+/g," ").trim()).filter(Boolean);if(!notes.length)throw new Error("تحقیق نتیجه‌ای نداشت؛ «تحقیق دوباره» را بزن");
+  const seen=new Set(),sources=[];for(const s of[...(Array.isArray(j.sources)?j.sources:[]),...g]){const u=s&&String(s.url||s.uri||"").trim();if(!srcOK(u)||seen.has(u)||sources.length>=8)continue;seen.add(u);sources.push({title:String(s.title||u),url:u})}
+  return{pname:String(j.product_name||d.name||"").trim(),facts:notes.map(s=>"• "+s).join("\n"),sources}}};
+
+// ---------- script ----------
+const LBL=["Host1","Host2"];
+const Script={
+ target(d){return Math.round((+d.len||2)*WPM)},
+ spkDesc(d){return d.mode=="duo"?`TWO hosts in a natural conversation: speaker 1 «${d.hosts[0].name||"میزبان ۱"}» and speaker 2 «${d.hosts[1].name||"میزبان ۲"}». They take turns, ask each other questions, react naturally (short reactions are fine), and call each other by name now and then. Turns are 1 to 4 sentences.`:`ONE host «${d.hosts[0].name||"گوینده"}» speaking alone, directly to the listener, in short paragraphs (2 to 5 sentences each).`},
+ rules(d){const comp=Company.block(),c=S.company,cn=c.name,io=[];
+  if(d.intro.on)io.push(d.intro.text?`- The FIRST line (part "intro") must be exactly: «${d.intro.text}»`:`- Start with a short catchy intro line (part "intro")${d.podName?` that names the show «${d.podName}»`:""} and greets the listeners.`);
+  if(d.outro.on)io.push(d.outro.text?`- The LAST line (part "outro") must be exactly: «${d.outro.text}»`:`- End with a short warm closing line (part "outro")${d.podName?` naming the show «${d.podName}»`:""}.`);
+  return`Rules:
+- Language: natural SPOKEN Persian (Farsi) for audio${["friendly","promo","story"].includes(d.tone)?", relaxed conversational (محاوره‌ای) but clear":", standard and clear spoken Persian"}. Tone: ${TONES[d.tone][1]}.
+- Total length about ${this.target(d)} Persian words (≈ ${d.len} minute${d.len>1?"s":""} of audio). Stay close to this length.
+- Write for the ear: short sentences, no lists, no headings, no emojis, no stage directions, no markdown, no speaker names inside the text.
+- Write numbers as Persian words as they are spoken. Write brand and model names in Persian letters as they are pronounced in Iran (e.g. «اشتیل»، «سامسونگ گلکسی اس بیست و چهار»).
+- Use only facts from the research notes and the seller's details; never invent specs or prices.${d.aud?`\n- Audience: ${d.aud}.`:""}
+${io.join("\n")}
+${comp?`- COMPANY: weave the company in naturally at a fitting moment, never as a cold ad.${c.why!==false?` Include a short segment (part "why") answering «چرا باید از ${cn} تهیه کنیم؟» using its experience and advantages.`:""} Near the end invite listeners to buy or ask from ${cn} and give its contact details${c.phone?"; read the phone number slowly as spoken Persian digits in groups":""}. Use ONLY these company facts, add nothing else about the company:
+${comp}`:"- Do not mention any shop or company; end with a general recommendation."}`},
+ schema:`{"title":"short catchy Persian episode title","lines":[{"speaker":1,"part":"intro|body|why|outro","text":"..."}]}`,
+ prompt(d){return`You are an expert Persian podcast scriptwriter. Write the full script of a short product podcast episode.
+Format: ${this.spkDesc(d)}
+Product: ${d.pname||d.name}
+${d.info?"Seller's details: "+d.info+"\n":""}Research notes (facts you may use):
+${d.facts||"(none)"}
+${this.rules(d)}
+Return ONLY this JSON${d.mode=="duo"?" (speaker is 1 or 2)":" (speaker is always 1)"}:
+${this.schema}`},
+ norm(j,d){const arr=Array.isArray(j&&j.lines)?j.lines:Array.isArray(j)?j:[];const L=[];
+  for(const x of arr){if(!x)continue;const nm=[...LBL,...d.hosts.map(h=>h.name)].filter(Boolean),t=String(x.text||"").replace(/\s+/g," ").replace(/^\s*([^:：]{1,24})[:：]\s*/,(m,a)=>nm.includes(a.trim())?"":m).trim();if(!t)continue;
+   const sp=d.mode=="duo"&&(+x.speaker==2||x.speaker=="B")?1:0,part=["intro","why","outro"].includes(x.part)?x.part:"";L.push({sp,text:t,part})}
+  if(!L.length)throw new Error("متن پادکست خالی برگشت؛ «نوشتن دوباره‌ی متن» را بزن");
+  if(d.intro.on&&d.intro.text){if(L[0].part=="intro")L[0].text=d.intro.text;else L.unshift({sp:0,text:d.intro.text,part:"intro"})}
+  if(d.outro.on&&d.outro.text){const z=L[L.length-1];if(z.part=="outro")z.text=d.outro.text;else L.push({sp:0,text:d.outro.text,part:"outro"})}
+  return{title:String(j&&j.title||"").trim(),lines:L}},
+ async write(d,onStatus){onStatus&&onStatus("✍️ در حال نوشتن متن پادکست…");return this.norm(await genText(this.prompt(d),[],{onStatus}),d)},
+ async resize(d,f){const n=Math.round(this.target(d)*f);const j=await genText(`Rewrite this Persian podcast script to about ${n} Persian words (${f<1?"shorter and tighter":"longer, with more useful detail from the notes"}). Keep the same speakers, tone, facts, intro/outro and company segment; keep the same JSON format.
+Research notes:\n${d.facts}\n${this.rules(d)}\nCurrent script:\n${JSON.stringify({title:d.title,lines:d.lines.map(l=>({speaker:l.sp+1,part:l.part||"body",text:l.text}))})}\nReturn ONLY JSON: ${this.schema}`);return this.norm(j,d)},
+ words(lines){return lines.reduce((a,l)=>a+words(l.text),0)},
+ txt(d){const n=i=>d.mode=="duo"?(d.hosts[i].name||"میزبان "+fa(i+1))+": ":"";return[(d.title||d.pname||d.name||"پادکست")," ",...d.lines.map(l=>n(l.sp)+l.text),"","ساخته‌شده با پادکست‌ساز محصول صبا · viroai.ir"].join("\n")}
+};
+
+// ---------- text → speech in chunks ----------
+const MAXC=1100;
+function chunks(lines){const out=[];let cur=[],n=0;for(const l of lines){const t=l.text.trim();if(!t)continue;if(cur.length&&n+t.length>MAXC){out.push(cur);cur=[];n=0}cur.push(l);n+=t.length+2}if(cur.length)out.push(cur);return out}
+function ttsText(d,ls){const st=TONES[d.tone][1];
+ if(d.mode=="duo"){const used=new Set(ls.map(l=>l.sp));if(used.size<2)return{text:`Read aloud in Persian (Farsi) as part of a podcast, ${st}, with a natural, human pace:\n${ls.map(l=>l.text).join("\n")}`,voices:d.hosts[[...used][0]].voice};
+  return{text:`TTS the following Persian (Farsi) podcast conversation between ${LBL[0]} and ${LBL[1]}. Style: ${st}; natural, human, warm, with lively turn-taking:\n${ls.map(l=>`${LBL[l.sp]}: ${l.text}`).join("\n")}`,voices:[[LBL[0],d.hosts[0].voice],[LBL[1],d.hosts[1].voice]]}}
+ return{text:`Read aloud in Persian (Farsi) as a podcast host, ${st}, with a natural, human pace:\n${ls.map(l=>l.text).join("\n")}`,voices:d.hosts[0].voice}}
+const Gen={parts:[],ac:null,busy:false,final:null,
+ reset(){if(this.busy)return;this.parts=[];this.final=null},
+ paint(){const ok=this.parts.filter(p=>p.st=="ok").length,n=this.parts.length;$("#progBox").classList.toggle("hide",!n);$("#progI").style.width=n?Math.round(ok/n*100)+"%":"0";
+  $("#parts").innerHTML=this.parts.map((p,i)=>`<span class="part ${p.st}" ${p.st=="er"?`data-a="partRetry" data-i="${i}" title="${esc(p.err||"")}"`:""}>تکه‌ی ${fa(i+1)} ${p.st=="ok"?"✓":p.st=="run"?"⏳":p.st=="er"?"⚠️ (تلاش دوباره)":"…"}</span>`).join("");
+  $("#cancel").classList.toggle("hide",!this.busy);$("#ttsBtn").disabled=this.busy},
+ async run(){if(this.busy)return;if(!D.lines.length)return toast("اول متن پادکست را بنویس");
+  const sig_=JSON.stringify([D.lines,D.hosts.map(h=>h.voice),D.mode,D.tone,TTS_MODEL]);if(this.sig!==sig_||!this.parts.length){this.sig=sig_;this.parts=chunks(D.lines).map(ls=>({ls,st:"wait",blob:null}))}
+  this.busy=true;this.ac=new AbortController();const sig=this.ac.signal,T=$("#progT");$("#player").innerHTML="";this.paint();
+  try{for(let i=0;i<this.parts.length;i++){const p=this.parts[i];if(p.st=="ok")continue;p.st="run";this.paint();T.textContent=`🎙️ ساخت تکه‌ی ${fa(i+1)} از ${fa(this.parts.length)}…`;
+    try{const x=ttsText(D,p.ls);p.blob=await genSpeech(x.text,x.voices,sig,m=>T.textContent=m);p.st="ok"}
+    catch(e){if(e.name=="AbortError"){p.st="wait";throw e}p.st="er";p.err=e.message;toast("⚠️ تکه‌ی "+fa(i+1)+": "+e.message,8000)}this.paint()}
+   if(this.parts.some(p=>p.st!="ok")){T.textContent="بعضی تکه‌ها ساخته نشد؛ روی تکه‌ی قرمز بزن تا دوباره ساخته شود.";return false}
+   T.textContent="🔗 در حال چسباندن تکه‌ها…";const blob=await Audio16.join(this.parts.map(p=>p.blob));this.final=blob;
+   const r=await History.add(blob);T.textContent=`✅ آماده شد · ${fmtT(Audio16.dur(blob,Audio16.wavRate(await blobAB(blob))))}`;Player.show(r);return true}
+  catch(e){T.textContent=e.name=="AbortError"?"⏹ لغو شد":"⚠️ "+e.message;return false}
+  finally{this.busy=false;this.ac=null;this.paint()}},
+ retry(i){const p=this.parts[i];if(!p||this.busy)return;p.st="wait";this.run()},
+ cancel(){this.ac&&this.ac.abort()}};
+
+// voice preview (cached per voice + model)
+const Preview={c:new Map(),cur:null,
+ async play(v,btn){try{this.cur&&this.cur.pause()}catch{}const k=v+"|"+TTS_MODEL;let b=this.c.get(k);
+  if(!b){btn&&(btn.disabled=true,btn.textContent="⏳");try{b=await genSpeech(`Say warmly in Persian (Farsi), like a friendly podcast host:\n${SAMPLE_LINE}`,v);this.c.set(k,b)}catch(e){toast("⚠️ "+e.message,7000);return}finally{btn&&(btn.disabled=false,btn.textContent="🔊")}}
+  try{this.cur=new Audio(url(b));await this.cur.play()}catch{}}};
+
+// ---------- player + history ----------
+const fname=r=>String(r.title||r.pname||r.name||"podcast").replace(/[^\p{L}\p{N}]+/gu,"-").replace(/^-|-$/g,"").slice(0,40)||"podcast";
+const Player={
+ show(r){$("#player").innerHTML=r?`<div class="pod" style="margin-top:12px"><h4>${esc(r.title||r.pname||"")}</h4><div class="mut">${esc(MODES[r.mode]||"")} · ${fmtT(r.dur)} · ${esc(r.mode=="duo"?r.hosts.map(h=>h.name+" ("+h.voice+")").join(" و "):r.hosts[0].name+" ("+r.hosts[0].voice+")")}</div><audio controls src="${url(r.audio)}"></audio><div class="row"><button class="btn sm pri" data-a="dlWav" data-r="${r.id}">⬇️ دانلود WAV</button><button class="btn sm" data-a="dlTxtR" data-r="${r.id}">⬇️ متن</button><button class="btn sm" data-a="tab" data-v="his">🗂️ پادکست‌های من</button></div></div>`:""}};
+const History={items:[],
+ async load(){this.items=(await Store.list("history")).filter(r=>r&&r.audio instanceof Blob).sort((a,b)=>b.created-a.created);this.render()},
+ get(id){return this.items.find(x=>x.id==id)},
+ async add(audio){let rate=24000;try{rate=Audio16.wavRate(await blobAB(audio))}catch{}
+  const r={id:uid("p"),created:Date.now(),name:D.name,pname:D.pname,title:D.title,mode:D.mode,len:D.len,tone:D.tone,hosts:clone(D.hosts),podName:D.podName,aud:D.aud,intro:clone(D.intro),outro:clone(D.outro),facts:D.facts,sources:clone(D.sources),lines:clone(D.lines),company:Company.has()?S.company.name:"",cover:S.photos[0]||null,audio,dur:Audio16.dur(audio,rate),model:TTS_MODEL,fav:false};
+  this.items.unshift(r);await Store.set("history",r);this.render();return r},
+ async del(id){this.items=this.items.filter(x=>x.id!=id);await Store.delete("history",id);this.render()},
+ render(){const q=($("#hq")&&$("#hq").value||"").trim(),list=this.items.filter(r=>!q||[r.name,r.pname,r.title,r.company].join(" ").includes(q));
+  $("#hisCnt").textContent=fa(this.items.length)+" پادکست";
+  $("#his").innerHTML=list.map(r=>`<div class="pod" data-r="${r.id}">${r.cover instanceof Blob?`<img src="${url(r.cover)}" alt="" style="width:64px;height:64px;object-fit:contain;border-radius:12px;background:#fff;float:left;margin-inline-start:8px">`:""}<h4>${r.fav?"★ ":""}${esc(r.title||r.pname||r.name||"پادکست")}</h4><div class="mut">${esc(r.pname||r.name||"")} · ${esc(MODES[r.mode]||"")} · ${fmtT(r.dur)} · ${esc(TONES[r.tone]?TONES[r.tone][0]:"")}${r.company?" · 🏢 "+esc(r.company):""} · ${esc(fdate(r.created))}</div><audio controls preload="none" src="${url(r.audio)}"></audio><div class="row"><button class="btn sm pri" data-a="dlWav" data-r="${r.id}">⬇️ WAV</button><button class="btn sm" data-a="dlTxtR" data-r="${r.id}">⬇️ متن</button><button class="btn sm" data-a="reuse" data-r="${r.id}">♻️ ویرایش و ساخت دوباره</button><button class="btn sm" data-a="star" data-r="${r.id}" aria-label="برگزیده">${r.fav?"★":"☆"}</button><button class="btn sm danger" data-a="hdel" data-r="${r.id}">🗑️</button></div></div>`).join("")||'<p class="mut">هنوز پادکستی نساخته‌ای.</p>'}};
+
+// ---------- make tab ----------
+const Make={busy:false,
+ init(){$("#ex").innerHTML=EXAMPLES.map(t=>`<button class="chip" data-a="ex" data-v="${esc(t)}">${esc(t)}</button>`).join("");
+  const bind=(id,f)=>$("#"+id).addEventListener("input",e=>{f(e.target.value);Draft.save()});
+  bind("pname",v=>D.name=v);bind("pinfo",v=>D.info=v);bind("podName",v=>D.podName=v.trim());bind("aud",v=>D.aud=v.trim());
+  bind("inT",v=>D.intro.text=v.trim());bind("outT",v=>D.outro.text=v.trim());bind("facts",v=>D.facts=v);bind("title",v=>D.title=v);
+  $("#inOn").addEventListener("change",e=>{D.intro.on=e.target.checked;Draft.save()});$("#outOn").addEventListener("change",e=>{D.outro.on=e.target.checked;Draft.save()});
+  $("#cOn").addEventListener("change",e=>{S.company.on=e.target.checked;Company.save();Company.sync()});$("#cWhy").addEventListener("change",e=>{S.company.why=e.target.checked;Company.save()});
+  CF.forEach(([id,k])=>$("#"+id).addEventListener("input",e=>{S.company[k]=e.target.value.trim();Company.save();Company.sync()}));
+  $("#spks").addEventListener("input",e=>{const el=e.target.closest("[data-h]");if(!el)return;const h=D.hosts[+el.dataset.h];h[el.dataset.k]=el.value.trim();Draft.save();if(el.dataset.k=="name")this.renderLines()});
+  $("#spks").addEventListener("change",e=>{const el=e.target.closest("select[data-h]");if(!el)return;D.hosts[+el.dataset.h].voice=el.value;Draft.save()});
+  $("#lines").addEventListener("input",e=>{const el=e.target.closest("[data-l]");if(!el)return;const l=D.lines[+el.dataset.l];if(!l)return;l.text=el.value;Draft.save();this.info()});
+  $("#lines").addEventListener("change",e=>{const el=e.target.closest("select[data-ls]");if(!el)return;const l=D.lines[+el.dataset.ls];if(l){l.sp=+el.value;Draft.save()}});
+  document.addEventListener("paste",e=>{const fs=[...(e.clipboardData&&e.clipboardData.files||[])].filter(f=>/^image\//.test(f.type));if(fs.length&&!$("#t-make").classList.contains("hide")){e.preventDefault();Photos.add(fs)}});
+  const dz=$("#phs");dz.addEventListener("dragover",e=>e.preventDefault());dz.addEventListener("drop",e=>{e.preventDefault();Photos.add([...(e.dataTransfer&&e.dataTransfer.files||[])])})},
+ seg(id,items,cur,k){$("#"+id).innerHTML=items.map(([v,l])=>`<button class="${String(v)==String(cur)?"on":""}" data-a="opt" data-k="${k}" data-v="${v}">${esc(l)}</button>`).join("")},
+ renderSpk(){const vo=v=>VOICES.map(([n,l])=>`<option value="${n}" ${n==v?"selected":""}>${esc(l)}</option>`).join("");
+  $("#spks").innerHTML=D.hosts.slice(0,D.mode=="duo"?2:1).map((h,i)=>`<div class="spk"><h4>${D.mode=="duo"?"🎙️ گوینده‌ی "+fa(i+1):"🎙️ گوینده"}</h4><label>نام</label><input data-h="${i}" data-k="name" value="${esc(h.name)}"><label>صدا</label><div class="row" style="flex-wrap:nowrap"><select data-h="${i}" dir="rtl">${vo(h.voice)}</select><button class="btn sm" style="width:44px;padding:0" data-a="voiceTry" data-h="${i}" aria-label="شنیدن نمونه‌ی صدا" title="شنیدن نمونه">🔊</button></div></div>`).join("")},
+ sync(){$("#pname").value=D.name||"";$("#pinfo").value=D.info||"";$("#podName").value=D.podName||"";$("#aud").value=D.aud||"";
+  $("#inOn").checked=!!D.intro.on;$("#inT").value=D.intro.text||"";$("#outOn").checked=!!D.outro.on;$("#outT").value=D.outro.text||"";
+  this.seg("mode",Object.entries(MODES),D.mode,"mode");this.seg("len",Object.entries(LENS),D.len,"len");this.seg("tone",Object.entries(TONES).map(([k,v])=>[k,v[0]]),D.tone,"tone");
+  this.renderSpk();Photos.render();Company.sync();this.renderFacts();this.renderLines()},
+ opt(k,v){if(k=="len")v=+v;const ch=D[k]!==v;D[k]=v;Draft.save();this.sync();if(ch&&D.lines.length)toast(k=="mode"?"برای گفتگوی جدید «نوشتن دوباره‌ی متن» را بزن":"برای اعمال این تغییر «نوشتن دوباره‌ی متن» را بزن",5000)},
+ renderFacts(){$("#factCard").classList.toggle("hide",!D.facts);$("#facts").value=D.facts||"";
+  $("#srcs").innerHTML=(D.sources||[]).length?D.sources.map(s=>`<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title||s.url)}</a></li>`).join(""):'<li class="mut">منبعی برنگشت</li>'},
+ renderLines(){$("#scrCard").classList.toggle("hide",!D.lines.length);$("#title").value=D.title||"";const duo=D.mode=="duo",PART={intro:"🎬 مقدمه",why:"🏢 چرا از ما",outro:"🎬 پایان"};
+  $("#lines").innerHTML=D.lines.map((l,i)=>`<div class="line ${l.part=="intro"||l.part=="outro"?"io":""}">${duo?`<select data-ls="${i}" aria-label="گوینده">${D.hosts.map((h,j)=>`<option value="${j}" ${j==l.sp?"selected":""}>${esc(h.name||"میزبان "+fa(j+1))}</option>`).join("")}</select>`:`<span class="mut" style="padding-top:10px">${PART[l.part]||"🎤 "+esc(D.hosts[0].name||"")}</span>`}<textarea data-l="${i}" aria-label="جمله‌ی ${fa(i+1)}">${esc(l.text)}</textarea><button class="x2" data-a="rmLine" data-i="${i}" aria-label="حذف جمله">✕</button>${duo&&PART[l.part]?`<span class="mut" style="grid-column:1/-1;margin-top:-6px;font-size:.75rem">${PART[l.part]}</span>`:""}</div>`).join("");this.info()},
+ info(){const w=Script.words(D.lines);$("#scrInfo").textContent=D.lines.length?`${fa(D.lines.length)} جمله · ${fa(w)} کلمه · حدود ${fmtT(w/WPM*60)}`:"";Gen.reset()},
+ lock(on){this.busy=on;["#resBtn","#autoBtn"].forEach(s=>$(s).disabled=on);$$('#factCard [data-a],#scrCard [data-a="write"],#scrCard [data-a="shorter"],#scrCard [data-a="longer"]').forEach(b=>b.disabled=on)},
+ async step(f){if(this.busy)return false;this.lock(true);const m=$("#resMsg"),st=x=>m.textContent=x;try{await f(st);st("");return true}catch(e){st("");toast("⚠️ "+e.message,9000);return false}finally{this.lock(false)}},
+ async research(){D.name=$("#pname").value.trim();D.info=$("#pinfo").value.trim();
+  if(!D.name&&!S.photos.length){toast("عکس محصول یا نام آن را بده");$("#pname").focus();return false}
+  return this.step(async st=>{const r=await Research.run(D,await Photos.refs(),st);Object.assign(D,r);this.renderFacts();Draft.save();
+   const s=await Script.write(D,st);D.title=s.title;D.lines=s.lines;Draft.save();this.renderLines();toast("متن پادکست آماده شد؛ می‌توانی ویرایشش کنی");const c=$("#scrCard");c.scrollIntoView&&c.scrollIntoView({behavior:"smooth",block:"start"})})},
+ async write(){if(!D.facts&&!D.name)return toast("اول «تحقیق و نوشتن متن» را بزن");D.facts=$("#facts").value;return this.step(async st=>{const s=await Script.write(D,st);D.title=s.title;D.lines=s.lines;Draft.save();this.renderLines();toast("متن تازه نوشته شد")})},
+ async resize(f){if(!D.lines.length)return;return this.step(async st=>{st(f<1?"✂️ در حال کوتاه کردن…":"➕ در حال بلندتر کردن…");const s=await Script.resize(D,f);D.title=s.title||D.title;D.lines=s.lines;Draft.save();this.renderLines()})},
+ async auto(){if(await this.research())await Gen.run()},
+ reuse(r){Object.assign(D,{name:r.name||"",pname:r.pname||"",title:r.title||"",mode:r.mode,len:r.len,tone:r.tone,hosts:clone(r.hosts),podName:r.podName||"",aud:r.aud||"",intro:clone(r.intro||D0.intro),outro:clone(r.outro||D0.outro),facts:r.facts||"",sources:clone(r.sources||[]),lines:clone(r.lines)});
+  Draft.save();this.sync();Player.show(r);UI.tab("make");toast("متن و تنظیمات این پادکست برگشت؛ ویرایش کن و دوباره بساز")}};
+
+// ---------- settings / storage UI ----------
+const UI={
+ tab(v){$$("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.v==v));["make","his"].forEach(t=>$("#t-"+t).classList.toggle("hide",t!=v))},
+ status(){$("#tmpB").classList.toggle("hide",S.persisted||Bridge.st.on);const bb=$("#brB");if(bb){bb.className=(Bridge.st.checked?"":"hide ")+(Bridge.st.on&&!Bridge.st.err?"okb":"warn");bb.textContent=Bridge.st.on?(Bridge.st.err?"⚠️ ذخیره در اکستنشن ناموفق":"ذخیره‌ی دائمی با اکستنشن ✓"):"بدون اکستنشن: قبل از بستن پشتیبان زیپ بگیر";bb.title=Bridge.st.err||"وضعیت ذخیره‌ی دائمی"}this.storage()},
+ about(){modal(`<h3>ℹ️ درباره‌ی سازنده</h3><p><b>سید صبا میری</b></p><p>🌐 وب‌سایت: <a href="https://viroai.ir" target="_blank" rel="noopener">viroai.ir</a></p><p>📸 اینستاگرام: <a href="https://instagram.com/viromedia404" target="_blank" rel="noopener" dir="ltr">viromedia404</a></p><p>📞 تلفن: <a href="tel:+989120349893" dir="ltr">۰۹۱۲۰۳۴۹۸۹۳</a></p><p>✈️ تلگرام: به‌زودی…</p><p class="mut">پادکست‌ساز محصول صبا · نسخه‌ی ${fa(APP_VER)}</p>`)},
+ settings(){modal(`<h3>⚙️ تنظیمات</h3><h4>تم</h4><div class="themes">${THEMES.map(t=>`<button class="th ${t[0]==S.theme?"on":""}" data-a="theme" data-v="${t[0]}" style="background:${t[1]};border-color:${t[3]}"><i style="background:linear-gradient(90deg,${t[3]},${t[4]})"></i>${t[0]}</button>`).join("")}</div>
+  ${KeyCfg.html()}
+  <h4>ذخیره‌سازی</h4><div id="sto"></div><h4>پاک کردن</h4><button class="btn danger" data-a="wipe">🗑️ پاک کردن همه‌ی داده‌ها</button><p class="mut">نسخه‌ی ${fa(APP_VER)} · مدل متن: ${TEXT_MODEL} · مدل گویندگی: ${TTS_MODEL}</p><p class="mut">ساخته‌ی سید صبا میری · viroai.ir · اینستاگرام viromedia404 · ۰۹۱۲۰۳۴۹۸۹۳ · تلگرام: به‌زودی</p>`);this.storage()},
+ async storage(){const b=$("#sto");if(!b)return;const e=await Store.estimate(),B=Bridge.st,tf=t=>t?new Date(t).toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit",second:"2-digit"}):"هنوز نه";
+  b.innerHTML=`<div class="sbox" id="brBox"><b>🧩 ذخیره‌ی دائمی با اکستنشن</b>${B.on?`<div class="mut">✅ وصل است (اکستنشن نسخه‌ی ${fa(B.ver||"؟")}) — هر تغییر خودکار در اکستنشن ذخیره می‌شود و با بستن Canvas پاک نمی‌شود</div><div class="mut">آخرین ذخیره: ${tf(B.last)} · در صف: ${fa(B.pending)}${B.restored?` · ${fa(B.restored)} مورد هنگام باز شدن بازیابی شد`:""}</div>${B.err?`<div class="mut" style="color:#ff8a8a">⚠️ ${esc(B.err)}</div>`:""}<div class="row" style="margin-top:8px"><button class="btn sm pri" data-a="bsync">🔄 همگام‌سازی کامل الان</button></div>`:`<div class="mut">${B.err?"⚠️ "+esc(B.err):"اکستنشن پیدا نشد؛ داده‌ها فقط تا بستن Canvas می‌مانند. قبل از بستن «دانلود پشتیبان کامل» را بزن، یا برنامه را از اکستنشن باز کن تا همه‌چیز خودکار و دائمی ذخیره شود."}</div>`}</div>
+  <div class="sbox"><b>🌐 مرورگر (IndexedDB)</b><div class="mut">${S.persisted?"✅ ذخیره‌ی دائمی فعال است":"⚠️ ذخیره‌ی موقت — مرورگر ممکن است داده‌ها را پاک کند"}</div><div class="mut">فضا: ${e?fmtB(e.usage||0)+" از "+fmtB(e.quota||0):"نامشخص"}</div></div>
+  <div class="sbox"><b>🗂️ پشتیبان فایل</b><div class="row" style="margin-top:8px"><button class="btn sm" data-a="zipOut">⬇️ دانلود پشتیبان کامل</button><button class="btn sm" data-a="zipIn">♻️ بازگردانی از پشتیبان</button></div></div>`},
+ async wipe(){if(!await ask("همه‌ی پادکست‌ها، عکس‌ها، اطلاعات شرکت و تنظیمات پاک شود؟ این کار برگشت‌پذیر نیست."))return;await Store.clear();$("#player").innerHTML="";Gen.reset();await App.reload();$$(".modal").forEach(m=>m.remove());toast("همه‌ی داده‌ها پاک شد")}
+};
+
+// ---------- actions (event delegation) ----------
+const A={
+ tab:e=>UI.tab(e.dataset.v),settings:()=>UI.settings(),about:()=>UI.about(),close:e=>e.closest(".modal").remove(),
+ theme:e=>{applyTheme(e.dataset.v);Store.set("kv",S.theme,"theme");$$(".th").forEach(b=>b.classList.toggle("on",b.dataset.v==S.theme))},
+ opt:e=>Make.opt(e.dataset.k,e.dataset.v),ex:e=>{$("#pname").value=e.dataset.v;D.name=e.dataset.v;Draft.save()},
+ phAdd:async()=>{const f=await pick("image/*");if(f)Photos.add([f])},phDel:e=>Photos.del(+e.dataset.i),
+ voiceTry:e=>Preview.play(D.hosts[+e.dataset.h].voice,e),
+ research:()=>Make.research(),auto:()=>Make.auto(),write:()=>Make.write(),shorter:()=>Make.resize(.7),longer:()=>Make.resize(1.35),
+ addLine:()=>{const l=D.lines[D.lines.length-1];D.lines.push({sp:D.mode=="duo"&&l?1-l.sp:0,text:"",part:""});Draft.save();Make.renderLines();const t=$$("#lines textarea").pop();t&&t.focus&&t.focus()},
+ rmLine:e=>{D.lines.splice(+e.dataset.i,1);Draft.save();Make.renderLines()},
+ dlTxt:()=>dl(new Blob([Script.txt(D)],{type:"text/plain;charset=utf-8"}),fname(D)+".txt"),
+ tts:()=>Gen.run(),cancel:()=>Gen.cancel(),partRetry:e=>Gen.retry(+e.dataset.i),
+ dlWav:e=>{const r=History.get(e.dataset.r);r&&dl(r.audio,fname(r)+".wav")},
+ dlTxtR:e=>{const r=History.get(e.dataset.r);r&&dl(new Blob([Script.txt(r)],{type:"text/plain;charset=utf-8"}),fname(r)+".txt")},
+ reuse:e=>{const r=History.get(e.dataset.r);r&&Make.reuse(r)},
+ star:async e=>{const r=History.get(e.dataset.r);if(!r)return;r.fav=!r.fav;await Store.set("history",r);History.render()},
+ hdel:async e=>{if(await ask("این پادکست حذف شود؟"))History.del(e.dataset.r)},
+ zipOut:()=>Backup.zipOut(),zipIn:()=>Backup.zipIn(),bsync:async e=>{e.disabled=true;e.textContent="در حال همگام‌سازی…";await Bridge.full(true);UI.storage()},
+ wipe:()=>UI.wipe(),banX:()=>$("#banner").classList.add("hide")
+};
+document.addEventListener("click",e=>{const el=e.target.closest("[data-a]");if(!el||el.disabled||!A[el.dataset.a])return;if(el.tagName!="A")e.preventDefault();e.stopPropagation();Promise.resolve(A[el.dataset.a](el,e)).catch(err=>toast("⚠️ "+err.message))});
+
+// ---------- app ----------
+const App={
+ async reload(){const th=await Store.get("kv","theme");applyTheme(th||Store.fastTheme()||"بنفش");
+  const ph=await Store.get("kv","photos");S.photos=Array.isArray(ph)?ph.filter(b=>b instanceof Blob):[];
+  const c=await Store.get("kv","company");S.company={...clone(C0),...(c&&typeof c=="object"?c:{})};
+  await Draft.load();await History.load();Make.sync()},
+ async init(){applyTheme(Store.fastTheme()||"بنفش");Make.init();$("#hq").addEventListener("input",()=>History.render());Make.sync();
+  try{await Bridge.init()}catch(e){console.warn(e)}
+  const lost=!Bridge.st.restored&&!(await Store.get("kv","meta"))&&Store.lastSaveLS();await this.reload();
+  S.persisted=await Store.persist();UI.status();if(lost)$("#banner").classList.remove("hide");window.__ready=true}
+};
+App.init().catch(e=>toast("⚠️ خطا در شروع برنامه: "+e.message,9000));
+
+</script>
+</body>
+</html>
