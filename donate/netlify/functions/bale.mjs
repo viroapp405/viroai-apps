@@ -2,7 +2,7 @@
 // متغیرهای محیطی در Netlify (Site settings → Environment variables):
 //   BOT_TOKEN        توکن بازو
 //   PROVIDER_TOKEN   توکن کیف‌پول بازو از @botfather (برای تست: WALLET-TEST-1111111111111111)
-//   REPORT_CHAT_ID   شناسه کانال خصوصی گزارش‌ها (5211222990)
+//   REPORT_CHAT_ID   شناسه کانال خصوصی گزارش‌ها
 //   WEBHOOK_SECRET   یک رشته تصادفی؛ همان را در آدرس وب‌هوک ?k= می‌گذاریم
 const API = (m) => `https://tapi.bale.ai/bot${process.env.BOT_TOKEN}/${m}`;
 const AMOUNTS = [20000, 50000, 100000, 200000, 500000, 1000000]; // تومان

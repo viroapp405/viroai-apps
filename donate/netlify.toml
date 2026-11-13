@@ -8,3 +8,6 @@
   [headers.values]
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+
+[build.environment]
+  SECRETS_SCAN_OMIT_KEYS = "REPORT_CHAT_ID,PAGE_URL"
