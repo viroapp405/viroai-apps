@@ -66,6 +66,25 @@ function who(u = {}) {
   return { name, user: u.username ? "@" + u.username : "—", id: u.id };
 }
 
+async function report(from, toman, txId, track, via) {
+  if (!process.env.REPORT_CHAT_ID) return;
+  const w = who(from);
+  const when = new Date().toLocaleString("fa-IR", { timeZone: "Asia/Tehran" });
+  const rep = await call("sendMessage", {
+    chat_id: process.env.REPORT_CHAT_ID.trim(),
+    text:
+      `💚 حمایت جدید\n` +
+      `مبلغ: ${fa(toman)} تومان\n` +
+      `نام: ${w.name}\nنام کاربری: ${w.user}\nشناسه: ${w.id}\n` +
+      `زمان: ${when}\n` +
+      `شناسه تراکنش: ${txId || "—"}\n` +
+      `شماره پیگیری: ${track || "—"}` + (via ? `\n(${via})` : ""),
+  });
+  if (!rep || !rep.ok) console.error("report failed", JSON.stringify(rep));
+}
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
 // کلید مخفی آدرس وب‌هوک: WEBHOOK_SECRET یا (اگر نبود) هش توکن بازو
 async function hookKey() {
   if (process.env.WEBHOOK_SECRET) return process.env.WEBHOOK_SECRET;
@@ -101,7 +120,21 @@ export default async (req) => {
   try {
     // ۱) تأیید نهایی پیش از پرداخت (باید زیر ۱۰ ثانیه جواب بدهیم)
     if (u.pre_checkout_query) {
-      await call("answerPreCheckoutQuery", { pre_checkout_query_id: u.pre_checkout_query.id, ok: true });
+      const q = u.pre_checkout_query;
+      await call("answerPreCheckoutQuery", { pre_checkout_query_id: q.id, ok: true });
+      // بله همیشه successful_payment را به وب‌هوک نمی‌فرستد؛ پس وضعیت را خودمان استعلام می‌کنیم
+      for (let i = 0; i < 6; i++) {
+        await sleep(800);
+        const t = await call("inquireTransaction", { transaction_id: q.id });
+        const st = t && t.result && t.result.status;
+        if (st === "paid") {
+          const toman = Math.round(q.total_amount / 10);
+          await call("sendMessage", { chat_id: q.from.id, text: `🙏 پرداخت ${fa(toman)} تومانی شما رسید. از حمایت‌تان صمیمانه ممنونیم!\n— سید صبا میری، Saba Apps Studio` });
+          await report(q.from, toman, q.id, t.result.id, "تأیید با استعلام");
+          break;
+        }
+        if (st === "failed" || st === "rejected") break;
+      }
       return new Response("ok");
     }
 
@@ -120,27 +153,9 @@ export default async (req) => {
 
     // ۳) پرداخت موفق → تشکر + گزارش به کانال خصوصی
     if (msg.successful_payment) {
+      // پشتیبان: اگر بله این پیام را فرستاد، گزارش آن هم ثبت می‌شود
       const p = msg.successful_payment;
-      const toman = Math.round(p.total_amount / 10);
-      const w = who(msg.from);
-      const when = new Date().toLocaleString("fa-IR", { timeZone: "Asia/Tehran" });
-      await call("sendMessage", {
-        chat_id: chatId,
-        text: `🙏 پرداخت ${fa(toman)} تومانی شما رسید. از حمایت‌تان صمیمانه ممنونیم!\n— سید صبا میری، Saba Apps Studio`,
-      });
-      if (process.env.REPORT_CHAT_ID) {
-        const rep = await call("sendMessage", {
-          chat_id: process.env.REPORT_CHAT_ID.trim(),
-          text:
-            `💚 حمایت جدید\n` +
-            `مبلغ: ${fa(toman)} تومان\n` +
-            `نام: ${w.name}\nنام کاربری: ${w.user}\nشناسه: ${w.id}\n` +
-            `زمان: ${when}\n` +
-            `شناسه تراکنش: ${p.telegram_payment_charge_id || "—"}\n` +
-            `شماره پیگیری: ${p.provider_payment_charge_id || "—"}`,
-        });
-        if (!rep || !rep.ok) console.error("report failed", JSON.stringify(rep));
-      }
+      await report(msg.from, Math.round(p.total_amount / 10), p.telegram_payment_charge_id, p.provider_payment_charge_id, "رسید پرداخت");
       return new Response("ok");
     }
 
