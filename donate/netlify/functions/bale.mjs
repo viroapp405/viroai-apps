@@ -66,11 +66,27 @@ function who(u = {}) {
   return { name, user: u.username ? "@" + u.username : "—", id: u.id };
 }
 
+// کلید مخفی آدرس وب‌هوک: WEBHOOK_SECRET یا (اگر نبود) هش توکن بازو
+async function hookKey() {
+  if (process.env.WEBHOOK_SECRET) return process.env.WEBHOOK_SECRET;
+  const d = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("saba-donate:" + process.env.BOT_TOKEN));
+  return [...new Uint8Array(d)].slice(0, 16).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
 export default async (req) => {
   const url = new URL(req.url);
+  const key = await hookKey();
+
+  // راه‌اندازی یک‌باره: باز کردن ‎/.netlify/functions/bale?setup=1‎ وب‌هوک بازو را روی همین آدرس تنظیم می‌کند
+  if (req.method === "GET" && url.searchParams.get("setup") === "1") {
+    const hook = `${url.origin}${url.pathname}?k=${key}`;
+    const r = await call("setWebhook", { url: hook });
+    return new Response(r && r.ok ? "وب‌هوک تنظیم شد ✅" : "خطا در تنظیم وب‌هوک: " + JSON.stringify(r), {
+      headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
+  }
   if (req.method !== "POST") return new Response("ok");
-  if (process.env.WEBHOOK_SECRET && url.searchParams.get("k") !== process.env.WEBHOOK_SECRET)
-    return new Response("forbidden", { status: 403 });
+  if (url.searchParams.get("k") !== key) return new Response("forbidden", { status: 403 });
 
   let u;
   try { u = await req.json(); } catch { return new Response("ok"); }
