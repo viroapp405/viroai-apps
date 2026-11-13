@@ -122,19 +122,6 @@ export default async (req) => {
     if (u.pre_checkout_query) {
       const q = u.pre_checkout_query;
       await call("answerPreCheckoutQuery", { pre_checkout_query_id: q.id, ok: true });
-      // بله همیشه successful_payment را به وب‌هوک نمی‌فرستد؛ پس وضعیت را خودمان استعلام می‌کنیم
-      for (let i = 0; i < 6; i++) {
-        await sleep(800);
-        const t = await call("inquireTransaction", { transaction_id: q.id });
-        const st = t && t.result && t.result.status;
-        if (st === "paid") {
-          const toman = Math.round(q.total_amount / 10);
-          await call("sendMessage", { chat_id: q.from.id, text: `🙏 پرداخت ${fa(toman)} تومانی شما رسید. از حمایت‌تان صمیمانه ممنونیم!\n— سید صبا میری، Saba Apps Studio` });
-          await report(q.from, toman, q.id, t.result.id, "تأیید با استعلام");
-          break;
-        }
-        if (st === "failed" || st === "rejected") break;
-      }
       return new Response("ok");
     }
 
@@ -153,9 +140,10 @@ export default async (req) => {
 
     // ۳) پرداخت موفق → تشکر + گزارش به کانال خصوصی
     if (msg.successful_payment) {
-      // پشتیبان: اگر بله این پیام را فرستاد، گزارش آن هم ثبت می‌شود
       const p = msg.successful_payment;
-      await report(msg.from, Math.round(p.total_amount / 10), p.telegram_payment_charge_id, p.provider_payment_charge_id, "رسید پرداخت");
+      const toman0 = Math.round(p.total_amount / 10);
+      await call("sendMessage", { chat_id: chatId, text: `🙏 پرداخت ${fa(toman0)} تومانی شما رسید. از حمایت‌تان صمیمانه ممنونیم!\n— سید صبا میری، Saba Apps Studio` });
+      await report(msg.from, Math.round(p.total_amount / 10), p.telegram_payment_charge_id, p.provider_payment_charge_id);
       return new Response("ok");
     }
 
