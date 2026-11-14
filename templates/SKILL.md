@@ -1,4 +1,4 @@
-SKILL: Building Gemini Canvas apps for Saba (ViroAI) — portable version, 2026-11-12
+SKILL: Building Gemini Canvas apps for Saba (ViroAI) — portable version, updated 2026-11-14
 
 Talk to Saba in Persian. Apps are free Persian AI tools that run inside Gemini Canvas.
 
@@ -63,3 +63,12 @@ const CACHE_KEY="sabaLoader.saba-slides";
 </script>
 </body>
 </html>
+
+UPDATES 2026-11-14
+- Telegram link in creator info everywhere: https://t.me/viroaihub (footer, about modal, settings). Donate: «💚 حمایت» → https://smiri.netlify.app/ (green header button + footer).
+- Tailwind: the Play CDN (cdn.tailwindcss.com) does NOT style under the Canvas loader. Precompile Tailwind 3.4 with the app's own config (content = the finished page) and inline the CSS as <style> in <head>. No CDN script may remain.
+- The loader skips <head> scripts and runs <body> scripts in order after DOMContentLoaded: move Vue/JSZip etc. into the body and boot with a document.readyState check. Never use document.open/write.
+- Migrating a Gemini-built app: keep its layout and every feature; only add models/fallback, optional key, storage (IndexedDB + zip + bridge), creator info, then test.
+- Batch image tools: show each image as a live preview card in the queue with its own «دوباره بساز» (same prompt, ratio and reference images) and download; up to 5 reference images for character consistency.
+- Gemini Toolbox (personal all-in-one extension) v1.7.0 lists 9 tools with current share links; new tools can be added from its Options page without a rebuild.
+
