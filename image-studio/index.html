@@ -1,0 +1,2192 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استودیو هوشمند تصویر | Smart Image Studio</title>
+    <!-- Google Fonts: Vazirmatn -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: #060810;
+            color: #f1f5f9;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+        .glass-panel {
+            background: rgba(19, 27, 46, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .gradient-btn {
+            background: linear-gradient(135deg, #9333ea 0%, #3b82f6 100%);
+            transition: all 0.3s ease;
+        }
+        .gradient-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px -5px rgba(147, 51, 234, 0.4);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #c084fc 0%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(147, 51, 234, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.6); }
+        }
+        .pulse-glow {
+            animation: pulseGlow 3s infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-dark-900 overflow-x-hidden">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Vazirmatn', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: {
+                            900: '#060810',
+                            800: '#0b0f19',
+                            700: '#131b2e',
+                            600: '#1e293b',
+                            500: '#334155'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Top Navigation / Header -->
+    <header class="glass-panel border-b border-white/10 sticky top-0 z-50 px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center space-x-3 space-x-reverse">
+            <div class="w-10 h-10 rounded-xl gradient-btn flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg lg:text-xl gradient-text">استودیو هوشمند تصویر</h1>
+                <p class="text-xs text-slate-400">نسخه حرفه‌ای هوش مصنوعی مولد جنیسیس</p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-2 space-x-reverse">
+            <button onclick="openHistoryDrawer()" class="px-3 py-1.5 rounded-lg glass-card text-sm text-slate-300 hover:text-white flex items-center space-x-2 space-x-reverse transition">
+                <i class="fa-solid fa-clock-rotate-left text-purple-400"></i>
+                <span class="hidden sm:inline">تاریخچه نشست</span>
+            </button>
+            <button onclick="exportAllAppData()" class="px-3 py-1.5 rounded-lg glass-card text-sm text-slate-300 hover:text-white flex items-center space-x-2 space-x-reverse transition" title="پشتیبان‌گیری کامل">
+                <i class="fa-solid fa-download text-blue-400"></i>
+                <span class="hidden sm:inline">پشتیبان</span>
+            </button>
+            <a href="https://smiri.netlify.app/" target="_blank" rel="noopener" title="حمایت مالی از اپ‌های رایگان" class="px-3 py-1.5 rounded-lg text-sm font-bold whitespace-nowrap" style="background:linear-gradient(135deg,#16a34a,#2ee59d);color:#04140c;text-decoration:none">💚 حمایت</a>
+            <button onclick="SabaUI.about()" class="px-2.5 py-1.5 rounded-lg glass-card text-sm" aria-label="درباره‌ی سازنده" title="درباره‌ی سازنده">ℹ️</button>
+            <button onclick="SabaUI.settings()" class="px-2.5 py-1.5 rounded-lg glass-card text-sm" aria-label="تنظیمات" title="تنظیمات">⚙️</button>
+        </div>
+    </header>
+
+    <!-- Main Workspace Layout (Two Columns) -->
+    <main class="flex-1 flex flex-col lg:flex-row h-[calc(100vh-65px)] overflow-hidden">
+        
+        <!-- RIGHT PANEL: Tool & Tabs Panel (Width: 48% on desktop) -->
+        <section class="w-full lg:w-[48%] flex flex-col h-full border-l border-white/10 bg-dark-800/80 overflow-hidden">
+            <!-- Tabs Header Bar -->
+            <div class="flex overflow-x-auto bg-dark-900/60 p-2 border-b border-white/10 shrink-0 no-scrollbar gap-1.5" id="tabNav">
+                <button onclick="switchTab(1)" class="tab-btn px-3 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition flex items-center space-x-1.5 space-x-reverse bg-purple-600/30 text-purple-300 border border-purple-500/40 active-tab" data-tab="1">
+                    <i class="fa-solid fa-image-portrait"></i>
+                    <span>ترکیب تک تصویر</span>
+                </button>
+                <button onclick="switchTab(2)" class="tab-btn px-3 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition flex items-center space-x-1.5 space-x-reverse text-slate-400 hover:text-white hover:bg-dark-600/50" data-tab="2">
+                    <i class="fa-solid fa-images"></i>
+                    <span>ترکیب چند رفرنس</span>
+                </button>
+                <button onclick="switchTab(3)" class="tab-btn px-3 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition flex items-center space-x-1.5 space-x-reverse text-slate-400 hover:text-white hover:bg-dark-600/50" data-tab="3">
+                    <i class="fa-solid fa-font"></i>
+                    <span>تبدیل متن به عکس</span>
+                </button>
+                <button onclick="switchTab(4)" class="tab-btn px-3 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition flex items-center space-x-1.5 space-x-reverse text-slate-400 hover:text-white hover:bg-dark-600/50" data-tab="4">
+                    <i class="fa-solid fa-wand-magic"></i>
+                    <span>ساخت الگو</span>
+                </button>
+                <button onclick="switchTab(5)" class="tab-btn px-3 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition flex items-center space-x-1.5 space-x-reverse text-slate-400 hover:text-white hover:bg-dark-600/50" data-tab="5">
+                    <i class="fa-solid fa-terminal"></i>
+                    <span>کتابخانه دستورها</span>
+                </button>
+            </div>
+
+            <!-- Tab Contents Container -->
+            <div class="flex-1 overflow-y-auto p-4 space-y-4" id="tabContentContainer">
+
+                <!-- TAB 1: Image-to-Image / ترکیب تک تصویر -->
+                <div id="tab1" class="tab-pane space-y-4">
+                    <div class="p-3 rounded-xl border border-purple-500/30 bg-purple-950/20 text-xs text-purple-200 flex items-start space-x-2 space-x-reverse">
+                        <i class="fa-solid fa-circle-info text-purple-400 mt-0.5 shrink-0"></i>
+                        <div>
+                            <strong>ترکیب تک تصویر (Image-to-Image):</strong> چهره یا سوژه خود را از تصویر A در قالب و فضای تصویر B ادغام کنید. الگوهای آماده را انتخاب کنید یا آپلود نمایید.
+                        </div>
+                    </div>
+
+                    <!-- Template Library Box -->
+                    <div class="glass-card rounded-xl p-3 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-sm font-bold text-white flex items-center space-x-2 space-x-reverse">
+                                <i class="fa-solid fa-book-bookmark text-purple-400"></i>
+                                <span>کتابخانه الگوها و قالب‌های آماده</span>
+                            </h3>
+                            <button onclick="saveCurrentAsTemplate()" class="text-xs bg-purple-600/30 hover:bg-purple-600/50 text-purple-200 px-2.5 py-1 rounded-lg border border-purple-500/30 transition">
+                                <i class="fa-solid fa-bookmark ml-1"></i> ذخیره ترکیب جاری به عنوان قالب
+                            </button>
+                        </div>
+                        <!-- Category Chips -->
+                        <div class="flex flex-wrap gap-1.5 text-xs" id="t1CategoryChips">
+                            <!-- Populated via JS -->
+                        </div>
+                        <!-- Horizontal Scrollable Cards -->
+                        <div class="flex space-x-3 space-x-reverse overflow-x-auto pb-2 pt-1 no-scrollbar" id="t1TemplateCards">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Two Upload Zones: A & B -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <!-- Image A: User Face -->
+                        <div class="glass-card rounded-xl p-3 flex flex-col justify-between">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-semibold text-slate-200">تصویر الف: چهره کاربر (A)</span>
+                                <button onclick="clearImage('imgA')" class="text-xs text-red-400 hover:text-red-300"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                            <div id="dropzoneA" onclick="triggerFileInput('fileA')" class="border-2 border-dashed border-slate-600 hover:border-purple-500 rounded-lg p-4 text-center cursor-pointer transition flex flex-col items-center justify-center min-h-[120px] bg-dark-900/40 relative overflow-hidden">
+                                <input type="file" id="fileA" accept="image/*" class="hidden" onchange="handleImageUpload(event, 'imgA')">
+                                <div id="previewContainerA" class="absolute inset-0 hidden">
+                                    <img id="imgPreviewA" class="w-full h-full object-cover">
+                                </div>
+                                <div id="placeholderA" class="space-y-1">
+                                    <i class="fa-solid fa-user-plus text-2xl text-purple-400"></i>
+                                    <p class="text-xs text-slate-300">کلیک یا رها کردن عکس چهره</p>
+                                    <span class="text-[10px] text-slate-500">حداکثر ۴ مگابایت</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Image B: Template / Inspiration -->
+                        <div class="glass-card rounded-xl p-3 flex flex-col justify-between">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-semibold text-slate-200">تصویر ب: تمپلیت / الهام‌بخش (B)</span>
+                                <button onclick="clearImage('imgB')" class="text-xs text-red-400 hover:text-red-300"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                            <div id="dropzoneB" onclick="triggerFileInput('fileB')" class="border-2 border-dashed border-slate-600 hover:border-purple-500 rounded-lg p-4 text-center cursor-pointer transition flex flex-col items-center justify-center min-h-[120px] bg-dark-900/40 relative overflow-hidden">
+                                <input type="file" id="fileB" accept="image/*" class="hidden" onchange="handleImageUpload(event, 'imgB')">
+                                <div id="previewContainerB" class="absolute inset-0 hidden">
+                                    <img id="imgPreviewB" class="w-full h-full object-cover">
+                                </div>
+                                <div id="placeholderB" class="space-y-1">
+                                    <i class="fa-solid fa-image text-2xl text-blue-400"></i>
+                                    <p class="text-xs text-slate-300">انتخاب عکس قالب یا تمپلیت</p>
+                                    <span class="text-[10px] text-slate-500">یا انتخاب از کتابخانه بالا</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Blending Mode Selection -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-semibold text-slate-300">حالت ادغام (Blending Mode)</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                            <div onclick="setBlendMode(1)" id="blendCard1" class="blend-card glass-card rounded-lg p-2.5 cursor-pointer border border-purple-500 bg-purple-900/20 transition text-xs space-y-1">
+                                <div class="font-bold text-white flex items-center justify-between">
+                                    <span>ادغام یکپارچه هوشمند</span>
+                                    <i class="fa-solid fa-check-circle text-purple-400"></i>
+                                </div>
+                                <p class="text-[11px] text-slate-400">حفظ هویت چهره در صحنه و استایل تصویر B</p>
+                            </div>
+                            <div onclick="setBlendMode(2)" id="blendCard2" class="blend-card glass-card rounded-lg p-2.5 cursor-pointer border border-white/10 hover:border-slate-500 transition text-xs space-y-1">
+                                <div class="font-bold text-slate-300 flex items-center justify-between">
+                                    <span>چهره در قالب تمپلیت</span>
+                                    <i class="fa-solid fa-circle text-slate-600"></i>
+                                </div>
+                                <p class="text-[11px] text-slate-400">تعویض دقیق فقط چهره، حفظ بدن و پس‌زمینه B</p>
+                            </div>
+                            <div onclick="setBlendMode(3)" id="blendCard3" class="blend-card glass-card rounded-lg p-2.5 cursor-pointer border border-white/10 hover:border-slate-500 transition text-xs space-y-1">
+                                <div class="font-bold text-slate-300 flex items-center justify-between">
+                                    <span>انتقال سبک ملایم</span>
+                                    <i class="fa-solid fa-circle text-slate-600"></i>
+                                </div>
+                                <p class="text-[11px] text-slate-400">حفظ ترکیب A، اعمال رنگ، نور و بافت تمپلیت B</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Instructions Textarea with Slash Support -->
+                    <div class="space-y-1.5 relative">
+                        <label class="text-xs font-semibold text-slate-300">دستورالعمل ادغام و ویرایش نهایی (با قابلیت تایپ / برای انتخاب دستور)</label>
+                        <textarea id="t1Prompt" rows="3" oninput="handlePromptInput(event, 't1Prompt')" placeholder="مثال: با لباس سنتی قاجاری در کاخ گلستان، نورپردازی طلایی عکاسی پرتره..." class="w-full glass-card rounded-xl p-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-purple-500 resize-none"></textarea>
+                    </div>
+                </div>
+
+                <!-- TAB 2: Multi-Ref / ترکیب چند رفرنس -->
+                <div id="tab2" class="tab-pane hidden space-y-4">
+                    <div class="p-3 rounded-xl border border-blue-500/30 bg-blue-950/20 text-xs text-blue-200 flex items-start space-x-2 space-x-reverse">
+                        <i class="fa-solid fa-circle-info text-blue-400 mt-0.5 shrink-0"></i>
+                        <div>
+                            <strong>ترکیب چند رفرنس (Multi-Ref):</strong> تا ۳ تصویر رفرنس آپلود کنید و با ارجاع به «تصویر ۱»، «تصویر ۲» و «تصویر ۳» در پرامپت، صحنه ترکیبی خلق کنید.
+                        </div>
+                    </div>
+
+                    <!-- Multi-Ref Upload Zones -->
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-semibold text-slate-200" id="multiRefCounter">۰ از ۳ تصویر انتخاب شده</span>
+                            <button onclick="clearMultiRefs()" class="text-xs text-red-400 hover:text-red-300"><i class="fa-solid fa-trash ml-1"></i>حذف همه</button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-3" id="multiRefGrid">
+                            <!-- Slot 1 -->
+                            <div onclick="triggerMultiUpload(0)" class="border-2 border-dashed border-slate-600 hover:border-blue-500 rounded-xl h-28 flex flex-col items-center justify-center cursor-pointer relative overflow-hidden bg-dark-900/40">
+                                <input type="file" id="multiFile0" accept="image/*" class="hidden" onchange="handleMultiUpload(event, 0)">
+                                <div id="multiPreview0" class="absolute inset-0 hidden"><img class="w-full h-full object-cover"></div>
+                                <div id="multiPlace0" class="text-center p-1">
+                                    <span class="w-6 h-6 rounded-full bg-blue-600 text-white text-xs flex items-center justify-center mx-auto mb-1">۱</span>
+                                    <span class="text-[10px] text-slate-400">تصویر اول</span>
+                                </div>
+                            </div>
+                            <!-- Slot 2 -->
+                            <div onclick="triggerMultiUpload(1)" class="border-2 border-dashed border-slate-600 hover:border-blue-500 rounded-xl h-28 flex flex-col items-center justify-center cursor-pointer relative overflow-hidden bg-dark-900/40">
+                                <input type="file" id="multiFile1" accept="image/*" class="hidden" onchange="handleMultiUpload(event, 1)">
+                                <div id="multiPreview1" class="absolute inset-0 hidden"><img class="w-full h-full object-cover"></div>
+                                <div id="multiPlace1" class="text-center p-1">
+                                    <span class="w-6 h-6 rounded-full bg-blue-600 text-white text-xs flex items-center justify-center mx-auto mb-1">۲</span>
+                                    <span class="text-[10px] text-slate-400">تصویر دوم</span>
+                                </div>
+                            </div>
+                            <!-- Slot 3 -->
+                            <div onclick="triggerMultiUpload(2)" class="border-2 border-dashed border-slate-600 hover:border-blue-500 rounded-xl h-28 flex flex-col items-center justify-center cursor-pointer relative overflow-hidden bg-dark-900/40">
+                                <input type="file" id="multiFile2" accept="image/*" class="hidden" onchange="handleMultiUpload(event, 2)">
+                                <div id="multiPreview2" class="absolute inset-0 hidden"><img class="w-full h-full object-cover"></div>
+                                <div id="multiPlace2" class="text-center p-1">
+                                    <span class="w-6 h-6 rounded-full bg-blue-600 text-white text-xs flex items-center justify-center mx-auto mb-1">۳</span>
+                                    <span class="text-[10px] text-slate-400">تصویر سوم</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prompt Textarea -->
+                    <div class="space-y-1.5 relative">
+                        <label class="text-xs font-semibold text-slate-300">پرامپت ترکیبی (با ذکر تصویر ۱، ۲، ۳)</label>
+                        <textarea id="t2Prompt" rows="4" oninput="handlePromptInput(event, 't2Prompt')" placeholder="مثال: کاراکتر موجود در تصویر ۱ را با ژست و حالت تصویر ۲ در سالن مجلل تصویر ۳ قرار بده..." class="w-full glass-card rounded-xl p-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 resize-none"></textarea>
+                    </div>
+                </div>
+
+                <!-- TAB 3: Text-to-Image / تبدیل متن به عکس -->
+                <div id="tab3" class="tab-pane hidden space-y-4">
+                    <div class="p-3 rounded-xl border border-purple-500/30 bg-purple-950/20 text-xs text-purple-200 flex items-start space-x-2 space-x-reverse">
+                        <i class="fa-solid fa-circle-info text-purple-400 mt-0.5 shrink-0"></i>
+                        <div>
+                            <strong>تبدیل متن به عکس (Text-to-Image):</strong> ایده خود را بنویسید یا از پرامپت‌های نمونه استفاده کنید. دکمه «بهبود پرامپت با هوش مصنوعی» توصیف شما را بسیار دقیق‌تر و حرفه‌ای‌تر می‌کند.
+                        </div>
+                    </div>
+
+                    <!-- Prompt Textarea -->
+                    <div class="space-y-1.5 relative">
+                        <div class="flex justify-between items-center">
+                            <label class="text-xs font-semibold text-slate-300">متن ایده یا پرامپت (فارسی / انگلیسی)</label>
+                            <button onclick="enhancePromptAI()" class="text-xs text-purple-300 hover:text-white bg-purple-600/20 hover:bg-purple-600/40 px-2.5 py-1 rounded-lg border border-purple-500/30 transition flex items-center space-x-1 space-x-reverse">
+                                <i class="fa-solid fa-wand-magic-sparkles text-purple-400 ml-1"></i>
+                                <span>بهبود پرامپت با هوش مصنوعی</span>
+                            </button>
+                        </div>
+                        <textarea id="t3Prompt" rows="4" oninput="handlePromptInput(event, 't3Prompt')" placeholder="ایده خود را با جزئیات بنویسید..." class="w-full glass-card rounded-xl p-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-purple-500 resize-none"></textarea>
+                    </div>
+
+                    <!-- Example Prompts Cards -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-semibold text-slate-300">نمونه پرامپت‌های آماده (کلیک کنید)</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                            <div onclick="setT3Example(0)" class="glass-card p-2.5 rounded-lg cursor-pointer hover:border-purple-500 transition">
+                                <div class="font-bold text-white mb-1"><i class="fa-solid fa-book text-purple-400 ml-1"></i> مینیاتور ایرانی شاهنامه</div>
+                                <p class="text-[11px] text-slate-400 truncate">نگارگری سنتی با جزئیات طکاری و سیمرغ...</p>
+                            </div>
+                            <div onclick="setT3Example(1)" class="glass-card p-2.5 rounded-lg cursor-pointer hover:border-purple-500 transition">
+                                <div class="font-bold text-white mb-1"><i class="fa-solid fa-house text-blue-400 ml-1"></i> ویلای مدرن مشهد در پاییز</div>
+                                <p class="text-[11px] text-slate-400 truncate">طراحی مدرن بتن و شیشه، غروب پاییزی...</p>
+                            </div>
+                            <div onclick="setT3Example(2)" class="glass-card p-2.5 rounded-lg cursor-pointer hover:border-purple-500 transition">
+                                <div class="font-bold text-white mb-1"><i class="fa-solid fa-cat text-amber-400 ml-1"></i> گربه پرشین کتابخوان</div>
+                                <p class="text-[11px] text-slate-400 truncate">گربه ملوس با عینک کنار شمع در کتابخانه...</p>
+                            </div>
+                            <div onclick="setT3Example(3)" class="glass-card p-2.5 rounded-lg cursor-pointer hover:border-purple-500 transition">
+                                <div class="font-bold text-white mb-1"><i class="fa-solid fa-city text-cyan-400 ml-1"></i> تهران سایبرپانک با برج میلاد</div>
+                                <p class="text-[11px] text-slate-400 truncate">تهران آینده با نئون‌های فارسی و باران...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 4: Template Maker / ساخت الگوی شخصی -->
+                <div id="tab4" class="tab-pane hidden space-y-4">
+                    <div class="p-3 rounded-xl border border-blue-500/30 bg-blue-950/20 text-xs text-blue-200 flex items-start space-x-2 space-x-reverse">
+                        <i class="fa-solid fa-circle-info text-blue-400 mt-0.5 shrink-0"></i>
+                        <div>
+                            <strong>جادوگر ساخت الگوی اختصاصی:</strong> یک عکس الهام‌بخش آپلود کنید. هوش مصنوعی آن را تحلیل کرده و الگویی جهانی با تگ [SUBJECT] برای استفاده در تب‌های دیگر می‌سازد.
+                        </div>
+                    </div>
+
+                    <!-- Inspiration Image Upload -->
+                    <div class="glass-card rounded-xl p-3 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-semibold text-slate-200">تصویر الهام‌بخش الگو (تا ۱۰ مگابایت)</span>
+                            <button onclick="clearT4Image()" class="text-xs text-red-400 hover:text-red-300"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                        <div id="dropzoneT4" onclick="triggerFileInput('fileT4')" class="border-2 border-dashed border-slate-600 hover:border-blue-500 rounded-xl p-6 text-center cursor-pointer transition flex flex-col items-center justify-center min-h-[140px] bg-dark-900/40 relative overflow-hidden">
+                            <input type="file" id="fileT4" accept="image/*" class="hidden" onchange="handleT4Upload(event)">
+                            <div id="previewContainerT4" class="absolute inset-0 hidden"><img id="imgPreviewT4" class="w-full h-full object-cover"></div>
+                            <div id="placeholderT4" class="space-y-1">
+                                <i class="fa-solid fa-cloud-arrow-up text-3xl text-blue-400"></i>
+                                <p class="text-xs text-slate-300">کلیک برای آپلود عکس مرجع الگو</p>
+                            </div>
+                        </div>
+                        <button onclick="analyzeTemplateAI()" class="w-full py-2.5 rounded-xl gradient-btn text-white text-xs font-bold shadow-lg flex items-center justify-center space-x-2 space-x-reverse">
+                            <i class="fa-solid fa-microchip"></i>
+                            <span>تحلیل عکس و ساخت پرامپت با هوش مصنوعی</span>
+                        </button>
+                    </div>
+
+                    <!-- Editable Fields for New Template -->
+                    <div class="glass-card rounded-xl p-3 space-y-3">
+                        <h4 class="text-xs font-bold text-slate-200">مشخصات الگوی تولید شده</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <div>
+                                <label class="text-[11px] text-slate-400 block mb-1">عنوان الگو (فارسی)</label>
+                                <input type="text" id="t4Title" class="w-full glass-card rounded-lg p-2 text-xs text-white focus:outline-none focus:border-blue-500" placeholder="مثال: پرتره لوکس استودیویی">
+                            </div>
+                            <div>
+                                <label class="text-[11px] text-slate-400 block mb-1">دسته‌بندی</label>
+                                <select id="t4Category" class="w-full glass-card rounded-lg p-2 text-xs text-white bg-dark-700 focus:outline-none focus:border-blue-500">
+                                    <option value="آقایان">آقایان</option>
+                                    <option value="خانم‌ها">خانم‌ها</option>
+                                    <option value="کودکان">کودکان</option>
+                                    <option value="استودیو">استودیو</option>
+                                    <option value="مجلسی">مجلسی</option>
+                                    <option value="محصول">محصول</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-[11px] text-slate-400 block mb-1">پرامپت انگلیسی جهانی (با استفاده از [SUBJECT])</label>
+                            <textarea id="t4PromptEn" rows="3" class="w-full glass-card rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-blue-500 font-mono" placeholder="Cinematic portrait of [SUBJECT]..."></textarea>
+                        </div>
+                        <button onclick="saveTemplateToGallery()" class="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition flex items-center justify-center space-x-1.5 space-x-reverse">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            <span>ذخیره در گالری من</span>
+                        </button>
+                    </div>
+
+                    <!-- My Templates Gallery Grid -->
+                    <div class="glass-card rounded-xl p-3 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <h4 class="text-xs font-bold text-white flex items-center space-x-1.5 space-x-reverse">
+                                <i class="fa-solid fa-folder-open text-purple-400"></i>
+                                <span>گالری الگوهای من</span>
+                            </h4>
+                            <div class="flex space-x-1.5 space-x-reverse text-xs">
+                                <button onclick="exportGalleryJSON()" class="px-2 py-1 bg-dark-600 hover:bg-slate-700 rounded text-slate-300 transition" title="خروجی JSON"><i class="fa-solid fa-file-export"></i></button>
+                                <label class="px-2 py-1 bg-dark-600 hover:bg-slate-700 rounded text-slate-300 transition cursor-pointer" title="وارد کردن JSON">
+                                    <i class="fa-solid fa-file-import"></i>
+                                    <input type="file" accept=".json" class="hidden" onchange="importGalleryJSON(event)">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 max-h-60 overflow-y-auto p-1" id="myTemplatesGrid">
+                            <!-- Populated via IndexedDB -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 5: Slash Commands / کتابخانه دستورها -->
+                <div id="tab5" class="tab-pane hidden space-y-4">
+                    <div class="p-3 rounded-xl border border-purple-500/30 bg-purple-950/20 text-xs text-purple-200 flex items-start space-x-2 space-x-reverse">
+                        <i class="fa-solid fa-circle-info text-purple-400 mt-0.5 shrink-0"></i>
+                        <div>
+                            <strong>کتابخانه دستورها (Slash Commands):</strong> کتابخانه شخصی شما از صدها دستور آماده. دستورها را انتخاب کرده، عکس مرجع بدهید و مستقیماً اجرا نمایید.
+                        </div>
+                    </div>
+
+                    <!-- Selected Command Smart Execution Panel (Active when a command is selected for execution) -->
+                    <div id="cmdExecutionPanel" class="glass-card rounded-xl p-3 space-y-3 hidden border border-purple-500/50 bg-purple-950/30">
+                        <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                            <div class="flex items-center space-x-2 space-x-reverse">
+                                <span id="execCmdSlash" class="px-2 py-0.5 rounded bg-purple-600 text-white font-mono text-xs font-bold">/command</span>
+                                <h4 id="execCmdTitle" class="text-xs font-bold text-white">عنوان دستور</h4>
+                            </div>
+                            <button onclick="closeCommandExecutionPanel()" class="text-slate-400 hover:text-white text-xs"><i class="fa-solid fa-xmark"></i> بستن</button>
+                        </div>
+                        <p id="execCmdDesc" class="text-xs text-slate-300"></p>
+
+                        <!-- Upload Zone for Command Reference Image -->
+                        <div id="execImageUploadBox" class="space-y-1.5">
+                            <label id="execImageLabel" class="text-xs font-semibold text-slate-200 block">عکس مرجع</label>
+                            <div onclick="triggerFileInput('fileExec')" class="border-2 border-dashed border-slate-600 hover:border-purple-500 rounded-lg p-3 text-center cursor-pointer transition flex flex-col items-center justify-center min-h-[100px] bg-dark-900/40 relative overflow-hidden">
+                                <input type="file" id="fileExec" accept="image/*" class="hidden" onchange="handleExecImageUpload(event)">
+                                <div id="previewContainerExec" class="absolute inset-0 hidden">
+                                    <img id="imgPreviewExec" class="w-full h-full object-cover">
+                                </div>
+                                <div id="placeholderExec" class="space-y-1">
+                                    <i class="fa-solid fa-cloud-arrow-up text-2xl text-purple-400"></i>
+                                    <p class="text-xs text-slate-300" id="execImageHint">کلیک برای انتخاب عکس مرجع</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Text Input field if command expects text inside image -->
+                        <div id="execTextInputBox" class="space-y-1.5 hidden">
+                            <label id="execTextLabel" class="text-xs font-semibold text-slate-200 block">متن داخل تصویر</label>
+                            <input type="text" id="execTextInput" class="w-full glass-card rounded-lg p-2 text-xs text-white focus:outline-none focus:border-purple-500" placeholder="متن متغیر را وارد کنید...">
+                        </div>
+
+                        <!-- Extra instructions textarea -->
+                        <div class="space-y-1">
+                            <label class="text-[11px] text-slate-400 block">دستورالعمل تکمیلی (اختیاری)</label>
+                            <textarea id="execExtraInstructions" rows="2" placeholder="توضیحات بیشتر برای افزودن به پرامپت..." class="w-full glass-card rounded-lg p-2 text-xs text-slate-200 focus:outline-none focus:border-purple-500 resize-none"></textarea>
+                        </div>
+
+                        <button onclick="runSmartCommandWithRef()" class="w-full py-2.5 rounded-xl gradient-btn text-white text-xs font-bold shadow-lg flex items-center justify-center space-x-2 space-x-reverse">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <span>اجرای هوشمند دستور با عکس مرجع</span>
+                        </button>
+                    </div>
+
+                    <!-- Command Action Bar -->
+                    <div class="flex flex-wrap gap-2 items-center justify-between glass-card p-2.5 rounded-xl">
+                        <div class="flex items-center space-x-2 space-x-reverse">
+                            <button onclick="openImportModal()" class="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-bold transition flex items-center space-x-1 space-x-reverse">
+                                <i class="fa-solid fa-file-arrow-up"></i>
+                                <span>وارد کردن دستورها</span>
+                            </button>
+                            <button onclick="exportSlashLibrary()" class="px-3 py-1.5 bg-dark-600 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold transition flex items-center space-x-1 space-x-reverse">
+                                <i class="fa-solid fa-file-arrow-down"></i>
+                                <span>خروجی کتابخانه</span>
+                            </button>
+                        </div>
+                        <button onclick="confirmClearSlashLibrary()" class="px-2.5 py-1.5 bg-red-600/30 hover:bg-red-600/50 text-red-300 border border-red-500/30 rounded-lg text-xs transition">
+                            <i class="fa-solid fa-trash ml-1"></i>حذف همه
+                        </button>
+                    </div>
+
+                    <!-- Search and Filters -->
+                    <div class="space-y-2">
+                        <div class="relative">
+                            <i class="fa-solid fa-magnifying-glass absolute right-3 top-3 text-slate-400 text-xs"></i>
+                            <input type="text" id="slashSearchInput" oninput="filterSlashCommands()" placeholder="جستجو در نام، عنوان، توصیف یا /دستور..." class="w-full glass-card rounded-xl py-2.5 pr-9 pl-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-500">
+                        </div>
+                        <!-- Group Tabs -->
+                        <div class="flex overflow-x-auto space-x-1.5 space-x-reverse no-scrollbar text-xs pb-1" id="slashGroupTabs">
+                            <!-- Populated via JS -->
+                        </div>
+                        <!-- Category Chips & Filters -->
+                        <div class="flex items-center justify-between text-xs">
+                            <div class="flex flex-wrap gap-1" id="slashCategoryChips"></div>
+                            <div class="flex space-x-1 space-x-reverse shrink-0">
+                                <button onclick="toggleSlashFilter('fav')" id="filterFavBtn" class="px-2 py-1 rounded bg-dark-600 text-slate-300 hover:text-white"><i class="fa-solid fa-star text-amber-400"></i></button>
+                                <button onclick="toggleSlashFilter('used')" id="filterUsedBtn" class="px-2 py-1 rounded bg-dark-600 text-slate-300 hover:text-white"><i class="fa-solid fa-fire text-orange-400"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Commands List Container -->
+                    <div class="space-y-2.5 max-h-[360px] overflow-y-auto p-1" id="slashCommandsContainer">
+                        <!-- Populated via JS -->
+                    </div>
+                    <!-- Pagination Bar -->
+                    <div class="flex items-center justify-between text-xs text-slate-400 pt-1" id="slashPagination"></div>
+                </div>
+
+            </div>
+
+            <!-- SHARED SETTINGS BAR (Bottom of Right Panel) -->
+            <div class="glass-panel border-t border-white/10 p-3 space-y-3 shrink-0">
+                <!-- Aspect Ratio & Count -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
+                    <!-- Aspect Ratios -->
+                    <div class="flex items-center justify-between sm:justify-start space-x-2 space-x-reverse">
+                        <span class="text-[11px] font-semibold text-slate-300">نسبت تصویر:</span>
+                        <div class="flex space-x-1 space-x-reverse text-xs" id="aspectRatioSelector">
+                            <button onclick="setAspectRatio('1:1')" class="ar-btn px-2 py-1 rounded bg-purple-600 text-white font-bold" data-ar="1:1">۱:۱</button>
+                            <button onclick="setAspectRatio('4:5')" class="ar-btn px-2 py-1 rounded bg-dark-600 text-slate-300 hover:text-white" data-ar="4:5">۴:۵</button>
+                            <button onclick="setAspectRatio('3:4')" class="ar-btn px-2 py-1 rounded bg-dark-600 text-slate-300 hover:text-white" data-ar="3:4">۳:۴</button>
+                            <button onclick="setAspectRatio('9:16')" class="ar-btn px-2 py-1 rounded bg-dark-600 text-slate-300 hover:text-white" data-ar="9:16">۹:۱۶</button>
+                            <button onclick="setAspectRatio('16:9')" class="ar-btn px-2 py-1 rounded bg-dark-600 text-slate-300 hover:text-white" data-ar="16:9">۱۶:۹</button>
+                        </div>
+                    </div>
+                    <!-- Number of Images Slider -->
+                    <div class="flex items-center space-x-2 space-x-reverse">
+                        <span class="text-[11px] font-semibold text-slate-300 whitespace-nowrap">تعداد: <span id="countVal" class="text-purple-400 font-bold">4</span></span>
+                        <input type="range" id="countSlider" min="1" max="16" value="4" oninput="document.getElementById('countVal').innerText = this.value" class="w-full accent-purple-500 cursor-pointer">
+                    </div>
+                </div>
+
+                <!-- Big Generate Button & Cancel -->
+                <div class="flex items-center space-x-2 space-x-reverse">
+                    <button onclick="startGeneration()" id="generateBtn" class="flex-1 py-3 rounded-xl gradient-btn text-white font-bold text-sm shadow-xl flex items-center justify-center space-x-2 space-x-reverse pulse-glow">
+                        <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
+                        <span>شروع تصویرسازی هوشمند</span>
+                    </button>
+                    <button onclick="cancelGeneration()" id="cancelBtn" class="hidden px-4 py-3 rounded-xl bg-red-600/80 hover:bg-red-600 text-white font-bold text-sm transition">
+                        <i class="fa-solid fa-stop"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- LEFT PANEL: Results & Preview Panel (Width: 52% on desktop) -->
+        <section class="w-full lg:w-[52%] flex flex-col h-full bg-dark-900/90 relative overflow-hidden">
+            <!-- Results Header Controls -->
+            <div class="glass-panel border-b border-white/10 px-4 py-3 flex items-center justify-between shrink-0">
+                <div class="flex items-center space-x-2 space-x-reverse text-xs text-slate-300">
+                    <i class="fa-solid fa-photo-film text-purple-400 text-base"></i>
+                    <span id="resultsStatusText">گالری خروجی‌ها (آماده به کار)</span>
+                </div>
+                <div class="flex items-center space-x-2 space-x-reverse text-xs">
+                    <button onclick="toggleCompareMode()" id="compareModeBtn" class="px-2.5 py-1.5 rounded-lg glass-card text-slate-300 hover:text-white transition flex items-center space-x-1 space-x-reverse">
+                        <i class="fa-solid fa-columns"></i>
+                        <span>مقایسه</span>
+                    </button>
+                    <button onclick="downloadStarredResults()" class="px-2.5 py-1.5 rounded-lg glass-card text-amber-300 hover:text-amber-200 transition" title="دانلود برگزیده‌ها">
+                        <i class="fa-solid fa-star"></i>
+                        <span class="hidden sm:inline mr-1">برگزیده‌ها</span>
+                    </button>
+                    <button onclick="downloadAllResults()" class="px-2.5 py-1.5 rounded-lg glass-card text-blue-300 hover:text-blue-200 transition" title="دانلود همه">
+                        <i class="fa-solid fa-download"></i>
+                        <span class="hidden sm:inline mr-1">دانلود همه</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Content Area -->
+            <div class="flex-1 overflow-y-auto p-4 relative" id="resultsArea">
+                <!-- EMPTY STATE -->
+                <div id="emptyState" class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 space-y-3">
+                    <div class="w-20 h-20 rounded-3xl glass-card flex items-center justify-center text-purple-400 text-3xl shadow-2xl border border-purple-500/20">
+                        <i class="fa-solid fa-palette"></i>
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="font-bold text-lg text-white">در انتظار آغاز هنر تفصیلی شما</h3>
+                        <p class="text-xs text-slate-400 max-w-sm">یکی از تب‌های سمت راست را انتخاب کنید، پرامپت یا عکس رفرنس را وارد کنید و روی دکمه شروع تصویرسازی کلیک کنید.</p>
+                    </div>
+                </div>
+
+                <!-- RESULTS GRID -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3.5" id="resultsGrid">
+                    <!-- Populated dynamically during generation -->
+                </div>
+            </div>
+
+            <!-- Session History Strip (Bottom of Left Panel) -->
+            <div class="glass-panel border-t border-white/10 p-2.5 shrink-0 flex items-center space-x-2 space-x-reverse overflow-x-auto no-scrollbar" id="sessionHistoryStrip">
+                <span class="text-[11px] text-slate-400 whitespace-nowrap"><i class="fa-solid fa-history ml-1"></i>تاریخچه اخیر:</span>
+                <!-- Populated via JS -->
+            </div>
+        </section>
+
+    </main>
+    <footer class="cre shrink-0 text-center text-[11px] text-slate-400 py-1.5 border-t border-white/10 flex flex-wrap justify-center gap-x-2 gap-y-1 px-2"><span>ساخته‌ی <b class="text-slate-200">سید صبا میری</b></span>·<a href="https://viroai.ir" target="_blank" rel="noopener" class="text-purple-300">viroai.ir</a>·<a href="https://instagram.com/viromedia404" target="_blank" rel="noopener" dir="ltr" class="text-purple-300">Instagram: viromedia404</a>·<a href="https://smiri.netlify.app/" target="_blank" rel="noopener" class="text-emerald-300">💚 حمایت مالی</a>·<a href="tel:+989120349893" dir="ltr" class="text-purple-300">۰۹۱۲۰۳۴۹۸۹۳</a>·<span>تلگرام: به‌زودی</span></footer>
+    <div id="sabaModal" class="fixed inset-0 z-[60] bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4" onclick="if(event.target===this)SabaUI.close()"><div class="glass-panel rounded-2xl p-5 w-full max-w-lg max-h-[85vh] overflow-y-auto text-sm leading-7 relative"><button onclick="SabaUI.close()" class="absolute top-3 left-3 text-slate-400 hover:text-white" aria-label="بستن"><i class="fa-solid fa-xmark text-lg"></i></button><div id="sabaModalBody"></div></div></div>
+
+    <!-- MODALS & OVERLAYS -->
+
+    <!-- Lightbox Modal -->
+    <div id="lightboxModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="relative max-w-4xl w-full max-h-[90vh] glass-panel rounded-2xl overflow-hidden flex flex-col">
+            <div class="p-3 border-b border-white/10 flex items-center justify-between">
+                <div class="flex items-center space-x-2 space-x-reverse text-xs text-slate-300">
+                    <span id="lightboxSourceBadge" class="px-2 py-0.5 rounded bg-purple-600/30 text-purple-300 font-semibold">تب ۱</span>
+                    <span id="lightboxTimestamp" class="text-slate-400">--:--</span>
+                </div>
+                <button onclick="closeLightbox()" class="text-slate-400 hover:text-white p-1.5"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="flex-1 p-4 flex items-center justify-center overflow-hidden bg-black/40 relative">
+                <button onclick="navigateLightbox(-1)" class="absolute right-4 p-2 rounded-full bg-black/60 text-white hover:bg-purple-600 transition"><i class="fa-solid fa-chevron-right"></i></button>
+                <img id="lightboxImage" class="max-h-[60vh] max-w-full object-contain rounded-lg shadow-2xl">
+                <button onclick="navigateLightbox(1)" class="absolute left-4 p-2 rounded-full bg-black/60 text-white hover:bg-purple-600 transition"><i class="fa-solid fa-chevron-left"></i></button>
+            </div>
+            <div class="p-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs">
+                <div class="flex items-center space-x-2 space-x-reverse">
+                    <button onclick="toggleStarCurrentLightbox()" id="lightboxStarBtn" class="px-3 py-1.5 rounded-lg glass-card text-amber-400 hover:bg-dark-600 transition"><i class="fa-solid fa-star"></i> نشان کردن</button>
+                    <button onclick="downloadCurrentLightbox()" class="px-3 py-1.5 rounded-lg gradient-btn text-white transition"><i class="fa-solid fa-download ml-1"></i> دانلود PNG</button>
+                </div>
+                <div class="flex items-center space-x-2 space-x-reverse">
+                    <button onclick="sendLightboxToTab1()" class="px-3 py-1.5 rounded-lg glass-card text-purple-300 hover:bg-dark-600 transition"><i class="fa-solid fa-arrow-up-right-from-square ml-1"></i> ویرایش در تب ۱ (تصویر A)</button>
+                    <button onclick="generateSimilarLightbox()" class="px-3 py-1.5 rounded-lg glass-card text-blue-300 hover:bg-dark-600 transition"><i class="fa-solid fa-wand-magic ml-1"></i> نسخه‌های مشابه</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Compare Modal -->
+    <div id="compareModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="relative max-w-5xl w-full glass-panel rounded-2xl overflow-hidden flex flex-col p-4 space-y-3">
+            <div class="flex justify-between items-center border-b border-white/10 pb-2">
+                <h3 class="font-bold text-white text-sm">مقایسه دو تصویر خروجی</h3>
+                <button onclick="closeCompareModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 h-[60vh]">
+                <div class="glass-card rounded-xl p-2 flex flex-col items-center justify-center relative overflow-hidden" id="compareSlot1">
+                    <p class="text-xs text-slate-400 mb-2">تصویر اول (روی خروجی‌ها کلیک کنید تا انتخاب شوند)</p>
+                    <div id="compareImg1Container" class="flex-1 flex items-center justify-center w-full"></div>
+                </div>
+                <div class="glass-card rounded-xl p-2 flex flex-col items-center justify-center relative overflow-hidden" id="compareSlot2">
+                    <p class="text-xs text-slate-400 mb-2">تصویر دوم</p>
+                    <div id="compareImg2Container" class="flex-1 flex items-center justify-center w-full"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Slash Commands Modal -->
+    <div id="importModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="relative max-w-2xl w-full glass-panel rounded-2xl overflow-hidden flex flex-col p-4 space-y-4">
+            <div class="flex justify-between items-center border-b border-white/10 pb-2">
+                <h3 class="font-bold text-white text-sm">وارد کردن کتابخانه دستورها (Slash Commands)</h3>
+                <button onclick="closeImportModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="space-y-3 text-xs">
+                <p class="text-slate-300">متن لیست دستورها (مانند فرمت خطی یا JSON ساختاریافته) را بچسبانید یا فایل JSON / TXT آپلود کنید:</p>
+                <textarea id="importTextData" rows="6" placeholder="مثال:
+1. /turnaround — Front, side, back & 3/4 character views
+2. /cyberpunk — Neon city background with futuristic clothing" class="w-full glass-card rounded-xl p-3 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-purple-500 font-mono"></textarea>
+                <div class="flex items-center justify-between">
+                    <label class="px-3 py-2 bg-dark-600 hover:bg-slate-700 rounded-xl text-slate-200 cursor-pointer transition flex items-center space-x-1.5 space-x-reverse">
+                        <i class="fa-solid fa-file-arrow-up"></i>
+                        <span>انتخاب فایل (.json, .txt, .csv, .md)</span>
+                        <input type="file" accept=".json,.txt,.csv,.md" class="hidden" onchange="handleImportFileSelect(event)">
+                    </label>
+                    <button onclick="executeImportCommands()" class="px-4 py-2 rounded-xl gradient-btn text-white font-bold transition">
+                        شروع پردازش و واردسازی
+                    </button>
+                </div>
+                <div id="importProgressBox" class="hidden space-y-2 p-3 glass-card rounded-xl">
+                    <div class="flex justify-between text-[11px] text-slate-300">
+                        <span id="importProgressStatus">در حال تحلیل با هوش مصنوعی...</span>
+                        <span id="importProgressCount">0 / 0</span>
+                    </div>
+                    <div class="w-full bg-dark-900 rounded-full h-2 overflow-hidden">
+                        <div id="importProgressBar" class="bg-purple-500 h-full w-0 transition-all"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Slash Command Picker Popup (Inline Autocomplete) -->
+    <div id="slashPickerPopup" class="absolute z-50 glass-panel rounded-xl shadow-2xl border border-purple-500/40 hidden max-h-60 w-80 overflow-y-auto p-1.5 text-xs space-y-1">
+        <!-- Populated via JS when typing "/" -->
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+// ===== Saba core v2.0.0: models, personal key, API, extension bridge, zip backup, creator info =====
+const APP_VER="2.0.0";
+const apiKey="";
+// Canvas (free, no key): image gemini-3.1-flash-image (fallback gemini-2.5-flash-image-preview), text gemini-2.5-flash.
+const CANVAS_MODELS={image:"gemini-3.1-flash-image",text:"gemini-2.5-flash"};
+const KEY_TEXT_MODELS=["gemini-3.5-flash-lite","gemini-3.5-flash","gemini-3.8-flash"];
+const IMAGE_MODELS=["gemini-3.1-flash-image","gemini-2.5-flash-image-preview"];
+const ImgPick={i:0,since:0,start(){if(this.i&&Date.now()-this.since>10*60*1000)this.i=0;return this.i}};
+const faN=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+const KeyCfg=(()=>{const L=k=>{try{return localStorage.getItem("sabaKey."+k)||""}catch(e){return""}};
+ return{key:L("key"),text:L("text")||KEY_TEXT_MODELS[0],
+ save(k,v){this[k]=String(v||"").trim();try{this[k]?localStorage.setItem("sabaKey."+k,this[k]):localStorage.removeItem("sabaKey."+k)}catch(e){}KeyCfg.apply();const n=document.getElementById("keyNote");if(n)n.textContent=KeyCfg.note()},
+ apply(){TEXT_MODEL=this.key?this.text:CANVAS_MODELS.text},
+ note(){return this.key?`✅ کلید شخصی فعال است · متن: ${TEXT_MODEL} · تصویر: ${IMAGE_MODELS[0]}`:"بدون کلید: مدل‌های رایگان Canvas استفاده می‌شوند"},
+ html(){const o=(a,v)=>a.map(m=>`<option ${m==v?"selected":""}>${m}</option>`).join("");return`<h4 class="font-bold text-purple-300 mt-3">🔑 کلید API شخصی (اختیاری)</h4><p class="text-slate-400 text-xs">اگر کلید Gemini API خودت را بزنی، مدل‌های جدیدتر متن باز می‌شوند (هزینه‌اش با حساب خودت است). کلید فقط در همین مرورگر می‌ماند و جایی فرستاده نمی‌شود جز گوگل. خالی بگذاری، برنامه رایگان با Canvas کار می‌کند.</p><input type="password" dir="ltr" placeholder="AIza..." value="${this.key.replace(/"/g,"&quot;")}" oninput="KeyCfg.save('key',this.value)" class="w-full mt-1 px-3 py-2 rounded-lg bg-dark-900 border border-white/10 text-white"><label class="block mt-2 text-slate-400 text-xs">مدل متن (با کلید) <select dir="ltr" onchange="KeyCfg.save('text',this.value)" class="bg-dark-900 border border-white/10 rounded px-2 py-1 text-white">${o(KEY_TEXT_MODELS,this.text)}</select></label><p class="text-slate-400 text-xs mt-1" id="keyNote">${this.note()}</p>`}}})();
+let TEXT_MODEL,IMAGE_MODEL=IMAGE_MODELS[0];KeyCfg.apply();
+const sabaSleep=ms=>new Promise(ok=>setTimeout(ok,ms));
+async function callApi(model,body,tries=3,onStatus){
+ for(let a=0;;a++){let r;
+  try{r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${KeyCfg.key||apiKey}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)})}
+  catch(e){throw new Error("خطای شبکه: "+e.message)}
+  if(r.ok)return r.json();
+  let m="";try{const j=await r.json();m=j.error&&j.error.message||JSON.stringify(j)}catch(e){m=r.statusText||""}
+  if((r.status==429||r.status>=500)&&a<tries){onStatus&&onStatus(`خطای ${faN(r.status)} — تلاش دوباره ${faN(a+1)} از ${faN(tries)} تا ۱۵ ثانیه‌ی دیگر…`);await sabaSleep(15000);continue}
+  throw Object.assign(new Error(`HTTP Error ${r.status}: ${m}`),{status:r.status})}}
+const sabaStatus=t=>{try{showToast(t,"info")}catch(e){console.log(t)}};
+
+// Extension storage bridge (optional): mirrors IndexedDB to chrome.storage.local so data survives closing Canvas.
+const Bridge=(()=>{const NS="__sabaBridge",APP="saba-image-studio",P=new Map();let seq=0,tm=0,mute=0,lastToast=0;const dirty=new Map();
+ const st={on:false,checked:false,ver:"",last:0,err:"",restored:0};
+ window.addEventListener("message",e=>{const d=e.data;if(e.source!==window||!d||typeof d!="object"||d[NS]!==1||d.dir!=="res"||d.app!==APP)return;const p=P.get(d.id);if(!p)return;P.delete(d.id);clearTimeout(p.t);
+  d.ok?p.ok(d):p.no(Object.assign(new Error(d.error||"bridge error"),{quota:!!d.quota,invalidated:!!d.invalidated}))});
+ const call=(op,o={},ms=60000)=>new Promise((ok,no)=>{const id="b"+(++seq)+"-"+Date.now().toString(36);P.set(id,{ok,no,t:setTimeout(()=>{P.delete(id);no(Object.assign(new Error("timeout"),{timeout:true}))},ms)});
+  window.postMessage({[NS]:1,dir:"req",app:APP,id,op,...o},"*")});
+ const stores=()=>[IDB.storeTemplates,IDB.storeCommands];
+ function msg(e){return e.quota?"فضای ذخیره‌ی اکستنشن پر است؛ پشتیبان زیپ بگیر":e.invalidated?"اکستنشن دوباره بارگذاری شده؛ برنامه را از آیکون اکستنشن دوباره باز کن":e.timeout?"اکستنشن پاسخ نداد":"خطا در ذخیره در اکستنشن: "+e.message}
+ function fail(e){st.err=msg(e);if(Date.now()-lastToast>20000){lastToast=Date.now();sabaStatus("⚠️ "+st.err)}}
+ function mark(s,k,op){if(!st.on||mute||k==null)return;dirty.set(JSON.stringify([s,k]),[s,k,op]);clearTimeout(tm);tm=setTimeout(flush,500)}
+ async function flush(){clearTimeout(tm);if(!st.on||!dirty.size)return;const items=[...dirty.values()];dirty.clear();const sets=[],dels=[];
+  try{for(const[s,k,op]of items){if(!op){dels.push([s,k]);continue}const all=await raw.getAll(s),v=all.find(x=>x.id===k);v?sets.push([s,k,v]):dels.push([s,k])}
+   await call("batch",{sets,dels,full:false});st.last=Date.now();st.err=""}catch(e){for(const it of items)dirty.set(JSON.stringify([it[0],it[1]]),it);fail(e)}}
+ async function full(user){if(!st.on)return -1;try{const sets=[],have=new Set();for(const s of stores())for(const r of await raw.getAll(s)){sets.push([s,r.id,r]);have.add(JSON.stringify([s,r.id]))}
+   const ks=(await call("list")).keys||[],dels=ks.filter(p=>!have.has(JSON.stringify(p)));await call("batch",{sets,dels,full:true});st.last=Date.now();st.err="";if(user)sabaStatus(`همگام‌سازی کامل شد: ${faN(sets.length)} مورد`);return sets.length}
+  catch(e){fail(e);return -1}}
+ let raw=null;
+ function patch(){if(raw)return;raw={put:IDB.put.bind(IDB),delete:IDB.delete.bind(IDB),clear:IDB.clear.bind(IDB),getAll:IDB.getAll.bind(IDB)};
+  IDB.put=async(s,v)=>{const r=await raw.put(s,v);mark(s,v&&v.id,1);return r};
+  IDB.delete=async(s,k)=>{const r=await raw.delete(s,k);mark(s,k,0);return r};
+  IDB.clear=async s=>{const r=await raw.clear(s);if(st.on&&!mute){try{const ks=((await call("list")).keys||[]).filter(p=>p[0]===s);if(ks.length)await call("batch",{sets:[],dels:ks,full:false})}catch(e){fail(e)}}return r}}
+ async function restore(){const r=await call("getAll",{},180000),items=(r.items||[]).filter(x=>Array.isArray(x)&&stores().includes(x[0])&&x[2]&&x[2].id!=null);if(!items.length)return 0;
+  mute++;try{for(const s of stores())await raw.clear(s);for(const[s,,v]of items)await raw.put(s,v)}finally{mute--}return items.length}
+ async function init(){for(let i=0;i<4&&!st.on;i++){try{const r=await call("ping",{},200);st.ver=r.version||"";st.on=true}catch(e){}}st.checked=true;if(!st.on)return false;patch();
+  try{st.restored=await restore();if(!st.restored)await full(false);st.last=Date.now()}catch(e){st.on=false;st.err="بازیابی از اکستنشن ناموفق بود ("+msg(e)+")";sabaStatus("⚠️ "+st.err)}return st.on}
+ const save=()=>{if(dirty.size)flush()};window.addEventListener("pagehide",save);document.addEventListener("visibilitychange",()=>{if(document.visibilityState=="hidden")save()});
+ return{st,init,flush,full,call}})();
+
+// Zip backup: templates, slash commands and this session's results (images as files)
+const Backup={
+ async jz(){if(window.JSZip)return JSZip;await new Promise((ok,no)=>{const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";s.onload=ok;s.onerror=()=>no(new Error("JSZip load failed"));document.head.appendChild(s)});return JSZip},
+ async dump(){const f={},res=[];f["templates.json"]=JSON.stringify(await IDB.getAll(IDB.storeTemplates));f["commands.json"]=JSON.stringify(await IDB.getAll(IDB.storeCommands));
+  (sessionResults||[]).forEach((r,i)=>{const o=Object.assign({},r),u=String(r.url||r.imgUrl||r.src||"");const m=u.match(/^data:([^;]+);base64,(.*)$/);if(m){const n=`results/${String(i).padStart(3,"0")}.${m[1].split("/")[1]||"png"}`;f[n]={b64:m[2]};for(const k of Object.keys(o))if(o[k]===u)o[k]="@"+n}res.push(o)});
+  f["results.json"]=JSON.stringify(res);f["meta.json"]=JSON.stringify({app:"saba-image-studio",ver:APP_VER,at:new Date().toISOString()});return f},
+ async zipOut(){try{const Z=await this.jz(),z=new Z(),f=await this.dump();for(const n in f)typeof f[n]=="string"?z.file(n,f[n]):z.file(n,f[n].b64,{base64:true});
+  const b=await z.generateAsync({type:"blob"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="saba-image-studio-backup-"+new Date().toISOString().slice(0,10)+".zip";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},4000);sabaStatus("✅ پشتیبان زیپ دانلود شد")}
+  catch(e){sabaStatus("⚠️ پشتیبان‌گیری ناموفق: "+e.message)}},
+ async load(get){const J=async n=>{const t=await get(n,"string");return t?JSON.parse(t):null};const tp=await J("templates.json"),cm=await J("commands.json"),rs=await J("results.json");let n=0;
+  for(const x of tp||[])if(x&&x.id!=null){await IDB.put(IDB.storeTemplates,x);n++}for(const x of cm||[])if(x&&x.id!=null){await IDB.put(IDB.storeCommands,x);n++}
+  if(Array.isArray(rs)&&rs.length){for(const o of rs){for(const k of Object.keys(o))if(typeof o[k]=="string"&&o[k].startsWith("@results/")){const p=o[k].slice(1),d=await get(p,"base64");o[k]=d?`data:image/${p.split(".").pop()};base64,${d}`:""}if(!sessionResults.some(r=>r.id!=null&&r.id===o.id))sessionResults.push(o);n++}try{updateSessionHistoryStrip()}catch(e){}}
+  return n},
+ async zipIn(file){if(!file)return;try{const Z=await this.jz(),z=await Z.loadAsync(file);const n=await this.load(async(p,t)=>{const e=z.file(p);return e?e.async(t):null});
+  try{renderTab1Templates();renderTab4Gallery();renderTab5SlashCommands()}catch(e){}sabaStatus(`✅ بازگردانی شد: ${faN(n)} مورد`)}catch(e){sabaStatus("⚠️ فایل پشتیبان معتبر نیست: "+e.message)}}};
+function exportAllAppData(){return Backup.zipOut()}
+
+const SabaUI={
+ open(h){document.getElementById("sabaModalBody").innerHTML=h;document.getElementById("sabaModal").classList.remove("hidden")},
+ close(){document.getElementById("sabaModal").classList.add("hidden")},
+ creator(){return`<p><b>سید صبا میری</b></p><p>🌐 وب‌سایت: <a class="text-purple-300" href="https://viroai.ir" target="_blank" rel="noopener">viroai.ir</a></p><p>📸 اینستاگرام: <a class="text-purple-300" href="https://instagram.com/viromedia404" target="_blank" rel="noopener" dir="ltr">viromedia404</a></p><p>💚 حمایت مالی: <a class="text-emerald-300" href="https://smiri.netlify.app/" target="_blank" rel="noopener" dir="ltr">smiri.netlify.app</a></p><p>📞 تلفن: <a class="text-purple-300" href="tel:+989120349893" dir="ltr">۰۹۱۲۰۳۴۹۸۹۳</a></p><p>✈️ تلگرام: به‌زودی…</p>`},
+ about(){this.open(`<h3 class="font-bold text-lg mb-2">ℹ️ درباره‌ی سازنده</h3>${this.creator()}<p class="text-slate-400 text-xs mt-2">استودیو هوشمند تصویر · نسخه‌ی ${faN(APP_VER)}</p>`)},
+ storage(){const B=Bridge.st;return B.on?`<p class="text-emerald-300 text-xs">🧩 اکستنشن وصل است${B.ver?" (نسخه "+B.ver+")":""}؛ قالب‌ها و دستورها در اکستنشن هم ذخیره می‌شوند.${B.err?"<br><span class='text-amber-300'>"+B.err+"</span>":""}</p><button onclick="Bridge.full(true)" class="mt-1 px-3 py-1.5 rounded-lg bg-dark-600 text-xs">🔄 همگام‌سازی کامل الان</button>`:`<p class="text-amber-300 text-xs">داده‌ها فقط در همین مرورگر (IndexedDB) هستند و ممکن است با بستن Canvas پاک شوند. اکستنشن «استودیو هوشمند تصویر» را نصب کن یا پشتیبان زیپ بگیر.</p>`},
+ settings(){this.open(`<h3 class="font-bold text-lg mb-1">⚙️ تنظیمات</h3>${KeyCfg.html()}<h4 class="font-bold text-purple-300 mt-3">💾 ذخیره‌سازی و پشتیبان</h4>${this.storage()}<div class="flex flex-wrap gap-2 mt-2"><button onclick="Backup.zipOut()" class="px-3 py-1.5 rounded-lg gradient-btn text-white text-xs font-bold">⬇️ دانلود پشتیبان زیپ</button><label class="px-3 py-1.5 rounded-lg bg-dark-600 text-xs cursor-pointer">⬆️ بازگردانی از زیپ<input type="file" accept=".zip" class="hidden" onchange="Backup.zipIn(this.files[0]);this.value=''"></label></div><h4 class="font-bold text-purple-300 mt-3">👤 سازنده</h4><p class="text-xs">ساخته‌ی <b>سید صبا میری</b> · <a class="text-purple-300" href="https://viroai.ir" target="_blank" rel="noopener">viroai.ir</a> · <a class="text-purple-300" href="https://instagram.com/viromedia404" target="_blank" rel="noopener" dir="ltr">Instagram</a> · <a class="text-emerald-300" href="https://smiri.netlify.app/" target="_blank" rel="noopener">💚 حمایت مالی</a> · <a class="text-purple-300" href="tel:+989120349893" dir="ltr">۰۹۱۲۰۳۴۹۸۹۳</a> · تلگرام: به‌زودی</p><p class="text-slate-400 text-xs mt-2">نسخه‌ی ${faN(APP_VER)}</p>`)}};
+    </script>
+    <script>
+        // =========================================================================
+        // APP STATE & INDEXEDDB INITIALIZATION
+        // =========================================================================
+        const APP_ID = typeof __app_id !== 'undefined' ? __app_id : 'smart-image-studio-v1';
+        let db = null;
+
+        // Current UI state
+        let currentTab = 1;
+        let blendMode = 1;
+        let selectedAspectRatio = '1:1';
+        let activeSelectedCommand = null;
+        let isGenerating = false;
+        let abortGenerationFlag = false;
+
+        let imagesState = {
+            imgA: null, // base64
+            imgB: null,
+            multi: [null, null, null],
+            imgT4: null,
+            imgExec: null
+        };
+        let sessionResults = [];
+        let starredResults = [];
+        let currentLightboxIndex = -1;
+
+        // INDEXEDDB WRAPPER
+        const IDB = {
+            dbName: 'SmartImageStudioDB',
+            storeTemplates: 'my_templates',
+            storeCommands: 'slash_commands',
+            
+            async init() {
+                return new Promise((resolve, reject) => {
+                    const req = indexedDB.open(this.dbName, 1);
+                    req.onupgradeneeded = (e) => {
+                        const database = e.target.result;
+                        if (!database.objectStoreNames.contains(this.storeTemplates)) {
+                            database.createObjectStore(this.storeTemplates, { keyPath: 'id' });
+                        }
+                        if (!database.objectStoreNames.contains(this.storeCommands)) {
+                            database.createObjectStore(this.storeCommands, { keyPath: 'id' });
+                        }
+                    };
+                    req.onsuccess = (e) => {
+                        db = e.target.result;
+                        resolve(db);
+                    };
+                    req.onerror = (e) => reject(e);
+                });
+            },
+
+            async getAll(storeName) {
+                return new Promise((resolve) => {
+                    if (!db) return resolve([]);
+                    const tx = db.transaction(storeName, 'readonly');
+                    const store = tx.objectStore(storeName);
+                    const req = store.getAll();
+                    req.onsuccess = () => resolve(req.result || []);
+                    req.onerror = () => resolve([]);
+                });
+            },
+
+            async put(storeName, item) {
+                return new Promise((resolve) => {
+                    if (!db) return resolve(false);
+                    const tx = db.transaction(storeName, 'readwrite');
+                    const store = tx.objectStore(storeName);
+                    const req = store.put(item);
+                    req.onsuccess = () => resolve(true);
+                    req.onerror = () => resolve(false);
+                });
+            },
+
+            async delete(storeName, id) {
+                return new Promise((resolve) => {
+                    if (!db) return resolve(false);
+                    const tx = db.transaction(storeName, 'readwrite');
+                    const store = tx.objectStore(storeName);
+                    const req = store.delete(id);
+                    req.onsuccess = () => resolve(true);
+                    req.onerror = () => resolve(false);
+                });
+            },
+
+            async clear(storeName) {
+                return new Promise((resolve) => {
+                    if (!db) return resolve(false);
+                    const tx = db.transaction(storeName, 'readwrite');
+                    const store = tx.objectStore(storeName);
+                    const req = store.clear();
+                    req.onsuccess = () => resolve(true);
+                    req.onerror = () => resolve(false);
+                });
+            }
+        };
+
+        // Seed initial example commands
+        const SEED_COMMANDS = [
+            { id: 'cmd-1', slash: 'turnaround', title_fa: 'طراحی ۳۶۰ درجه کاراکتر', desc_fa: 'نمایش کامل نماهای روبرو، نیم‌رخ و پشت کاراکتر', input: 'person', prompt_en: 'A full character sheet turnaround showing front view, side profile, and back view of [SUBJECT], detailed, production concept art.', group: '👤 شخصیت و کاراکتر', category: 'طراحی', favorite: true, useCount: 12 },
+            { id: 'cmd-2', slash: 'product_studio', title_fa: 'عکاسی استودیویی محصول', desc_fa: 'قرارگیری محصول در نورپردازی و بک‌گراند مینیمال لوکس', input: 'product', prompt_en: 'Professional high-end studio product photograph of [SUBJECT] on a reflective surface, sleek lighting, blurred background, ultra-detailed.', group: '📦 تبلیغات محصول', category: 'لوکس', favorite: false, useCount: 8 },
+            { id: 'cmd-3', slash: 'cyberpunk', title_fa: 'استایل سایبرپانک نئونی', desc_fa: 'پرتره آینده‌نگرانه با نورپردازی‌های نئون ارغوانی و آبی', input: 'person', prompt_en: 'Futuristic cyberpunk style portrait of [SUBJECT], glowing purple and blue neon lights, wet reflective night street in the background, high detail.', group: '🎨 سبک‌های هنری', category: 'سایبرپانک', favorite: true, useCount: 15 },
+            { id: 'cmd-4', slash: 'miniature', title_fa: 'مینیاتور اصیل ایرانی', desc_fa: 'سبک نگارگری سنتی شاهنامه با تذهیب طلاکاری', input: 'any', prompt_en: 'Traditional Persian miniature painting depicting [SUBJECT], intricate golden illumination details, classic Shahnameh manuscript style.', group: '🎨 سبک‌های هنری', category: 'سنتی', favorite: false, useCount: 5 },
+            { id: 'cmd-5', slash: 'luxury_hall', title_fa: 'سالن مجلل و کاخ تشریفاتی', desc_fa: 'قرارگیری سوژه در کاخ شیک با لستر کریستال و دکور لوکس', input: 'person', prompt_en: 'Elegant royal luxury hall setting, crystal chandeliers, opulent decor, photorealistic rendering of [SUBJECT].', group: '🏛️ سفر و پوستر', category: 'تشریفات', favorite: false, useCount: 3 },
+            { id: 'cmd-6', slash: 'cinematic', title_fa: 'پوستر سینمایی هالیوود', desc_fa: 'قاب‌بندی و نورپردازی دراماتیک پوستر فیلم سینمایی', input: 'person', prompt_en: 'Dramatic movie poster featuring [SUBJECT], cinematic lighting, anamorphic lens flare, shallow depth of field, 8k resolution photorealistic.', group: '👤 شخصیت و کاراکتر', category: 'سینما', favorite: true, useCount: 20 }
+        ];
+
+        // Seed initial templates for Tab 1
+        const BUILTIN_TEMPLATES = [
+            { id: 't-1', title: 'پرتره پرشین لوکس', category: 'آقایان', prompt_en: 'A high-end luxury portrait of [SUBJECT] wearing a stylish velvet blazer, in an elegant vintage room with warm golden lighting.', bgGradient: 'from-amber-600 to-amber-900' },
+            { id: 't-2', title: 'مجلسی کاخ تشریفات', category: 'خانم‌ها', prompt_en: 'An exquisite high-fashion portrait of [SUBJECT] in an ornate royal palace setting with opulent floral decor and soft studio lighting.', bgGradient: 'from-purple-600 to-indigo-900' },
+            { id: 't-3', title: 'عکاسی استودیویی کودک', category: 'کودکان', prompt_en: 'A joyful and colorful studio portrait of [SUBJECT] surrounded by soft pastel decorations, professional soft lighting.', bgGradient: 'from-pink-500 to-rose-800' },
+            { id: 't-4', title: 'استودیو پرتره مینیمال', category: 'استودیو', prompt_en: 'A clean minimalist studio portrait of [SUBJECT] with neutral background, dramatic shadows and crisp lens sharp detail.', bgGradient: 'from-slate-600 to-slate-900' },
+            { id: 't-5', title: 'نمایش محصول مدرن', category: 'محصول', prompt_en: 'Commercial advertising product display of [SUBJECT] on a stone pedestal with natural sunlight and botanical shadows.', bgGradient: 'from-emerald-600 to-teal-900' },
+            { id: 't-6', title: 'کت و شلوار رسمی', category: 'آقایان', prompt_en: 'A sharp professional headshot of [SUBJECT] wearing a bespoke dark navy tailored suit in a modern glass office.', bgGradient: 'from-blue-700 to-slate-900' }
+        ];
+
+        // Initialize App on DOM Ready
+        const sabaBoot = async () => {
+            await IDB.init();
+            try { await Bridge.init(); } catch (e) { console.warn(e); }
+            
+            // Seed commands if DB is empty
+            const existingCmds = await IDB.getAll(IDB.storeCommands);
+            if (existingCmds.length === 0) {
+                for (const cmd of SEED_COMMANDS) {
+                    await IDB.put(IDB.storeCommands, cmd);
+                }
+            }
+
+            renderTab1Templates();
+            renderTab4Gallery();
+            renderTab5SlashCommands();
+        };
+        if (document.readyState === 'loading') window.addEventListener('DOMContentLoaded', sabaBoot); else sabaBoot();
+
+        // =========================================================================
+        // TAB SWITCHING & UI NAVIGATION
+        // =========================================================================
+        function switchTab(tabNumber) {
+            currentTab = tabNumber;
+            // Update Tab Buttons UI
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                const tNum = parseInt(btn.getAttribute('data-tab'));
+                if (tNum === tabNumber) {
+                    btn.className = 'tab-btn px-3 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition flex items-center space-x-1.5 space-x-reverse bg-purple-600/30 text-purple-300 border border-purple-500/40 active-tab';
+                } else {
+                    btn.className = 'tab-btn px-3 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition flex items-center space-x-1.5 space-x-reverse text-slate-400 hover:text-white hover:bg-dark-600/50';
+                }
+            });
+
+            // Toggle Tab Panes
+            document.querySelectorAll('.tab-pane').forEach((pane, idx) => {
+                if (idx + 1 === tabNumber) {
+                    pane.classList.remove('hidden');
+                } else {
+                    pane.classList.add('hidden');
+                }
+            });
+        }
+
+        // =========================================================================
+        // IMAGE UPLOAD & PREPROCESSING HELPERS
+        // =========================================================================
+        function triggerFileInput(id) {
+            document.getElementById(id).click();
+        }
+
+        async function processAndResizeImage(file, maxLongSide = 1536, quality = 0.9) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        let w = img.width;
+                        let h = img.height;
+                        if (w > maxLongSide || h > maxLongSide) {
+                            if (w > h) {
+                                h = Math.round((h * maxLongSide) / w);
+                                w = maxLongSide;
+                            } else {
+                                w = Math.round((w * maxLongSide) / h);
+                                h = maxLongSide;
+                            }
+                        }
+                        const canvas = document.createElement('canvas');
+                        canvas.width = w;
+                        canvas.height = h;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, w, h);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    };
+                    img.onerror = reject;
+                    img.src = e.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function handleImageUpload(event, key) {
+            const file = event.target.files[0];
+            if (!file) return;
+            if (file.size > 10 * 1024 * 1024) {
+                showToast('حجم فایل نباید بیشتر از ۱۰ مگابایت باشد.', 'error');
+                return;
+            }
+            try {
+                const resized = await processAndResizeImage(file);
+                imagesState[key] = resized;
+                const suffix = key === 'imgA' ? 'A' : 'B';
+                document.getElementById(`imgPreview${suffix}`).src = resized;
+                document.getElementById(`previewContainer${suffix}`).classList.remove('hidden');
+                document.getElementById(`placeholder${suffix}`).classList.add('hidden');
+            } catch (err) {
+                showToast('خطا در پردازش تصویر', 'error');
+            }
+        }
+
+        function clearImage(key) {
+            imagesState[key] = null;
+            const suffix = key === 'imgA' ? 'A' : 'B';
+            document.getElementById(`previewContainer${suffix}`).classList.add('hidden');
+            document.getElementById(`placeholder${suffix}`).classList.remove('hidden');
+        }
+
+        // Exec Command Image Upload Handlers
+        async function handleExecImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            if (file.size > 10 * 1024 * 1024) {
+                showToast('حجم فایل نباید بیشتر از ۱۰ مگابایت باشد.', 'error');
+                return;
+            }
+            try {
+                const resized = await processAndResizeImage(file);
+                imagesState.imgExec = resized;
+                document.getElementById('imgPreviewExec').src = resized;
+                document.getElementById('previewContainerExec').classList.remove('hidden');
+                document.getElementById('placeholderExec').classList.add('hidden');
+                showToast('عکس مرجع دستور با موفقیت بارگذاری شد.', 'success');
+            } catch (err) {
+                console.error(err);
+                showToast('خطا در بارگذاری تصویر مرجع دستور', 'error');
+            }
+        }
+
+        function clearExecImage() {
+            imagesState.imgExec = null;
+            const preview = document.getElementById('previewContainerExec');
+            const placeholder = document.getElementById('placeholderExec');
+            if (preview) preview.classList.add('hidden');
+            if (placeholder) placeholder.classList.remove('hidden');
+            const fileInput = document.getElementById('fileExec');
+            if (fileInput) fileInput.value = '';
+        }
+
+        function closeCommandExecutionPanel() {
+            activeSelectedCommand = null;
+            imagesState.imgExec = null;
+            const panel = document.getElementById('cmdExecutionPanel');
+            if (panel) panel.classList.add('hidden');
+            clearExecImage();
+            const textInput = document.getElementById('execTextInput');
+            if (textInput) textInput.value = '';
+            const extraInput = document.getElementById('execExtraInstructions');
+            if (extraInput) extraInput.value = '';
+        }
+
+        function cancelGeneration() {
+            abortGenerationFlag = true;
+            isGenerating = false;
+            const genBtn = document.getElementById('generateBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+            if (genBtn) genBtn.classList.remove('hidden');
+            if (cancelBtn) cancelBtn.classList.add('hidden');
+            const statusText = document.getElementById('resultsStatusText');
+            if (statusText) statusText.innerText = 'عملیات تصویرسازی لغو شد.';
+            showToast('تصویرسازی توسط کاربر لغو گردید.', 'info');
+        }
+
+        // Blending mode selector
+        function setBlendMode(mode) {
+            blendMode = mode;
+            for (let i = 1; i <= 3; i++) {
+                const card = document.getElementById(`blendCard${i}`);
+                if (i === mode) {
+                    card.className = 'blend-card glass-card rounded-lg p-2.5 cursor-pointer border border-purple-500 bg-purple-900/20 transition text-xs space-y-1';
+                } else {
+                    card.className = 'blend-card glass-card rounded-lg p-2.5 cursor-pointer border border-white/10 hover:border-slate-500 transition text-xs space-y-1';
+                }
+            }
+        }
+
+        // Multi-ref handlers
+        function triggerMultiUpload(idx) {
+            document.getElementById(`multiFile${idx}`).click();
+        }
+
+        async function handleMultiUpload(event, idx) {
+            const file = event.target.files[0];
+            if (!file) return;
+            try {
+                const resized = await processAndResizeImage(file);
+                imagesState.multi[idx] = resized;
+                const container = document.getElementById(`multiPreview${idx}`);
+                container.querySelector('img').src = resized;
+                container.classList.remove('hidden');
+                document.getElementById(`multiPlace${idx}`).classList.add('hidden');
+                
+                const count = imagesState.multi.filter(x => x !== null).length;
+                document.getElementById('multiRefCounter').innerText = `${count} از ۳ تصویر انتخاب شده`;
+            } catch (err) {
+                showToast('خطا در بارگذاری عکس', 'error');
+            }
+        }
+
+        function clearMultiRefs() {
+            imagesState.multi = [null, null, null];
+            for (let i = 0; i < 3; i++) {
+                document.getElementById(`multiPreview${i}`).classList.add('hidden');
+                document.getElementById(`multiPlace${i}`).classList.remove('hidden');
+            }
+            document.getElementById('multiRefCounter').innerText = '۰ از ۳ تصویر انتخاب شده';
+        }
+
+        // Set Aspect Ratio
+        function setAspectRatio(ar) {
+            selectedAspectRatio = ar;
+            document.querySelectorAll('.ar-btn').forEach(btn => {
+                if (btn.getAttribute('data-ar') === ar) {
+                    btn.className = 'ar-btn px-2 py-1 rounded bg-purple-600 text-white font-bold';
+                } else {
+                    btn.className = 'ar-btn px-2 py-1 rounded bg-dark-600 text-slate-300 hover:text-white';
+                }
+            });
+        }
+
+        // =========================================================================
+        // GEMINI API CALLS
+        // =========================================================================
+        async function callGeminiText(promptText) {
+            try {
+                const data = await callApi(TEXT_MODEL, { contents: [{ parts: [{ text: promptText }] }] }, 2, sabaStatus);
+                return data?.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('') || '';
+            } catch (err) {
+                console.error('Text API Error:', err);
+                return '';
+            }
+        }
+
+        async function callGeminiImageGeneration(promptText, inlineImages = [], aspectRatio = '1:1') {
+            const parts = [];
+            inlineImages.forEach(base64Str => {
+                if (base64Str) {
+                    const mm = String(base64Str).match(/^data:(image\/[a-z0-9.+-]+);base64,/i);
+                    const cleanBase64 = String(base64Str).replace(/^data:[^;]+;base64,/, '');
+                    parts.push({ inlineData: { mimeType: mm ? mm[1] : 'image/jpeg', data: cleanBase64 } });
+                }
+            });
+            parts.push({ text: promptText });
+            const body = { contents: [{ parts }], generationConfig: { responseModalities: ["IMAGE"], imageConfig: { aspectRatio } } };
+            let data;
+            for (let i = ImgPick.start(); i < IMAGE_MODELS.length; i++) {
+                const last = i == IMAGE_MODELS.length - 1;
+                try {
+                    data = await callApi(IMAGE_MODELS[i], body, last ? 3 : 0, sabaStatus);
+                    if (i != ImgPick.i) { ImgPick.i = i; ImgPick.since = Date.now(); }
+                    IMAGE_MODEL = IMAGE_MODELS[i];
+                    break;
+                } catch (e) {
+                    if (last || !e.status || !(e.status == 429 || e.status == 403 || e.status == 404 || e.status >= 500)) throw e;
+                    ImgPick.i = i + 1; ImgPick.since = Date.now();
+                    sabaStatus(`مدل ${IMAGE_MODELS[i]} به محدودیت خورد — ادامه با ${IMAGE_MODELS[i + 1]}…`);
+                }
+            }
+            const c = data?.candidates?.[0], ps = c?.content?.parts || [];
+            for (const part of ps) {
+                if (part.inlineData && part.inlineData.data) {
+                    return `data:${part.inlineData.mimeType || 'image/png'};base64,${part.inlineData.data}`;
+                }
+            }
+            throw new Error('No image generated in response' + (c?.finishReason ? ` (${c.finishReason})` : '') + (data?.promptFeedback?.blockReason ? ` (blocked: ${data.promptFeedback.blockReason})` : ''));
+        }
+
+        // Prompt input slash watcher
+        function handlePromptInput(event, elementId) {
+            const val = event.target.value;
+            // Additional custom autocomplete triggers can be connected here if desired
+        }
+
+        // TAB 1: Template Rendering & Selection
+        async function renderTab1Templates() {
+            const categories = ['همه', 'آقایان', 'خانم‌ها', 'کودکان', 'استودیو', 'مجلسی', 'محصول'];
+            const chipsContainer = document.getElementById('t1CategoryChips');
+            chipsContainer.innerHTML = categories.map(cat => `
+                <button onclick="filterTab1Category('${cat}')" class="px-2.5 py-1 rounded-lg glass-card text-slate-300 hover:text-white transition">${cat}</button>
+            `).join('');
+
+            let userTemplates = [];
+            try {
+                userTemplates = await IDB.getAll(IDB.storeTemplates);
+            } catch(e) {}
+
+            const allTpls = [
+                ...BUILTIN_TEMPLATES,
+                ...userTemplates.map(u => ({ ...u, isUser: true, bgGradient: 'from-purple-800 to-indigo-950' }))
+            ];
+
+            const cardsContainer = document.getElementById('t1TemplateCards');
+            cardsContainer.innerHTML = allTpls.map(t => `
+                <div onclick="selectTab1Template('${t.id}')" class="shrink-0 w-36 glass-card rounded-xl overflow-hidden cursor-pointer hover:border-purple-500 transition p-2 space-y-1.5 group">
+                    <div class="h-20 w-full rounded-lg bg-gradient-to-br ${t.bgGradient || 'from-purple-600 to-blue-600'} flex items-center justify-center relative overflow-hidden">
+                        ${t.thumbnail ? `<img src="${t.thumbnail}" class="w-full h-full object-cover">` : `<i class="fa-solid fa-wand-magic-sparkles text-white/50 text-2xl"></i>`}
+                        ${t.isUser ? `<span class="absolute top-1 right-1 bg-purple-600 text-white text-[9px] px-1.5 py-0.5 rounded font-bold">الگوی من</span>` : ''}
+                    </div>
+                    <div class="font-bold text-xs text-white truncate">${t.title}</div>
+                    <div class="text-[10px] text-slate-400">${t.category}</div>
+                </div>
+            `).join('');
+        }
+
+        function filterTab1Category(cat) {
+            showToast(`فیلتر دسته‌بندی: ${cat}`, 'info');
+        }
+
+        async function selectTab1Template(templateId) {
+            let t = BUILTIN_TEMPLATES.find(x => x.id === templateId);
+            
+            // Search in user saved IndexedDB templates if not found in built-ins
+            if (!t) {
+                try {
+                    const userTemplates = await IDB.getAll(IDB.storeTemplates);
+                    t = userTemplates.find(x => x.id === templateId);
+                } catch(e) {
+                    console.error('Error fetching user template:', e);
+                }
+            }
+
+            if (t) {
+                // Set prompt text
+                document.getElementById('t1Prompt').value = t.prompt_en || '';
+                
+                // If template has a stored thumbnail image, set it as Image B
+                if (t.thumbnail) {
+                    imagesState.imgB = t.thumbnail;
+                    const previewB = document.getElementById('imgPreviewB');
+                    const containerB = document.getElementById('previewContainerB');
+                    const placeholderB = document.getElementById('placeholderB');
+                    
+                    if (previewB) previewB.src = t.thumbnail;
+                    if (containerB) containerB.classList.remove('hidden');
+                    if (placeholderB) placeholderB.classList.add('hidden');
+                }
+
+                showToast(`الگوی «${t.title}» انتخاب و تصویر آن به عنوان تمپلیت B قرار گرفت.`, 'success');
+            } else {
+                showToast('الگوی مورد نظر یافت نشد.', 'error');
+            }
+        }
+
+        async function saveCurrentAsTemplate() {
+            const prompt = document.getElementById('t1Prompt').value.trim();
+            if (!prompt) {
+                showToast('لطفاً ابتدا پرامپت یا دستور را وارد کنید.', 'error');
+                return;
+            }
+            const newTpl = {
+                id: 'tpl-' + Date.now(),
+                title: 'الگوی سفارشی ' + new Date().toLocaleTimeString('fa-IR'),
+                category: 'استودیو',
+                prompt_en: prompt,
+                thumbnail: imagesState.imgB || imagesState.imgA || null
+            };
+            await IDB.put(IDB.storeTemplates, newTpl);
+            renderTab1Templates();
+            renderTab4Gallery();
+            showToast('الگو با موفقیت ذخیره شد.', 'success');
+        }
+
+        // TAB 3: Example Prompts
+        function setT3Example(idx) {
+            const examples = [
+                'شاهنامه، مینیاتور اصیل ایرانی، نگارگری تذهیب طلاکاری شده با جزئیات سیمرغ و کاخ تاریخی',
+                'ویلای مدرن لوکس روی تپه‌های مشهد در غروب پاییزی، معماری بتن و شیشه، نورپردازی گرم',
+                'گربه ملوس پرشین با عینک مطالعه، نشسته کنار شمع و کتاب‌های کهن در کتابخانه قدیمی',
+                'تهران آینده با برج میلاد، استایل سایبرپانک، تابلوهای نئون فارسی، خیابان خیس بارانی'
+            ];
+            document.getElementById('t3Prompt').value = examples[idx] || '';
+        }
+
+        async function enhancePromptAI() {
+            const current = document.getElementById('t3Prompt').value.trim();
+            if (!current) {
+                showToast('لطفاً متنی برای بهبود وارد کنید.', 'error');
+                return;
+            }
+            showToast('در حال بهبود پرامپت با هوش مصنوعی...', 'info');
+            const enhanced = await callGeminiText(`Expand and enrich this image prompt into a vivid, descriptive, photorealistic prompt in Persian: "${current}"`);
+            if (enhanced) {
+                document.getElementById('t3Prompt').value = enhanced;
+                showToast('پرامپت بهبود یافت.', 'success');
+            }
+        }
+
+        // TAB 4: Template Maker
+        function triggerT4Upload() {
+            document.getElementById('fileT4').click();
+        }
+
+        async function handleT4Upload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            try {
+                const resized = await processAndResizeImage(file, 1536, 0.9);
+                imagesState.imgT4 = resized;
+                document.getElementById('imgPreviewT4').src = resized;
+                document.getElementById('previewContainerT4').classList.remove('hidden');
+                document.getElementById('placeholderT4').classList.add('hidden');
+            } catch (err) {
+                showToast('خطا در آپلود تصویر', 'error');
+            }
+        }
+
+        function clearT4Image() {
+            imagesState.imgT4 = null;
+            document.getElementById('previewContainerT4').classList.add('hidden');
+            document.getElementById('placeholderT4').classList.remove('hidden');
+        }
+
+        async function analyzeTemplateAI() {
+            if (!imagesState.imgT4) {
+                showToast('لطفاً ابتدا یک تصویر مرجع آپلود کنید.', 'error');
+                return;
+            }
+            showToast('در حال تحلیل تصویر و ساخت الگو...', 'info');
+            const analysisPrompt = `Analyze this image and return JSON only with fields: title (Persian short title), category (one of: آقایان, خانم‌ها, کودکان, استودیو, مجلسی, محصول), prompt_en (detailed universal prompt describing lighting, mood, style, composition, background, color grade, substituting any person/subject with [SUBJECT]).`;
+            
+            try {
+                const rawRes = await callGeminiText(analysisPrompt);
+                const jsonMatch = rawRes.match(/\{[\s\S]*\}/);
+                if (jsonMatch) {
+                    const parsed = JSON.parse(jsonMatch[0]);
+                    document.getElementById('t4Title').value = parsed.title || 'الگوی جدید';
+                    document.getElementById('t4Category').value = parsed.category || 'استودیو';
+                    document.getElementById('t4PromptEn').value = parsed.prompt_en || '';
+                    showToast('تحلیل تصویر با موفقیت انجام شد.', 'success');
+                } else {
+                    document.getElementById('t4PromptEn').value = 'High quality studio portrait of [SUBJECT], detailed background, professional lighting.';
+                }
+            } catch (err) {
+                showToast('خطا در تحلیل هوش مصنوعی', 'error');
+            }
+        }
+
+        async function saveTemplateToGallery() {
+            const title = document.getElementById('t4Title').value.trim();
+            const category = document.getElementById('t4Category').value;
+            const prompt_en = document.getElementById('t4PromptEn').value.trim();
+
+            if (!title || !prompt_en) {
+                showToast('عنوان و پرامپت نمی‌توانند خالی باشند.', 'error');
+                return;
+            }
+
+            const tpl = {
+                id: 'tpl-' + Date.now(),
+                title,
+                category,
+                prompt_en,
+                thumbnail: imagesState.imgT4 || null
+            };
+
+            await IDB.put(IDB.storeTemplates, tpl);
+            renderTab4Gallery();
+            renderTab1Templates();
+            showToast('الگو در گالری ذخیره شد.', 'success');
+        }
+
+        async function renderTab4Gallery() {
+            const items = await IDB.getAll(IDB.storeTemplates);
+            const grid = document.getElementById('myTemplatesGrid');
+            if (items.length === 0) {
+                grid.innerHTML = `<div class="col-span-3 text-center py-4 text-xs text-slate-500">هیچ الگوی شخصی ذخیره نشده است.</div>`;
+                return;
+            }
+            grid.innerHTML = items.map(t => `
+                <div class="glass-card rounded-lg p-2 flex flex-col justify-between space-y-1">
+                    <div class="font-bold text-xs text-white truncate">${t.title}</div>
+                    <div class="text-[10px] text-purple-400">${t.category}</div>
+                    <div class="flex justify-between items-center text-xs pt-1">
+                        <button onclick="deleteTemplateFromGallery('${t.id}')" class="text-red-400 hover:text-red-300"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function deleteTemplateFromGallery(id) {
+            await IDB.delete(IDB.storeTemplates, id);
+            renderTab4Gallery();
+            renderTab1Templates();
+            showToast('الگو حذف شد.', 'info');
+        }
+
+        async function exportGalleryJSON() {
+            const items = await IDB.getAll(IDB.storeTemplates);
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(items, null, 2));
+            const a = document.createElement('a');
+            a.href = dataStr;
+            a.download = `my-templates-${Date.now()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        }
+
+        function importGalleryJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                try {
+                    const parsed = JSON.parse(e.target.result);
+                    if (Array.isArray(parsed)) {
+                        for (const item of parsed) {
+                            await IDB.put(IDB.storeTemplates, item);
+                        }
+                        renderTab4Gallery();
+                        renderTab1Templates();
+                        showToast('الگوها با موفقیت وارد شدند.', 'success');
+                    }
+                } catch(err) {
+                    showToast('فرمت فایل نامعتبر است.', 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // TAB 5: Slash Commands Library
+        let selectedSlashGroup = 'همه';
+        let selectedSlashCategory = 'همه';
+        let filterOnlyFav = false;
+        let filterOnlyUsed = false;
+
+        async function renderTab5SlashCommands() {
+            const cmds = await IDB.getAll(IDB.storeCommands);
+            const container = document.getElementById('slashCommandsContainer');
+            
+            // Render Group Tabs
+            const groupsSet = new Set(cmds.map(c => c.group).filter(Boolean));
+            const groups = ['همه', ...Array.from(groupsSet)];
+            const groupTabsContainer = document.getElementById('slashGroupTabs');
+            if (groupTabsContainer) {
+                groupTabsContainer.innerHTML = groups.map(g => `
+                    <button onclick="selectSlashGroup('${g}')" class="px-2.5 py-1 rounded-lg transition whitespace-nowrap ${selectedSlashGroup === g ? 'bg-purple-600 text-white font-bold' : 'glass-card text-slate-300 hover:text-white'}">${g}</button>
+                `).join('');
+            }
+
+            // Filter Commands by Group
+            let filtered = cmds;
+            if (selectedSlashGroup !== 'همه') {
+                filtered = filtered.filter(c => c.group === selectedSlashGroup);
+            }
+
+            // Render Category Chips inside selected group
+            const catsSet = new Set(filtered.map(c => c.category).filter(Boolean));
+            const categories = ['همه', ...Array.from(catsSet)];
+            const catChipsContainer = document.getElementById('slashCategoryChips');
+            if (catChipsContainer) {
+                catChipsContainer.innerHTML = categories.map(cat => {
+                    const count = cat === 'همه' ? filtered.length : filtered.filter(c => c.category === cat).length;
+                    return `
+                        <button onclick="selectSlashCategory('${cat}')" class="px-2 py-0.5 rounded text-[11px] transition ${selectedSlashCategory === cat ? 'bg-purple-900/50 text-purple-200 border border-purple-500/40 font-bold' : 'bg-dark-700/60 text-slate-400 hover:text-slate-200'}">
+                            ${cat} <span class="opacity-70 text-[10px]">(${count})</span>
+                        </button>
+                    `;
+                }).join('');
+            }
+
+            // Filter Commands by Category
+            if (selectedSlashCategory !== 'همه') {
+                filtered = filtered.filter(c => c.category === selectedSlashCategory);
+            }
+
+            // Filter by Search Query
+            const searchQuery = (document.getElementById('slashSearchInput')?.value || '').trim().toLowerCase();
+            if (searchQuery) {
+                filtered = filtered.filter(c => 
+                    (c.slash && c.slash.toLowerCase().includes(searchQuery)) ||
+                    (c.title_fa && c.title_fa.toLowerCase().includes(searchQuery)) ||
+                    (c.desc_fa && c.desc_fa.toLowerCase().includes(searchQuery)) ||
+                    (c.prompt_en && c.prompt_en.toLowerCase().includes(searchQuery))
+                );
+            }
+
+            // Filter by Star / Used
+            if (filterOnlyFav) filtered = filtered.filter(c => c.favorite);
+            if (filterOnlyUsed) filtered = filtered.filter(c => (c.useCount || 0) > 0);
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="text-center py-6 text-xs text-slate-500">هیچ دستوری مطابق فیلتر یافت نشد.</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(c => `
+                <div class="glass-card rounded-xl p-3 flex flex-col space-y-2 border border-white/5 hover:border-purple-500/50 transition">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2 space-x-reverse">
+                            <span class="px-2 py-0.5 rounded bg-purple-600/30 text-purple-300 font-mono text-xs font-bold">/${c.slash}</span>
+                            <span class="font-bold text-xs text-white">${c.title_fa || c.slash}</span>
+                            ${c.category ? `<span class="text-[10px] bg-dark-600 text-slate-400 px-1.5 py-0.5 rounded">${c.category}</span>` : ''}
+                        </div>
+                        <div class="flex items-center space-x-1 space-x-reverse text-xs">
+                            <button onclick="toggleFavCommand('${c.id}')" class="p-1 text-slate-400 hover:text-amber-400 transition"><i class="fa-solid fa-star ${c.favorite ? 'text-amber-400' : ''}"></i></button>
+                            <button onclick="executeSlashCommand('${c.id}')" class="px-2.5 py-1 rounded-lg gradient-btn text-white font-bold transition">اجرا</button>
+                            <button onclick="deleteSlashCommand('${c.id}')" class="text-slate-400 hover:text-red-400 p-1"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-400">${c.desc_fa || ''}</p>
+                </div>
+            `).join('');
+        }
+
+        function selectSlashGroup(group) {
+            selectedSlashGroup = group;
+            selectedSlashCategory = 'همه';
+            renderTab5SlashCommands();
+        }
+
+        function selectSlashCategory(cat) {
+            selectedSlashCategory = cat;
+            renderTab5SlashCommands();
+        }
+
+        async function toggleFavCommand(id) {
+            const cmds = await IDB.getAll(IDB.storeCommands);
+            const cmd = cmds.find(c => c.id === id);
+            if (cmd) {
+                cmd.favorite = !cmd.favorite;
+                await IDB.put(IDB.storeCommands, cmd);
+                renderTab5SlashCommands();
+            }
+        }
+
+        function toggleSlashFilter(type) {
+            if (type === 'fav') {
+                filterOnlyFav = !filterOnlyFav;
+                document.getElementById('filterFavBtn').classList.toggle('bg-amber-600/40', filterOnlyFav);
+            } else if (type === 'used') {
+                filterOnlyUsed = !filterOnlyUsed;
+                document.getElementById('filterUsedBtn').classList.toggle('bg-orange-600/40', filterOnlyUsed);
+            }
+            renderTab5SlashCommands();
+        }
+
+        async function deleteSlashCommand(id) {
+            await IDB.delete(IDB.storeCommands, id);
+            renderTab5SlashCommands();
+            showToast('دستور حذف شد.', 'info');
+        }
+
+        function filterSlashCommands() {
+            renderTab5SlashCommands();
+        }
+
+        function toggleSlashFilter(type) {
+            showToast(`فیلتر ${type} اعمال شد.`, 'info');
+        }
+
+        function openImportModal() {
+            document.getElementById('importModal').classList.remove('hidden');
+        }
+
+        function closeImportModal() {
+            document.getElementById('importModal').classList.add('hidden');
+        }
+
+        function handleImportFileSelect(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+                document.getElementById('importTextData').value = evt.target.result;
+            };
+            reader.readAsText(file);
+        }
+
+        async function executeImportCommands() {
+            const raw = document.getElementById('importTextData').value.trim();
+            if (!raw) {
+                showToast('لطفاً ابتدا داده‌ها را وارد کنید.', 'error');
+                return;
+            }
+
+            try {
+                const parsed = JSON.parse(raw);
+                if (parsed.commands && Array.isArray(parsed.commands)) {
+                    for (const c of parsed.commands) {
+                        c.id = c.id || 'cmd-' + Math.random().toString(36).substr(2, 8);
+                        await IDB.put(IDB.storeCommands, c);
+                    }
+                    renderTab5SlashCommands();
+                    closeImportModal();
+                    showToast('دستورها با موفقیت وارد شدند.', 'success');
+                    return;
+                }
+            } catch(e) {}
+
+            // Fallback plain text processing
+            const lines = raw.split('\n').filter(l => l.trim().length > 0);
+            let addedCount = 0;
+            for (const line of lines) {
+                const match = line.match(/\/?([a-zA-Z0-9_-]+)\s*[\Takes—–-]\s*(.*)/);
+                if (match) {
+                    const slash = match[1];
+                    const desc = match[2];
+                    const cmdObj = {
+                        id: 'cmd-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4),
+                        slash,
+                        title_fa: slash,
+                        desc_fa: desc,
+                        prompt_en: desc + ' featuring [SUBJECT], high resolution, detailed.',
+                        input: 'person'
+                    };
+                    await IDB.put(IDB.storeCommands, cmdObj);
+                    addedCount++;
+                }
+            }
+            renderTab5SlashCommands();
+            closeImportModal();
+            showToast(`تعداد ${addedCount} دستور شناسایی و وارد شد.`, 'success');
+        }
+
+        async function exportSlashLibrary() {
+            const cmds = await IDB.getAll(IDB.storeCommands);
+            const data = { format: 'slash-commands-v1', count: cmds.length, commands: cmds };
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+            const a = document.createElement('a');
+            a.href = dataStr;
+            a.download = `slash-commands-${Date.now()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        }
+
+        async function confirmClearSlashLibrary() {
+            if (confirm('آیا از حذف تمام دستورها اطمینان دارید؟')) {
+                await IDB.clear(IDB.storeCommands);
+                renderTab5SlashCommands();
+                showToast('تمام دستورها حذف شدند.', 'info');
+            }
+        }
+
+        // =========================================================================
+        // MAIN GENERATION FLOW FOR TABS 1, 2, 3
+        // =========================================================================
+        async function startGeneration() {
+            if (isGenerating) return;
+            
+            let promptText = '';
+            let refImages = [];
+
+            try {
+                if (currentTab === 1) {
+                    const promptVal = document.getElementById('t1Prompt').value.trim();
+                    if (!imagesState.imgA && !promptVal) {
+                        showToast('لطفاً حداقل عکس چهره کاربر (A) یا دستورالعمل ویرایش را وارد کنید.', 'error');
+                        return;
+                    }
+                    const translated = promptVal ? await callGeminiText(`Translate to English: "${promptVal}"`) : '';
+                    promptText = `Preserve exact facial identity, skin tone and features of person in Image A. ${translated}. Photorealistic, high quality, no watermark, no extra fingers.`;
+                    if (imagesState.imgA) refImages.push(imagesState.imgA);
+                    if (imagesState.imgB) refImages.push(imagesState.imgB);
+
+                } else if (currentTab === 2) {
+                    const promptVal = document.getElementById('t2Prompt').value.trim();
+                    if (!promptVal) {
+                        showToast('لطفاً پرامپت ترکیبی چند رفرنس را وارد کنید.', 'error');
+                        return;
+                    }
+                    const translated = await callGeminiText(`Translate to English: "${promptVal}"`);
+                    promptText = translated;
+                    refImages = imagesState.multi.filter(x => x !== null);
+
+                } else if (currentTab === 3) {
+                    const promptVal = document.getElementById('t3Prompt').value.trim();
+                    if (!promptVal) {
+                        showToast('لطفاً متن ایده یا پرامپت را وارد کنید.', 'error');
+                        return;
+                    }
+                    promptText = await callGeminiText(`Translate to English: "${promptVal}"`);
+                } else if (currentTab === 5) {
+                    if (activeSelectedCommand) {
+                        runSmartCommandWithRef();
+                        return;
+                    } else {
+                        showToast('لطفاً ابتدا یک دستور را از لیست پایین انتخاب کرده و دکمه اجرا را بزنید.', 'error');
+                        return;
+                    }
+                }
+            } catch (err) {
+                console.error('Error preparing prompt:', err);
+                showToast('خطا در آماده‌سازی پرامپت اولیه', 'error');
+                return;
+            }
+
+            isGenerating = true;
+            abortGenerationFlag = false;
+
+            document.getElementById('generateBtn').classList.add('hidden');
+            document.getElementById('cancelBtn').classList.remove('hidden');
+            document.getElementById('emptyState').classList.add('hidden');
+
+            const count = parseInt(document.getElementById('countSlider').value) || 4;
+            const resultsGrid = document.getElementById('resultsGrid');
+            
+            let tileIds = [];
+            for (let i = 0; i < count; i++) {
+                const id = 'tile-' + Math.random().toString(36).substr(2, 9);
+                tileIds.push(id);
+                const html = `
+                    <div id="${id}" class="glass-card rounded-xl overflow-hidden aspect-square relative flex flex-col items-center justify-center p-3 animate-pulse border border-purple-500/30">
+                        <div class="w-8 h-8 rounded-full border-2 border-purple-500 border-t-transparent animate-spin mb-2"></div>
+                        <span class="text-[11px] text-slate-300">در حال تصویرسازی (${i + 1} از ${count})...</span>
+                    </div>
+                `;
+                resultsGrid.insertAdjacentHTML('afterbegin', html);
+            }
+
+            document.getElementById('resultsStatusText').innerText = `در حال تولید ${count} تصویر...`;
+
+            let completed = 0;
+            const queue = [...tileIds];
+            const batchSize = 4;
+
+            try {
+                while (queue.length > 0 && !abortGenerationFlag) {
+                    const chunk = queue.splice(0, batchSize);
+                    await Promise.all(chunk.map(async (tileId) => {
+                        if (abortGenerationFlag) return;
+                        const variationNote = `Variation ${completed + 1}, subtle dynamic lighting difference`;
+                        const finalPrompt = `${promptText}, ${variationNote}`;
+
+                        try {
+                            const imgUrl = await callGeminiImageGeneration(finalPrompt, refImages, selectedAspectRatio);
+                            completed++;
+                            document.getElementById('resultsStatusText').innerText = `${completed} از ${count} آماده شد`;
+                            
+                            const resultObj = {
+                                id: tileId,
+                                url: imgUrl,
+                                prompt: finalPrompt,
+                                source: `تب ${currentTab}`,
+                                time: new Date().toLocaleTimeString('fa-IR'),
+                                starred: false
+                            };
+                            sessionResults.unshift(resultObj);
+                            updateSessionHistoryStrip();
+
+                            const tileEl = document.getElementById(tileId);
+                            if (tileEl) {
+                                tileEl.className = 'glass-card rounded-xl overflow-hidden aspect-square relative group cursor-pointer border border-white/10';
+                                tileEl.innerHTML = `
+                                    <img src="${imgUrl}" class="w-full h-full object-cover" onclick="openLightbox('${tileId}')">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent opacity-0 group-hover:opacity-100 transition flex flex-col justify-between p-2">
+                                        <div class="flex justify-between items-center">
+                                            <span class="px-1.5 py-0.5 rounded bg-purple-600/80 text-white text-[9px]">تب ${currentTab}</span>
+                                            <button onclick="toggleStarResult('${tileId}')" class="text-amber-400 hover:scale-110 transition"><i class="fa-solid fa-star"></i></button>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <button onclick="openLightbox('${tileId}')" class="px-2 py-1 rounded bg-dark-600/80 text-white text-[10px]"><i class="fa-solid fa-expand"></i></button>
+                                            <button onclick="downloadSingleResult('${tileId}')" class="px-2 py-1 rounded bg-blue-600/80 text-white text-[10px]"><i class="fa-solid fa-download"></i></button>
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                        } catch (err) {
+                            console.error('Tile Generation Error:', err);
+                            const tileEl = document.getElementById(tileId);
+                            if (tileEl) {
+                                tileEl.innerHTML = `
+                                    <div class="flex flex-col items-center justify-center h-full p-2 text-center text-red-400 text-xs">
+                                        <i class="fa-solid fa-triangle-exclamation mb-1 text-lg"></i>
+                                        <span>خطا در تولید</span>
+                                    </div>
+                                `;
+                            }
+                        }
+                    }));
+                }
+            } finally {
+                isGenerating = false;
+                document.getElementById('generateBtn').classList.remove('hidden');
+                document.getElementById('cancelBtn').classList.add('hidden');
+                document.getElementById('resultsStatusText').innerText = `تصویرسازی تکمیل شد (${completed} تصویر)`;
+            }
+        }
+
+        async function executeSlashCommand(id) {
+            let cmds = [];
+            try {
+                cmds = await IDB.getAll(IDB.storeCommands);
+            } catch(e) {
+                console.error('Error reading commands:', e);
+            }
+            
+            // Search matching command by string or number comparison
+            const cmd = cmds.find(c => String(c.id) === String(id) || c.slash === id);
+            if (!cmd) {
+                showToast('دستور مورد نظر در دیتابیس یافت نشد.', 'error');
+                return;
+            }
+
+            activeSelectedCommand = cmd;
+            cmd.useCount = (Number(cmd.useCount) || 0) + 1;
+            try {
+                await IDB.put(IDB.storeCommands, cmd);
+            } catch(e) {}
+
+            // Populate Execution Panel in Tab 5
+            const slashEl = document.getElementById('execCmdSlash');
+            const titleEl = document.getElementById('execCmdTitle');
+            const descEl = document.getElementById('execCmdDesc');
+
+            if (slashEl) slashEl.innerText = `/${cmd.slash || 'command'}`;
+            if (titleEl) titleEl.innerText = cmd.title_fa || cmd.slash || 'دستور اختصاصی';
+            if (descEl) descEl.innerText = cmd.desc_fa || cmd.prompt_en || '';
+
+            // Handle Upload Box visibility and label based on input type
+            const uploadBox = document.getElementById('execImageUploadBox');
+            const labelEl = document.getElementById('execImageLabel');
+            const hintEl = document.getElementById('execImageHint');
+
+            if (uploadBox) {
+                uploadBox.classList.remove('hidden'); // Ensure always visible
+                const inputType = (cmd.input || 'any').toLowerCase();
+
+                if (inputType === 'person') {
+                    if (labelEl) labelEl.innerText = 'عکس چهره کاربر (سوژه اصلی)';
+                    if (hintEl) hintEl.innerText = 'کلیک یا رها کردن عکس چهره';
+                } else if (inputType === 'product') {
+                    if (labelEl) labelEl.innerText = 'عکس محصول یا سوژه بیجان';
+                    if (hintEl) hintEl.innerText = 'کلیک یا رها کردن عکس محصول';
+                } else if (inputType === 'multi') {
+                    if (labelEl) labelEl.innerText = 'عکس مرجع اصلی';
+                    if (hintEl) hintEl.innerText = 'کلیک یا رها کردن عکس مرجع';
+                } else {
+                    if (labelEl) labelEl.innerText = 'عکس مرجع (پیش‌فرض / اختیاری)';
+                    if (hintEl) hintEl.innerText = 'کلیک برای انتخاب عکس مرجع سوژه';
+                }
+            }
+
+            // Handle Text Input Box for variable [TEXT]
+            const textBox = document.getElementById('execTextInputBox');
+            const textLabel = document.getElementById('execTextLabel');
+            const textInput = document.getElementById('execTextInput');
+
+            if (textBox) {
+                const hasTextVar = (cmd.prompt_en && cmd.prompt_en.includes('[TEXT]')) || cmd.text_label_fa || cmd.text_in_image;
+                if (hasTextVar) {
+                    textBox.classList.remove('hidden');
+                    if (textLabel) textLabel.innerText = cmd.text_label_fa || 'متن یا موضوع متغیر';
+                    if (textInput) textInput.placeholder = cmd.example_fa || 'متن مورد نظر را بنویسید...';
+                } else {
+                    textBox.classList.add('hidden');
+                }
+            }
+
+            // Pre-select aspect ratio if defined in command
+            if (cmd.aspect) {
+                setAspectRatio(cmd.aspect);
+            }
+
+            // Unhide panel and scroll smoothly
+            const panel = document.getElementById('cmdExecutionPanel');
+            if (panel) {
+                panel.classList.remove('hidden');
+                panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+
+            showToast(`دستور /${cmd.slash} انتخاب شد. عکس مرجع را مشخص نموده و اجرا کنید.`, 'info');
+        }
+
+        async function runSmartCommandWithRef() {
+            if (!activeSelectedCommand) {
+                showToast('لطفاً ابتدا یک دستور را انتخاب کنید.', 'error');
+                return;
+            }
+
+            const cmd = activeSelectedCommand;
+            let prompt = cmd.prompt_en || '';
+
+            // Handle [TEXT] replacement
+            const textInputEl = document.getElementById('execTextInput');
+            const userText = textInputEl ? textInputEl.value.trim() : '';
+            if (userText) {
+                try {
+                    const translatedText = await callGeminiText(`Translate to English while keeping proper names and exact quotes intact: "${userText}"`);
+                    prompt = prompt.replace(/\[TEXT\]/g, (translatedText || userText).trim());
+                } catch(e) {
+                    prompt = prompt.replace(/\[TEXT\]/g, userText);
+                }
+            } else {
+                prompt = prompt.replace(/\[TEXT\]/g, '');
+            }
+
+            // Handle [SUBJECT] replacement
+            if (imagesState.imgExec) {
+                prompt = prompt.replace(/\[SUBJECT\]/g, 'the subject in the provided reference image');
+            } else {
+                prompt = prompt.replace(/\[SUBJECT\]/g, 'the main subject');
+            }
+
+            // Append extra user instructions
+            const extraEl = document.getElementById('execExtraInstructions');
+            const extra = extraEl ? extraEl.value.trim() : '';
+            if (extra) {
+                try {
+                    const extraEn = await callGeminiText(`Translate to English: "${extra}"`);
+                    if (extraEn) prompt += `, ${extraEn}`;
+                } catch(e) {
+                    prompt += `, ${extra}`;
+                }
+            }
+
+            // Prepare reference images
+            const refImages = [];
+            if (imagesState.imgExec) {
+                refImages.push(imagesState.imgExec);
+            }
+
+            showToast('در حال اجرای تصویرسازی با دستور هوشمند...', 'info');
+
+            // Trigger generation flow
+            if (isGenerating) return;
+            isGenerating = true;
+            abortGenerationFlag = false;
+
+            const genBtn = document.getElementById('generateBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const emptyState = document.getElementById('emptyState');
+
+            if (genBtn) genBtn.classList.add('hidden');
+            if (cancelBtn) cancelBtn.classList.remove('hidden');
+            if (emptyState) emptyState.classList.add('hidden');
+
+            const countSlider = document.getElementById('countSlider');
+            const count = parseInt(countSlider ? countSlider.value : '4') || 4;
+            const resultsGrid = document.getElementById('resultsGrid');
+            
+            let tileIds = [];
+            for (let i = 0; i < count; i++) {
+                const id = 'tile-' + Math.random().toString(36).substr(2, 9);
+                tileIds.push(id);
+                const html = `
+                    <div id="${id}" class="glass-card rounded-xl overflow-hidden aspect-square relative flex flex-col items-center justify-center p-3 animate-pulse border border-purple-500/30">
+                        <div class="w-8 h-8 rounded-full border-2 border-purple-500 border-t-transparent animate-spin mb-2"></div>
+                        <span class="text-[11px] text-slate-300">در حال تصویرسازی (${i + 1} از ${count})...</span>
+                    </div>
+                `;
+                if (resultsGrid) resultsGrid.insertAdjacentHTML('afterbegin', html);
+            }
+
+            const statusText = document.getElementById('resultsStatusText');
+            if (statusText) statusText.innerText = `در حال تولید ${count} تصویر برای /${cmd.slash}...`;
+
+            let completed = 0;
+            const queue = [...tileIds];
+            const batchSize = 4;
+
+            try {
+                while (queue.length > 0 && !abortGenerationFlag) {
+                    const chunk = queue.splice(0, batchSize);
+                    await Promise.all(chunk.map(async (tileId) => {
+                        if (abortGenerationFlag) return;
+                        const variationNote = `Variation ${completed + 1}, unique ambient studio lighting`;
+                        const finalPrompt = `${prompt}, ${variationNote}`;
+
+                        try {
+                            const imgUrl = await callGeminiImageGeneration(finalPrompt, refImages, selectedAspectRatio);
+                            completed++;
+                            if (statusText) statusText.innerText = `${completed} از ${count} آماده شد`;
+                            
+                            const resultObj = {
+                                id: tileId,
+                                url: imgUrl,
+                                prompt: finalPrompt,
+                                source: `/${cmd.slash}`,
+                                time: new Date().toLocaleTimeString('fa-IR'),
+                                starred: false
+                            };
+                            sessionResults.unshift(resultObj);
+                            updateSessionHistoryStrip();
+
+                            const tileEl = document.getElementById(tileId);
+                            if (tileEl) {
+                                tileEl.className = 'glass-card rounded-xl overflow-hidden aspect-square relative group cursor-pointer border border-white/10';
+                                tileEl.innerHTML = `
+                                    <img src="${imgUrl}" class="w-full h-full object-cover" onclick="openLightbox('${tileId}')">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent opacity-0 group-hover:opacity-100 transition flex flex-col justify-between p-2">
+                                        <div class="flex justify-between items-center">
+                                            <span class="px-1.5 py-0.5 rounded bg-purple-600/80 text-white text-[9px]">/${cmd.slash}</span>
+                                            <button onclick="toggleStarResult('${tileId}')" class="text-amber-400 hover:scale-110 transition"><i class="fa-solid fa-star"></i></button>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <button onclick="openLightbox('${tileId}')" class="px-2 py-1 rounded bg-dark-600/80 text-white text-[10px]"><i class="fa-solid fa-expand"></i></button>
+                                            <button onclick="downloadSingleResult('${tileId}')" class="px-2 py-1 rounded bg-blue-600/80 text-white text-[10px]"><i class="fa-solid fa-download"></i></button>
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                        } catch (err) {
+                            console.error('Generation Error:', err);
+                            const tileEl = document.getElementById(tileId);
+                            if (tileEl) {
+                                tileEl.innerHTML = `
+                                    <div class="flex flex-col items-center justify-center h-full p-2 text-center text-red-400 text-xs">
+                                        <i class="fa-solid fa-triangle-exclamation mb-1 text-lg"></i>
+                                        <span>خطا در تولید تصویر</span>
+                                    </div>
+                                `;
+                            }
+                        }
+                    }));
+                }
+            } finally {
+                isGenerating = false;
+                if (genBtn) genBtn.classList.remove('hidden');
+                if (cancelBtn) cancelBtn.classList.add('hidden');
+                if (statusText) statusText.innerText = `تصویرسازی تکمیل شد (${completed} تصویر)`;
+            }
+        }
+
+        // Lightbox & Helpers
+        function openLightbox(id) {
+            if (compareMode && compareTake(id)) return;
+            const item = sessionResults.find(x => x.id === id);
+            if (!item) return;
+            currentLightboxIndex = sessionResults.findIndex(x => x.id === id);
+            document.getElementById('lightboxImage').src = item.url;
+            document.getElementById('lightboxSourceBadge').innerText = item.source || 'نتیجه';
+            document.getElementById('lightboxTimestamp').innerText = item.time || '';
+            document.getElementById('lightboxModal').classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightboxModal').classList.add('hidden');
+        }
+
+        function navigateLightbox(dir) {
+            if (sessionResults.length === 0) return;
+            currentLightboxIndex = (currentLightboxIndex + dir + sessionResults.length) % sessionResults.length;
+            const item = sessionResults[currentLightboxIndex];
+            if (item) {
+                document.getElementById('lightboxImage').src = item.url;
+                document.getElementById('lightboxSourceBadge').innerText = item.source || 'نتیجه';
+                document.getElementById('lightboxTimestamp').innerText = item.time || '';
+            }
+        }
+
+        function toggleStarResult(id) {
+            const item = sessionResults.find(x => x.id === id);
+            if (item) {
+                item.starred = !item.starred;
+                showToast(item.starred ? 'به برگزیده‌ها اضافه شد.' : 'از برگزیده‌ها حذف شد.', 'info');
+            }
+        }
+
+        function toggleStarCurrentLightbox() {
+            if (currentLightboxIndex >= 0 && currentLightboxIndex < sessionResults.length) {
+                const item = sessionResults[currentLightboxIndex];
+                toggleStarResult(item.id);
+            }
+        }
+
+        function downloadCurrentLightbox() {
+            if (currentLightboxIndex >= 0 && currentLightboxIndex < sessionResults.length) {
+                const item = sessionResults[currentLightboxIndex];
+                downloadSingleResult(item.id);
+            }
+        }
+
+        function sendLightboxToTab1() {
+            if (currentLightboxIndex >= 0 && currentLightboxIndex < sessionResults.length) {
+                const item = sessionResults[currentLightboxIndex];
+                imagesState.imgA = item.url;
+                
+                const previewA = document.getElementById('imgPreviewA');
+                const containerA = document.getElementById('previewContainerA');
+                const placeholderA = document.getElementById('placeholderA');
+                
+                if (previewA) previewA.src = item.url;
+                if (containerA) containerA.classList.remove('hidden');
+                if (placeholderA) placeholderA.classList.add('hidden');
+
+                closeLightbox();
+                switchTab(1);
+                showToast('تصویر به عنوان عکس چهره (A) در تب ۱ قرار گرفت.', 'success');
+            }
+        }
+
+        async function generateSimilarLightbox() {
+            if (currentLightboxIndex >= 0 && currentLightboxIndex < sessionResults.length) {
+                const item = sessionResults[currentLightboxIndex];
+                closeLightbox();
+                showToast('در حال ساخت نسخه‌های مشابه...', 'info');
+
+                // Set image as reference in Tab 1 and generate variations
+                imagesState.imgA = item.url;
+                document.getElementById('t1Prompt').value = item.prompt || 'Similar variation, identical subject, different angle and lighting';
+                switchTab(1);
+                await startGeneration();
+            }
+        }
+
+        function downloadSingleResult(id) {
+            const item = sessionResults.find(x => x.id === id);
+            if (!item) return;
+            const a = document.createElement('a');
+            a.href = item.url;
+            a.download = `studio-image-${Date.now()}.png`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        }
+
+        function downloadAllResults() {
+            sessionResults.forEach((item, i) => {
+                setTimeout(() => downloadSingleResult(item.id), i * 300);
+            });
+        }
+
+        function downloadStarredResults() {
+            const starred = sessionResults.filter(x => x.starred);
+            if (starred.length === 0) {
+                showToast('هیچ تصویری نشان نشده است.', 'info');
+                return;
+            }
+            starred.forEach((item, i) => {
+                setTimeout(() => downloadSingleResult(item.id), i * 300);
+            });
+        }
+
+        // Session history drawer (all results of this session)
+        function openHistoryDrawer() {
+            const items = sessionResults;
+            SabaUI.open(`<h3 class="font-bold text-lg mb-2"><i class="fa-solid fa-clock-rotate-left text-purple-400 ml-1"></i>تاریخچه نشست</h3>` + (items.length ? `<div class="grid grid-cols-3 sm:grid-cols-4 gap-2">${items.map(it => `<div onclick="SabaUI.close();openLightbox('${it.id}')" class="aspect-square rounded-lg overflow-hidden border border-white/15 cursor-pointer relative"><img src="${it.url}" class="w-full h-full object-cover">${it.starred ? '<span class="absolute top-1 right-1 text-amber-300 text-xs">★</span>' : ''}<span class="absolute bottom-0 inset-x-0 bg-black/60 text-[10px] text-slate-200 px-1 truncate">${it.source || ''} ${it.time || ''}</span></div>`).join('')}</div><p class="text-slate-400 text-xs mt-2">برای نگه داشتن تصاویر، از دکمه‌ی «پشتیبان» زیپ بگیر.</p>` : '<p class="text-slate-400">هنوز تصویری در این نشست ساخته نشده.</p>'));
+        }
+
+        // Compare mode: pick two outputs, then they open side by side
+        let compareMode = false, comparePicks = [];
+        function toggleCompareMode() {
+            compareMode = !compareMode; comparePicks = [];
+            const b = document.getElementById('compareModeBtn');
+            if (b) b.classList.toggle('ring-2', compareMode), b.classList.toggle('ring-purple-500', compareMode);
+            showToast(compareMode ? 'حالت مقایسه: روی دو تصویر خروجی کلیک کن' : 'حالت مقایسه خاموش شد', 'info');
+        }
+        function compareTake(id) {
+            const it = sessionResults.find(x => x.id === id);
+            if (!it) return false;
+            comparePicks.push(it);
+            if (comparePicks.length < 2) { showToast('تصویر اول انتخاب شد؛ حالا تصویر دوم', 'info'); return true; }
+            const [a, b] = comparePicks; comparePicks = [];
+            document.getElementById('compareImg1Container').innerHTML = `<img src="${a.url}" class="max-w-full max-h-[52vh] object-contain rounded-lg">`;
+            document.getElementById('compareImg2Container').innerHTML = `<img src="${b.url}" class="max-w-full max-h-[52vh] object-contain rounded-lg">`;
+            document.getElementById('compareModal').classList.remove('hidden');
+            return true;
+        }
+        function closeCompareModal() {
+            document.getElementById('compareModal').classList.add('hidden');
+        }
+
+        function updateSessionHistoryStrip() {
+            const strip = document.getElementById('sessionHistoryStrip');
+            if (!strip) return;
+            const items = sessionResults.slice(0, 15);
+            strip.innerHTML = '<span class="text-[11px] text-slate-400 whitespace-nowrap"><i class="fa-solid fa-history ml-1"></i>تاریخچه اخیر:</span>' + 
+                items.map(item => `
+                    <div onclick="openLightbox('${item.id}')" class="shrink-0 w-10 h-10 rounded-lg overflow-hidden border border-white/20 cursor-pointer hover:scale-105 transition">
+                        <img src="${item.url}" class="w-full h-full object-cover">
+                    </div>
+                `).join('');
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            const bgClass = type === 'error' ? 'bg-red-600' : type === 'success' ? 'bg-emerald-600' : 'bg-purple-600';
+            toast.className = `fixed bottom-5 left-5 z-50 ${bgClass} text-white text-xs px-4 py-2.5 rounded-xl shadow-2xl transition duration-300 transform translate-y-0 flex items-center space-x-2 space-x-reverse`;
+            toast.innerHTML = `<i class="fa-solid fa-circle-info"></i><span>${message}</span>`;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
