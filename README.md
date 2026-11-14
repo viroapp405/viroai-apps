@@ -1,6 +1,6 @@
 # ViroAI Apps
 
-ابزارهای رایگان هوش مصنوعی ساخته‌ی **سید صبا میری** · [viroai.ir](https://viroai.ir) · اینستاگرام [viromedia404](https://instagram.com/viromedia404)
+ابزارهای رایگان هوش مصنوعی ساخته‌ی **سید صبا میری** · [viroai.ir](https://viroai.ir) · اینستاگرام [viromedia404](https://instagram.com/viromedia404) · تلگرام [viroaihub](https://t.me/viroaihub)
 
 | ابزار | فایل کامل | لودر Canvas |
 |---|---|---|

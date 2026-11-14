@@ -21,7 +21,7 @@ STEPS
    d) Saba prefers the 3.8 voices. With 2.5 TTS, prefix a short style direction (warm, natural, conversational pace). Re-test the Canvas models after 2026-11-17 (2.5 preview TTS may be shut down) or whenever Canvas changes.
    Reference implementation: slides/index.html (v1.6.1) in the repo.
 4. Creator info in every app: footer + ℹ️ About window + a line in Settings:
-   «ساخته‌ی سید صبا میری» · https://viroai.ir · Instagram https://instagram.com/viromedia404 · tel:+989120349893 (۰۹۱۲۰۳۴۹۸۹۳) · تلگرام: به‌زودی
+   «ساخته‌ی سید صبا میری» · https://viroai.ir · Instagram https://instagram.com/viromedia404 · tel:+989120349893 (۰۹۱۲۰۳۴۹۸۹۳) · تلگرام: https://t.me/viroaihub
    Links open with target=_blank rel=noopener. Check it in tests.
 5. Styles: after v1, new styles ship as separate import packs (JSON, imported with the app's import button), not as a new app version. Saba may send Pinterest samples to turn into styles.
 6. Storage: IndexedDB + zip backup, plus a storage bridge for the companion browser extension (postMessage {__sabaBridge:1, dir, app:<app-id>, id, op}; ops ping/get/set/del/list/getAll/batch/clear; the bridge is the source of truth on load; mirror writes debounced). App-side adapter: copy the Bridge object from slides/index.html in the repo (change the app id). Extension side: templates/extension/ in the repo (bridge.js + manifest with placeholders; see templates/README.md).
