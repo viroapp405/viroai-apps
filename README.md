@@ -9,5 +9,6 @@
 | 🛍️ اینفوگرافیک محصول صبا | `product-info/index.html` | `product-info/canvas-loader.html` |
 | 📝 مقاله‌نویس محصول صبا | `product-article/index.html` | `product-article/canvas-loader.html` |
 | 🎙️ پادکست‌ساز محصول صبا | `product-podcast/index.html` | `product-podcast/canvas-loader.html` |
+| 🖼️ استودیو تولید انبوه تصویر و استخراج استایل | `bulk-image/index.html` | `bulk-image/canvas-loader.html` |
 
 لودر کوچک در Gemini Canvas اجرا می‌شود و نسخه‌ی کامل برنامه را از همین مخزن بارگذاری می‌کند؛ با هر آپدیت این مخزن، برنامه‌ی Canvas هم به‌روز می‌شود.

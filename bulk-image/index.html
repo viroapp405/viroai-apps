@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>استودیو تولید انبوه تصویر و استخراج استایل · صبا</title>
+    <!-- Vazirmatn Persian Font -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Vazirmatn', system-ui, -apple-system, sans-serif;
+            background-color: #0b0f17;
+            color: #f3f4f6;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111827;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #374151;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4b5563;
+        }
+        .gradient-border {
+            position: relative;
+            background: linear-gradient(#1e293b, #1e293b) padding-box,
+                        linear-gradient(135deg, #6366f1, #ec4899) border-box;
+            border: 1px solid transparent;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #a855f7, #6366f1, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        [v-cloak]{display:none}
+        .cre a{color:#a78bfa}
+        .cre a:hover{text-decoration:underline}
+    </style>
+</head>
+<body class="min-h-screen pb-12">
+    <div id="app" v-cloak class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+
+        <!-- Header -->
+        <header class="flex flex-col md:flex-row items-center justify-between gap-4 pb-6 border-b border-gray-800 mb-8">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                    <i class="fa-solid font-bold fa-wand-magic-sparkles text-2xl text-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-black tracking-tight gradient-text">Gemini Nano Studio</h1>
+                    <p class="text-xs text-gray-400">تولید انبوه تصویر و استخراج هوشمند سبک با مدل Nano Banana (Gemini 3.1 Flash Image) · نسخه‌ی {{ appVer }}</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <a href="https://smiri.netlify.app/" target="_blank" rel="noopener" title="حمایت مالی از اپ‌های رایگان"
+                   class="px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow-sm whitespace-nowrap"
+                   style="background:linear-gradient(135deg,#16a34a,#2ee59d);color:#04140c;text-decoration:none">💚 حمایت</a>
+
+                <button @click="openSettings" class="px-4 py-2 rounded-xl border text-sm font-medium flex items-center gap-2 transition hover:opacity-90 shadow-sm"
+                        :class="keyCfg.key ? 'bg-emerald-950/80 border-emerald-500/50 text-emerald-300' : 'bg-gray-800 border-gray-700 text-gray-200'" title="تنظیمات">
+                    <span>⚙️</span><span>تنظیمات</span>
+                </button>
+
+                <button @click="showAbout = true" class="p-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 transition" title="درباره‌ی سازنده">ℹ️</button>
+
+                <!-- Help Info Modal Trigger -->
+                <button @click="showHelpModal = true" class="p-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 transition" title="راهنمای استفاده">
+                    <i class="fa-solid fa-circle-question text-lg"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Navigation Tabs -->
+        <div class="flex border-b border-gray-800 mb-8 space-x-2 space-x-reverse">
+            <button @click="activeTab = 'generator'" 
+                    :class="activeTab === 'generator' ? 'border-indigo-500 text-indigo-400 bg-indigo-950/30' : 'border-transparent text-gray-400 hover:text-gray-200'"
+                    class="py-3 px-6 font-semibold border-b-2 transition flex items-center gap-2 text-sm md:text-base rounded-t-xl">
+                <i class="fa-solid fa-layer-group"></i>
+                تولید انبوه (Batch Generation)
+            </button>
+            <button @click="activeTab = 'styles'" 
+                    :class="activeTab === 'styles' ? 'border-purple-500 text-purple-400 bg-purple-950/30' : 'border-transparent text-gray-400 hover:text-gray-200'"
+                    class="py-3 px-6 font-semibold border-b-2 transition flex items-center gap-2 text-sm md:text-base rounded-t-xl">
+                <i class="fa-solid fa-palette"></i>
+                مخزن و استخراج سبک (Style Extractor)
+                <span class="bg-purple-900/60 text-purple-300 text-xs px-2 py-0.5 rounded-full border border-purple-500/30">{{ styles.length }}</span>
+            </button>
+            <button @click="activeTab = 'gallery'" 
+                    :class="activeTab === 'gallery' ? 'border-pink-500 text-pink-400 bg-pink-950/30' : 'border-transparent text-gray-400 hover:text-gray-200'"
+                    class="py-3 px-6 font-semibold border-b-2 transition flex items-center gap-2 text-sm md:text-base rounded-t-xl">
+                <i class="fa-solid fa-images"></i>
+                گالری خروجی
+                <span v-if="generatedImages.length > 0" class="bg-pink-900/60 text-pink-300 text-xs px-2 py-0.5 rounded-full border border-pink-500/30">{{ generatedImages.length }}</span>
+            </button>
+        </div>
+
+        <!-- TAB 1: BATCH GENERATOR -->
+        <div v-show="activeTab === 'generator'" class="space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Left Options Column -->
+                <div class="lg:col-span-1 space-y-6">
+                    
+                    <!-- Style Selection Card -->
+                    <div class="glass-panel p-5 rounded-2xl space-y-4">
+                        <div class="flex items-center justify-between">
+                            <label class="text-sm font-bold text-gray-200 flex items-center gap-2">
+                                <i class="fa-solid fa-paintbrush text-purple-400"></i>
+                                انتخاب سبک هنری (Style):
+                            </label>
+                            <button @click="activeTab = 'styles'" class="text-xs text-purple-400 hover:underline">
+                                + افزودن سبک جدید
+                            </button>
+                        </div>
+
+                        <select v-model="selectedStyleId" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-indigo-500">
+                            <option value="">بدون سبک (پرامپت خالص)</option>
+                            <option v-for="style in styles" :key="style.id" :value="style.id">
+                                {{ style.name }}
+                            </option>
+                        </select>
+
+                        <!-- Active Style Preview Box -->
+                        <div v-if="activeStyle" class="bg-purple-950/30 border border-purple-800/40 p-3 rounded-xl text-xs space-y-2">
+                            <div class="flex items-center justify-between text-purple-300 font-semibold">
+                                <span>{{ activeStyle.name }}</span>
+                                <span class="text-[10px] bg-purple-900/80 px-2 py-0.5 rounded">فعال</span>
+                            </div>
+                            <p class="text-gray-400 text-[11px] line-clamp-3 leading-relaxed">{{ activeStyle.promptModifier }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Reference Images (up to 5) -->
+                    <div class="glass-panel p-5 rounded-2xl space-y-4">
+                        <div class="flex items-center justify-between">
+                            <label class="text-sm font-bold text-gray-200 flex items-center gap-2">
+                                <i class="fa-solid fa-user-group text-pink-400"></i>
+                                تصاویر رفرنس (تا {{ maxRefs }} عدد):
+                            </label>
+                            <span class="text-xs text-gray-400">{{ genRefs.length }} / {{ maxRefs }}</span>
+                        </div>
+                        <p class="text-[11px] text-gray-400 leading-relaxed">برای کاراکترها یا سوژه‌هایی که باید در همه‌ی تصاویر یکسان بمانند (چهره، لباس، محصول، لوگو). می‌توانید چند زاویه از یک کاراکتر یا چند کاراکتر مختلف بدهید.</p>
+                        <div class="grid grid-cols-5 gap-2">
+                            <div v-for="(r, ri) in genRefs" :key="r.id" class="relative aspect-square rounded-xl overflow-hidden border border-gray-700 bg-gray-950 group">
+                                <img :src="r.url" class="w-full h-full object-cover">
+                                <button @click="removeRef('genRefs', ri)" class="absolute top-1 left-1 w-6 h-6 rounded-full bg-black/70 text-rose-300 text-xs flex items-center justify-center" title="حذف رفرنس"><i class="fa-solid fa-xmark"></i></button>
+                                <span class="absolute bottom-1 right-1 text-[10px] bg-black/70 text-gray-200 px-1.5 rounded">{{ ri + 1 }}</span>
+                            </div>
+                            <button v-if="genRefs.length < maxRefs" @click="$refs.genRefInput.click()"
+                                    @dragover.prevent @drop.prevent="addRefFiles('genRefs', $event.dataTransfer.files)"
+                                    class="aspect-square rounded-xl border-2 border-dashed border-gray-700 hover:border-pink-500 text-gray-400 hover:text-pink-300 flex flex-col items-center justify-center text-[10px] gap-1 transition" title="افزودن تصویر رفرنس">
+                                <i class="fa-solid fa-plus text-base"></i><span>افزودن</span>
+                            </button>
+                        </div>
+                        <input type="file" ref="genRefInput" class="hidden" accept="image/*" multiple @change="addRefFiles('genRefs', $event.target.files); $event.target.value=''">
+                        <div v-if="genRefs.length" class="space-y-2">
+                            <label class="flex items-center gap-2 text-xs text-gray-300 cursor-pointer">
+                                <input type="checkbox" v-model="useRefs" class="accent-pink-500">
+                                استفاده از رفرنس‌ها در تولید همه‌ی تصاویر
+                            </label>
+                            <input type="text" v-model="refNote" placeholder="توضیح اختیاری؛ مثال: تصویر ۱ مینا است، تصویر ۲ و ۳ برادرش آرش" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2 text-xs text-gray-200 focus:outline-none focus:border-pink-500">
+                            <button @click="clearRefs('genRefs')" class="text-[11px] text-rose-400 hover:underline">حذف همه‌ی رفرنس‌ها</button>
+                        </div>
+                    </div>
+
+                    <!-- Generation Configs -->
+                    <div class="glass-panel p-5 rounded-2xl space-y-5">
+                        <h3 class="text-sm font-bold text-gray-200 flex items-center gap-2 border-b border-gray-800 pb-3">
+                            <i class="fa-solid fa-sliders text-indigo-400"></i>
+                            تنظیمات تولید
+                        </h3>
+
+                        <!-- Aspect Ratio -->
+                        <div>
+                            <label class="text-xs font-semibold text-gray-300 mb-2 block">نسبت تصویر (Aspect Ratio):</label>
+                            <div class="grid grid-cols-4 gap-2">
+                                <button v-for="ar in aspectRatios" :key="ar.value"
+                                        @click="config.aspectRatio = ar.value"
+                                        :class="config.aspectRatio === ar.value ? 'bg-indigo-600 text-white border-indigo-400' : 'bg-gray-900 text-gray-400 border-gray-800 hover:border-gray-700'"
+                                        class="py-2 rounded-xl text-xs font-medium border flex flex-col items-center justify-center gap-1 transition">
+                                    <i :class="ar.icon" class="text-sm"></i>
+                                    <span>{{ ar.label }}</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Count Per Prompt -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-xs font-semibold text-gray-300">تعداد تصویر برای هر پرامپت:</label>
+                                <span class="text-xs font-bold bg-gray-800 px-2 py-0.5 rounded text-indigo-400">{{ config.countPerPrompt }} عدد</span>
+                            </div>
+                            <input type="range" min="1" max="4" v-model.number="config.countPerPrompt" class="w-full accent-indigo-500 bg-gray-800 rounded-lg h-2 cursor-pointer">
+                            <div class="flex justify-between text-[10px] text-gray-500 mt-1">
+                                <span>1</span>
+                                <span>2</span>
+                                <span>3</span>
+                                <span>4</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Right Prompts & Generation Column -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="glass-panel p-6 rounded-2xl space-y-4">
+                        <div class="flex justify-between items-center">
+                            <label class="text-base font-bold text-gray-200 flex items-center gap-2">
+                                <i class="fa-solid fa-list-check text-pink-400"></i>
+                                ورودی پرامپت‌های انبوه (هر خط یک پرامپت):
+                            </label>
+                            <span class="text-xs text-gray-400">
+                                {{ parsedPrompts.length }} پرامپت شناسايي شد
+                            </span>
+                        </div>
+
+                        <textarea v-model="rawPromptsInput" 
+                                  rows="7" 
+                                  placeholder="پرامپت‌های خود را وارد کنید. هر خط به عنوان یک تصویر جداگانه پردازش می‌شود.&#10;&#10;مثال:&#10;یک گربه فضانورد در حال شنا در کهکشان&#10;خانه چوبی کوچک در میان جنگل برفی هنگام غروب&#10;ربات قدیمی شطرنج‌باز در کافه‌ای در پاریس"
+                                  class="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-indigo-500 leading-relaxed font-sans"></textarea>
+
+                        <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
+                            <div class="text-xs text-gray-400">
+                                کل تصاویر برای تولید: <strong class="text-indigo-400 text-sm mx-1">{{ totalImagesToGenerate }}</strong> عدد
+                            </div>
+
+                            <button @click="startBatchGeneration" 
+                                    :disabled="isGenerating || parsedPrompts.length === 0"
+                                    class="px-8 py-3.5 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-bold rounded-xl shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/50 transition transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center gap-2">
+                                <i v-if="isGenerating" class="fa-solid fa-spinner fa-spin"></i>
+                                <i v-else class="fa-solid fa-bolt"></i>
+                                <span>{{ isGenerating ? 'در حال پردازش صف...' : 'شروع تولید انبوه تصاویر' }}</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Batch Progress & Status Box -->
+                    <div v-if="batchQueue.length > 0" class="glass-panel p-6 rounded-2xl space-y-4">
+                        <p v-if="statusLine" class="text-[11px] text-amber-300 bg-amber-950/30 border border-amber-800/40 rounded-lg px-3 py-2">{{ statusLine }}</p>
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-sm font-bold text-gray-200 flex items-center gap-2">
+                                <i class="fa-solid fa-spinner text-indigo-400" :class="{'fa-spin': isGenerating}"></i>
+                                وضعیت پیشرفت صف (Queue)
+                            </h3>
+                            <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-gray-800 text-gray-300">
+                                {{ completedCount }} از {{ batchQueue.length }} تکمیل شده
+                            </span>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="w-full bg-gray-900 h-3 rounded-full overflow-hidden border border-gray-800">
+                            <div class="bg-gradient-to-r from-indigo-500 to-pink-500 h-full transition-all duration-300" 
+                                 :style="{ width: progressPercentage + '%' }"></div>
+                        </div>
+
+                        <!-- Queue Item Cards -->
+                        <div class="space-y-2 max-h-60 overflow-y-auto pr-1">
+                            <div v-for="(item, index) in batchQueue" :key="index" 
+                                 class="p-3 rounded-xl border text-xs flex items-center justify-between gap-3 transition"
+                                 :class="{
+                                     'bg-gray-900/60 border-gray-800 text-gray-400': item.status === 'pending',
+                                     'bg-indigo-950/40 border-indigo-500/40 text-indigo-200 animate-pulse': item.status === 'processing',
+                                     'bg-emerald-950/30 border-emerald-500/30 text-emerald-300': item.status === 'completed',
+                                     'bg-rose-950/30 border-rose-500/30 text-rose-300': item.status === 'error'
+                                 }">
+                                <div class="flex items-center gap-2 truncate flex-1">
+                                    <span class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold bg-gray-800 shrink-0">
+                                        {{ index + 1 }}
+                                    </span>
+                                    <p class="truncate font-medium">{{ item.finalPrompt }}</p>
+                                    <span v-if="item.refCount" class="text-[10px] text-pink-300 shrink-0">🖼️ {{ item.refCount }}</span>
+                                </div>
+                                
+                                <div class="flex items-center gap-2 shrink-0">
+                                    <span v-if="item.status === 'pending'" class="text-[10px] text-gray-500">در صف</span>
+                                    <span v-if="item.status === 'processing'" class="text-[10px] text-indigo-400 font-bold flex items-center gap-1">
+                                        <i class="fa-solid fa-spinner fa-spin"></i> تولید...
+                                    </span>
+                                    <span v-if="item.status === 'completed'" class="text-[10px] text-emerald-400 font-bold flex items-center gap-1">
+                                        <i class="fa-solid fa-check"></i> موفق
+                                    </span>
+                                    <span v-if="item.status === 'error'" class="text-[10px] text-rose-400 font-bold flex items-center gap-1" :title="item.errorMessage">
+                                        <i class="fa-solid fa-xmark"></i> خطا
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TAB 2: STYLE EXTRACTOR & REPOSITORY -->
+        <div v-show="activeTab === 'styles'" class="space-y-8">
+            
+            <!-- Extractor Tool -->
+            <div class="glass-panel p-6 rounded-2xl gradient-border space-y-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-gray-800 pb-4">
+                    <div>
+                        <h2 class="text-lg font-black text-gray-100 flex items-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles text-purple-400"></i>
+                            استخراج‌کننده سبک از تصویر (AI Style Extractor)
+                        </h2>
+                        <p class="text-xs text-gray-400 mt-1">تا {{ maxRefs }} تصویر مرجع (از پینترست، اینستاگرام یا کامپیوتر) آپلود کنید تا Gemini سبک هنری مشترک، نور، رنگ و خصوصیات آن‌ها را تحلیل کند.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                    <!-- Upload Area -->
+                    <div class="space-y-4">
+                        <label class="block text-xs font-bold text-gray-300">تصاویر مرجع را آپلود کنید (تا {{ maxRefs }} عدد، {{ styleRefs.length }} انتخاب شده):</label>
+                        <div class="border-2 border-dashed border-gray-700 hover:border-purple-500 transition rounded-2xl p-6 text-center cursor-pointer bg-gray-900/50 flex flex-col items-center justify-center min-h-[220px] relative overflow-hidden"
+                             @click="styleRefs.length < maxRefs && $refs.styleFileInput.click()"
+                             @dragover.prevent
+                             @drop.prevent="handleStyleDrop">
+
+                            <input type="file" ref="styleFileInput" class="hidden" accept="image/*" multiple @change="handleStyleFileSelect">
+
+                            <template v-if="styleRefs.length">
+                                <div class="grid grid-cols-3 gap-2 w-full">
+                                    <div v-for="(r, ri) in styleRefs" :key="r.id" class="relative aspect-square rounded-lg overflow-hidden border border-gray-700 bg-gray-950">
+                                        <img :src="r.url" class="w-full h-full object-cover">
+                                        <button @click.stop="removeRef('styleRefs', ri)" class="absolute top-1 left-1 w-6 h-6 rounded-full bg-black/70 text-rose-300 text-xs flex items-center justify-center" title="حذف"><i class="fa-solid fa-xmark"></i></button>
+                                    </div>
+                                    <div v-if="styleRefs.length < maxRefs" class="aspect-square rounded-lg border-2 border-dashed border-gray-700 text-gray-400 flex flex-col items-center justify-center text-[10px] gap-1">
+                                        <i class="fa-solid fa-plus text-base"></i><span>افزودن</span>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <template v-else>
+                                <div class="w-14 h-14 rounded-full bg-purple-900/30 text-purple-400 flex items-center justify-center mb-3 text-2xl">
+                                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                                </div>
+                                <p class="text-sm font-semibold text-gray-200">کلیک کنید یا تصاویر را به اینجا بکشید</p>
+                                <p class="text-xs text-gray-500 mt-1">PNG, JPG, WEBP · تا {{ maxRefs }} تصویر (حداکثر 10MB هر کدام)</p>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Extraction Result & Form -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1">نام سبک جدید:</label>
+                            <input type="text" v-model="newStyleName" placeholder="مثال: سبک کارتونی پینترست با نور نئون" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-purple-500">
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="block text-xs font-bold text-gray-300">توصیف سبک استخراج شده (Prompt Modifier):</label>
+                                <button v-if="extractedPromptText" @click="copyText(extractedPromptText)" class="text-[11px] text-purple-400 hover:underline">
+                                    کپی توصیف
+                                </button>
+                            </div>
+                            <textarea v-model="extractedPromptText" rows="4" placeholder="پس از تحلیل، مشخصات سبک در اینجا قرار می‌گیرد یا می‌توانید خودتان بنویسید..." class="w-full bg-gray-900 border border-gray-700 rounded-xl p-3 text-xs text-gray-200 focus:outline-none focus:border-purple-500 leading-relaxed"></textarea>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <button @click="extractStyleFromImage" 
+                                    :disabled="!styleRefs.length || isAnalyzingStyle"
+                                    class="flex-1 py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-xl text-xs transition flex items-center justify-center gap-2 disabled:opacity-50">
+                                <i v-if="isAnalyzingStyle" class="fa-solid fa-spinner fa-spin"></i>
+                                <i v-else class="fa-solid fa-brain"></i>
+                                <span>{{ isAnalyzingStyle ? 'در حال تحلیل با Gemini...' : 'استخراج هوشمند سبک با AI' }}</span>
+                            </button>
+
+                            <button @click="saveNewStyle" 
+                                    :disabled="!newStyleName || !extractedPromptText"
+                                    class="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition disabled:opacity-50">
+                                <i class="fa-solid fa-bookmark ml-1"></i> ذخیره سبک
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Style Repository Cards -->
+            <div class="space-y-4">
+                <h3 class="text-base font-bold text-gray-200 flex items-center gap-2">
+                    <i class="fa-solid fa-boxes-packing text-indigo-400"></i>
+                    مخزن سبک‌های ذخیره‌شده
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div v-for="style in styles" :key="style.id" class="glass-panel p-4 rounded-2xl space-y-3 flex flex-col justify-between hover:border-purple-500/50 transition">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between">
+                                <h4 class="font-bold text-sm text-gray-100 flex items-center gap-2">
+                                    <i class="fa-solid fa-swatchbook text-purple-400"></i>
+                                    {{ style.name }}
+                                </h4>
+                                <span v-if="style.isDefault" class="text-[10px] bg-gray-800 text-gray-400 px-2 py-0.5 rounded">پیش‌فرض</span>
+                            </div>
+                            <p class="text-xs text-gray-400 leading-relaxed line-clamp-4">{{ style.promptModifier }}</p>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-3 border-t border-gray-800 text-xs">
+                            <button @click="selectStyleAndGoToGen(style.id)" class="text-indigo-400 font-semibold hover:underline flex items-center gap-1">
+                                <span>استفاده در تولید</span>
+                                <i class="fa-solid fa-arrow-left"></i>
+                            </button>
+
+                            <button v-if="!style.isDefault" @click="deleteStyle(style.id)" class="text-rose-400 hover:text-rose-300 transition" title="حذف سبک">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- TAB 3: GALLERY & BULK DOWNLOAD -->
+        <div v-show="activeTab === 'gallery'" class="space-y-6">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 glass-panel p-4 rounded-2xl">
+                <div>
+                    <h2 class="text-base font-bold text-gray-100 flex items-center gap-2">
+                        <i class="fa-solid fa-photo-film text-pink-400"></i>
+                        گالری تصاویر خروجی
+                    </h2>
+                    <p class="text-xs text-gray-400">تصاویر تولیدشده در حافظه‌ی مرورگر (و اکستنشن، اگر نصب باشد) ذخیره می‌مانند. برای اطمینان، از تنظیمات پشتیبان زیپ بگیرید.</p>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <button v-if="generatedImages.length > 0" @click="downloadAllZip" :disabled="isZipping" class="px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-lg shadow-pink-600/20">
+                        <i v-if="isZipping" class="fa-solid fa-spinner fa-spin"></i>
+                        <i v-else class="fa-solid fa-file-zipper"></i>
+                        <span>{{ isZipping ? 'در حال بسته‌بندی ZIP...' : 'دانلود همه تصاویر (ZIP)' }}</span>
+                    </button>
+
+                    <button v-if="generatedImages.length > 0" @click="clearGallery" class="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-xl text-xs font-medium transition">
+                        پاکسازی گالری
+                    </button>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div v-if="generatedImages.length === 0" class="text-center py-16 glass-panel rounded-2xl space-y-3">
+                <i class="fa-solid fa-image-slash text-4xl text-gray-600"></i>
+                <p class="text-gray-400 text-sm">هنوز هیچ تصوری تولید نشده است.</p>
+                <button @click="activeTab = 'generator'" class="text-xs text-indigo-400 hover:underline font-semibold">
+                    رفتن به بخش تولید تصاویر
+                </button>
+            </div>
+
+            <!-- Image Grid -->
+            <div v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div v-for="(img, idx) in generatedImages" :key="idx" class="glass-panel rounded-2xl overflow-hidden group flex flex-col justify-between border border-gray-800 hover:border-pink-500/50 transition">
+                    <div class="relative overflow-hidden bg-gray-950 aspect-square flex items-center justify-center">
+                        <img :src="img.url" class="w-full h-full object-cover transition duration-500 group-hover:scale-105" loading="lazy">
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-3">
+                            <button @click="openImageModal(img)" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/40 text-white backdrop-blur flex items-center justify-center transition" title="بزرگنمایی">
+                                <i class="fa-solid fa-expand"></i>
+                            </button>
+                            <a :href="img.url" :download="'gemini-image-' + idx + '.' + extOf(img.url)" class="w-10 h-10 rounded-full bg-pink-600 hover:bg-pink-700 text-white flex items-center justify-center transition shadow-lg" title="دانلود">
+                                <i class="fa-solid fa-download"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="p-3 space-y-2 text-xs">
+                        <p class="text-gray-300 line-clamp-2 leading-relaxed" :title="img.prompt">{{ img.prompt }}</p>
+                        <div class="flex items-center justify-between text-[10px] text-gray-500 pt-2 border-t border-gray-800">
+                            <span>{{ img.aspectRatio }}</span>
+                            <button @click="copyText(img.prompt)" class="hover:text-gray-300">
+                                <i class="fa-solid fa-copy ml-1"></i> کپی پرامپت
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL 1: SETTINGS -->
+        <div v-if="showSettings" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" @click.self="showSettings = false">
+            <div class="glass-panel max-w-lg w-full p-6 rounded-2xl space-y-5 border border-gray-700 relative max-h-[90vh] overflow-y-auto">
+                <button @click="showSettings = false" class="absolute top-4 left-4 text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+                <h3 class="font-bold text-gray-100 text-base border-b border-gray-800 pb-3">⚙️ تنظیمات</h3>
+
+                <div class="space-y-3">
+                    <h4 class="text-sm font-bold text-indigo-300">🔑 کلید API شخصی (اختیاری)</h4>
+                    <p class="text-[11px] text-gray-400 leading-relaxed">اگر کلید Gemini API خودت را بزنی، مدل‌های جدیدتر متن برای استخراج سبک باز می‌شوند (هزینه‌اش با حساب خودت است). کلید فقط در همین مرورگر می‌ماند و جایی فرستاده نمی‌شود جز گوگل. خالی بگذاری، برنامه رایگان با Canvas کار می‌کند.</p>
+                    <input type="password" dir="ltr" v-model="keyInput" @input="saveKey('key', $event.target.value)" placeholder="AIza..." class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2.5 text-sm text-gray-100 focus:outline-none focus:border-indigo-500">
+                    <label class="text-xs text-gray-300 flex items-center gap-2">مدل متن
+                        <select dir="ltr" :value="keyCfg.text" @change="saveKey('text', $event.target.value)" class="bg-gray-900 border border-gray-700 rounded-lg px-2 py-1 text-xs text-gray-200">
+                            <option v-for="m in keyTextModels" :key="m" :value="m">{{ m }}</option>
+                        </select>
+                    </label>
+                    <p class="text-[11px]" :class="keyCfg.key ? 'text-emerald-300' : 'text-gray-400'">{{ keyNote }}</p>
+                    <p class="text-[11px] text-gray-500">کلید رایگان: <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" class="text-indigo-400 underline">Google AI Studio</a></p>
+                </div>
+
+                <div class="space-y-3 border-t border-gray-800 pt-4">
+                    <h4 class="text-sm font-bold text-indigo-300">💾 ذخیره‌سازی و پشتیبان</h4>
+                    <p class="text-[11px] leading-relaxed" :class="bridgeOn ? 'text-emerald-300' : 'text-gray-400'">{{ storageNote }}</p>
+                    <div class="flex flex-wrap gap-2">
+                        <button @click="backupZip" :disabled="isBackingUp" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition disabled:opacity-50">📦 گرفتن پشتیبان زیپ</button>
+                        <button @click="$refs.restoreInput.click()" class="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-gray-200 rounded-xl text-xs font-bold transition">♻️ بازگردانی از زیپ</button>
+                        <button v-if="bridgeOn" @click="bridgeFullSync" class="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-gray-200 rounded-xl text-xs font-bold transition">🔄 همگام‌سازی کامل الان</button>
+                        <input type="file" ref="restoreInput" class="hidden" accept=".zip,application/zip" @change="restoreZip">
+                    </div>
+                    <button @click="wipeAll" class="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-rose-400 rounded-xl text-xs font-bold transition">🗑️ پاک کردن همه‌ی داده‌ها</button>
+                </div>
+
+                <div class="border-t border-gray-800 pt-4 text-[11px] text-gray-400 cre leading-loose">
+                    ساخته‌ی <b class="text-gray-200">سید صبا میری</b> ·
+                    <a href="https://viroai.ir" target="_blank" rel="noopener">viroai.ir</a> ·
+                    <a href="https://instagram.com/viromedia404" target="_blank" rel="noopener" dir="ltr">Instagram: viromedia404</a> ·
+                    <a href="https://smiri.netlify.app/" target="_blank" rel="noopener">💚 حمایت مالی</a> ·
+                    <a href="tel:+989120349893" dir="ltr">۰۹۱۲۰۳۴۹۸۹۳</a> · تلگرام: به‌زودی
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL 1b: ABOUT -->
+        <div v-if="showAbout" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" @click.self="showAbout = false">
+            <div class="glass-panel max-w-sm w-full p-6 rounded-2xl space-y-3 border border-gray-700 relative text-sm text-gray-200 cre">
+                <button @click="showAbout = false" class="absolute top-4 left-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+                <h3 class="font-bold text-base border-b border-gray-800 pb-3">ℹ️ درباره‌ی سازنده</h3>
+                <p><b>سید صبا میری</b></p>
+                <p>🌐 وب‌سایت: <a href="https://viroai.ir" target="_blank" rel="noopener">viroai.ir</a></p>
+                <p>📸 اینستاگرام: <a href="https://instagram.com/viromedia404" target="_blank" rel="noopener" dir="ltr">viromedia404</a></p>
+                <p>💚 حمایت مالی: <a href="https://smiri.netlify.app/" target="_blank" rel="noopener" dir="ltr">smiri.netlify.app</a></p>
+                <p>📞 تلفن: <a href="tel:+989120349893" dir="ltr">۰۹۱۲۰۳۴۹۸۹۳</a></p>
+                <p>✈️ تلگرام: به‌زودی…</p>
+                <p class="text-xs text-gray-500">استودیو تولید انبوه تصویر و استخراج استایل · نسخه‌ی {{ appVer }}</p>
+            </div>
+        </div>
+
+        <!-- MODAL 2: HELP & INFO -->
+        <div v-if="showHelpModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div class="glass-panel max-w-lg w-full p-6 rounded-2xl space-y-4 border border-gray-700 relative max-h-[90vh] overflow-y-auto">
+                <button @click="showHelpModal = false" class="absolute top-4 left-4 text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+
+                <h3 class="font-bold text-gray-100 text-base border-b border-gray-800 pb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-question text-purple-400"></i>
+                    راهنمای کار با Gemini Studio
+                </h3>
+
+                <div class="space-y-4 text-xs text-gray-300 leading-relaxed">
+                    <div class="space-y-1">
+                        <h4 class="font-bold text-indigo-400 text-sm">۱. استخراج سبک از تصویر (Style Extractor)</h4>
+                        <p>می‌توانید تا ۵ تصویر که سبک دلخواه شما را دارند (مثلاً از پینترست) آپلود کنید. هوش مصنوعی Gemini سبک مشترک تصاویر را تحلیل کرده و تمامی جزییات مربوط به سبک، رنگ و نور را به صورت یک کد پرامپت آماده ذخیره می‌کند.</p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <h4 class="font-bold text-purple-400 text-sm">۲. تولید انبوه (Batch Generator)</h4>
+                        <p>کافیست چندین پرامپت را خط به خط در کادر وارد کنید. سیستم سبک انتخابی شما را به تمام پرامپت‌ها پیوست کرده و به صورت صف هوشمند تصاویر را پردازش می‌کند. با «تصاویر رفرنس» (تا ۵ عدد) کاراکترها و سوژه‌ها در همه‌ی تصاویر یکسان می‌مانند.</p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <h4 class="font-bold text-pink-400 text-sm">۳. مدل هوش مصنوعی</h4>
+                        <p>تولید تصویر با <code>gemini-3.1-flash-image</code> (Nano Banana)؛ اگر به محدودیت بخورد خودکار به <code>gemini-2.5-flash-image-preview</code> می‌رود و ۱۰ دقیقه بعد دوباره امتحان می‌کند. تحلیل سبک با <code>gemini-2.5-flash</code> (یا مدل انتخابی شما با کلید شخصی).</p>
+                    </div>
+                </div>
+
+                <button @click="showHelpModal = false" class="w-full py-2.5 bg-gray-800 hover:bg-gray-700 text-white rounded-xl text-xs font-bold transition">
+                    متوجه شدم
+                </button>
+            </div>
+        </div>
+
+        <!-- MODAL 3: FULLIMAGE PREVIEW -->
+        <div v-if="previewImageModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4" @click.self="previewImageModal = null">
+            <div class="max-w-4xl w-full space-y-4 text-center">
+                <img :src="previewImageModal.url" class="max-h-[80vh] mx-auto rounded-2xl shadow-2xl object-contain border border-gray-800">
+                <div class="glass-panel p-4 rounded-xl text-xs text-gray-200 max-w-2xl mx-auto flex items-center justify-between gap-4">
+                    <p class="text-right truncate flex-1">{{ previewImageModal.prompt }}</p>
+                    <a :href="previewImageModal.url" :download="'gemini-image.' + extOf(previewImageModal.url)" class="px-4 py-2 bg-pink-600 text-white rounded-lg font-bold shrink-0">
+                        دانلود تصویر
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="cre mt-12 pt-6 border-t border-gray-800 text-center text-xs text-gray-400 leading-loose">
+            <span>ساخته‌ی <b class="text-gray-200">سید صبا میری</b></span> ·
+            <a href="https://viroai.ir" target="_blank" rel="noopener">viroai.ir</a> ·
+            <a href="https://instagram.com/viromedia404" target="_blank" rel="noopener" dir="ltr">Instagram: viromedia404</a> ·
+            <a href="https://smiri.netlify.app/" target="_blank" rel="noopener">💚 حمایت مالی</a> ·
+            <a href="tel:+989120349893" dir="ltr">۰۹۱۲۰۳۴۹۸۹۳</a> ·
+            <span>تلگرام: به‌زودی</span>
+        </footer>
+
+        <!-- Toast Notification -->
+        <div v-if="toast.show" class="fixed bottom-6 left-6 z-50 bg-gray-900 border border-gray-700 text-gray-100 px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-xs">
+            <i class="fa-solid" :class="toast.icon || 'fa-info-circle text-indigo-400'"></i>
+            <span>{{ toast.message }}</span>
+        </div>
+
+    </div>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            rtl: true,
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                            950: '#0f172a',
+                        },
+                        gemini: {
+                            purple: '#8a2be2',
+                            blue: '#2563eb',
+                            pink: '#ec4899',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Vazirmatn', 'Tahoma', 'Segoe UI', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- JSZip for Bulk Download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <!-- Vue App Logic -->
+    <script>
+        // ===== استودیو تولید انبوه تصویر · ساخته‌ی سید صبا میری · viroai.ir =====
+        const APP_VER = "2.0.0";
+        const APP_ID = "saba-bulk-image";
+        const MAX_REFS = 5;
+        // Canvas (free, no key) allows only these models. With the user's own API key, newer text models unlock.
+        const CANVAS_MODELS = { image: "gemini-3.1-flash-image", text: "gemini-2.5-flash" };
+        const KEY_TEXT_MODELS = ["gemini-3.5-flash-lite", "gemini-3.5-flash", "gemini-3.8-flash"];
+        // Image models in order: when the first hits its limit or is refused, switch at once to the second for 10 minutes.
+        const IMAGE_MODELS = ["gemini-3.1-flash-image", "gemini-2.5-flash-image-preview"];
+        const apiKey = "";
+
+        const KeyCfg = (() => {
+            const L = k => { try { return localStorage.getItem("sabaKey." + k) || ""; } catch (e) { return ""; } };
+            return {
+                key: L("key"), text: L("text") || KEY_TEXT_MODELS[0],
+                save(k, v) { this[k] = String(v || "").trim(); try { this[k] ? localStorage.setItem("sabaKey." + k, this[k]) : localStorage.removeItem("sabaKey." + k); } catch (e) {} }
+            };
+        })();
+        const textModel = () => KeyCfg.key ? KeyCfg.text : CANVAS_MODELS.text;
+
+        async function callApi(model, body) {
+            let r;
+            try {
+                r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${KeyCfg.key||apiKey}`,
+                    { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+            } catch (e) { throw new Error("خطای شبکه: " + e.message); }
+            if (r.ok) return r.json();
+            let m = ""; try { const j = await r.json(); m = (j.error && j.error.message) || JSON.stringify(j); } catch (e) { m = r.statusText || ""; }
+            throw Object.assign(new Error(`خطای API (کد ${r.status}): ${m}`), { status: r.status });
+        }
+        const refParts = refs => (refs || []).map(r => ({ inlineData: { mimeType: r.mime, data: String(r.url).split(",")[1] } }));
+
+        const ImgPick = { i: 0, since: 0, last: IMAGE_MODELS[0], start() { if (this.i && Date.now() - this.since > 10 * 60 * 1000) this.i = 0; return this.i; } };
+        const lastImageModel = () => ImgPick.last;
+        async function genImage(prompt, refs, aspectRatio, onStatus) {
+            const body = { contents: [{ role: "user", parts: [{ text: prompt }, ...refParts(refs)] }],
+                generationConfig: { responseModalities: ["IMAGE"], imageConfig: { aspectRatio } } };
+            let j;
+            for (let i = ImgPick.start(); i < IMAGE_MODELS.length; i++) {
+                const last = i == IMAGE_MODELS.length - 1;
+                try { j = await callApi(IMAGE_MODELS[i], body); if (i != ImgPick.i) { ImgPick.i = i; ImgPick.since = Date.now(); } ImgPick.last = IMAGE_MODELS[i]; break; }
+                catch (e) {
+                    if (last || !e.status || !(e.status == 429 || e.status == 403 || e.status == 404 || e.status >= 500)) throw e;
+                    onStatus && onStatus(`مدل ${IMAGE_MODELS[i]} به محدودیت خورد — ادامه با ${IMAGE_MODELS[i + 1]} (۱۰ دقیقه‌ی بعد دوباره امتحان می‌شود)…`);
+                }
+            }
+            const c = j.candidates && j.candidates[0], ps = (c && c.content && c.content.parts) || [], p = ps.find(p => p.inlineData);
+            if (!p) {
+                const t = ps.map(p => p.text).filter(Boolean).join(" ");
+                throw new Error("تصویری توسط هوش مصنوعی برگردانده نشد" + (c && c.finishReason ? ` (دلیل: ${c.finishReason})` : "") +
+                    (j.promptFeedback && j.promptFeedback.blockReason ? ` (مسدود شد: ${j.promptFeedback.blockReason})` : "") + (t ? " — " + t : ""));
+            }
+            return `data:${p.inlineData.mimeType || "image/png"};base64,${p.inlineData.data}`;
+        }
+
+        // ===== Storage: IndexedDB (memory fallback) =====
+        const STORES = ["kv", "styles", "gallery", "refs"];
+        const Store = (() => {
+            let dbp = null; const mem = Object.fromEntries(STORES.map(s => [s, new Map()]));
+            const open = () => dbp || (dbp = new Promise(ok => {
+                try {
+                    const q = indexedDB.open(APP_ID, 1);
+                    q.onupgradeneeded = () => { const d = q.result; for (const s of STORES) if (!d.objectStoreNames.contains(s)) s == "kv" ? d.createObjectStore(s) : d.createObjectStore(s, { keyPath: "id" }); };
+                    q.onsuccess = () => ok(q.result); q.onerror = () => ok(null); q.onblocked = () => ok(null);
+                } catch (e) { ok(null); }
+            }));
+            const tx = async (s, mode, fn) => {
+                const d = await open();
+                if (!d) return fn(null, mem[s]);
+                return new Promise((ok, no) => { const t = d.transaction(s, mode), os = t.objectStore(s); let res; const q = fn(os); if (q) q.onsuccess = () => { res = q.result; }; t.oncomplete = () => ok(res); t.onerror = () => no(t.error); t.onabort = () => no(t.error || new Error("abort")); });
+            };
+            const keyOf = (s, v, k) => s == "kv" ? k : v.id;
+            const api = {
+                get: (s, k) => tx(s, "readonly", (os, m) => m ? m.get(k) : os.get(k)),
+                set: (s, v, k) => tx(s, "readwrite", (os, m) => m ? (m.set(keyOf(s, v, k), v), undefined) : (s == "kv" ? os.put(v, k) : os.put(v))),
+                delete: (s, k) => tx(s, "readwrite", (os, m) => m ? (m.delete(k), undefined) : os.delete(k)),
+                list: async s => {
+                    const d = await open();
+                    if (!d) return [...mem[s].entries()].map(([k, v]) => s == "kv" ? { k, v } : v);
+                    return new Promise((ok, no) => { const out = [], t = d.transaction(s, "readonly"), q = t.objectStore(s).openCursor();
+                        q.onsuccess = () => { const c = q.result; if (c) { out.push(s == "kv" ? { k: c.key, v: c.value } : c.value); c.continue(); } };
+                        t.oncomplete = () => ok(out); t.onerror = () => no(t.error); });
+                },
+                async clearStore(s) { for (const r of await api.list(s)) await api.delete(s, s == "kv" ? r.k : r.id); },
+                async clear() { for (const s of STORES) { const d = await open(); if (!d) mem[s].clear(); else await tx(s, "readwrite", os => os.clear()); } }
+            };
+            return api;
+        })();
+
+        // ===== Bridge: optional storage in the Chrome extension (chrome.storage.local), survives closing Gemini Canvas =====
+        // Protocol: window.postMessage({__sabaBridge:1,dir:"req",app:"saba-bulk-image",id,op,...}); ops ping/get/set/del/list/getAll/batch/clear.
+        const Bridge = (() => {
+            const NS = "__sabaBridge", P = new Map(), dirty = new Map(), CH = 8e6;
+            let seq = 0, tm = 0, busy = null, mute = 0, raw = null, onChange = () => {};
+            const st = { on: false, checked: false, err: "", last: 0 };
+            window.addEventListener("message", e => {
+                const d = e.data; if (e.source !== window || !d || typeof d != "object" || d[NS] !== 1 || d.dir !== "res" || d.app !== APP_ID) return;
+                const p = P.get(d.id); if (!p) return; P.delete(d.id); clearTimeout(p.t);
+                d.ok ? p.ok(d) : p.no(Object.assign(new Error(d.error || "bridge error"), { quota: !!d.quota, invalidated: !!d.invalidated }));
+            });
+            const call = (op, o = {}, ms = 60000) => new Promise((ok, no) => {
+                const id = "b" + (++seq) + "-" + Date.now().toString(36);
+                P.set(id, { ok, no, t: setTimeout(() => { P.delete(id); no(Object.assign(new Error("timeout"), { timeout: true })); }, ms) });
+                window.postMessage({ [NS]: 1, dir: "req", app: APP_ID, id, op, ...o }, "*");
+            });
+            const msg = e => e.quota ? "فضای اکستنشن پر است؛ چند تصویر قدیمی را پاک کنید یا پشتیبان زیپ بگیرید" :
+                e.invalidated ? "اکستنشن دوباره بارگذاری شده؛ برنامه را ببندید و از آیکون اکستنشن دوباره باز کنید" :
+                e.timeout ? "اکستنشن پاسخ نداد؛ تغییرات هنوز در اکستنشن ذخیره نشده‌اند" : "خطا در ذخیره در اکستنشن: " + e.message;
+            function mark(s, k, op) { if (!st.on || mute || k == null) return; dirty.set(JSON.stringify([s, k]), [s, k, op]); clearTimeout(tm); tm = setTimeout(flush, 500); }
+            async function send(sets, dels, full) {
+                let a = [], size = 0;
+                const go = async () => { if (!a.length) return; await call("batch", { sets: a, dels: [], full }); a = []; size = 0; };
+                for (const x of sets) { a.push([x[0], x[1], x[2]]); size += JSON.stringify(x[2]).length; if (size > CH) await go(); }
+                await go(); if (dels.length || full) await call("batch", { sets: [], dels, full });
+            }
+            async function flush() {
+                clearTimeout(tm); if (!st.on || !dirty.size) return;
+                if (busy) { await busy.catch(() => {}); return flush(); }
+                busy = (async () => {
+                    const items = [...dirty.values()]; dirty.clear(); const sets = [], dels = [];
+                    try {
+                        for (const [s, k, op] of items) { if (!op) { dels.push([s, k]); continue; } const v = await Store.get(s, k); v === undefined ? dels.push([s, k]) : sets.push([s, k, v]); }
+                        await send(sets, dels, false); st.last = Date.now(); st.err = "";
+                    } catch (e) { for (const [s, k, op] of items) { const id = JSON.stringify([s, k]); dirty.has(id) || dirty.set(id, [s, k, op]); } st.err = msg(e); if (!e.quota && !e.invalidated) { clearTimeout(tm); tm = setTimeout(flush, 15000); } }
+                    onChange();
+                })();
+                try { await busy; } finally { busy = null; }
+            }
+            async function full() {
+                if (!st.on) return -1; clearTimeout(tm); if (busy) await busy.catch(() => {}); dirty.clear();
+                try {
+                    const sets = [], have = new Set();
+                    for (const s of STORES) for (const r of await Store.list(s)) { const k = s == "kv" ? r.k : r.id; if (k == null) continue; have.add(JSON.stringify([s, k])); sets.push([s, k, s == "kv" ? r.v : r]); }
+                    const ks = (await call("list")).keys || [], dels = ks.filter(p => !have.has(JSON.stringify(p)));
+                    await send(sets, dels, true); st.last = Date.now(); st.err = ""; onChange(); return sets.length;
+                } catch (e) { st.err = msg(e); onChange(); return -1; }
+            }
+            async function restore() {
+                const r = await call("getAll", {}, 180000), items = (r.items || []).filter(x => Array.isArray(x) && STORES.includes(x[0]));
+                if (!items.length) return 0;
+                mute++;
+                try { await raw.clear(); for (const [s, k, v] of items) { if (s == "kv") await raw.set("kv", v, k); else if (v && typeof v == "object" && v.id != null) await raw.set(s, v); } }
+                finally { mute--; }
+                return items.length;
+            }
+            function patch() {
+                if (raw) return; raw = { set: Store.set, delete: Store.delete, clear: Store.clear };
+                Store.set = async (s, v, k) => { await raw.set(s, v, k); mark(s, s == "kv" ? k : v && v.id, 1); };
+                Store.delete = async (s, k) => { await raw.delete(s, k); mark(s, k, 0); };
+                Store.clear = async () => { await raw.clear(); if (!st.on || mute) return; clearTimeout(tm); dirty.clear(); try { await call("clear"); } catch (e) { st.err = msg(e); } };
+            }
+            async function init() {
+                for (let i = 0; i < 4 && !st.on; i++) { try { await call("ping", {}, 300); st.on = true; } catch (e) {} }
+                st.checked = true; if (!st.on) return false; patch();
+                try { if (!(await restore())) await full(); }
+                catch (e) { st.on = false; st.err = "بازیابی از اکستنشن ناموفق بود (" + msg(e) + ")؛ داده‌های اکستنشن دست نخورده ماندند"; }
+                return st.on;
+            }
+            const save = () => { if (dirty.size) flush(); };
+            window.addEventListener("pagehide", save);
+            document.addEventListener("visibilitychange", () => { if (document.visibilityState == "hidden") save(); });
+            return { st, init, flush, full, call, set onChange(f) { onChange = f; } };
+        })();
+
+        const readAsRef = file => new Promise((ok, no) => {
+            const fr = new FileReader();
+            fr.onload = () => ok({ id: "ref-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 7), mime: file.type || "image/png", url: fr.result, name: file.name || "" });
+            fr.onerror = () => no(fr.error); fr.readAsDataURL(file);
+        });
+        // one-time move of styles saved by the old version (localStorage) into IndexedDB
+        const takeLegacyStyles = () => { try { const v = localStorage.getItem("gemini_custom_styles"); if (!v) return []; localStorage.removeItem("gemini_custom_styles"); localStorage.removeItem("gemini_api_key"); const a = JSON.parse(v); return Array.isArray(a) ? a : []; } catch (e) { return []; } };
+
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    appVer: APP_VER,
+                    showSettings: false,
+                    showAbout: false,
+                    keyCfg: { key: KeyCfg.key, text: KeyCfg.text },
+                    keyInput: KeyCfg.key,
+                    keyTextModels: KEY_TEXT_MODELS,
+                    bridgeOn: false,
+                    bridgeChecked: false,
+                    bridgeErr: '',
+                    isBackingUp: false,
+                    loaded: false,
+                    maxRefs: MAX_REFS,
+                    genRefs: [],
+                    useRefs: true,
+                    refNote: '',
+                    statusLine: '',
+                    showHelpModal: false,
+                    activeTab: 'generator', // generator, styles, gallery
+                    
+                    // Style Extractor Data
+                    styleRefs: [],
+                    newStyleName: '',
+                    extractedPromptText: '',
+                    isAnalyzingStyle: false,
+
+                    // Default Styles Repository
+                    styles: [
+                        {
+                            id: '3d-render',
+                            name: 'رندر سه بعدی ۳D Octane',
+                            promptModifier: '3d render, octane render, vivid colors, detailed texture, volumetric lighting, raytracing, highly detailed, 8k resolution',
+                            isDefault: true
+                        },
+                        {
+                            id: 'anime-cyberpunk',
+                            name: 'انیمه سایبرپانک',
+                            promptModifier: 'anime style, cyberpunk aesthetic, neon lights, highly detailed, Makoto Shinkai style, vibrant colors, cinematic framing',
+                            isDefault: true
+                        },
+                        {
+                            id: 'photorealistic',
+                            name: 'عکاسی پرتره واقع‌گرایانه',
+                            promptModifier: 'photorealistic, 8k portrait photography, soft studio lighting, sharp focus, shallow depth of field, dramatic lights, highly detailed skin texture',
+                            isDefault: true
+                        },
+                        {
+                            id: 'oil-painting',
+                            name: 'نقاشی روغن کلاسیک',
+                            promptModifier: 'classic oil painting style, visible brushstrokes, rich textures, dramatic chiaroscuro lighting, masterpiece canvas artwork',
+                            isDefault: true
+                        }
+                    ],
+                    selectedStyleId: '',
+
+                    // Batch Generator Config
+                    rawPromptsInput: '',
+                    config: {
+                        aspectRatio: '1:1',
+                        countPerPrompt: 1
+                    },
+                    aspectRatios: [
+                        { label: '1:1', value: '1:1', icon: 'fa-regular fa-square' },
+                        { label: '16:9', value: '16:9', icon: 'fa-solid fa-tv' },
+                        { label: '9:16', value: '9:16', icon: 'fa-solid fa-mobile-screen' },
+                        { label: '4:3', value: '4:3', icon: 'fa-regular fa-rectangle-wide' }
+                    ],
+
+                    // Queue Management
+                    batchQueue: [],
+                    isGenerating: false,
+
+                    // Generated Results
+                    generatedImages: [],
+                    previewImageModal: null,
+                    isZipping: false,
+
+                    // Toast
+                    toast: { show: false, message: '', icon: '' }
+                }
+            },
+            async mounted() {
+                await this.loadAll();
+            },
+            watch: {
+                rawPromptsInput() { this.saveKv(); },
+                selectedStyleId() { this.saveKv(); },
+                useRefs() { this.saveKv(); },
+                refNote() { this.saveKv(); },
+                config: { deep: true, handler() { this.saveKv(); } }
+            },
+            computed: {
+                keyNote() {
+                    return this.keyCfg.key ? `✅ کلید شخصی فعال است · متن: ${this.keyCfg.text} · تصویر: ${IMAGE_MODELS[0]}` : 'بدون کلید: مدل‌های رایگان Canvas استفاده می‌شوند';
+                },
+                storageNote() {
+                    if (this.bridgeOn) return '✅ اکستنشن پیدا شد: داده‌ها علاوه بر مرورگر در اکستنشن هم ذخیره می‌شوند و با بستن Canvas از بین نمی‌روند.' + (this.bridgeErr ? ' ⚠️ ' + this.bridgeErr : '');
+                    return 'داده‌ها (سبک‌ها، گالری، رفرنس‌ها) در IndexedDB همین مرورگر ذخیره می‌شوند. داخل Canvas ممکن است با بستن صفحه پاک شوند؛ اکستنشن را نصب کنید یا پشتیبان زیپ بگیرید.' + (this.bridgeErr ? ' ⚠️ ' + this.bridgeErr : '');
+                },
+                activeStyle() {
+                    return this.styles.find(s => s.id === this.selectedStyleId);
+                },
+                parsedPrompts() {
+                    if (!this.rawPromptsInput.trim()) return [];
+                    return this.rawPromptsInput
+                        .split('\n')
+                        .map(p => p.trim())
+                        .filter(p => p.length > 0);
+                },
+                totalImagesToGenerate() {
+                    return this.parsedPrompts.length * this.config.countPerPrompt;
+                },
+                completedCount() {
+                    return this.batchQueue.filter(i => i.status === 'completed' || i.status === 'error').length;
+                },
+                progressPercentage() {
+                    if (this.batchQueue.length === 0) return 0;
+                    return Math.round((this.completedCount / this.batchQueue.length) * 100);
+                }
+            },
+            methods: {
+                showToast(message, icon = 'fa-circle-check text-emerald-400') {
+                    this.toast = { show: true, message, icon };
+                    setTimeout(() => { this.toast.show = false; }, 3500);
+                },
+                // ===== Settings, storage, references (v2) =====
+                openSettings() { this.keyInput = KeyCfg.key; this.showSettings = true; },
+                saveKey(k, v) { KeyCfg.save(k, v); this.keyCfg = { key: KeyCfg.key, text: KeyCfg.text }; },
+                extOf(url) { const m = /^data:image\/(\w+)/.exec(url || ''); return m ? (m[1] == 'jpeg' ? 'jpg' : m[1]) : 'png'; },
+                async loadAll() {
+                    try {
+                        Bridge.onChange = () => { this.bridgeOn = Bridge.st.on; this.bridgeErr = Bridge.st.err; };
+                        await Bridge.init();
+                        this.bridgeOn = Bridge.st.on; this.bridgeErr = Bridge.st.err; this.bridgeChecked = true;
+                        const legacy = takeLegacyStyles();
+                        for (const st of legacy) if (st && st.id && st.promptModifier) await Store.set('styles', { ...st, isDefault: false, created: st.created || Date.now() });
+                        const custom = (await Store.list('styles')).sort((a, b) => (a.created || 0) - (b.created || 0));
+                        const defaults = this.styles.filter(x => x.isDefault);
+                        this.styles = [...defaults, ...custom.filter(c => !defaults.some(d => d.id === c.id))];
+                        this.generatedImages = (await Store.list('gallery')).sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                        const refs = (await Store.list('refs')).sort((a, b) => (a.created || 0) - (b.created || 0));
+                        this.genRefs = refs.filter(r => r.list === 'genRefs').slice(0, MAX_REFS);
+                        this.styleRefs = refs.filter(r => r.list === 'styleRefs').slice(0, MAX_REFS);
+                        const kv = await Store.get('kv', 'settings');
+                        if (kv) {
+                            if (typeof kv.rawPromptsInput === 'string') this.rawPromptsInput = kv.rawPromptsInput;
+                            if (kv.selectedStyleId && this.styles.some(x => x.id === kv.selectedStyleId)) this.selectedStyleId = kv.selectedStyleId;
+                            if (kv.config) this.config = { ...this.config, ...kv.config };
+                            if (typeof kv.useRefs === 'boolean') this.useRefs = kv.useRefs;
+                            if (typeof kv.refNote === 'string') this.refNote = kv.refNote;
+                        }
+                    } catch (e) {
+                        console.error(e);
+                        this.showToast('بارگذاری داده‌های ذخیره‌شده ناموفق بود: ' + (e.message || e), 'fa-circle-xmark text-rose-400');
+                    }
+                    this.loaded = true;
+                },
+                saveKv() {
+                    if (!this.loaded) return;
+                    clearTimeout(this._kvT);
+                    this._kvT = setTimeout(() => {
+                        Store.set('kv', { rawPromptsInput: this.rawPromptsInput, selectedStyleId: this.selectedStyleId, config: { ...this.config }, useRefs: this.useRefs, refNote: this.refNote }, 'settings');
+                    }, 400);
+                },
+                async addRefFiles(list, files) {
+                    const arr = [...(files || [])].filter(f => f && f.type && f.type.startsWith('image/'));
+                    if (files && files.length && !arr.length) { this.showToast('لطفاً فایل تصویری انتخاب کنید', 'fa-circle-xmark text-rose-400'); return; }
+                    const room = MAX_REFS - this[list].length;
+                    if (room <= 0) { this.showToast(`حداکثر ${MAX_REFS} تصویر رفرنس مجاز است`, 'fa-triangle-exclamation text-amber-400'); return; }
+                    if (arr.length > room) this.showToast(`فقط ${room} تصویر دیگر اضافه شد (حداکثر ${MAX_REFS})`, 'fa-triangle-exclamation text-amber-400');
+                    for (const f of arr.slice(0, room)) {
+                        if (f.size > 10 * 1024 * 1024) { this.showToast(`«${f.name}» بزرگ‌تر از 10MB است`, 'fa-circle-xmark text-rose-400'); continue; }
+                        const r = { ...(await readAsRef(f)), list, created: Date.now() };
+                        this[list].push(r);
+                        Store.set('refs', r);
+                    }
+                },
+                removeRef(list, i) {
+                    const r = this[list][i]; if (!r) return;
+                    this[list].splice(i, 1);
+                    Store.delete('refs', r.id);
+                },
+                clearRefs(list) {
+                    for (const r of this[list]) Store.delete('refs', r.id);
+                    this[list] = [];
+                },
+                async backupZip() {
+                    if (typeof JSZip === 'undefined') return;
+                    this.isBackingUp = true;
+                    try {
+                        const data = { app: APP_ID, version: APP_VER, created: Date.now(), stores: {} };
+                        for (const s of STORES) data.stores[s] = await Store.list(s);
+                        const zip = new JSZip();
+                        zip.file('backup.json', JSON.stringify(data));
+                        const imgs = zip.folder('images');
+                        this.generatedImages.forEach((img, idx) => { const b = String(img.url).split(',')[1]; if (b) imgs.file(`image_${idx + 1}.${this.extOf(img.url)}`, b, { base64: true }); });
+                        const blob = await zip.generateAsync({ type: 'blob' });
+                        const a = document.createElement('a');
+                        a.href = URL.createObjectURL(blob);
+                        a.download = `saba-bulk-image-backup-${new Date().toISOString().slice(0, 10)}.zip`;
+                        a.click();
+                        this.showToast('پشتیبان زیپ آماده و دانلود شد');
+                    } catch (e) {
+                        console.error(e);
+                        this.showToast('خطا در ساخت پشتیبان: ' + (e.message || e), 'fa-circle-xmark text-rose-400');
+                    } finally { this.isBackingUp = false; }
+                },
+                async restoreZip(e) {
+                    const f = e.target.files && e.target.files[0]; e.target.value = '';
+                    if (!f || typeof JSZip === 'undefined') return;
+                    try {
+                        const zip = await JSZip.loadAsync(f);
+                        const j = zip.file('backup.json');
+                        if (!j) throw new Error('فایل backup.json در زیپ نیست');
+                        const data = JSON.parse(await j.async('string'));
+                        if (data.app !== APP_ID || !data.stores) throw new Error('این زیپ پشتیبان همین برنامه نیست');
+                        if (!confirm('داده‌های فعلی با پشتیبان جایگزین شوند؟')) return;
+                        await Store.clear();
+                        for (const s of STORES) for (const r of (data.stores[s] || [])) { if (s === 'kv') { if (r && r.k != null) await Store.set('kv', r.v, r.k); } else if (r && r.id != null) await Store.set(s, r); }
+                        this.loaded = false;
+                        this.styles = this.styles.filter(x => x.isDefault);
+                        await this.loadAll();
+                        this.showToast('پشتیبان با موفقیت بازگردانی شد');
+                    } catch (err) {
+                        console.error(err);
+                        this.showToast('بازگردانی ناموفق: ' + (err.message || err), 'fa-circle-xmark text-rose-400');
+                    }
+                },
+                async bridgeFullSync() {
+                    const n = await Bridge.full();
+                    this.bridgeErr = Bridge.st.err;
+                    n >= 0 ? this.showToast(`همگام‌سازی کامل شد: ${n} مورد در اکستنشن ذخیره شد`) : this.showToast('همگام‌سازی ناموفق: ' + Bridge.st.err, 'fa-circle-xmark text-rose-400');
+                },
+                async wipeAll() {
+                    if (!confirm('همه‌ی سبک‌های شخصی، گالری، رفرنس‌ها و تنظیمات پاک شوند؟ (پیشنهاد: اول پشتیبان زیپ بگیرید)')) return;
+                    await Store.clear();
+                    this.loaded = false;
+                    this.styles = this.styles.filter(x => x.isDefault);
+                    this.generatedImages = []; this.genRefs = []; this.styleRefs = []; this.selectedStyleId = ''; this.rawPromptsInput = ''; this.refNote = '';
+                    this.loaded = true;
+                    this.showToast('همه‌ی داده‌ها پاک شد');
+                },
+
+                // STYLE EXTRACTOR HANDLERS
+                handleStyleFileSelect(e) {
+                    this.addRefFiles('styleRefs', e.target.files);
+                    e.target.value = '';
+                },
+                handleStyleDrop(e) {
+                    this.addRefFiles('styleRefs', e.dataTransfer.files);
+                },
+                async extractStyleFromImage() {
+                    if (!this.styleRefs.length) return;
+                    
+                    this.isAnalyzingStyle = true;
+                    this.extractedPromptText = '';
+
+                    const systemInstruction = "You are an expert digital artist and AI art prompt engineer. Analyze the provided image(s) and extract their shared visual art style in extreme detail. Write a English prompt modifier string that captures: art style, color palette, lighting technique, artist references, camera/rendering details, and atmosphere. Keep it concise, comma-separated, optimized for text-to-image AI generators.";
+                    const userQuery = this.styleRefs.length > 1 ? `Extract the complete shared artistic style of these ${this.styleRefs.length} images as one AI prompt modifier.` : "Extract the complete artistic style of this image as an AI prompt modifier.";
+
+                    try {
+                        const payload = {
+                            contents: [{
+                                role: "user",
+                                parts: [{ text: userQuery }, ...refParts(this.styleRefs)]
+                            }],
+                            systemInstruction: { parts: [{ text: systemInstruction }] }
+                        };
+                        const result = await callApi(textModel(), payload);
+                        const text = (result.candidates?.[0]?.content?.parts || []).map(p => p.text).filter(Boolean).join(' ');
+
+                        if (text) {
+                            this.extractedPromptText = text.trim();
+                            if (!this.newStyleName) {
+                                this.newStyleName = 'سبک استخراج‌شده ' + new Date().toLocaleTimeString('fa-IR');
+                            }
+                            this.showToast('سبک تصویر با موفقیت تحلیل و استخراج شد');
+                        } else {
+                            throw new Error('پاسخی از مدل دریافت نشد');
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        this.showToast('خطا در تحلیل سبک: ' + (err.message || 'مشکل در ارتباط با کلید API'), 'fa-circle-xmark text-rose-400');
+                    } finally {
+                        this.isAnalyzingStyle = false;
+                    }
+                },
+                saveNewStyle() {
+                    if (!this.newStyleName || !this.extractedPromptText) return;
+
+                    const newStyleObj = {
+                        id: 'custom-' + Date.now(),
+                        name: this.newStyleName,
+                        promptModifier: this.extractedPromptText,
+                        isDefault: false
+                    };
+
+                    this.styles.push(newStyleObj);
+                    Store.set('styles', { ...newStyleObj, created: Date.now() });
+
+                    this.showToast('سبک جدید با موفقیت به مخزن اضافه شد');
+                    this.newStyleName = '';
+                    this.extractedPromptText = '';
+                    this.clearRefs('styleRefs');
+                },
+                deleteStyle(id) {
+                    this.styles = this.styles.filter(s => s.id !== id);
+                    Store.delete('styles', id);
+                    if (this.selectedStyleId === id) this.selectedStyleId = '';
+                    this.showToast('سبک حذف شد');
+                },
+                selectStyleAndGoToGen(id) {
+                    this.selectedStyleId = id;
+                    this.activeTab = 'generator';
+                    this.showToast('سبک انتخاب شد');
+                },
+
+                // BATCH GENERATION SYSTEM
+                async startBatchGeneration() {
+                    if (this.parsedPrompts.length === 0) return;
+
+                    // Build Queue
+                    this.batchQueue = [];
+                    const styleModifier = this.activeStyle ? `, ${this.activeStyle.promptModifier}` : '';
+                    const refs = (this.useRefs && this.genRefs.length) ? this.genRefs.slice(0, MAX_REFS) : [];
+                    this.statusLine = ImgPick.start() ? `مدل پشتیبان ${IMAGE_MODELS[1]} فعال است؛ کمی بعد دوباره ${IMAGE_MODELS[0]} امتحان می‌شود.` : '';
+
+                    this.parsedPrompts.forEach(p => {
+                        for (let i = 0; i < this.config.countPerPrompt; i++) {
+                            this.batchQueue.push({
+                                basePrompt: p,
+                                finalPrompt: `${p}${styleModifier}`,
+                                status: 'pending', // pending, processing, completed, error
+                                resultUrl: null,
+                                refCount: refs.length,
+                                errorMessage: null
+                            });
+                        }
+                    });
+
+                    this.isGenerating = true;
+
+                    // Process sequentially
+                    for (let i = 0; i < this.batchQueue.length; i++) {
+                        const item = this.batchQueue[i];
+                        item.status = 'processing';
+
+                        try {
+                            const imageUrl = await this.generateSingleImage(item.finalPrompt, this.config.aspectRatio, refs);
+                            item.status = 'completed';
+                            item.resultUrl = imageUrl;
+
+                            // Add to gallery
+                            const g = {
+                                id: 'img-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 7),
+                                url: imageUrl,
+                                prompt: item.finalPrompt,
+                                aspectRatio: this.config.aspectRatio,
+                                refCount: refs.length,
+                                model: lastImageModel(),
+                                timestamp: Date.now()
+                            };
+                            this.generatedImages.unshift(g);
+                            Store.set('gallery', g);
+                        } catch (err) {
+                            console.error(err);
+                            item.status = 'error';
+                            item.errorMessage = err.message || 'خطا در تولید تصویر';
+                        }
+                    }
+
+                    this.isGenerating = false;
+                    this.showToast('فرایند تولید انبوه به پایان رسید');
+                },
+
+                async generateSingleImage(promptText, aspectRatio, refs = []) {
+                    let prompt = promptText;
+                    if (refs.length) {
+                        prompt = `Use the ${refs.length} attached reference image(s) to keep the same character(s)/subject(s) consistent: identity, face, hair, body, outfit, colors and key details. Do not copy their background or composition unless asked.` +
+                            (this.refNote.trim() ? ` Reference notes: ${this.refNote.trim()}.` : '') + `\n\nScene: ${promptText}`;
+                    }
+                    return await genImage(prompt, refs, aspectRatio, (m) => { this.statusLine = m; this.showToast(m, 'fa-triangle-exclamation text-amber-400'); });
+                },
+
+                // GALLERY & UTILS
+                copyText(text) {
+                    navigator.clipboard.writeText(text);
+                    this.showToast('متن با موفقیت کپی شد');
+                },
+                openImageModal(img) {
+                    this.previewImageModal = img;
+                },
+                clearGallery() {
+                    if (confirm('آیا از پاک کردن تمامی تصاویر گالری اطمینان دارید؟')) {
+                        this.generatedImages = [];
+                        Store.clearStore('gallery');
+                        this.showToast('گالری پاکسازی شد');
+                    }
+                },
+                async downloadAllZip() {
+                    if (this.generatedImages.length === 0 || typeof JSZip === 'undefined') return;
+
+                    this.isZipping = true;
+                    try {
+                        const zip = new JSZip();
+                        const folder = zip.folder("gemini-images");
+
+                        this.generatedImages.forEach((img, idx) => {
+                            const base64Data = img.url.split(',')[1];
+                            folder.file(`image_${idx + 1}.${this.extOf(img.url)}`, base64Data, { base64: true });
+                        });
+
+                        const content = await zip.generateAsync({ type: "blob" });
+                        const link = document.createElement('a');
+                        link.href = URL.createObjectURL(content);
+                        link.download = `gemini_studio_batch_${Date.now()}.zip`;
+                        link.click();
+                        this.showToast('فایل ZIP آماده و دانلود شد');
+                    } catch (e) {
+                        console.error(e);
+                        this.showToast('خطا در ساخت فایل ZIP', 'fa-circle-xmark text-rose-400');
+                    } finally {
+                        this.isZipping = false;
+                    }
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
