@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07051a">
+<title>کوییزساز استوری صبا</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23a874ff'/%3E%3Cstop offset='1' stop-color='%23ff57da'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='14' y='4' width='36' height='56' rx='9' fill='%2307051a' stroke='url(%23g)' stroke-width='4'/%3E%3Ctext x='32' y='42' font-size='28' font-family='Arial' font-weight='900' fill='url(%23g)' text-anchor='middle'%3E%3F%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+<style>
+:root{--bg:#07051a;--surf:#110c27;--card:rgba(168,116,255,.08);--line:rgba(168,116,255,.30);--txt:#f4f2fb;--mut:#b9b2d6;--neon:#a874ff;--neon2:#ff57da;--ok:#2ee59d;--warn:#ffb36b;--bad:#ff5a6c}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Vazirmatn,Tahoma,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;background-image:radial-gradient(900px 600px at 85% -10%,rgba(168,116,255,.22),transparent 70%),radial-gradient(700px 500px at 0% 110%,rgba(255,87,218,.12),transparent 70%);background-attachment:fixed;font-size:15px;line-height:1.8}
+a{color:var(--neon)}
+header.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;padding:10px 16px;background:rgba(7,5,26,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.logo{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--neon),var(--neon2));color:#0b0420;font-weight:900;font-size:22px;box-shadow:0 0 18px -4px var(--neon)}
+header h1{font-size:17px;margin:0;font-weight:800}
+header small{color:var(--mut);display:block;font-size:12px;line-height:1.3}
+.sp{flex:1}
+.btn{font-family:inherit;font-size:14px;border:1px solid var(--line);background:var(--card);color:var(--txt);padding:8px 14px;border-radius:12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;justify-content:center;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--neon);box-shadow:0 0 14px -4px var(--neon)}
+.btn.pri{background:linear-gradient(135deg,var(--neon),#7d6aff);color:#0b0420;border-color:transparent;font-weight:800}
+.btn.big{padding:13px 22px;font-size:16px;border-radius:16px}
+.btn.sm{padding:4px 10px;font-size:13px;border-radius:10px}
+.btn.danger{border-color:rgba(255,90,108,.5);color:#ffb3bc}
+.btn.don{background:linear-gradient(135deg,#16a34a,#2ee59d);color:#04140c;border-color:transparent;font-weight:700}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+nav.tabs{display:flex;gap:6px;padding:12px 16px 0;flex-wrap:wrap}
+nav.tabs button{font-family:inherit;font-size:14px;background:none;border:1px solid transparent;color:var(--mut);padding:7px 14px;border-radius:12px;cursor:pointer}
+nav.tabs button.on{color:var(--txt);border-color:var(--line);background:var(--card)}
+main{max-width:1280px;margin:0 auto;padding:14px 16px 30px}
+.grid{display:grid;grid-template-columns:minmax(300px,420px) 1fr;gap:16px;align-items:start}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:16px}
+.panel h3{margin:0 0 10px;font-size:16px}
+label.f{display:block;margin:10px 0 4px;color:var(--mut);font-size:13px}
+input[type=text],input[type=password],textarea,select{width:100%;font-family:inherit;font-size:14px;background:rgba(0,0,0,.3);color:var(--txt);border:1px solid var(--line);border-radius:12px;padding:9px 12px;outline:none}
+textarea{min-height:110px;resize:vertical;line-height:1.8}
+input:focus,textarea:focus,select:focus{border-color:var(--neon);box-shadow:0 0 0 3px rgba(168,116,255,.18)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:inherit;font-size:13px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(0,0,0,.25);color:var(--mut);cursor:pointer}
+.chip.on{background:linear-gradient(135deg,rgba(168,116,255,.35),rgba(255,87,218,.25));color:var(--txt);border-color:var(--neon)}
+.styles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.sty{border:2px solid transparent;border-radius:12px;padding:0;cursor:pointer;background:none;color:var(--txt);font-family:inherit;font-size:11px}
+.sty canvas{width:100%;aspect-ratio:9/16;border-radius:10px;display:block}
+.sty.on{border-color:var(--neon);box-shadow:0 0 14px -4px var(--neon)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.mut{color:var(--mut);font-size:13px}
+.warnbox{background:rgba(255,179,107,.1);border:1px solid rgba(255,179,107,.4);color:#ffd9b0;border-radius:12px;padding:8px 12px;font-size:13px;margin-top:8px}
+.status{margin-top:10px;font-size:13px;color:var(--mut);min-height:22px}
+.cards{display:flex;flex-direction:column;gap:18px}
+.qi{background:rgba(0,0,0,.22);border:1px solid var(--line);border-radius:20px;padding:14px}
+.qi .pv{display:flex;gap:12px;flex-wrap:wrap}
+.cv{width:230px}
+.cv canvas{width:230px;height:409px;border-radius:14px;display:block;box-shadow:0 10px 30px -12px #000;background:#111}
+.cv .cap{display:flex;gap:6px;margin-top:6px;justify-content:center}
+.ed{flex:1;min-width:240px}
+.ed input,.ed textarea{margin-bottom:6px}
+.ed textarea{min-height:60px}
+.badge{display:inline-block;font-size:12px;padding:2px 10px;border-radius:999px;border:1px solid}
+.badge.ok{color:var(--ok);border-color:rgba(46,229,157,.5)}
+.badge.fixed{color:#9ad1ff;border-color:rgba(154,209,255,.5)}
+.badge.unsure{color:var(--warn);border-color:rgba(255,179,107,.5)}
+.empty{text-align:center;color:var(--mut);padding:60px 20px;border:1px dashed var(--line);border-radius:22px}
+.empty b{display:block;font-size:40px;margin-bottom:6px}
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.li{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px}
+.li h4{margin:0 0 4px;font-size:15px}
+.optrow{display:flex;gap:6px;align-items:center}
+.optrow input[type=radio]{accent-color:var(--neon)}
+.hide{display:none!important}
+footer.cre{text-align:center;color:var(--mut);font-size:13px;padding:18px 12px 26px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;border-top:1px solid var(--line);margin-top:20px}
+footer.cre a{color:var(--mut)}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#1a1238;border:1px solid var(--neon);color:var(--txt);padding:10px 18px;border-radius:14px;z-index:99;box-shadow:0 0 22px -6px var(--neon);max-width:90vw;font-size:14px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:50;display:grid;place-items:center;padding:14px}
+.modal .card{background:var(--surf);border:1px solid var(--line);border-radius:22px;padding:20px;max-width:560px;width:100%;max-height:88vh;overflow:auto;position:relative}
+.modal .x{position:absolute;top:12px;left:12px;width:34px;height:34px;padding:0}
+.modal h3{margin-top:0}
+.modal h4{margin:14px 0 4px}
+.logoPv{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid var(--line);background:rgba(0,0,0,.3)}
+input[type=color]{width:46px;height:36px;border:1px solid var(--line);border-radius:10px;background:none;padding:2px}
+input[type=range]{accent-color:var(--neon);width:100%}
+</style>
+</head>
+<body>
+<header class="top">
+ <div class="logo">؟</div>
+ <div><h1>کوییزساز استوری صبا</h1><small>کوییز استوری برای اینستاگرام، واتس‌اپ و بله</small></div>
+ <span class="sp"></span>
+ <a class="btn don" href="https://smiri.netlify.app/" target="_blank" rel="noopener" title="حمایت مالی از اپ‌های رایگان">💚 حمایت</a>
+ <button class="btn" data-a="about" aria-label="درباره">ℹ️</button>
+ <button class="btn" data-a="settings" aria-label="تنظیمات">⚙️</button>
+</header>
+<nav class="tabs">
+ <button data-tab="make" class="on">✨ ساخت کوییز</button>
+ <button data-tab="brand">🎨 پروفایل برند</button>
+ <button data-tab="arch">🗂️ کوییزهای من</button>
+</nav>
+<main>
+<section id="t-make">
+ <div class="grid">
+  <div class="panel" id="form">
+   <h3>۱. موضوع کوییز</h3>
+   <textarea id="src" placeholder="موضوع، متن یا کپشن ریلز امروز را اینجا بچسبان…&#10;مثلاً: چرا آسمان آبی است؟ نور خورشید وقتی به جو می‌خورد…"></textarea>
+   <div id="linkWarn" class="warnbox hide">لینک اینستاگرام داخل این برنامه خوانده نمی‌شود. متن یا کپشن ریلز را بچسبان.</div>
+   <label class="f">پلتفرم</label>
+   <div class="chips" data-g="platform"></div>
+   <label class="f">نوع کارت</label>
+   <div class="chips" data-g="type"></div>
+   <div class="row" style="margin-top:4px">
+    <div style="flex:1"><label class="f">تعداد کارت</label><div class="chips" data-g="count"></div></div>
+   </div>
+   <div class="row">
+    <div style="flex:1"><label class="f">مخاطب</label><select id="aud"><option value="general">عمومی</option><option value="kids">کودک و نوجوان</option><option value="pro">تخصصی</option></select></div>
+    <div style="flex:1"><label class="f">لحن</label><select id="tone"><option value="friendly">صمیمی</option><option value="fun">شوخ و بامزه</option><option value="formal">جدی</option></select></div>
+   </div>
+   <label class="f" id="stkL"><input type="checkbox" id="stk"> جای خالی برای استیکر Quiz اینستاگرام هم بماند</label>
+   <h3 style="margin-top:16px">۲. استایل</h3>
+   <div class="styles" id="styles"></div>
+   <label class="f">زمینه</label>
+   <div class="chips" data-g="bg"></div>
+   <div id="upRow" class="row hide" style="margin-top:8px"><button class="btn sm" data-a="upBg">📁 انتخاب عکس زمینه</button><span class="mut" id="upName">هنوز عکسی انتخاب نشده</span></div>
+   <label class="f">پروفایل برند</label>
+   <select id="prof"></select>
+   <div style="margin-top:16px" class="row"><button class="btn pri big" id="goBtn" data-a="go" style="flex:1">✨ بساز</button><button class="btn hide" id="stopBtn" data-a="stop">⏹️ توقف</button></div>
+   <div class="status" id="status"></div>
+  </div>
+  <div>
+   <div class="row" id="outBar" style="margin-bottom:10px"><h3 style="margin:0" id="outTitle">پیش‌نمایش</h3><span class="sp"></span><button class="btn sm hide" id="zipBtn" data-a="zipAll">⬇️ دانلود همه (zip)</button></div>
+   <div id="out"><div class="empty"><b>؟</b>موضوع را بنویس و «بساز» را بزن. کارت سؤال و کارت جواب ۱۰۸۰×۱۹۲۰ اینجا ساخته می‌شوند.</div></div>
+  </div>
+ </div>
+</section>
+<section id="t-brand" class="hide">
+ <div class="row" style="margin-bottom:10px"><h3 style="margin:0">پروفایل‌های برند</h3><span class="sp"></span><button class="btn pri" data-a="newProf">➕ پروفایل تازه</button></div>
+ <p class="mut">هر پیج یا کسب‌وکار یک پروفایل: آیدی، لوگو، رنگ و خط دعوت کارت جواب. یک بار پر کن، همیشه روی کارت‌ها می‌نشیند.</p>
+ <div class="list" id="profList"></div>
+</section>
+<section id="t-arch" class="hide">
+ <h3>کوییزهای ذخیره‌شده</h3>
+ <div class="list" id="archList"></div>
+</section>
+</main>
+<footer class="cre"><span>ساخته‌ی <b>سید صبا میری</b></span>·<a href="https://viroai.ir" target="_blank" rel="noopener">viroai.ir</a>·<a href="https://instagram.com/viromedia404" target="_blank" rel="noopener" dir="ltr">Instagram: viromedia404</a>·<a href="https://smiri.netlify.app/" target="_blank" rel="noopener">💚 حمایت مالی</a>·<a href="tel:+989120349893" dir="ltr">۰۹۱۲۰۳۴۹۸۹۳</a>·<span>تلگرام: <a href="https://t.me/viroaihub" target="_blank" rel="noopener" dir="ltr">Telegram: viroaihub</a></span></footer>
+<script>
+"use strict";
+// ---------- models (Canvas, no key) ----------
+const apiKey="";
+const APP_VER="1.0.0";
+const CANVAS_MODELS={image:"gemini-3.1-flash-image",text:"gemini-2.5-flash"};
+const IMAGE_MODELS=["gemini-3.1-flash-image","gemini-2.5-flash-image-preview"];
+const KEY_TEXT_MODELS=["gemini-3.5-flash-lite","gemini-3.5-flash","gemini-3.8-flash"];
+let IMAGE_MODEL=CANVAS_MODELS.image,TEXT_MODEL=CANVAS_MODELS.text;
+const KeyCfg=(()=>{const L=k=>{try{return localStorage.getItem("sabaKey."+k)||""}catch(e){return""}};
+ return{key:L("key"),text:L("text")||KEY_TEXT_MODELS[0],
+ save(k,v){this[k]=String(v||"").trim();try{this[k]?localStorage.setItem("sabaKey."+k,this[k]):localStorage.removeItem("sabaKey."+k)}catch(e){}KeyCfg.apply();const n=document.getElementById("keyNote");if(n)n.textContent=KeyCfg.note()},
+ apply(){TEXT_MODEL=this.key?this.text:CANVAS_MODELS.text},
+ note(){return this.key?`✅ کلید شخصی فعال است · متن: ${TEXT_MODEL}`:"بدون کلید: مدل‌های رایگان Canvas استفاده می‌شوند"},
+ html(){const o=(a,v)=>a.map(m=>`<option ${m==v?"selected":""}>${m}</option>`).join("");return`<h4>🔑 کلید API شخصی (اختیاری)</h4><p class="mut">با کلید Gemini API خودت مدل‌های متنی جدیدتر باز می‌شوند (هزینه با حساب خودت). کلید فقط در همین مرورگر می‌ماند. خالی بگذاری، برنامه رایگان با Canvas کار می‌کند.</p><input type="password" dir="ltr" placeholder="AIza..." value="${esc(this.key)}" oninput="KeyCfg.save('key',this.value)"><div class="row" style="margin-top:8px"><label class="mut">مدل متن <select dir="ltr" onchange="KeyCfg.save('text',this.value)" style="width:auto">${o(KEY_TEXT_MODELS,this.text)}</select></label></div><p class="mut" id="keyNote">${this.note()}</p>`}}})();
+KeyCfg.apply();
+
+// ---------- helpers ----------
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fa=s=>String(s==null?"":s).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+const uid=p=>p+"-"+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+function toast(m,t=4000){const d=document.createElement("div");d.className="toast";d.textContent=m;document.body.append(d);setTimeout(()=>d.remove(),t)}
+function modal(html){const m=document.createElement("div");m.className="modal";m.innerHTML=`<div class="card"><button class="btn x" data-a="close" aria-label="بستن">✕</button>${html}</div>`;m.onclick=e=>{if(e.target===m)m.remove()};document.body.append(m);return m}
+const blobToB64=b=>new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(",")[1]||"");r.onerror=()=>no(r.error);r.readAsDataURL(b)});
+const b64ToBlob=(d,t)=>{const s=atob(d),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return new Blob([a],{type:t})};
+const abortErr=()=>{const e=new Error("لغو شد");e.name="AbortError";return e};
+const sleep=(ms,sig)=>new Promise((ok,no)=>{if(sig&&sig.aborted)return no(abortErr());const t=setTimeout(ok,ms);sig&&sig.addEventListener("abort",()=>{clearTimeout(t);no(abortErr())},{once:true})});
+function parseJ(t){t=String(t).replace(/```(?:json)?/gi,"").trim();try{return JSON.parse(t)}catch(e){}const a=t.search(/[\[{]/),z=Math.max(t.lastIndexOf("]"),t.lastIndexOf("}"));if(a<0||z<a)throw new Error("پاسخ مدل JSON معتبر نبود");return JSON.parse(t.slice(a,z+1))}
+function dl(blob,name){const u=URL.createObjectURL(blob),a=document.createElement("a");a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}
+function pick(accept){return new Promise(ok=>{const i=document.createElement("input");i.type="file";i.accept=accept;i.onchange=()=>ok(i.files[0]||null);i.click()})}
+async function copyText(t){try{await navigator.clipboard.writeText(t);toast("متن کپی شد")}catch(e){const a=document.createElement("textarea");a.value=t;document.body.append(a);a.select();try{document.execCommand("copy");toast("متن کپی شد")}catch(x){toast("کپی ممکن نشد")}a.remove()}}
+const Lazy={done:{},js(src,g){if(g&&window[g])return Promise.resolve();if(this.done[src])return this.done[src];return this.done[src]=new Promise((ok,no)=>{const s=document.createElement("script");s.src=src;s.onload=ok;s.onerror=()=>{delete this.done[src];no(new Error("بارگیری کتابخانه ممکن نشد"))};document.head.append(s)})}};
+async function jz(){if(window.JSZip)return JSZip;await Lazy.js("https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js","JSZip");if(!window.JSZip)throw new Error("بارگیری JSZip ممکن نشد");return JSZip}
+
+// ---------- Store (IndexedDB) ----------
+const Store=(()=>{const N="saba-story-quiz",SS=["kv","quizzes","profiles"];let db;
+ const open=()=>db?Promise.resolve(db):new Promise((ok,no)=>{const r=indexedDB.open(N,1);r.onupgradeneeded=()=>SS.forEach(s=>r.result.objectStoreNames.contains(s)||r.result.createObjectStore(s,{keyPath:s=="kv"?"k":"id"}));r.onsuccess=()=>{db=r.result;ok(db)};r.onerror=()=>no(r.error)});
+ const run=(s,m,f)=>open().then(d=>new Promise((ok,no)=>{const t=d.transaction(s,m),q=f(t.objectStore(s));t.oncomplete=()=>ok(q&&q.result);t.onerror=t.onabort=()=>no(t.error)}));
+ return{SS,
+  get:async(s,k)=>{const r=await run(s,"readonly",o=>o.get(k));return s=="kv"?r&&r.v:r},
+  set:async(s,v,k)=>{await run(s,"readwrite",o=>o.put(s=="kv"?{k,v}:v))},
+  list:s=>run(s,"readonly",o=>o.getAll()),
+  delete:async(s,k)=>{await run(s,"readwrite",o=>o.delete(k))},
+  clear:async()=>{const d=await open();await new Promise(ok=>{const t=d.transaction(SS,"readwrite");SS.forEach(s=>t.objectStore(s).clear());t.oncomplete=ok})},
+  persist:async()=>{try{const s=navigator.storage;if(!s||!s.persist)return false;return(s.persisted&&await s.persisted())||await s.persist()}catch(e){return false}}
+ }})();
+
+// Bridge: optional storage in the companion Chrome extension (protocol __sabaBridge, copied from slides)
+const Bridge=(()=>{const NS="__sabaBridge",APP="saba-story-quiz",SS=Store.SS,SKIP=["meta"],CH=8e6,P=new Map(),dirty=new Map();
+ let tm=0,busy=null,mute=0,seq=0,raw=null,lastToast=0,retry=0;
+ const st={on:false,checked:false,ver:"",last:0,pending:0,err:"",restored:0,synced:0};
+ window.addEventListener("message",e=>{const d=e.data;if(e.source!==window||!d||typeof d!="object"||d[NS]!==1||d.dir!=="res"||d.app!==APP)return;const p=P.get(d.id);if(!p)return;P.delete(d.id);clearTimeout(p.t);
+  d.ok?p.ok(d):p.no(Object.assign(new Error(d.error||"bridge error"),{quota:!!d.quota,invalidated:!!d.invalidated}))});
+ const call=(op,o={},ms=60000)=>new Promise((ok,no)=>{const id="b"+(++seq)+"-"+Date.now().toString(36);P.set(id,{ok,no,t:setTimeout(()=>{P.delete(id);no(Object.assign(new Error("timeout"),{timeout:true}))},ms)});
+  window.postMessage({[NS]:1,dir:"req",app:APP,id,op,...o},"*")});
+ const b64ToAB=d=>{const s=atob(d||""),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return a.buffer};
+ // JSON-safe encoding: Blob → {__sb:"blob"}, ArrayBuffer/TypedArray → {__sb:"ab"}; functions and class instances are dropped
+ async function enc(v){if(v==null||typeof v=="string"||typeof v=="boolean")return v;if(typeof v=="number")return isFinite(v)?v:null;if(typeof v!="object")return undefined;
+  if(v instanceof Blob)return{__sb:"blob",t:v.type||"",d:v.size?await blobToB64(v):""};
+  if(v instanceof ArrayBuffer||ArrayBuffer.isView(v)){const b=new Blob([v]);return{__sb:"ab",d:b.size?await blobToB64(b):""}}
+  if(Array.isArray(v)){const a=[];for(const x of v){const y=await enc(x);a.push(y===undefined?null:y)}return a}
+  const p=Object.getPrototypeOf(v);if(p!==Object.prototype&&p!==null)return undefined;
+  const o={};for(const k of Object.keys(v)){const y=await enc(v[k]);if(y!==undefined)o[k]=y}return o}
+ function dec(v){if(Array.isArray(v))return v.map(dec);if(!v||typeof v!="object")return v;if(v.__sb=="blob")return b64ToBlob(v.d||"",v.t||"");if(v.__sb=="ab")return b64ToAB(v.d);
+  const o={};for(const k of Object.keys(v))o[k]=dec(v[k]);return o}
+ function msg(e){return e.quota?"فضای ذخیره‌ی اکستنشن پر است؛ چند کار قدیمی را پاک کن و «همگام‌سازی کامل الان» را بزن، یا پشتیبان زیپ بگیر":
+  e.invalidated?"اکستنشن دوباره بارگذاری شده؛ این پنجره را ببند و برنامه را از آیکون اکستنشن دوباره باز کن":
+  e.timeout?"اکستنشن پاسخ نداد؛ تغییرات هنوز در اکستنشن ذخیره نشده‌اند":"خطا در ذخیره در اکستنشن: "+e.message}
+ function fail(e,silent){st.err=msg(e);if(!silent&&Date.now()-lastToast>20000){lastToast=Date.now();toast("⚠️ "+st.err,8000)}
+  if(!e.quota&&!e.invalidated&&dirty.size){clearTimeout(retry);retry=setTimeout(()=>flush(),15000)}refresh()}
+ const refresh=()=>{st.pending=dirty.size;try{UI.status()}catch{}};
+ function mark(s,k,op){if(!st.on||mute||k==null||(s=="kv"&&SKIP.includes(k)))return;dirty.set(JSON.stringify([s,k]),[s,k,op]);st.pending=dirty.size;clearTimeout(tm);tm=setTimeout(()=>flush(),500)}
+ async function sendAll(sets,dels,full){let a=[],size=0,n=0;const go=async()=>{if(!a.length)return;await call("batch",{sets:a,dels:[],full});n+=a.length;a=[];size=0};
+  for(const x of sets){a.push([x[0],x[1],x[2]]);size+=x[3];if(size>CH)await go()}await go();if(dels.length||full)await call("batch",{sets:[],dels,full});return n}
+ async function flush(){clearTimeout(tm);if(!st.on||!dirty.size)return;if(busy){await busy.catch(()=>{});return flush()}
+  busy=(async()=>{const items=[...dirty.values()];dirty.clear();const sets=[],dels=[];
+   try{for(const[s,k,op]of items){if(!op){dels.push([s,k]);continue}const v=await Store.get(s,k);if(v===undefined){dels.push([s,k]);continue}const e=await enc(v);if(e===undefined)continue;sets.push([s,k,e,JSON.stringify(e).length])}
+    await sendAll(sets,dels,false);st.last=Date.now();st.err=""}
+   catch(e){for(const[s,k,op]of items){const id=JSON.stringify([s,k]);dirty.has(id)||dirty.set(id,[s,k,op])}fail(e)}})();
+  try{await busy}finally{busy=null;refresh()}}
+ // the whole IndexedDB → extension (also removes extension entries that no longer exist here)
+ async function full(user){if(!st.on)return -1;clearTimeout(tm);if(busy)await busy.catch(()=>{});dirty.clear();
+  try{const sets=[],have=new Set();for(const s of SS)for(const r of await Store.list(s)){const k=s=="kv"?r.k:r.id;if(k==null||(s=="kv"&&SKIP.includes(k)))continue;const e=await enc(s=="kv"?r.v:r);if(e===undefined)continue;have.add(JSON.stringify([s,k]));sets.push([s,k,e,JSON.stringify(e).length])}
+   const ks=(await call("list",{},60000)).keys||[],dels=ks.filter(p=>!have.has(JSON.stringify(p)));
+   const n=await sendAll(sets,dels,true);st.last=st.synced=Date.now();st.err="";refresh();if(user)toast(`همگام‌سازی کامل شد: ${fa(n)} مورد در اکستنشن ذخیره شد`);return n}
+  catch(e){fail(e,!user);if(user)toast("⚠️ همگام‌سازی کامل ناموفق: "+st.err,8000);return -1}}
+ async function restore(){const r=await call("getAll",{},180000),items=(r.items||[]).filter(x=>Array.isArray(x)&&SS.includes(x[0]));if(!items.length)return 0;
+  mute++;
+  try{await raw.clear();for(const[s,k,v]of items){const x=dec(v);if(s=="kv")await raw.set("kv",x,k);else if(x&&typeof x=="object"&&x.id!=null)await raw.set(s,x)}}
+  finally{mute--}return items.length}
+ function patch(){if(raw)return;raw={set:Store.set,delete:Store.delete,clear:Store.clear};
+  Store.set=async(s,v,k)=>{await raw.set(s,v,k);mark(s,s=="kv"?k:v&&v.id,1)};
+  Store.delete=async(s,k)=>{await raw.delete(s,k);mark(s,k,0)};
+  Store.clear=async()=>{await raw.clear();if(!st.on||mute)return;clearTimeout(tm);dirty.clear();try{await call("clear");st.last=Date.now()}catch(e){fail(e)}}}
+ async function init(){for(let i=0;i<4&&!st.on;i++){try{const r=await call("ping",{},200);st.ver=r.version||"";st.on=true}catch{}}st.checked=true;if(!st.on)return false;patch();
+  try{st.restored=await restore();if(!st.restored)await full(false);st.last=Date.now()}
+  catch(e){st.on=false;st.err="بازیابی از اکستنشن ناموفق بود ("+msg(e)+")؛ داده‌های اکستنشن دست نخورده ماندند. صفحه را دوباره باز کن";toast("⚠️ "+st.err,9000)}
+  return st.on}
+ const save=()=>{if(dirty.size)flush()};window.addEventListener("pagehide",save);document.addEventListener("visibilitychange",()=>{if(document.visibilityState=="hidden")save()});
+ return{st,init,flush,full,call,enc,dec}})();
+
+// ---------- zip backup ----------
+const EXT={"image/png":"png","image/jpeg":"jpg","image/webp":"webp"};
+const Backup={
+ async pack(v,f,st){if(v instanceof Blob){const p=`files/${++st.n}.${EXT[v.type]||"bin"}`;f[p]=v;return{__file:p,t:v.type||""}}
+  if(Array.isArray(v)){const a=[];for(const x of v)a.push(await this.pack(x,f,st));return a}
+  if(v&&typeof v=="object"){const o={};for(const k in v)o[k]=await this.pack(v[k],f,st);return o}return v},
+ async unpack(v,get){if(Array.isArray(v)){const a=[];for(const x of v)a.push(await this.unpack(x,get));return a}
+  if(v&&typeof v=="object"){if(typeof v.__file=="string"){const b=await get(v.__file);return b?new Blob([b],{type:v.t||""}):null}const o={};for(const k in v)o[k]=await this.unpack(v[k],get);return o}return v},
+ async zipOut(){try{const Z=await jz(),z=new Z(),f={},st={n:0},kv={};for(const r of await Store.list("kv"))kv[r.k]=r.v;
+   f["kv.json"]=JSON.stringify({format:"story-quiz-kv-v1",kv:await this.pack(kv,f,st)});
+   for(const s of["quizzes","profiles"])f[s+".json"]=JSON.stringify({format:`story-quiz-${s}-v1`,items:await this.pack(await Store.list(s),f,st)});
+   for(const n in f)z.file(n,f[n]);dl(await z.generateAsync({type:"blob"}),"story-quiz-backup-"+new Date().toISOString().slice(0,10)+".zip");toast("پشتیبان کامل دانلود شد")}catch(e){toast("خطا در ساخت پشتیبان: "+e.message)}},
+ async zipIn(){const file=await pick(".zip");if(!file)return;try{const Z=await jz(),z=await Z.loadAsync(file),get=async p=>{const e=z.file(p);return e?e.async(p.endsWith(".json")?"string":"blob"):null};let n=0;
+   const kt=await get("kv.json");if(kt){const kv=await this.unpack(JSON.parse(kt).kv||{},get);for(const k in kv){await Store.set("kv",kv[k],k);n++}}
+   for(const s of["quizzes","profiles"]){const t=await get(s+".json");if(!t)continue;for(const o of await this.unpack(JSON.parse(t).items||[],get))if(o&&o.id!=null){await Store.set(s,o);n++}}
+   await App.load();toast(`${fa(n)} مورد از پشتیبان بازگردانی شد`)}catch(e){toast("فایل پشتیبان معتبر نیست: "+e.message)}}
+};
+
+// ---------- Gemini API ----------
+async function callApi(model,body,sig,onStatus,tries=3){
+ for(let a=0;;a++){let r;
+  try{r=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${KeyCfg.key||apiKey}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body),signal:sig})}
+  catch(e){if(e.name=="AbortError")throw abortErr();throw new Error("خطای شبکه: "+e.message)}
+  if(r.ok)return r.json();
+  let m="";try{const j=await r.json();m=j.error&&j.error.message||JSON.stringify(j)}catch(e){m=r.statusText||""}
+  if((r.status==429||r.status>=500)&&a<tries){onStatus&&onStatus(`خطای ${fa(r.status)}، تلاش دوباره ${fa(a+1)} از ${fa(tries)} تا ۱۵ ثانیه‌ی دیگر…`);await sleep(15000,sig);continue}
+  throw Object.assign(new Error(`خطای API (کد ${fa(r.status)}): ${m}`),{status:r.status})}}
+const ImgPick={i:0,since:0,start(){if(this.i&&Date.now()-this.since>10*60*1000)this.i=0;return this.i}};
+async function genImage(prompt,sig,onStatus,ar="9:16"){
+ const body={contents:[{role:"user",parts:[{text:prompt}]}],generationConfig:{responseModalities:["IMAGE"],imageConfig:{aspectRatio:ar}}};let j;
+ for(let i=ImgPick.start();i<IMAGE_MODELS.length;i++){const last=i==IMAGE_MODELS.length-1;
+  try{j=await callApi(IMAGE_MODELS[i],body,sig,onStatus,last?3:0);if(i!=ImgPick.i){ImgPick.i=i;ImgPick.since=Date.now()}IMAGE_MODEL=IMAGE_MODELS[i];break}
+  catch(e){if(last||!e.status||!(e.status==429||e.status==403||e.status==404||e.status>=500))throw e;
+   onStatus&&onStatus(`مدل ${IMAGE_MODELS[i]} به محدودیت خورد، ادامه با ${IMAGE_MODELS[i+1]}…`)}}
+ const c=j.candidates&&j.candidates[0],ps=c&&c.content&&c.content.parts||[],p=ps.find(p=>p.inlineData);
+ if(!p)throw new Error("مدل تصویری تصویر برنگرداند"+(c&&c.finishReason?` (${c.finishReason})`:""));
+ return b64ToBlob(p.inlineData.data,p.inlineData.mimeType||"image/png")}
+async function genText(prompt,sig,onStatus){
+ const j=await callApi(TEXT_MODEL,{contents:[{role:"user",parts:[{text:prompt}]}],generationConfig:{responseMimeType:"application/json",temperature:.8}},sig,onStatus),c=j.candidates&&j.candidates[0],t=(c&&c.content&&c.content.parts||[]).map(p=>p.text||"").join("");
+ if(!t)throw new Error("پاسخ مدل متنی خالی بود"+(c&&c.finishReason?` (${c.finishReason})`:""));return parseJ(t)}
+
+// ---------- options ----------
+const PLATFORMS=[["instagram","اینستاگرام"],["whatsapp","واتس‌اپ"],["bale","بله"]];
+const TYPES=[["mcq","چهارگزینه‌ای"],["tf","درست / غلط"],["num","حدس عدد"],["poll","نظرسنجی"]];
+const TYPE_LABEL={mcq:"کوییز",tf:"درسته یا غلط؟",num:"حدس بزن عدد چنده؟",poll:"نظرسنجی"};
+const COUNTS=[[1,"۱"],[2,"۲"],[3,"۳"],[4,"۴"],[5,"۵"]];
+const BGMODES=[["ai","🪄 تصویر هوشمند"],["style","🎨 زمینه‌ی استایل"],["upload","📁 عکس خودم"]];
+// card styles: colors, decor and how an AI photo is toned
+const STYLES=[
+ {id:"neon",name:"نئون صبا",c1:"#07051a",c2:"#241a66",acc:"#a874ff",acc2:"#ff57da",txt:"#ffffff",mut:"#d8d0f5",panel:"rgba(20,10,50,.62)",line:"rgba(168,116,255,.75)",opt:"rgba(255,255,255,.08)",dark:1,decor:"orbs",img:"glowing neon purple and magenta light, dark cinematic"},
+ {id:"aurora",name:"شفق",c1:"#04120f",c2:"#3a1f6b",acc:"#2ee59d",acc2:"#25d9f2",txt:"#ffffff",mut:"#c9f3e4",panel:"rgba(4,20,24,.6)",line:"rgba(46,229,157,.7)",opt:"rgba(255,255,255,.08)",dark:1,decor:"waves",img:"teal and violet aurora tones, dreamy"},
+ {id:"pop",name:"گرادیان پاپ",c1:"#ff3cac",c2:"#2b86c5",acc:"#ffe066",acc2:"#ffffff",txt:"#ffffff",mut:"#fff3fb",panel:"rgba(40,10,60,.38)",line:"rgba(255,255,255,.7)",opt:"rgba(255,255,255,.16)",dark:1,decor:"orbs",img:"vibrant pink purple blue pop colors, glossy 3D"},
+ {id:"paper",name:"مینیمال روشن",c1:"#fbfaf7",c2:"#efeae0",acc:"#2b59ff",acc2:"#00b3a4",txt:"#1d1d24",mut:"#55556a",panel:"rgba(255,255,255,.86)",line:"rgba(20,20,30,.16)",opt:"rgba(255,255,255,.92)",dark:0,decor:"dots",img:"clean bright minimal, soft daylight, pastel"},
+ {id:"science",name:"علمی",c1:"#06121f",c2:"#0e3b5c",acc:"#25d9f2",acc2:"#a874ff",txt:"#ffffff",mut:"#bfe6f2",panel:"rgba(3,18,32,.62)",line:"rgba(37,217,242,.7)",opt:"rgba(37,217,242,.10)",dark:1,decor:"grid",img:"scientific, deep blue, subtle cyan glow, high detail"},
+ {id:"gold",name:"شب طلایی",c1:"#0b0f1e",c2:"#1d2440",acc:"#f6c94e",acc2:"#e9a23b",txt:"#fff8e8",mut:"#e6dcc0",panel:"rgba(10,12,26,.66)",line:"rgba(246,201,78,.7)",opt:"rgba(246,201,78,.09)",dark:1,decor:"rays",img:"luxurious dark navy with warm gold light, elegant"},
+ {id:"kids",name:"کودکانه",c1:"#fff2f8",c2:"#e6f7ff",acc:"#ff5fa2",acc2:"#21b8ff",txt:"#2b1b3a",mut:"#5c4a70",panel:"rgba(255,255,255,.86)",line:"rgba(255,95,162,.5)",opt:"rgba(255,255,255,.95)",dark:0,decor:"confetti",img:"cute colorful cartoon 3D style, candy colors, playful"},
+ {id:"tile",name:"فیروزه‌ای ایرانی",c1:"#06303a",c2:"#0a5a66",acc:"#7fe3e8",acc2:"#f6c94e",txt:"#ffffff",mut:"#cdeef0",panel:"rgba(3,30,38,.62)",line:"rgba(127,227,232,.7)",opt:"rgba(255,255,255,.08)",dark:1,decor:"girih",img:"Persian turquoise and cobalt tones, Isfahan tile mood"}
+];
+const S={platform:"instagram",type:"mcq",count:3,bg:"ai",style:"neon",upBg:null,quiz:null,profiles:[],busy:null};
+const W=1080,H=1920;
+
+// ---------- card renderer (HTML canvas, 1080×1920) ----------
+const R={
+ imgCache:new WeakMap(),
+ async img(blob){if(!blob)return null;if(this.imgCache.has(blob))return this.imgCache.get(blob);let im=null;try{im=await createImageBitmap(blob)}catch(e){im=await new Promise(ok=>{const i=new Image();i.onload=()=>ok(i);i.onerror=()=>ok(null);i.src=URL.createObjectURL(blob)})}if(im)this.imgCache.set(blob,im);return im},
+ async fonts(){try{await Promise.all(["400","700","900"].map(w=>document.fonts.load(`${w} 60px Vazirmatn`,"سلام آزمون")))}catch(e){}},
+ font(sz,w=700){return`${w} ${sz}px Vazirmatn, Tahoma, sans-serif`},
+ rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()},
+ wrap(c,text,maxW){const words=String(text||"").replace(/\s+/g," ").trim().split(" ");const lines=[];let cur="";for(const w of words){const t=cur?cur+" "+w:w;if(c.measureText(t).width<=maxW||!cur)cur=t;else{lines.push(cur);cur=w}}if(cur)lines.push(cur);return lines},
+ fit(c,text,maxW,maxLines,maxSz,minSz,w=800){for(let s=maxSz;s>=minSz;s-=4){c.font=this.font(s,w);const l=this.wrap(c,text,maxW);if(l.length<=maxLines&&l.every(x=>c.measureText(x).width<=maxW))return{s,l}}c.font=this.font(minSz,w);let l=this.wrap(c,text,maxW);if(l.length>maxLines){l=l.slice(0,maxLines);l[maxLines-1]+="…"}return{s:minSz,l}},
+ lines(c,l,x,y,s,lh,align="center"){c.textAlign=align;c.textBaseline="middle";l.forEach((t,i)=>c.fillText(t,x,y+i*s*lh+s*lh/2))},
+ rnd(seed){let x=seed*9301+49297;return()=>{x=(x*9301+49297)%233280;return x/233280}},
+ styleBg(c,st,seed){const g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,st.c1);g.addColorStop(1,st.c2);c.fillStyle=g;c.fillRect(0,0,W,H);const r=this.rnd(seed+7);c.save();
+  if(st.decor=="orbs"){for(let i=0;i<6;i++){const x=r()*W,y=r()*H,rad=180+r()*380,gr=c.createRadialGradient(x,y,0,x,y,rad);gr.addColorStop(0,(i%2?st.acc2:st.acc)+"66");gr.addColorStop(1,"transparent");c.fillStyle=gr;c.fillRect(0,0,W,H)}}
+  else if(st.decor=="waves"){c.globalAlpha=.25;c.lineWidth=4;for(let i=0;i<9;i++){c.strokeStyle=i%2?st.acc:st.acc2;c.beginPath();const b=200+i*190;for(let x=0;x<=W;x+=20){const y=b+Math.sin(x/160+i)*60;x?c.lineTo(x,y):c.moveTo(x,y)}c.stroke()}}
+  else if(st.decor=="dots"){c.fillStyle=st.acc+"22";for(let y=40;y<H;y+=60)for(let x=40;x<W;x+=60){c.beginPath();c.arc(x,y,4,0,7);c.fill()}const gr=c.createRadialGradient(W*.8,H*.15,0,W*.8,H*.15,520);gr.addColorStop(0,st.acc2+"33");gr.addColorStop(1,"transparent");c.fillStyle=gr;c.fillRect(0,0,W,H)}
+  else if(st.decor=="grid"){c.strokeStyle=st.acc+"22";c.lineWidth=2;for(let x=0;x<=W;x+=72){c.beginPath();c.moveTo(x,0);c.lineTo(x,H);c.stroke()}for(let y=0;y<=H;y+=72){c.beginPath();c.moveTo(0,y);c.lineTo(W,y);c.stroke()}const gr=c.createRadialGradient(W*.75,H*.2,0,W*.75,H*.2,700);gr.addColorStop(0,st.acc+"44");gr.addColorStop(1,"transparent");c.fillStyle=gr;c.fillRect(0,0,W,H)}
+  else if(st.decor=="rays"){c.translate(W/2,-200);for(let i=0;i<24;i++){c.rotate(Math.PI/24);c.fillStyle=i%2?st.acc+"10":"transparent";c.beginPath();c.moveTo(0,0);c.lineTo(-120,2600);c.lineTo(120,2600);c.fill()}}
+  else if(st.decor=="confetti"){const cols=[st.acc,st.acc2,"#ffd166","#06d6a0"];for(let i=0;i<70;i++){c.fillStyle=cols[i%4]+"aa";c.save();c.translate(r()*W,r()*H);c.rotate(r()*6);c.fillRect(-14,-6,28,12);c.restore()}}
+  else if(st.decor=="girih"){c.strokeStyle=st.acc+"30";c.lineWidth=3;for(let y=0;y<H+200;y+=180)for(let x=(y/180%2)*90;x<W+180;x+=180){c.beginPath();for(let k=0;k<8;k++){const a=k*Math.PI/4,rr=k%2?50:90;c[k?"lineTo":"moveTo"](x+Math.cos(a)*rr,y+Math.sin(a)*rr)}c.closePath();c.stroke()}}
+  c.restore()},
+ cover(c,im){const s=Math.max(W/im.width,H/im.height),w=im.width*s,h=im.height*s;c.drawImage(im,(W-w)/2,(H-h)/2,w,h)},
+ tone(c,st,strong){const g=c.createLinearGradient(0,0,0,H);if(st.dark){g.addColorStop(0,`rgba(0,0,0,${strong?.55:.35})`);g.addColorStop(.5,`rgba(0,0,0,${strong?.5:.25})`);g.addColorStop(1,`rgba(0,0,0,${strong?.7:.55})`)}else{g.addColorStop(0,`rgba(255,255,255,${strong?.55:.35})`);g.addColorStop(1,`rgba(255,255,255,${strong?.6:.4})`)}c.fillStyle=g;c.fillRect(0,0,W,H)},
+ pill(c,x,y,h,text,bg,fg,sz,alignRight){c.font=this.font(sz,800);const w=c.measureText(text).width+h;const x0=alignRight?x-w:x;this.rr(c,x0,y,w,h,h/2);c.fillStyle=bg;c.fill();c.fillStyle=fg;c.textAlign="center";c.textBaseline="middle";c.fillText(text,x0+w/2,y+h/2+2);return w},
+ async header(c,st,q,prof,i,n){const acc=prof&&prof.color||st.acc,y=250,h=74;let x=W-70;
+  const logo=prof&&prof.logo?await this.img(prof.logo):null,handle=prof&&prof.handle?prof.handle.trim():"";
+  if(logo||handle){c.font=this.font(34,800);const tw=handle?c.measureText(handle).width:0,w=(logo?h:0)+(handle?tw+40:0)+(logo&&handle?6:0)+(logo&&!handle?0:0);
+   this.rr(c,x-w,y,w,h,h/2);c.fillStyle=st.panel;c.fill();c.strokeStyle=st.line;c.lineWidth=2;c.stroke();
+   if(logo){c.save();c.beginPath();c.arc(x-h/2,y+h/2,h/2-6,0,7);c.clip();const s=Math.max((h-12)/logo.width,(h-12)/logo.height);c.drawImage(logo,x-h/2-logo.width*s/2,y+h/2-logo.height*s/2,logo.width*s,logo.height*s);c.restore()}
+   if(handle){c.fillStyle=st.txt;c.textAlign="center";c.textBaseline="middle";c.save();c.direction="ltr";c.fillText(handle,x-(logo?h+6:0)-(tw+40)/2,y+h/2+2);c.restore()}}
+  if(n>1)this.pill(c,70,y,h,`${fa(i+1)} از ${fa(n)}`,acc,st.dark?"#0b0420":"#ffffff",32,false)},
+ sig(c,st,prof){const t=prof&&prof.handle?prof.handle.trim():"";if(!t)return;c.save();c.direction="ltr";c.font=this.font(30,700);c.fillStyle=st.mut;c.textAlign="center";c.textBaseline="middle";c.globalAlpha=.9;c.fillText(t,W/2,1640);c.restore()},
+ hint(q){if(q.platform=="instagram")return q.sticker?"با استیکر جواب بده یا ریپلای کن":"جوابتو برامون ریپلای کن";return q.type=="num"?"حدست رو با یک عدد ریپلای کن":"شماره‌ی گزینه رو ریپلای کن"},
+ async draw(cv,q,i,kind,preview){const c=cv.getContext("2d"),it=q.items[i],st=STYLES.find(s=>s.id==q.style)||STYLES[0],prof=App.prof(q.profileId),acc=prof&&prof.color||st.acc,onAcc=lum(acc)>.55?"#120a24":"#ffffff";
+  c.save();c.setTransform(1,0,0,1,0,0);c.direction="rtl";c.clearRect(0,0,W,H);
+  const bgBlob=it.bg||q.upBg||null,im=q.bgMode!="style"?await this.img(bgBlob):null;
+  if(im){this.cover(c,im);this.tone(c,st,kind=="a")}else this.styleBg(c,st,i+(kind=="a"?3:0));
+  await this.header(c,st,q,prof,i,q.items.length);c.direction="rtl";
+  const X0=80,PW=W-160;
+  if(kind=="q"){
+   this.pill(c,W-80,360,64,TYPE_LABEL[q.type]||"کوییز",acc,onAcc,32,true);
+   c.font=this.font(80,900);const f=this.fit(c,it.q,PW-80,5,88,50,900),lh=1.45,qh=f.l.length*f.s*lh+70,qy=450;
+   this.rr(c,X0,qy,PW,qh,40);c.fillStyle=st.panel;c.fill();c.strokeStyle=st.line;c.lineWidth=3;c.stroke();
+   c.fillStyle=st.txt;c.font=this.font(f.s,900);this.lines(c,f.l,W/2,qy+35,f.s,lh);
+   let y=qy+qh+40;
+   if(q.platform=="instagram"&&q.sticker){const sh=230;if(preview){c.save();c.setLineDash([22,16]);c.strokeStyle=st.dark?"rgba(255,255,255,.8)":"rgba(0,0,0,.5)";c.lineWidth=4;this.rr(c,X0+60,y,PW-120,sh,36);c.stroke();c.setLineDash([]);c.fillStyle=st.dark?"rgba(255,255,255,.9)":"rgba(0,0,0,.6)";c.font=this.font(46,800);c.textAlign="center";c.textBaseline="middle";c.fillText("اینجا استیکر",W/2,y+sh/2);c.restore()}y+=sh+30}
+   const bottom=q.platform=="instagram"&&q.sticker?1535:1520;
+   if(q.type=="mcq"||q.type=="poll"){const opts=(it.opts||[]).slice(0,4),n=opts.length||1,gap=q.sticker&&q.platform=="instagram"?16:22,rh=Math.min(132,(bottom-y-gap*(n-1))/n);
+    opts.forEach((o,k)=>{const oy=y+k*(rh+gap);this.rr(c,X0,oy,PW,rh,rh/2.6);c.fillStyle=st.opt;c.fill();c.strokeStyle=st.line;c.lineWidth=2.5;c.stroke();
+     const d=rh-28;c.beginPath();c.arc(X0+PW-14-d/2,oy+rh/2,d/2,0,7);c.fillStyle=acc;c.fill();c.fillStyle=onAcc;c.font=this.font(Math.round(d*.55),900);c.textAlign="center";c.textBaseline="middle";c.fillText(fa(k+1),X0+PW-14-d/2,oy+rh/2+3);
+     const ff=this.fit(c,o,PW-d-80,1,Math.round(rh*.42),30,800);c.fillStyle=st.txt;c.font=this.font(ff.s,800);c.textAlign="right";c.fillText(ff.l[0],X0+PW-d-46,oy+rh/2+3)})}
+   else if(q.type=="tf"){const th=Math.min(300,bottom-y),tw=(PW-30)/2;[["درسته","#2ee59d"],["غلطه","#ff5a6c"]].forEach(([t,col],k)=>{const tx=X0+PW-tw-k*(tw+30);this.rr(c,tx,y,tw,th,44);c.fillStyle=st.opt;c.fill();c.strokeStyle=col;c.lineWidth=5;c.stroke();
+     c.fillStyle=col;c.beginPath();c.arc(tx+tw/2,y+th*.36,th*.17,0,7);c.fill();c.fillStyle="#0b0b14";c.font=this.font(Math.round(th*.17),900);c.textAlign="center";c.textBaseline="middle";c.fillText(fa(k+1),tx+tw/2,y+th*.36+3);
+     c.fillStyle=st.txt;c.font=this.font(Math.round(th*.17),900);c.fillText(t,tx+tw/2,y+th*.75)})}
+   else if(q.type=="num"){const nm=it.num||{},bh=Math.min(320,bottom-y);this.rr(c,X0,y,PW,bh,44);c.fillStyle=st.opt;c.fill();c.strokeStyle=st.line;c.lineWidth=2.5;c.stroke();
+    const ty=y+bh*.58,x1=X0+90,x2=X0+PW-90;const g=c.createLinearGradient(x2,0,x1,0);g.addColorStop(0,acc);g.addColorStop(1,st.acc2);c.lineCap="round";c.lineWidth=22;c.strokeStyle=g;c.beginPath();c.moveTo(x1,ty);c.lineTo(x2,ty);c.stroke();
+    c.beginPath();c.arc(W/2,ty,52,0,7);c.fillStyle=acc;c.fill();c.lineWidth=6;c.strokeStyle=st.dark?"#ffffff":"#ffffff";c.stroke();c.fillStyle=onAcc;c.font=this.font(56,900);c.textAlign="center";c.textBaseline="middle";c.fillText("؟",W/2,ty+3);
+    c.fillStyle=st.txt;c.font=this.font(40,800);c.textAlign="center";c.fillText(fa(nm.min!=null?nm.min:0),x2,ty+78);c.fillText(fa(nm.max!=null?nm.max:100),x1,ty+78);
+    if(nm.unit){c.fillStyle=st.mut;c.font=this.font(36,700);c.fillText(nm.unit,W/2,y+bh*.2)}}
+   c.fillStyle=st.mut;c.font=this.font(36,700);c.textAlign="center";c.textBaseline="middle";c.fillText(prof&&prof.hint?prof.hint:this.hint(q),W/2,1575);
+  }else{
+   this.pill(c,W-80,360,64,`جواب سؤال ${fa(i+1)}`,acc,onAcc,32,true);
+   const fq=this.fit(c,it.q,PW-40,3,46,32,700);c.fillStyle=st.mut;c.font=this.font(fq.s,700);this.lines(c,fq.l,W/2,460,fq.s,1.5);
+   let y=460+fq.l.length*fq.s*1.5+50;
+   const ans=answerText(q,it),fa1=this.fit(c,ans,PW-120,2,104,48,900),ah=fa1.l.length*fa1.s*1.35+90;
+   this.rr(c,X0,y,PW,ah,ah>200?60:ah/2);c.fillStyle=acc;c.fill();c.fillStyle=onAcc;c.font=this.font(fa1.s,900);this.lines(c,fa1.l,W/2,y+45,fa1.s,1.35);y+=ah+50;
+   if(it.explain){const fe=this.fit(c,it.explain,PW-90,6,52,34,600),eh=fe.l.length*fe.s*1.6+70;this.rr(c,X0,y,PW,eh,36);c.fillStyle=st.panel;c.fill();c.strokeStyle=st.line;c.lineWidth=2.5;c.stroke();c.fillStyle=st.txt;c.font=this.font(fe.s,600);this.lines(c,fe.l,W/2,y+35,fe.s,1.6);y+=eh+50}
+   const cta=prof&&prof.cta?prof.cta.trim():"";if(cta){const fc=this.fit(c,cta,PW-120,1,46,30,800);c.font=this.font(fc.s,800);const cw=Math.min(PW,c.measureText(fc.l[0]).width+100),cy=Math.max(y,1440);this.rr(c,(W-cw)/2,cy,cw,96,48);c.strokeStyle=acc;c.lineWidth=4;c.stroke();c.fillStyle=st.panel;c.fill();c.fillStyle=st.txt;c.textAlign="center";c.textBaseline="middle";c.fillText(fc.l[0],W/2,cy+50)}
+  }
+  this.sig(c,st,prof);c.restore()},
+ async png(q,i,kind){const cv=document.createElement("canvas");cv.width=W;cv.height=H;await this.draw(cv,q,i,kind,false);return new Promise((ok,no)=>cv.toBlob(b=>b?ok(b):no(new Error("ساخت PNG ممکن نشد")),"image/png"))}
+};
+function lum(hex){const m=/^#?([0-9a-f]{6})/i.exec(hex||"");if(!m)return 0;const n=parseInt(m[1],16),r=(n>>16&255)/255,g=(n>>8&255)/255,b=(n&255)/255;return .2126*r+.7152*g+.0722*b}
+function answerText(q,it){if(q.type=="tf")return it.tf?"درسته ✓":"غلطه ✗";if(q.type=="num"){const n=it.num||{};return fa((n.value!=null?n.value:"")+(n.unit?" "+n.unit:""))}if(q.type=="poll")return"نظر شما برای ما مهمه";const o=(it.opts||[])[it.ans|0]||"";return`${fa((it.ans|0)+1)}. ${o}`}
+
+// ---------- AI prompts ----------
+const AUD={general:"general adult audience",kids:"children and teenagers (simple words)",pro:"specialists (more technical)"},TONE={friendly:"warm, friendly, conversational",fun:"playful, witty, fun",formal:"serious, clear, formal"};
+function promptQ(src,type,n,aud,tone){const t={mcq:"multiple choice: exactly 4 options, each at most 4 words, exactly one correct (index in \"ans\", 0-3), plausible distractors, never 'all of the above'",tf:"true/false statement: \"q\" is a statement, \"tf\" is true or false; no options",num:"guess the number: the answer is one number; give \"num\":{\"value\",\"min\",\"max\",\"unit\"} with value not at the edges of the range, unit in Persian (may be empty)",poll:"opinion poll: 2 to 4 options, each at most 4 words, no correct answer"}[type];
+ return`You write story quiz cards (Instagram / WhatsApp / Bale stories) in Persian (Farsi).
+Source (topic or reel text):
+"""${src}"""
+Audience: ${AUD[aud]}. Tone: ${TONE[tone]}. Card type: ${t}. Number of cards: ${n}, each about a different fact from the source.
+Rules:
+- Natural, correct Persian with proper half-spaces (ZWNJ), no English words. Question at most 18 words, a strong hook.
+- ${type=="poll"?"Poll questions ask for opinions.":"Each question must have one definitive, well-established answer (scientifically or factually settled). Avoid disputed, outdated or time-sensitive facts."}
+- "explain": one line in Persian, at most 20 words, why the answer is what it is${type=="poll"?" (or an interesting related fact)":""}.
+- "bg": an English prompt for an image model: a vertical 9:16 background photo/illustration that matches THIS question's subject; cinematic, rich but uncluttered, calm space in the upper and middle area; absolutely no text, letters, numbers, logos or watermarks.
+Return only JSON: {"title":"Persian title, max 5 words","items":[{"q":"","opts":[],"ans":0,"tf":true,"num":{"value":0,"min":0,"max":100,"unit":""},"explain":"","bg":""}]}`}
+function promptReview(items,type){return`You are a strict Persian copy editor and fact checker for story quiz cards (type: ${type}).
+Items (JSON): ${JSON.stringify(items.map(it=>({q:it.q,opts:it.opts,ans:it.ans,tf:it.tf,num:it.num,explain:it.explain})))}
+For each item:
+1. Fix Persian spelling, typos, punctuation and half-spaces (ZWNJ) without changing the meaning.
+2. Options must be at most 4 words; shorten longer ones.
+3. ${type=="poll"?"Make sure options are balanced and do not overlap.":"Verify the marked answer is factually correct and the only correct one. If it is wrong, fix the answer. If the question has no single definitive answer, rewrite it minimally so it does."}
+4. Keep "explain" to one line and make sure it is correct.
+Return only JSON {"items":[{"q":"","opts":[],"ans":0,"tf":true,"num":{"value":0,"min":0,"max":100,"unit":""},"explain":"","verdict":"ok|fixed|unsure","notes":"short Persian note: what you changed, or why unsure; empty if ok"}]} in the same order.`}
+function bgPrompt(it,st){return`${it.bg||it.q}. Style: ${st.img}. Vertical 9:16 story background, soft depth of field, clean composition with calm empty space in the middle for text. No text, no letters, no numbers, no words, no logos, no watermark.`}
+function normItem(x,type){const it={q:String(x.q||"").trim(),opts:Array.isArray(x.opts)?x.opts.map(o=>String(o).trim()).filter(Boolean).slice(0,4):[],ans:Math.max(0,Math.min(3,parseInt(x.ans)||0)),tf:x.tf===true||x.tf==="true",num:x.num&&typeof x.num=="object"?{value:Number(x.num.value),min:Number(x.num.min),max:Number(x.num.max),unit:String(x.num.unit||"")}:{value:0,min:0,max:100,unit:""},explain:String(x.explain||"").trim(),bg:String(x.bg||"").trim(),review:x.review||null,bgImg:null};
+ if(type=="mcq"){while(it.opts.length<4)it.opts.push("—");if(it.ans>=it.opts.length)it.ans=0}
+ if(type=="num"){const n=it.num;if(!isFinite(n.value))n.value=0;if(!isFinite(n.min)||n.min>n.value)n.min=Math.floor(n.value*.5);if(!isFinite(n.max)||n.max<n.value)n.max=Math.ceil(n.value*1.5)+1}
+ return it}
+
+// ---------- generator ----------
+const Gen={
+ status(t){$("#status").textContent=t||""},
+ busy(on){$("#goBtn").disabled=on;$("#stopBtn").classList.toggle("hide",!on)},
+ async run(){const src=$("#src").value.trim();if(!src){toast("اول موضوع یا متن ریلز را بنویس");return}
+  if(/^https?:\/\/\S+$/i.test(src)){toast("لینک خوانده نمی‌شود؛ متن یا کپشن ریلز را بچسبان");return}
+  if(S.bg=="upload"&&!S.upBg){toast("عکس زمینه را انتخاب کن یا نوع زمینه را عوض کن");return}
+  const ctrl=new AbortController();S.busy=ctrl;this.busy(true);const sig=ctrl.signal,st=STYLES.find(s=>s.id==S.style),on=t=>this.status(t);
+  try{this.status("✍️ نوشتن سؤال‌ها…");
+   const r=await genText(promptQ(src,S.type,S.count,$("#aud").value,$("#tone").value),sig,on);let items=(r.items||[]).slice(0,S.count).map(x=>normItem(x,S.type)).filter(x=>x.q);
+   if(!items.length)throw new Error("مدل سؤالی برنگرداند؛ دوباره امتحان کن");
+   const q={id:uid("quiz"),created:Date.now(),title:String(r.title||"").trim()||src.slice(0,30),src,platform:S.platform,type:S.type,style:S.style,bgMode:S.bg,sticker:$("#stk").checked,profileId:$("#prof").value,upBg:S.bg=="upload"?S.upBg:null,items};
+   S.quiz=q;Out.render();
+   this.status("🔎 بازبینی املا و درستی جواب…");
+   try{const rv=await genText(promptReview(items,S.type),sig,on);(rv.items||[]).forEach((x,k)=>{if(!items[k])return;const keepBg=items[k].bg,n=normItem(Object.assign({},x,{bg:keepBg}),S.type);n.review={verdict:["ok","fixed","unsure"].includes(x.verdict)?x.verdict:"ok",notes:String(x.notes||"")};items[k]=n});q.items=items;Out.render()}
+   catch(e){if(e.name=="AbortError")throw e;toast("بازبینی انجام نشد: "+e.message)}
+   await Quizzes.save(q);
+   if(q.bgMode=="ai"){for(let k=0;k<items.length;k++){this.status(`🪄 ساخت تصویر زمینه ${fa(k+1)} از ${fa(items.length)}…`);
+     try{items[k].bgImg=await genImage(bgPrompt(items[k],st),sig,on);Out.redraw(k);await Quizzes.save(q)}catch(e){if(e.name=="AbortError")throw e;toast(`تصویر ${fa(k+1)} ساخته نشد؛ زمینه‌ی استایل ماند`);}}}
+   this.status(`✅ ${fa(items.length)} کارت آماده است.`)}
+  catch(e){this.status(e.name=="AbortError"?"⏹️ متوقف شد.":"⚠️ "+e.message)}
+  finally{S.busy=null;this.busy(false)}},
+ stop(){S.busy&&S.busy.abort()},
+ async regenQ(k){const q=S.quiz;if(!q||S.busy)return;const ctrl=new AbortController();S.busy=ctrl;this.busy(true);
+  try{this.status(`✍️ سؤال تازه برای کارت ${fa(k+1)}…`);const others=q.items.filter((_,i)=>i!=k).map(x=>x.q).join(" | ");
+   const r=await genText(promptQ(q.src+(others?`\n(Do not repeat these questions: ${others})`:""),q.type,1,$("#aud").value,$("#tone").value),ctrl.signal,t=>this.status(t));
+   let it=normItem((r.items||[])[0]||{},q.type);if(!it.q)throw new Error("سؤالی برنگشت");
+   try{const rv=await genText(promptReview([it],q.type),ctrl.signal);const x=(rv.items||[])[0];if(x){const n=normItem(Object.assign({},x,{bg:it.bg}),q.type);n.review={verdict:x.verdict||"ok",notes:String(x.notes||"")};it=n}}catch(e){if(e.name=="AbortError")throw e}
+   it.bgImg=q.items[k].bgImg;q.items[k]=it;Out.render();await Quizzes.save(q);this.status("✅ سؤال عوض شد.")}
+  catch(e){this.status(e.name=="AbortError"?"⏹️ متوقف شد.":"⚠️ "+e.message)}finally{S.busy=null;this.busy(false)}},
+ async regenBg(k){const q=S.quiz;if(!q||S.busy)return;const ctrl=new AbortController();S.busy=ctrl;this.busy(true);
+  try{this.status(`🪄 تصویر زمینه‌ی تازه برای کارت ${fa(k+1)}…`);q.items[k].bgImg=await genImage(bgPrompt(q.items[k],STYLES.find(s=>s.id==q.style)||STYLES[0]),ctrl.signal,t=>this.status(t));if(q.bgMode=="style")q.bgMode="ai";Out.redraw(k);await Quizzes.save(q);this.status("✅ زمینه عوض شد.")}
+  catch(e){this.status(e.name=="AbortError"?"⏹️ متوقف شد.":"⚠️ "+e.message)}finally{S.busy=null;this.busy(false)}}
+};
+// item.bg holds the image prompt text; item.bgImg holds the generated Blob. R.draw reads the Blob.
+const _draw=R.draw.bind(R);R.draw=async function(cv,q,i,kind,preview){const it=q.items[i],keep=it.bg;const blob=it.bgImg||null;it.bg=blob;try{return await _draw(cv,q,i,kind,preview)}finally{it.bg=keep}};
+
+// ---------- output (preview + editing) ----------
+const Out={
+ render(){const q=S.quiz,o=$("#out");$("#zipBtn").classList.toggle("hide",!q);if(!q){o.innerHTML=`<div class="empty"><b>؟</b>موضوع را بنویس و «بساز» را بزن.</div>`;$("#outTitle").textContent="پیش‌نمایش";return}
+  $("#outTitle").textContent=q.title;
+  o.innerHTML=`<div class="cards">${q.items.map((it,k)=>this.item(q,it,k)).join("")}</div>`;
+  q.items.forEach((_,k)=>this.redraw(k))},
+ item(q,it,k){const rv=it.review,b=rv?`<span class="badge ${rv.verdict}">${rv.verdict=="ok"?"✓ بازبینی شد":rv.verdict=="fixed"?"✎ اصلاح شد":"⚠️ مطمئن نیست"}</span>${rv.notes?` <span class="mut">${esc(rv.notes)}</span>`:""}`:"";
+  const opts=q.type=="mcq"||q.type=="poll"?(it.opts.map((o,j)=>`<div class="optrow">${q.type=="mcq"?`<input type="radio" name="ans${k}" ${it.ans==j?"checked":""} data-e="ans" data-k="${k}" data-j="${j}" title="جواب درست">`:""}<input type="text" value="${esc(o)}" data-e="opt" data-k="${k}" data-j="${j}"></div>`).join("")):"";
+  const tf=q.type=="tf"?`<select data-e="tf" data-k="${k}"><option value="1" ${it.tf?"selected":""}>جواب: درسته</option><option value="0" ${!it.tf?"selected":""}>جواب: غلطه</option></select>`:"";
+  const nm=q.type=="num"?`<div class="row"><label class="mut">جواب <input type="text" dir="ltr" value="${esc(it.num.value)}" data-e="num" data-f="value" data-k="${k}" style="width:90px"></label><label class="mut">از <input type="text" dir="ltr" value="${esc(it.num.min)}" data-e="num" data-f="min" data-k="${k}" style="width:80px"></label><label class="mut">تا <input type="text" dir="ltr" value="${esc(it.num.max)}" data-e="num" data-f="max" data-k="${k}" style="width:80px"></label><label class="mut">واحد <input type="text" value="${esc(it.num.unit)}" data-e="num" data-f="unit" data-k="${k}" style="width:100px"></label></div>`:"";
+  return`<div class="qi" id="qi${k}"><div class="row" style="margin-bottom:8px"><b>کارت ${fa(k+1)}</b>${b}</div><div class="pv">
+   <div class="cv"><canvas width="${W}" height="${H}" id="cq${k}"></canvas><div class="cap"><button class="btn sm" data-a="png" data-k="${k}" data-kind="q">⬇️ PNG سؤال</button></div></div>
+   ${q.type!="poll"?`<div class="cv"><canvas width="${W}" height="${H}" id="ca${k}"></canvas><div class="cap"><button class="btn sm" data-a="png" data-k="${k}" data-kind="a">⬇️ PNG جواب</button></div></div>`:""}
+   <div class="ed"><label class="f">سؤال</label><textarea data-e="q" data-k="${k}">${esc(it.q)}</textarea>${opts}${tf}${nm}
+    <label class="f">توضیح کارت جواب</label><textarea data-e="explain" data-k="${k}" style="min-height:50px">${esc(it.explain)}</textarea>
+    <div class="row" style="margin-top:6px"><button class="btn sm" data-a="regenQ" data-k="${k}">🔄 سؤال تازه</button><button class="btn sm" data-a="regenBg" data-k="${k}">🪄 زمینه‌ی تازه</button><button class="btn sm" data-a="copy" data-k="${k}">📋 متن استیکر</button></div></div>
+  </div></div>`},
+ tm:{},
+ redraw(k){const q=S.quiz;if(!q)return;const a=$("#cq"+k),b=$("#ca"+k);a&&R.draw(a,q,k,"q",true);b&&R.draw(b,q,k,"a",true)},
+ edit(el){const q=S.quiz;if(!q)return;const k=+el.dataset.k,it=q.items[k],e=el.dataset.e;
+  if(e=="q")it.q=el.value;else if(e=="explain")it.explain=el.value;else if(e=="opt")it.opts[+el.dataset.j]=el.value;else if(e=="ans")it.ans=+el.dataset.j;else if(e=="tf")it.tf=el.value=="1";
+  else if(e=="num"){const f=el.dataset.f;it.num[f]=f=="unit"?el.value:Number(String(el.value).replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)))}
+  clearTimeout(this.tm[k]);this.tm[k]=setTimeout(()=>{this.redraw(k);Quizzes.save(q)},250)},
+ caption(k){const q=S.quiz,it=q.items[k];let t=it.q+"\n";if(q.type=="mcq"||q.type=="poll")t+=it.opts.map((o,j)=>`${fa(j+1)}. ${o}`).join("\n")+"\n";if(q.type=="tf")t+="۱. درسته\n۲. غلطه\n";if(q.type!="poll")t+=`\nجواب: ${answerText(q,it)}`;return t},
+ async png(k,kind){try{const b=await R.png(S.quiz,k,kind);dl(b,`quiz-${fa(k+1)}-${kind=="q"?"soal":"javab"}.png`)}catch(e){toast("⚠️ "+e.message)}},
+ async zipAll(){const q=S.quiz;if(!q)return;try{toast("در حال ساخت فایل zip…");const Z=await jz(),z=new Z();for(let k=0;k<q.items.length;k++){z.file(`${k+1}-soal.png`,await R.png(q,k,"q"));if(q.type!="poll")z.file(`${k+1}-javab.png`,await R.png(q,k,"a"))}
+  z.file("matn.txt",q.items.map((_,k)=>`کارت ${k+1}\n`+this.caption(k)).join("\n\n"));dl(await z.generateAsync({type:"blob"}),"story-quiz.zip")}catch(e){toast("⚠️ "+e.message)}}
+};
+
+// ---------- saved quizzes + profiles ----------
+const Quizzes={
+ pack(q){return{id:q.id,created:q.created,title:q.title,src:q.src,platform:q.platform,type:q.type,style:q.style,bgMode:q.bgMode,sticker:q.sticker,profileId:q.profileId,upBg:q.upBg||null,items:q.items.map(it=>({q:it.q,opts:it.opts,ans:it.ans,tf:it.tf,num:it.num,explain:it.explain,bg:it.bg,review:it.review,bgImg:it.bgImg||null}))}},
+ async save(q){try{await Store.set("quizzes",this.pack(q))}catch(e){console.warn(e)}},
+ async render(){const l=(await Store.list("quizzes")).sort((a,b)=>b.created-a.created),b=$("#archList");
+  b.innerHTML=l.length?l.map(q=>`<div class="li"><h4>${esc(q.title)}</h4><div class="mut">${fa(new Date(q.created).toLocaleDateString("fa-IR"))} · ${fa(q.items.length)} کارت · ${(PLATFORMS.find(p=>p[0]==q.platform)||[,""])[1]} · ${(TYPES.find(t=>t[0]==q.type)||[,""])[1]}</div><div class="row" style="margin-top:8px"><button class="btn sm" data-a="openQ" data-id="${esc(q.id)}">باز کن</button><button class="btn sm danger" data-a="delQ" data-id="${esc(q.id)}">🗑️</button></div></div>`).join(""):`<div class="empty" style="grid-column:1/-1"><b>🗂️</b>هنوز کوییزی ساخته نشده.</div>`},
+ async open(id){const q=await Store.get("quizzes",id);if(!q)return;S.quiz=q;App.tab("make");Out.render()},
+ async del(id){if(!confirm("این کوییز پاک شود؟"))return;await Store.delete("quizzes",id);if(S.quiz&&S.quiz.id==id){S.quiz=null;Out.render()}this.render()}
+};
+const Profiles={
+ async load(){S.profiles=await Store.list("profiles");if(!S.profiles.length){const p={id:uid("prof"),name:"پروفایل من",handle:"",color:"",cta:"",hint:"",logo:null,created:Date.now()};await Store.set("profiles",p);S.profiles=[p]}S.profiles.sort((a,b)=>a.created-b.created);this.select();this.render()},
+ select(){const s=$("#prof"),cur=s.value;s.innerHTML=S.profiles.map(p=>`<option value="${esc(p.id)}">${esc(p.name)}${p.handle?" (\u2066"+esc(p.handle)+"\u2069)":""}</option>`).join("");if(S.profiles.some(p=>p.id==cur))s.value=cur},
+ render(){$("#profList").innerHTML=S.profiles.map(p=>`<div class="li"><div class="row"><span class="logoPv" style="display:grid;place-items:center" id="lg-${esc(p.id)}">${p.logo?"":"🖼️"}</span><div><h4>${esc(p.name)}</h4><div class="mut" dir="ltr" style="text-align:right">${esc(p.handle||"بدون آیدی")}</div></div></div>${p.cta?`<div class="mut" style="margin-top:6px">خط دعوت: ${esc(p.cta)}</div>`:""}<div class="row" style="margin-top:8px"><button class="btn sm" data-a="editProf" data-id="${esc(p.id)}">✏️ ویرایش</button>${S.profiles.length>1?`<button class="btn sm danger" data-a="delProf" data-id="${esc(p.id)}">🗑️</button>`:""}</div></div>`).join("");
+  S.profiles.forEach(p=>{if(p.logo){const el=document.getElementById("lg-"+p.id);if(el){el.innerHTML=`<img class="logoPv" alt="">`;el.firstChild.src=URL.createObjectURL(p.logo)}}})},
+ edit(id){const p=id?S.profiles.find(x=>x.id==id):{id:uid("prof"),name:"",handle:"",color:"",cta:"",hint:"",logo:null,created:Date.now()};if(!p)return;let logo=p.logo;
+  const m=modal(`<h3>${id?"ویرایش پروفایل":"پروفایل تازه"}</h3>
+   <label class="f">نام پروفایل (فقط برای خودت)</label><input type="text" id="pName" value="${esc(p.name)}" placeholder="مثلاً پیج علمی">
+   <label class="f">آیدی یا امضا روی کارت</label><input type="text" id="pHandle" dir="ltr" value="${esc(p.handle)}" placeholder="@sabamedia.sci">
+   <label class="f">لوگو</label><div class="row"><img class="logoPv" id="pLogoPv" alt=""><button class="btn sm" id="pLogoB">📁 انتخاب</button><button class="btn sm" id="pLogoX">حذف</button></div>
+   <label class="f">رنگ برند (خالی = رنگ استایل)</label><div class="row"><input type="color" id="pColor" value="${esc(p.color||"#a874ff")}"><label class="mut"><input type="checkbox" id="pColorOn" ${p.color?"checked":""}> استفاده از رنگ برند</label></div>
+   <label class="f">خط دعوت کارت جواب</label><input type="text" id="pCta" value="${esc(p.cta)}" placeholder="ریلز امشب رو ببین ۲۰:۳۰">
+   <label class="f">متن راهنمای پایین کارت سؤال (اختیاری)</label><input type="text" id="pHint" value="${esc(p.hint)}" placeholder="خالی = خودکار، مثلاً «جوابتو ریپلای کن»">
+   <div class="row" style="margin-top:14px"><button class="btn pri" id="pSave">💾 ذخیره</button></div>`);
+  const pv=()=>{const i=$("#pLogoPv",m);if(logo){i.src=URL.createObjectURL(logo);i.style.visibility="visible"}else i.style.visibility="hidden"};pv();
+  $("#pLogoB",m).onclick=async()=>{const f=await pick("image/*");if(f){logo=f.slice(0,f.size,f.type);pv()}};$("#pLogoX",m).onclick=()=>{logo=null;pv()};
+  $("#pSave",m).onclick=async()=>{Object.assign(p,{name:$("#pName",m).value.trim()||"پروفایل",handle:$("#pHandle",m).value.trim(),color:$("#pColorOn",m).checked?$("#pColor",m).value:"",cta:$("#pCta",m).value.trim(),hint:$("#pHint",m).value.trim(),logo});
+   await Store.set("profiles",p);if(!S.profiles.includes(p))S.profiles.push(p);m.remove();this.select();this.render();if(S.quiz)Out.render();toast("پروفایل ذخیره شد")}},
+ async del(id){if(!confirm("این پروفایل پاک شود؟"))return;await Store.delete("profiles",id);S.profiles=S.profiles.filter(p=>p.id!=id);this.select();this.render()}
+};
+
+// ---------- UI ----------
+const UI={
+ status(){},
+ chips(){const groups={platform:PLATFORMS,type:TYPES,count:COUNTS,bg:BGMODES};for(const g in groups){const b=$(`[data-g="${g}"]`);b.innerHTML=groups[g].map(([v,l])=>`<button class="chip ${S[g]==v?"on":""}" data-chip="${g}" data-v="${v}">${l}</button>`).join("")}
+  $("#stkL").classList.toggle("hide",S.platform!="instagram");$("#upRow").classList.toggle("hide",S.bg!="upload")},
+ styles(){const b=$("#styles");b.innerHTML=STYLES.map(s=>`<button class="sty ${S.style==s.id?"on":""}" data-sty="${s.id}"><canvas width="90" height="160"></canvas>${esc(s.name)}</button>`).join("");
+  $$(".sty canvas",b).forEach((cv,i)=>{const c=cv.getContext("2d"),st=STYLES[i];c.save();c.scale(90/W,160/H);R.styleBg(c,st,1);R.rr(c,80,450,W-160,360,40);c.fillStyle=st.panel;c.fill();c.strokeStyle=st.line;c.lineWidth=8;c.stroke();for(let k=0;k<3;k++){R.rr(c,80,900+k*170,W-160,130,50);c.fillStyle=st.opt;c.fill();c.strokeStyle=st.line;c.stroke();c.beginPath();c.arc(W-150,965+k*170,45,0,7);c.fillStyle=st.acc;c.fill()}c.restore()})},
+ about(){modal(`<h3>ℹ️ درباره‌ی سازنده</h3><p><b>سید صبا میری</b></p><p>🌐 وب‌سایت: <a href="https://viroai.ir" target="_blank" rel="noopener">viroai.ir</a></p><p>📸 اینستاگرام: <a href="https://instagram.com/viromedia404" target="_blank" rel="noopener" dir="ltr">viromedia404</a></p><p>💚 حمایت مالی: <a href="https://smiri.netlify.app/" target="_blank" rel="noopener" dir="ltr">smiri.netlify.app</a></p><p>📞 تلفن: <a href="tel:+989120349893" dir="ltr">۰۹۱۲۰۳۴۹۸۹۳</a></p><p>✈️ تلگرام: <a href="https://t.me/viroaihub" target="_blank" rel="noopener" dir="ltr">Telegram: viroaihub</a></p><p class="mut">کوییزساز استوری صبا · نسخه‌ی ${fa(APP_VER)}</p>`)},
+ settings(){const B=Bridge.st;modal(`<h3>⚙️ تنظیمات</h3>${KeyCfg.html()}
+  <h4>💾 ذخیره و پشتیبان</h4><p class="mut">کوییزها و پروفایل‌ها در همین مرورگر ذخیره می‌شوند. ${B.on?"✅ اکستنشن وصل است و همه‌چیز دائمی ذخیره می‌شود.":"بدون اکستنشن، قبل از بستن Canvas پشتیبان زیپ بگیر."}</p>
+  <div class="row"><button class="btn sm" data-a="zipOut">⬇️ پشتیبان zip</button><button class="btn sm" data-a="zipIn">⬆️ بازگردانی از zip</button>${B.on?`<button class="btn sm" data-a="bsync">🔄 همگام‌سازی کامل با اکستنشن</button>`:""}</div>
+  <p class="mut" style="margin-top:14px">نسخه‌ی ${fa(APP_VER)} · متن: ${TEXT_MODEL} · تصویر: ${IMAGE_MODEL}</p>
+  <p class="mut">ساخته‌ی سید صبا میری · <a href="https://viroai.ir" target="_blank" rel="noopener">viroai.ir</a> · اینستاگرام <a href="https://instagram.com/viromedia404" target="_blank" rel="noopener">viromedia404</a> · <a href="tel:+989120349893">۰۹۱۲۰۳۴۹۸۹۳</a> · تلگرام <a href="https://t.me/viroaihub" target="_blank" rel="noopener">viroaihub</a> · <a href="https://smiri.netlify.app/" target="_blank" rel="noopener">💚 حمایت</a></p>`)}
+};
+const App={
+ prof(id){return S.profiles.find(p=>p.id==id)||S.profiles[0]||null},
+ tab(t){$$("nav.tabs button").forEach(b=>b.classList.toggle("on",b.dataset.tab==t));["make","brand","arch"].forEach(x=>$("#t-"+x).classList.toggle("hide",x!=t));if(t=="arch")Quizzes.render()},
+ async load(){await Profiles.load();const pref=await Store.get("kv","prefs");if(pref){Object.assign(S,{platform:pref.platform||S.platform,type:pref.type||S.type,count:pref.count||S.count,bg:pref.bg||S.bg,style:pref.style||S.style});if(pref.profileId&&S.profiles.some(p=>p.id==pref.profileId))$("#prof").value=pref.profileId;$("#stk").checked=!!pref.sticker}UI.chips();UI.styles()},
+ savePrefs(){Store.set("kv",{platform:S.platform,type:S.type,count:S.count,bg:S.bg,style:S.style,profileId:$("#prof").value,sticker:$("#stk").checked},"prefs").catch(()=>{})}
+};
+const ACT={go:()=>Gen.run(),stop:()=>Gen.stop(),about:()=>UI.about(),settings:()=>UI.settings(),close:e=>e.closest(".modal").remove(),
+ png:e=>Out.png(+e.dataset.k,e.dataset.kind),zipAll:()=>Out.zipAll(),regenQ:e=>Gen.regenQ(+e.dataset.k),regenBg:e=>Gen.regenBg(+e.dataset.k),copy:e=>copyText(Out.caption(+e.dataset.k)),
+ openQ:e=>Quizzes.open(e.dataset.id),delQ:e=>Quizzes.del(e.dataset.id),newProf:()=>Profiles.edit(null),editProf:e=>Profiles.edit(e.dataset.id),delProf:e=>Profiles.del(e.dataset.id),
+ zipOut:()=>Backup.zipOut(),zipIn:()=>Backup.zipIn(),bsync:()=>Bridge.full(true),
+ upBg:async()=>{const f=await pick("image/*");if(f){S.upBg=f.slice(0,f.size,f.type);$("#upName").textContent=f.name;if(S.quiz&&S.quiz.bgMode=="upload"){S.quiz.upBg=S.upBg;Out.render()}}}};
+document.addEventListener("click",e=>{const a=e.target.closest("[data-a]");if(a&&ACT[a.dataset.a]){e.preventDefault();ACT[a.dataset.a](a);return}
+ const c=e.target.closest("[data-chip]");if(c){const g=c.dataset.chip;S[g]=g=="count"?+c.dataset.v:c.dataset.v;UI.chips();App.savePrefs();return}
+ const s=e.target.closest("[data-sty]");if(s){S.style=s.dataset.sty;UI.styles();App.savePrefs();if(S.quiz){S.quiz.style=S.style;Out.render();Quizzes.save(S.quiz)}return}
+ const t=e.target.closest("[data-tab]");if(t)App.tab(t.dataset.tab)});
+document.addEventListener("input",e=>{if(e.target.dataset&&e.target.dataset.e)Out.edit(e.target);if(e.target.id=="src")$("#linkWarn").classList.toggle("hide",!/https?:\/\//i.test(e.target.value))});
+document.addEventListener("change",e=>{if(e.target.dataset&&(e.target.dataset.e=="ans"||e.target.dataset.e=="tf"))Out.edit(e.target);if(e.target.id=="prof"||e.target.id=="stk"){App.savePrefs();if(S.quiz){if(e.target.id=="prof")S.quiz.profileId=e.target.value;else S.quiz.sticker=e.target.checked;Out.render();Quizzes.save(S.quiz)}}});
+async function boot(){UI.chips();UI.styles();await R.fonts();UI.styles();Store.persist();try{await Bridge.init()}catch(e){console.warn(e)}try{await App.load()}catch(e){toast("⚠️ "+e.message)}}
+if(document.readyState=="loading")document.addEventListener("DOMContentLoaded",boot);else boot();
+</script>
+</body>
+</html>
